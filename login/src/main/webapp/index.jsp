@@ -6,7 +6,7 @@
         <title>Login</title>
     </head>
     <body bgcolor="silver">
-        <form method="post" action="login.jsp">
+        <form method="post" action="LoginServlet">
             <center>
             <table border="0" width="30	%" cellpadding="4">
                     <tr>

@@ -1,15 +1,18 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<h3>
 <%
-	if ((session.getAttribute("userid") == null) || (session.getAttribute("userid") == "")) {
+	if ((request.getAttribute("userid") == null) || (request.getAttribute("userid") == "")) {
 %>
 Nu ești logat
+</h3>
 <br />
 <a href="index.jsp">Login</a>
 <%
 	} else {
 %>
 Bine ai venit
-<%=session.getAttribute("userid")%>
+<%=request.getAttribute("userid")%>
 <a href='logout.jsp'>Log out</a>
 <%
 	}
