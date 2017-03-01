@@ -8,19 +8,19 @@
     <body bgcolor="silver">
         <form method="post" action="login.jsp">
             <center>
-            <table border="0" width="30%" cellpadding="3">
-                <thead>
+            <table border="0" width="30	%" cellpadding="4">
                     <tr>
-                        <th colspan="2">Login Page</th>
+                        <th colspan="2">Pagina de login</th>
                     </tr>
+                    <tr></tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Username</td>
+                        <td>Adresa de email</td>
                         <td><input type="text" name="userName" value="" /></td>
                     </tr>
                     <tr>
-                        <td>Password</td>
+                        <td>Parola</td>
                         <td><input type="password" name="password" value="" /></td>
                     </tr>
                     <tr>
@@ -28,7 +28,8 @@
                         <td><input type="submit" value="Login" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2">New User <a href="register.jsp">Register Here</a></td>
+                        <td>Utilizator nou?</td>
+                        <td><a href="register.jsp">Înregistrează-te aici</a></td>
                     </tr>
                 </tbody>
             </table>

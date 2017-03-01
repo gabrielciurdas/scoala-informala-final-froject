@@ -11,16 +11,16 @@
             <table border="1" width="30%" cellpadding="5">
                 <thead>
                     <tr>
-                        <th colspan="2">Enter Information Here</th>
+                        <th colspan="2">Introduceți datele</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>First Name</td>
+                        <td>Nume</td>
                         <td><input type="text" name="firstName" value="" /></td>
                     </tr>
                     <tr>
-                        <td>Last Name</td>
+                        <td>Prenume</td>
                         <td><input type="text" name="lastName" value="" /></td>
                     </tr>
                     <tr>
@@ -28,11 +28,11 @@
                         <td><input type="text" name="email" value="" /></td>
                     </tr>
                     <tr>
-                        <td>User Name</td>
+                        <td>Nume Utilizator</td>
                         <td><input type="text" name="userName" value="" /></td>
                     </tr>
                     <tr>
-                        <td>Password</td>
+                        <td>Parola</td>
                         <td><input type="password" name="password" value="" /></td>
                     </tr>
                     <tr>
@@ -40,7 +40,7 @@
                         <td><input type="reset" value="Reset" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2">Already registered!! <a href="index.jsp">Login Here</a></td>
+                        <td colspan="2">Ai deja un cont înregistrat? <a href="index.jsp">Login</a></td>
                     </tr>
                 </tbody>
             </table>

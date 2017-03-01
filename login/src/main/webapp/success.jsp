@@ -2,13 +2,13 @@
 <%
 	if ((session.getAttribute("userid") == null) || (session.getAttribute("userid") == "")) {
 %>
-You are not logged in
+Nu ești logat
 <br />
-<a href="index.jsp">Please Login</a>
+<a href="index.jsp">Login</a>
 <%
 	} else {
 %>
-Welcome
+Bine ai venit
 <%=session.getAttribute("userid")%>
 <a href='logout.jsp'>Log out</a>
 <%
