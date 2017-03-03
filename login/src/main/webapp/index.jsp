@@ -3,12 +3,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="loginChecker.js"></script>
+<script type="text/javascript" src="fieldChecker.js"></script>
 <title>Login</title>
 </head>
 <body bgcolor="silver">
 	<form method="post" action="LoginServlet"
-		onsubmit="return checkFields()">
+		onsubmit="return checkLogin()">
 		<center>
 			<table border="0" width="30	%" cellpadding="4">
 				<thead>

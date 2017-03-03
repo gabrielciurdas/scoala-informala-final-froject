@@ -3,10 +3,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="fieldChecker.js"></script>
         <title>Registration</title>
     </head>
     <body bgcolor="silver">
-        <form method="post" action="userRegistration.jsp">
+        <form method="post" action="UserServlet" onsubmit="return checkUserRegistration()">
             <center>
             <table border="1" width="30%" cellpadding="5">
                 <thead>

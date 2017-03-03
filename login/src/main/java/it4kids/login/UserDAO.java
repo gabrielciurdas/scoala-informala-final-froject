@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class UserDAO {
 
+	int linesWritten = 0;
 	public boolean authenticateUser(String username, String password) {
 		boolean isValid = false;
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
@@ -38,20 +39,20 @@ public class UserDAO {
 	 *            is the user to be written in the specified database.
 	 */
 	public void add(User user) {
-		try (Connection conn = newConnection("postgresql", "localhost", "5432", "BookingApp", "postgres",
+		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
 				"aNewPa55w0rd");
 				PreparedStatement stm = conn
 						.prepareStatement("INSERT INTO registered_users(first_name, last_name, email, username, password, regdate)"
-								+ " values(?,?,?,?,?,?)");) {
+								+ " values(?,?,?,?,?,CURRENT_TIMESTAMP)");) {
 
 			stm.setString(1, user.getFirstName());
 			stm.setString(2, user.getLastName());
 			stm.setString(3, user.getEmail());
 			stm.setString(4, user.getUserName());
 			stm.setString(5, user.getPassword());
-			stm.setString(6, user.getDate().toString());
+		    	    
 
-			stm.executeUpdate();
+			linesWritten = stm.executeUpdate();
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -119,5 +120,9 @@ public class UserDAO {
 		}
 
 		return null;
+	}
+	
+	public int getLinesWritten() {
+		return linesWritten;
 	}
 }

@@ -8,7 +8,7 @@ public class User {
 	private String password;
 	private String date;
 	
-	public User(String firstName, String lastName, String email, String userName, String password, String date) {
+	public User(String firstName, String lastName, String email, String userName, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -103,5 +103,4 @@ public class User {
 	public void setDate(String date) {
 		this.date = date;
 	}
-
 }
