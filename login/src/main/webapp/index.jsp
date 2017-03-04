@@ -20,7 +20,7 @@
 				<tbody>
 					<tr>
 						<td>Adresa de email</td>
-						<td><input type="text" name="userName" value="" /></td>
+						<td><input type="text" name="email" value="" /></td>
 					</tr>
 					<tr>
 						<td>Parola</td>

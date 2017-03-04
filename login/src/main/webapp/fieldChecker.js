@@ -22,5 +22,4 @@ function checkUserRegistration() {
 		return false;
 	}
 	return true;
-	
 }

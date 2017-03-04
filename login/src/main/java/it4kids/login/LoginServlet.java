@@ -18,11 +18,15 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		UserDAO userDAO = new UserDAO();
-		String username = req.getParameter("userName");
+		String email = req.getParameter("email");
 		String password = req.getParameter("password");
+		String firstName = "";
+		System.out.println(firstName);
 
-		if (userDAO.authenticateUser(username, password)) {
-			req.setAttribute("userid", username);
+		if (userDAO.authenticateUser(email, password)) {
+			req.setAttribute("userid", email);
+			firstName = userDAO.getFirstName();
+			req.setAttribute("firstName", firstName);
 			req.getRequestDispatcher("success.jsp").forward(req, resp);
 		} else {
 			req.getRequestDispatcher("invalidPassword.jsp").forward(req, resp);

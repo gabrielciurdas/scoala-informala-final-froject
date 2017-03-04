@@ -4,14 +4,16 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String accountType;
 	private String userName;
 	private String password;
 	private String date;
 	
-	public User(String firstName, String lastName, String email, String userName, String password) {
+	public User(String firstName, String lastName, String accountType, String email, String userName, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.accountType = AccountType.valueOf(accountType).name();
 		this.email = email;
 		this.userName = userName;
 		this.password = password;
@@ -20,6 +22,7 @@ public class User {
 	public User() {
 		firstName = "";
 		lastName = "";
+		accountType = "";
 		email = "";
 		userName = "";
 		password = "";
@@ -52,6 +55,14 @@ public class User {
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public String getAccountType() {
+		return accountType;
+	}
+	
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 	/**

@@ -9,18 +9,20 @@ import java.util.List;
  */
 public class UserDAO {
 
-	int linesWritten = 0;
-	public boolean authenticateUser(String username, String password) {
+	private int linesWritten = 0;
+	private String firstName = "";
+	
+	public boolean authenticateUser(String email, String password) {
 		boolean isValid = false;
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
 				"aNewPa55w0rd");
 				Statement stm = conn.createStatement();
-				ResultSet rs = stm.executeQuery("select * from registered_users where userName='" + username
+				ResultSet rs = stm.executeQuery("select * from registered_users where email='" + email
 						+ "' and password='" + password + "'");) {
-				
-
 			if (rs.next()) {
-				isValid = true;;
+				isValid = true;
+				firstName = rs.getString("first_name");
+				System.out.println(firstName);
 			} else {
 				isValid = false;
 			}
@@ -124,5 +126,9 @@ public class UserDAO {
 	
 	public int getLinesWritten() {
 		return linesWritten;
+	}
+	
+	public String getFirstName() {
+		return firstName;
 	}
 }
