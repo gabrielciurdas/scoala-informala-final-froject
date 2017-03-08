@@ -11,6 +11,7 @@ public class UserDAO {
 
 	private int linesWritten = 0;
 	private String firstName = "";
+	private String accountType = "";
 	
 	public boolean authenticateUser(String email, String password) {
 		boolean isValid = false;
@@ -22,7 +23,7 @@ public class UserDAO {
 			if (rs.next()) {
 				isValid = true;
 				firstName = rs.getString("first_name");
-				System.out.println(firstName);
+				accountType = rs.getString("account_type");
 			} else {
 				isValid = false;
 			}
@@ -44,14 +45,15 @@ public class UserDAO {
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
 				"aNewPa55w0rd");
 				PreparedStatement stm = conn
-						.prepareStatement("INSERT INTO registered_users(first_name, last_name, email, username, password, regdate)"
-								+ " values(?,?,?,?,?,CURRENT_TIMESTAMP)");) {
+						.prepareStatement("INSERT INTO registered_users(first_name, last_name, account_type, email, username, password, regdate)"
+								+ " values(?,?,?,?,?,?,CURRENT_TIMESTAMP)");) {
 
 			stm.setString(1, user.getFirstName());
 			stm.setString(2, user.getLastName());
-			stm.setString(3, user.getEmail());
-			stm.setString(4, user.getUserName());
-			stm.setString(5, user.getPassword());
+			stm.setString(3, user.getAccountType());
+			stm.setString(4, user.getEmail());
+			stm.setString(5, user.getUserName());
+			stm.setString(6, user.getPassword());
 		    	    
 
 			linesWritten = stm.executeUpdate();
@@ -130,5 +132,9 @@ public class UserDAO {
 	
 	public String getFirstName() {
 		return firstName;
+	}
+	
+	public String getAccountType() {
+		return accountType;
 	}
 }

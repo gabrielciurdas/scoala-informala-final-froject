@@ -28,9 +28,9 @@
 					<tr>
 						<td>Tip de cont</td>
 						<td><select name="accountType">
-								<option value="Teacher">Învățător</option>
-								<option value="Parent">Părinte</option>
-								<option value="Child">Copil</option>
+								<option value="TEACHER">Învățător</option>
+								<option value="PARENT">Părinte</option>
+								<option value="CHILD">Copil</option>
 						</select></td>
 					</tr>
 					<tr>

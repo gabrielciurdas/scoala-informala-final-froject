@@ -19,18 +19,6 @@
 						<td>Teste</td>
 					</tr>
 					<tr>
-						<td><input type="submit" value="Adaugă" /></td>
-						<td><input type="submit" value="Adaugă" /></td>
-						<td><input type="submit" value="Adaugă" /></td>
-						<td><input type="submit" value="Adaugă" /></td>
-					</tr>
-					<tr>
-						<td><input type="submit" value="Șterge" /></td>
-						<td><input type="submit" value="Șterge" /></td>
-						<td><input type="submit" value="Șterge" /></td>
-						<td><input type="submit" value="Șterge" /></td>
-					</tr>
-					<tr>
 						<td><input type="submit" value="Vezi lista" /></td>
 						<td><input type="submit" value="Vezi lista" /></td>
 						<td><input type="submit" value="Vezi lista" /></td>
@@ -38,7 +26,9 @@
 					</tr>
 				</tbody>
 			</table>
+			<a href="register.jsp">Înregistrează noi utilizatori</a>
 		</center>
 	</form>
+	<a href='logout.jsp'>Delogare</a>
 </body>
 </html>

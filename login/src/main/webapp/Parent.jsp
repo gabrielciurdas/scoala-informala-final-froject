@@ -3,12 +3,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Welcome, Teacher!</title>
+<title>Bine ai venit</title>
 </head>
 <body bgcolor="silver">
-	<form method="post" action="LoginServlet"
-		onsubmit="">
-		<h3>Bine ai venit, părinte!</h3>
+	<form method="post" action="LoginServlet" onsubmit="">
+		<h3>
+			Bine ai venit,
+			<%
+			String firstName = (String) request.getAttribute("firstName");
+			out.println(firstName + "!");
+		%>
+		</h3>
 		<center>
 			<table border="0" width="40	%" cellpadding="4">
 				<tbody>
@@ -25,6 +30,7 @@
 				</tbody>
 			</table>
 		</center>
+		<a href='logout.jsp'>Delogare</a>
 	</form>
 </body>
 </html>

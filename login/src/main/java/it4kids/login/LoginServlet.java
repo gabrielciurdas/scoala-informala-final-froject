@@ -21,13 +21,16 @@ public class LoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		String firstName = "";
+		String accountType = "";
 		System.out.println(firstName);
 
 		if (userDAO.authenticateUser(email, password)) {
 			req.setAttribute("userid", email);
 			firstName = userDAO.getFirstName();
+			accountType = AccountType.valueOf(userDAO.getAccountType()).name();
+			System.out.println(accountType);
 			req.setAttribute("firstName", firstName);
-			req.getRequestDispatcher("success.jsp").forward(req, resp);
+			req.getRequestDispatcher(AccountType.valueOf(accountType).getType() + ".jsp").forward(req, resp);
 		} else {
 			req.getRequestDispatcher("invalidPassword.jsp").forward(req, resp);
 		}

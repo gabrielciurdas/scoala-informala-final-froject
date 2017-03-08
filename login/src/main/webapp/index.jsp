@@ -30,10 +30,6 @@
 						<td></td>
 						<td><input type="submit" value="Login" /></td>
 					</tr>
-					<tr>
-						<td>Utilizator nou?</td>
-						<td><a href="register.jsp">Înregistrează-te aici</a></td>
-					</tr>
 				</tbody>
 			</table>
 		</center>
