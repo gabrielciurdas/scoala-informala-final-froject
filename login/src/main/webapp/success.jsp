@@ -1,15 +1,21 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
-	if ((session.getAttribute("userid") == null) || (session.getAttribute("userid") == "")) {
-%>
-You are not logged in
+<h3>
+	<%
+		if ((request.getAttribute("userid") == null) || (request.getAttribute("userid") == "")) {
+	%>
+	Nu ești logat
+</h3>
 <br />
-<a href="index.jsp">Please Login</a>
+<a href="index.jsp">Login</a>
 <%
 	} else {
 %>
-Welcome
-<%=session.getAttribute("userid")%>
+Bine ai venit, 
+<%
+	String firstName = (String) request.getAttribute("firstName");
+	out.println(firstName + "!");
+%>
 <a href='logout.jsp'>Log out</a>
 <%
 	}
