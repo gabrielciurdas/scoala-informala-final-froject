@@ -1,8 +1,8 @@
 function checkLogin() {
-	var userName = document.getElementsByName('userName')[0].value;
+	var email = document.getElementsByName('email')[0].value;
 	var password = document.getElementsByName('password')[0].value;
 
-	if (userName == "" || password == "" ) {
+	if (email == "" || password == "" ) {
 		alert("Trebuie să introduceți numele de utilizator și parola!");
 		return false;
 	}
