@@ -1,3 +1,9 @@
+<%
+	HttpSession s = request.getSession(false);
+	if (s == null || s.getAttribute("userid") == null) {
+		response.sendRedirect("/login/index.jsp");
+	} 
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -6,8 +12,7 @@
 <title>Welcome, Admin!</title>
 </head>
 <body bgcolor="silver">
-	<form method="post" action="LoginServlet"
-		onsubmit="">
+	<form method="post" action="login/LoginServlet" onsubmit="">
 		<h3>Bine ai venit, admin!</h3>
 		<center>
 			<table border="0" width="40	%" cellpadding="4">
@@ -26,9 +31,9 @@
 					</tr>
 				</tbody>
 			</table>
-			<a href="register.jsp">Înregistrează noi utilizatori</a>
+			<a href="/login/user/admin/register.jsp">Înregistrează noi utilizatori</a>
 		</center>
 	</form>
-	<a href='logout.jsp'>Delogare</a>
+	<a href='/login/logout.jsp'>Delogare</a>
 </body>
 </html>

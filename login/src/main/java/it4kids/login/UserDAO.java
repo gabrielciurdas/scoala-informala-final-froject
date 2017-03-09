@@ -33,6 +33,24 @@ public class UserDAO {
 		}
 		return isValid;
 	}
+	
+	public boolean usernameAvailable(String username) {
+		boolean isAvailable = false;
+		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
+				"aNewPa55w0rd");
+				Statement stm = conn.createStatement();
+				ResultSet rs = stm.executeQuery("select * from registered_users where username='" + username + "'");) {
+			if (rs.next()) {
+				isAvailable = false;
+			} else {
+				isAvailable = true;
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return isAvailable;
+	}
 
 	/**
 	 * This method writes a User object in the specified database by creating a

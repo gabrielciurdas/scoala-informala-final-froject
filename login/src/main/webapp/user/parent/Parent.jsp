@@ -1,3 +1,9 @@
+<%
+	HttpSession s = request.getSession(false);
+	if (s == null || s.getAttribute("userid") == null) {
+		response.sendRedirect("/login/index.jsp");
+	} 
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -6,7 +12,7 @@
 <title>Bine ai venit</title>
 </head>
 <body bgcolor="silver">
-	<form method="post" action="LoginServlet" onsubmit="">
+	<form method="post" action="/login/LoginServlet" onsubmit="">
 		<h3>
 			Bine ai venit,
 			<%
