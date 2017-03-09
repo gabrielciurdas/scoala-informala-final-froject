@@ -25,12 +25,14 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(firstName);
 
 		if (userDAO.authenticateUser(email, password)) {
-			req.setAttribute("userid", email);
+			req.getSession().setAttribute("userid", email);
+			//req.setAttribute("userid", email);
 			firstName = userDAO.getFirstName();
 			accountType = AccountType.valueOf(userDAO.getAccountType()).name();
 			System.out.println(accountType);
 			req.setAttribute("firstName", firstName);
-			req.getRequestDispatcher(AccountType.valueOf(accountType).getType() + ".jsp").forward(req, resp);
+			req.getRequestDispatcher("user/" + AccountType.valueOf(accountType).getType().toLowerCase()
+					+ "/" + AccountType.valueOf(accountType).getType()+ ".jsp").forward(req, resp);
 		} else {
 			req.getRequestDispatcher("invalidPassword.jsp").forward(req, resp);
 		}

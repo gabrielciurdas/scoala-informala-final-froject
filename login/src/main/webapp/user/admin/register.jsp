@@ -3,11 +3,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="fieldChecker.js"></script>
+<script type="text/javascript" src="/login/fieldChecker.js"></script>
 <title>Registration</title>
 </head>
 <body bgcolor="silver">
-	<form method="post" action="UserServlet"
+	<form method="post" action="/login/UserServlet"
 		onsubmit="return checkUserRegistration()">
 		<center>
 			<table border="1" width="30%" cellpadding="5">
@@ -23,7 +23,7 @@
 					</tr>
 					<tr>
 						<td>Prenume</td>
-						<td><input type="text" name="lastName" value="" /></td>
+						<td><input type="text" name="lastName" value=""  /></td>
 					</tr>
 					<tr>
 						<td>Tip de cont</td>
@@ -36,7 +36,7 @@
 					<tr>
 						<td>Email</td>
 						<td><input type="email" name="email" value=""
-							oninvalid="this.setCustomValidity('Trebuie să introduceți o adresă de email validă')" /></td>
+							oninvalid="this.setCustomValidity(this.valid?'':'Trebuie să introduceți o adresă de email validă')" /></td>
 					</tr>
 					<tr>
 						<td>Nume Utilizator</td>
@@ -44,7 +44,8 @@
 					</tr>
 					<tr>
 						<td>Parola</td>
-						<td><input type="password" name="password" value="" /></td>
+						<td><input pattern=".{6,20}" type="password" name="password" value="" 
+						oninvalid="this.setCustomValidity(this.valid?'':'Trebuie să folosiți cel puțin 6 caractere și cel mult 20')" /></td>
 					</tr>
 					<tr>
 						<td><input type="submit" value="Submit" /></td>
@@ -53,6 +54,7 @@
 				</tbody>
 			</table>
 		</center>
+		<h5><a href='Admin.jsp'>Înapoi la pagina principală</h5>
 	</form>
 </body>
 </html>
