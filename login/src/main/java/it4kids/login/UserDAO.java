@@ -75,7 +75,17 @@ public class UserDAO {
 		    	    
 
 			linesWritten = stm.executeUpdate();
-
+			/*AccountType accountType = AccountType.values()[];
+			TeacherAccountDAO ta = new TeacherAccountDAO();
+			ParentAccountDAO pa =new ParentAccountDAO();
+			ChildAccountDAO ca = new ChildAccountDAO()
+			switch (accountType) {
+				case TEACHER:
+					ta.add(new TeacherAccount(Integer.parseInt(user.getId()));
+					break;
+				case PARENT:
+					pa.add(new ParentAccount(Integer.parseInt(user.getId(), )));
+			}*/
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}

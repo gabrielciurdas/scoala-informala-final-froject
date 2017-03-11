@@ -49,7 +49,7 @@ public class ChildAccountDAO {
                      "select id, id_registered_users, id_parent" + " from child");) {
 
             while (rs.next()) {
-                ChildAccount child = new TeacherAccount();
+                ChildAccount child = new ChildAccount();
 
                 child.setId(rs.getInt("id"));
                 child.setId(rs.getInt("id_registered_users"));

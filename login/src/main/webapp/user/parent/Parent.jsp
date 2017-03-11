@@ -35,8 +35,9 @@
 					</tr>
 				</tbody>
 			</table>
+			<a href="/login/user/parent/parentRegister.jsp">Înregistrați părinți sau copii</a>
 		</center>
-		<a href='logout.jsp'>Delogare</a>
+		<a href='/login/logout.jsp'>Delogare</a>
 	</form>
 </body>
 </html>

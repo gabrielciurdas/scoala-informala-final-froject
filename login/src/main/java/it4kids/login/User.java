@@ -1,6 +1,7 @@
 package it4kids.login;
 
 public class User {
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -113,5 +114,13 @@ public class User {
 	
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

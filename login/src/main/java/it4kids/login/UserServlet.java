@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UserServlet
@@ -28,24 +29,37 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
 		UserDAO user = new UserDAO();
+		String location = "";
+		String accountType = "";
 		if (user.usernameAvailable(request.getParameter("userName"))) {
+			session.getAttribute("accountType");
+			accountType = session.getAttribute("accountType").toString().toLowerCase();
+            location = "user/" + accountType + "/" + accountType + "Register.jsp";
 			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
 					request.getParameter("accountType"), request.getParameter("email"),
 					request.getParameter("userName"), request.getParameter("password")));
 
 			if (user.getLinesWritten() > 0) {
-				request.getRequestDispatcher("validRegistration.jsp").forward(request, response);
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('Înregistrare efectuată cu succes');");
+				out.println("location='" + location + "';");
+				out.println("</script>");
 
 			} else {
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}
 		} else {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
+			accountType = session.getAttribute("accountType").toString().toLowerCase();
+            location = "user/" + accountType + "/" + accountType + "Register.jsp";
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Numele de utilizator există deja');");
-			out.println("location='user/admin/register.jsp';");
+			out.println("location='" + location + "';");
 			out.println("</script>");
 		}
 	}

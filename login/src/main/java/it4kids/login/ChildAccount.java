@@ -12,6 +12,16 @@ public class ChildAccount extends Account {
         this.idParent = idParent;
     }
 
+    public ChildAccount(int idRegisteredUser, int idParent) {
+        super(idRegisteredUser);
+        idParent = 0;
+    }
+
+    public ChildAccount() {
+        super();
+        idParent = 0;
+    }
+
     public int getIdParent() {
         return idParent;
     }
