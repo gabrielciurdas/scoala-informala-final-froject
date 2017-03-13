@@ -31,9 +31,9 @@
 					</tr>
 				</tbody>
 			</table>
-			<a href="/login/user/admin/register.jsp">Înregistrează noi utilizatori</a>
+			<a href="/login/user/admin/adminRegister.jsp">Înregistrează noi utilizatori</a>
 		</center>
 	</form>
-	<a href='/login/logout.jsp'>Delogare</a>
+	<a href='/login/logout.jsp''>Delogare</a>
 </body>
 </html>

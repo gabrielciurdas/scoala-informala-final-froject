@@ -37,8 +37,9 @@
 					</tr>
 				</tbody>
 			</table>
+			<a href="/login/user/teacher/teacherRegister.jsp">Înregistrează noi profesori sau părinți</a>
 		</center>
 	</form>
-	<a href='logout.jsp'>Delogare</a>
+	<a href='/login/logout.jsp''>Delogare</a>
 </body>
 </html>

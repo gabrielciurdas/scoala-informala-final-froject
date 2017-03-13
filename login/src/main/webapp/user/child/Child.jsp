@@ -26,10 +26,12 @@
 					<tr>
 						<td>Joc</td>
 						<td>Teste</td>
+						<td>Quiz</td>
 					</tr>
 					<tr>
 						<td><input type="submit" value="Începe" /></td>
 						<td><input type="submit" value="Începe" /></td>
+						<td><a href="user/child/Quiz.jsp">Începe</a></td>
 					</tr>
 				</tbody>
 			</table>

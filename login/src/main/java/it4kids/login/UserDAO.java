@@ -12,6 +12,7 @@ public class UserDAO {
 	private int linesWritten = 0;
 	private String firstName = "";
 	private String accountType = "";
+	private String username = "";
 	
 	public boolean authenticateUser(String email, String password) {
 		boolean isValid = false;
@@ -24,6 +25,7 @@ public class UserDAO {
 				isValid = true;
 				firstName = rs.getString("first_name");
 				accountType = rs.getString("account_type");
+				username = rs.getString("userName");
 			} else {
 				isValid = false;
 			}
@@ -34,6 +36,23 @@ public class UserDAO {
 		return isValid;
 	}
 	
+	public int getUsernameId(String username) {
+		int id = 0;
+		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
+				"aNewPa55w0rd");
+				Statement stm = conn.createStatement();
+				ResultSet rs = stm.executeQuery("select id from registered_users where username='" + username + "'");) {
+			if (rs.next()) {
+				id = rs.getInt("id");
+			} else {
+				System.out.println("username does not exist");
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return id;
+	}
 	public boolean usernameAvailable(String username) {
 		boolean isAvailable = false;
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
@@ -59,6 +78,7 @@ public class UserDAO {
 	 * @param user
 	 *            is the user to be written in the specified database.
 	 */
+
 	public void add(User user) {
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
 				"aNewPa55w0rd");
@@ -72,10 +92,36 @@ public class UserDAO {
 			stm.setString(4, user.getEmail());
 			stm.setString(5, user.getUserName());
 			stm.setString(6, user.getPassword());
-		    	    
-
 			linesWritten = stm.executeUpdate();
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void setChildId(int childId) {
+		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
+				"aNewPa55w0rd");
+				PreparedStatement stm = conn
+						.prepareStatement("UPDATE parent SET id_child = ?" );) {
 
+			stm.setInt(1, childId);
+			//linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void setParentId(int parentId) {
+		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
+				"aNewPa55w0rd");
+				PreparedStatement stm = conn
+						.prepareStatement("INSERT INTO child(id_parent)" + " values(?)");) {
+
+			stm.setInt(1, parentId);
+			/*linesWritten = stm.executeUpdate();*/
+			stm.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -154,5 +200,9 @@ public class UserDAO {
 	
 	public String getAccountType() {
 		return accountType;
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 }
