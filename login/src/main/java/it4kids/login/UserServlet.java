@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.SessionCookieConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,6 +80,8 @@ public class UserServlet extends HttpServlet {
 			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
 					request.getParameter("accountType"), request.getParameter("email"),
 					request.getParameter("userName"), request.getParameter("password")));
+			TeacherAccountDAO t = new TeacherAccountDAO();
+			t.add(new TeacherAccount(user.getUsernameId(request.getParameter("userName"))));
 		}
 	}
 

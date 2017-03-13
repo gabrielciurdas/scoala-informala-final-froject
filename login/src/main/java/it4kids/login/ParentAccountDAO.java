@@ -22,7 +22,6 @@ public class ParentAccountDAO {
                      .prepareStatement("INSERT INTO parent(id_registered_user, id_child)"
                              + " values(?,?)");) {
 
-            //stm.setInt(1, parent.getId());
             stm.setInt(1, parent.getIdRegisteredUser());
             stm.setInt(2, childId);
 

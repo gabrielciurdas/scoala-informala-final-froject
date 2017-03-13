@@ -20,7 +20,6 @@ public class ChildAccountDAO {
 				PreparedStatement stm = conn
 						.prepareStatement("INSERT INTO child(id_registered_user, id_parent)" + " values(?,?)");) {
 
-			// stm.setInt(1, child.getId());
 			stm.setInt(1, child.getIdRegisteredUser());
 			stm.setInt(2, parentId);
 
@@ -30,18 +29,6 @@ public class ChildAccountDAO {
 			ex.printStackTrace();
 		}
 	}
-
-	/*
-	 * public int getParentId(int childId) { int id = 0; try (Connection conn =
-	 * newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
-	 * "aNewPa55w0rd"); Statement stm = conn.createStatement(); ResultSet rs =
-	 * stm.executeQuery("select id from child where id_child='" + childId +
-	 * "'");) { if (rs.next()) { id = rs.getInt("id"); } else {
-	 * System.out.println("childId does not exist"); }
-	 * 
-	 * } catch (SQLException ex) { ex.printStackTrace(); } return id; }
-	 */
-
 	/**
 	 * This method retrieves a list of ChildAccount objects from the specified
 	 * database by creating a connection with a PostgreSQL server and using a

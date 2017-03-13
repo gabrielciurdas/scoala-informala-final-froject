@@ -20,11 +20,9 @@ public class TeacherAccountDAO {
         try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
                 "aNewPa55w0rd");
              PreparedStatement stm = conn
-                     .prepareStatement("INSERT INTO teacher(id, id_registered_users)"
-                             + " values(?,?)");) {
+                     .prepareStatement("INSERT INTO teacher(id_registered_user)" + " values(?)");) {
 
-            stm.setInt(1, teacher.getId());
-            stm.setInt(2, teacher.getIdRegisteredUser());
+            stm.setInt(1, teacher.getIdRegisteredUser());
 
             stm.executeUpdate();
 
