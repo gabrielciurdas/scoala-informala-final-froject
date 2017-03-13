@@ -23,16 +23,17 @@ public class LoginServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		String firstName = "";
 		String accountType = "";
-		System.out.println(firstName);
 
 		if (userDAO.authenticateUser(email, password)) {
 			req.getSession().setAttribute("userid", email);
-			//req.setAttribute("userid", email);
+			
 			firstName = userDAO.getFirstName();
 			accountType = AccountType.valueOf(userDAO.getAccountType()).name();
+			
 			HttpSession session = req.getSession();
 			session.setAttribute("accountType", accountType);
-			System.out.println(accountType);
+			session.setAttribute("userName", userDAO.getUsername());
+			
 			req.setAttribute("firstName", firstName);
 			req.getRequestDispatcher("user/" + AccountType.valueOf(accountType).getType().toLowerCase()
 					+ "/" + AccountType.valueOf(accountType).getType()+ ".jsp").forward(req, resp);

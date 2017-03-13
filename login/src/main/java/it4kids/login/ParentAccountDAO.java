@@ -15,16 +15,16 @@ public class ParentAccountDAO {
      * @param parent
      *            is the parent to be written in the specified database.
      */
-    public void add(ParentAccount parent) {
+    public void add(ParentAccount parent, int childId) {
         try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
                 "aNewPa55w0rd");
              PreparedStatement stm = conn
-                     .prepareStatement("INSERT INTO parent(id, id_registered_users, id_child)"
-                             + " values(?,?,?)");) {
+                     .prepareStatement("INSERT INTO parent(id_registered_user, id_child)"
+                             + " values(?,?)");) {
 
-            stm.setInt(1, parent.getId());
-            stm.setInt(2, parent.getIdRegisteredUser());
-            stm.setInt(3, parent.getIdChild());
+            //stm.setInt(1, parent.getId());
+            stm.setInt(1, parent.getIdRegisteredUser());
+            stm.setInt(2, childId);
 
             stm.executeUpdate();
 
@@ -32,6 +32,40 @@ public class ParentAccountDAO {
             ex.printStackTrace();
         }
     }
+    
+    public void add(ParentAccount parent) {
+        try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
+                "aNewPa55w0rd");
+             PreparedStatement stm = conn
+                     .prepareStatement("INSERT INTO parent(id_registered_users)"
+                             + " values(?)");) {
+
+            stm.setInt(2, parent.getIdRegisteredUser());
+
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public int getChildId(String parentId) {
+		int id = 0;
+		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
+				"aNewPa55w0rd");
+				Statement stm = conn.createStatement();
+				ResultSet rs = stm.executeQuery("select id from child where id_parent='" + parentId + "'");) {
+			if (rs.next()) {
+				id = rs.getInt("id");
+			} else {
+				System.out.println("username does not exist");
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return id;
+	}
 
     /**
      * This method retrieves a list of ParentAccount objects from the specified database

@@ -4,11 +4,24 @@ public class User {
 	private String id;
 	private String firstName;
 	private String lastName;
+	private String relatedUsername;
 	private String email;
 	private String accountType;
 	private String userName;
 	private String password;
 	private String date;
+	
+	public User(String firstName, String lastName, String relatedUsername, String accountType, String email, String userName, String password) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.relatedUsername =  relatedUsername;
+		this.accountType = AccountType.valueOf(accountType).name();
+		this.email = email;
+		this.userName = userName;
+		this.password = password;
+	}
+	
 	
 	public User(String firstName, String lastName, String accountType, String email, String userName, String password) {
 		super();
@@ -122,5 +135,9 @@ public class User {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getRelatedUsername() {
+		return relatedUsername;
 	}
 }

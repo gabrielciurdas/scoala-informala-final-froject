@@ -22,7 +22,11 @@ public class ChildAccount extends Account {
         idParent = 0;
     }
 
-    public int getIdParent() {
+    public ChildAccount(int idRegisteredUser) {
+		super(idRegisteredUser);
+	}
+
+	public int getIdParent() {
         return idParent;
     }
 
