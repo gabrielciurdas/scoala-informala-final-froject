@@ -28,9 +28,7 @@
 					<tr>
 						<td>Tip de cont</td>
 						<td><select name="accountType">
-								<option value="TEACHER">Învățător</option>
-								<!-- <option value="PARENT">Părinte</option>
-								<option value="CHILD">Copil</option> -->
+								<option value="PARENT">Părinte</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -54,7 +52,7 @@
 				</tbody>
 			</table>
 		</center>
-		<h5><a href='Admin.jsp'>Înapoi la pagina principală</h5>
+		<h5><a href='Teacher.jsp'>Înapoi la pagina principală</h5>
 	</form>
 </body>
 </html>
