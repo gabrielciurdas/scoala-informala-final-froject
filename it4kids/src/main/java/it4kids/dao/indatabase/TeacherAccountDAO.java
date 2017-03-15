@@ -1,28 +1,19 @@
-package it4kids.dao.login;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import it4kids.domain.login.TeacherAccount;
+package it4kids.dao.indatabase;
 
 /**
  * Created by Gabi on 3/10/2017.
  */
 public class TeacherAccountDAO {
 
-    /**
+    //This class is not necessary (see user story) --> Gabi
+
+  /*  *//**
      * This method writes a TeacherAccount object in the specified database by creating a
      * connection with a PostgreSQL server and using a query.
      *
      * @param teacher
      *            is the teacher to be written in the specified database.
-     */
+     *//*
     public void add(TeacherAccount teacher) {
         try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
                 "aNewPa55w0rd");
@@ -38,12 +29,12 @@ public class TeacherAccountDAO {
         }
     }
 
-    /**
+    *//**
      * This method retrieves a list of TheacherAccount objects from the specified database
      * by creating a connection with a PostgreSQL server and using a query.
      *
      * @return the list of TeacherAccount objects.
-     */
+     *//*
     public List<TeacherAccount> getAll() {
         List<TeacherAccount> result = new ArrayList<>();
 
@@ -96,5 +87,5 @@ public class TeacherAccountDAO {
         }
 
         return null;
-    }
+    }*/
 }

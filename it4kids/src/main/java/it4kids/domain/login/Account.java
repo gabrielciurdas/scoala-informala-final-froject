@@ -3,11 +3,11 @@ package it4kids.domain.login;
 /**
  * Created by Gabi on 3/10/2017.
  */
-public class Account {
+public abstract class Account {
     private int id;
     private int idRegisteredUser;
 
-    public Account(int id, int idRegisteredUser) {
+    /*public Account(int id, int idRegisteredUser) {
         this.id = id;
         this.idRegisteredUser = idRegisteredUser;
     }
@@ -21,7 +21,7 @@ public class Account {
     public Account() {
         id = 0;
         idRegisteredUser = 0;
-    }
+    }*/
 
     public int getId() {
         return id;

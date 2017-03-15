@@ -1,4 +1,4 @@
-package it4kids.dao.quiz;
+package it4kids.dao;
 
 import java.util.Collection;
 

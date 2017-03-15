@@ -2,7 +2,6 @@ package it4kids.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ConnectionToDB {
@@ -14,9 +13,10 @@ public class ConnectionToDB {
 
 	public Connection getDBConnection() {
 		loadDriver();
-		DriverManager.setLoginTimeout(60); // wait 1 min; optional: DB may be
-		// busy, good to set a higher
-		// timeout
+		// wait 1 min; optional: DB may be busy,
+		// busy, good to set a higher timeout
+		DriverManager.setLoginTimeout(60); 
+		
 		try {
 			return DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
 

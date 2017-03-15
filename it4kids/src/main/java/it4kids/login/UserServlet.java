@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it4kids.dao.login.ChildAccountDAO;
-import it4kids.dao.login.ParentAccountDAO;
-import it4kids.dao.login.TeacherAccountDAO;
-import it4kids.dao.login.UserDAO;
+import it4kids.dao.indatabase.ChildAccountDAO;
+import it4kids.dao.indatabase.ParentAccountDAO;
+import it4kids.dao.indatabase.TeacherAccountDAO;
+import it4kids.dao.UserDAO;
 import it4kids.domain.login.ChildAccount;
 import it4kids.domain.login.ParentAccount;
 import it4kids.domain.login.TeacherAccount;
