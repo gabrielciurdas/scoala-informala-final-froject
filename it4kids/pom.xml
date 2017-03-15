@@ -56,9 +56,14 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 	<build>
+<<<<<<< HEAD
 		<finalName>it4kids</finalName>
+=======
+		<finalName>login</finalName>
+>>>>>>> origin/Flaviu
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

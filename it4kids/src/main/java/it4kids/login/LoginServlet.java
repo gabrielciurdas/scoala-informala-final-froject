@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it4kids.dao.UserDAO;
-import it4kids.domain.AccountType;
+import it4kids.dao.login.UserDAO;
+import it4kids.domain.login.AccountType;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

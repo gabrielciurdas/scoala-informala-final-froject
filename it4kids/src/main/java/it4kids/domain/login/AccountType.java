@@ -1,4 +1,4 @@
-package it4kids.domain;
+package it4kids.domain.login;
 
 public enum AccountType {
 	ADMIN("Admin"),

@@ -1,4 +1,4 @@
-package it4kids.dao;
+package it4kids.dao.login;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import it4kids.domain.TeacherAccount;
+import it4kids.domain.login.TeacherAccount;
 
 /**
  * Created by Gabi on 3/10/2017.
