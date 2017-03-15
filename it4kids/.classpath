@@ -14,5 +14,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 9.0/lib/servlet-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="D:/Projects/JavaDev/Scoala Informala IT/firstSpringMVC/WebContent/WEB-INF/lib/spring-context-4.3.7.RELEASE.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
