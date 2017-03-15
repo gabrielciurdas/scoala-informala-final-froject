@@ -1,6 +1,6 @@
 package it4kids.domain.login;
 
-public class User {
+public class User extends Account {
 	private String id;
 	private String firstName;
 	private String lastName;

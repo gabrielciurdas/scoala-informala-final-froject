@@ -7,43 +7,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ChildAccount;
 
 public class ChildAccountDAO1 {
 
 	ConnectionToDB db = new ConnectionToDB();
 
-	public void insertChild(ChildAccount child, int parentId)
+	public void add(ChildAccount child, int parentId)
 			throws SQLException {
-
-		Connection dbConnection = null;
-		PreparedStatement preparedStatement = null;
 
 		final String insertSQL = "INSERT INTO child(id_registered_user, id_parent)"
 				+ " values(?,?)";
 
-		try {
-			dbConnection = db.getDBConnection();
-			preparedStatement = dbConnection.prepareStatement(insertSQL);
+		try (Connection conn = db.getDBConnection();
+			 PreparedStatement stm = conn.prepareStatement(insertSQL);){
 
-			preparedStatement.setInt(1, child.getIdRegisteredUser());
-			preparedStatement.setInt(2, parentId);
-
-			preparedStatement.executeUpdate();
-
-			// execute insert SQL stetement
-			preparedStatement.executeUpdate();
-
+			stm.setInt(1, child.getIdRegisteredUser());
+			stm.setInt(2, parentId);
+			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
 		} catch (SQLException e) {
-
 			System.out.println(e.getMessage());
-
-		} finally {
-
-			db.cleanUp(preparedStatement, dbConnection);
-
 		}
 
 	}
@@ -57,35 +43,23 @@ public class ChildAccountDAO1 {
 		final String getChild = "select id, id_registered_users, id_parent"
 				+ " from child";
 
-		try {
-			dbConnection = db.getDBConnection();
-			preparedStatement = dbConnection.prepareStatement(getChild);
-			preparedStatement.setInt(1, 1001);
+		try (Connection conn = db.getDBConnection();
+			 PreparedStatement stm = conn.prepareStatement();
+			 ResultSet rs = stm.executeQuery(getChild);) {
 
-			// execute select SQL stetement
-			ResultSet rs = preparedStatement.executeQuery();
+				while (rs.next()) {
+					ChildAccount child = new ChildAccount();
 
-			while (rs.next()) {
-				ChildAccount child = new ChildAccount();
+					child.setId(rs.getInt("id"));
+					child.setId(rs.getInt("id_registered_users"));
+					child.setId(rs.getInt("id_parent"));
 
-				child.setId(rs.getInt("id"));
-				child.setId(rs.getInt("id_registered_users"));
-				child.setId(rs.getInt("id_parent"));
-
-				result.add(child);
-
+					result.add(child);
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
 			}
 
-		} catch (SQLException ex) {
-
-			ex.printStackTrace();
-
-		} finally {
-
-			db.cleanUp(preparedStatement, dbConnection);
-
-		}
-
-		return result;
+			return result;
 	}
 }

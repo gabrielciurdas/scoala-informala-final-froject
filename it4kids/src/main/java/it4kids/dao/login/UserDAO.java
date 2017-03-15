@@ -20,7 +20,7 @@ public class UserDAO {
 	private String firstName = "";
 	private String accountType = "";
 	private String username = "";
-	
+
 	public boolean authenticateUser(String email, String password) {
 		boolean isValid = false;
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
@@ -42,7 +42,7 @@ public class UserDAO {
 		}
 		return isValid;
 	}
-	
+
 	public int getUsernameId(String username) {
 		int id = 0;
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
@@ -60,7 +60,7 @@ public class UserDAO {
 		}
 		return id;
 	}
-	
+
 	public boolean usernameAvailable(String username) {
 		boolean isAvailable = false;
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",

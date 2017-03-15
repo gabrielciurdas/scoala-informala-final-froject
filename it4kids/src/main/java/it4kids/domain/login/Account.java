@@ -13,6 +13,7 @@ public class Account {
     }
 
     public Account(int idRegisteredUser) {
+        id = 0;
         this.idRegisteredUser = idRegisteredUser;
     }
 
