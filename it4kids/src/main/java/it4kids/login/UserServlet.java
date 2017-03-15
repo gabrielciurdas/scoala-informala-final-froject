@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it4kids.dao.ChildAccountDAO;
-import it4kids.dao.ParentAccountDAO;
-import it4kids.dao.TeacherAccountDAO;
-import it4kids.dao.UserDAO;
-import it4kids.domain.ChildAccount;
-import it4kids.domain.ParentAccount;
-import it4kids.domain.TeacherAccount;
-import it4kids.domain.User;
+import it4kids.dao.login.ChildAccountDAO;
+import it4kids.dao.login.ParentAccountDAO;
+import it4kids.dao.login.TeacherAccountDAO;
+import it4kids.dao.login.UserDAO;
+import it4kids.domain.login.ChildAccount;
+import it4kids.domain.login.ParentAccount;
+import it4kids.domain.login.TeacherAccount;
+import it4kids.domain.login.User;
 
 /**
  * Servlet implementation class UserServlet

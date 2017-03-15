@@ -1,4 +1,4 @@
-package it4kids.domain;
+package it4kids.domain.login;
 
 /**
  * Created by Gabi on 3/10/2017.
