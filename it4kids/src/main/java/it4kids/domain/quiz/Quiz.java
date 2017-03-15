@@ -17,6 +17,10 @@ public class Quiz extends AbstractModel {
 	// question are ca dependinta un quiz si un correct answer.
 	public Quiz(RadioQuestion rq) {
 		this.rq = rq;
+
+		QuizEntry quizEntry = new QuizEntry.Builder().setQuestion("Cati ani are Basescu?").addOption(1, "55")
+				.addOption(2, "62").addOption(3, "49").addOption(4, "58").addResults(1).build();
+
 	}
 
 }
