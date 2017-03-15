@@ -1,4 +1,4 @@
-package it4kids.login;
+package it4kids.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import it4kids.domain.ChildAccount;
 
 public class ChildAccountDAO1 {
 
