@@ -1,4 +1,4 @@
-package it4kids.login;
+package it4kids.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

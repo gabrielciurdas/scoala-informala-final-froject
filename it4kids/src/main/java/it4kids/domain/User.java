@@ -1,4 +1,4 @@
-package it4kids.login;
+package it4kids.domain;
 
 public class User {
 	private String id;
