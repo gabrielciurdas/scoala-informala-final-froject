@@ -1,4 +1,4 @@
-package it4kids.dao.indatabase;
+package it4kids.dao.indatabase.login;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

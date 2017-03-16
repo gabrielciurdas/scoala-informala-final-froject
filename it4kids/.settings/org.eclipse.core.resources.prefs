@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/main/java/it4kids/login/UserServlet.java=UTF-8
+encoding//src/main/java/it4kids/service/login/UserService.java=UTF-8
+encoding//src/main/java/it4kids/service/login/UserServlet.java=UTF-8
 encoding//src/main/webapp/invalidPassword.jsp=UTF-8

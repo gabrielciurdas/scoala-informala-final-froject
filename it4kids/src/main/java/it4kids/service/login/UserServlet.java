@@ -1,7 +1,8 @@
-package it4kids.login;
+package it4kids.service.login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,13 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it4kids.dao.indatabase.ChildAccountDAO;
-import it4kids.dao.indatabase.ParentAccountDAO;
-import it4kids.dao.indatabase.TeacherAccountDAO;
 import it4kids.dao.UserDAO;
+import it4kids.dao.indatabase.login.ChildAccountDAO;
+import it4kids.dao.indatabase.login.ParentAccountDAO;
+import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.domain.login.ChildAccount;
 import it4kids.domain.login.ParentAccount;
-import it4kids.domain.login.TeacherAccount;
 import it4kids.domain.login.User;
 
 /**
@@ -43,7 +43,7 @@ public class UserServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		UserDAO user = new UserDAO();
+		RegisteredUserDAO user = new RegisteredUserDAO();
 		String location = "";
 		String accountType = "";
 		if (user.usernameAvailable(request.getParameter("userName"))) {
@@ -52,12 +52,17 @@ public class UserServlet extends HttpServlet {
 			location = "user/" + accountType + "/" + accountType + "Register.jsp";
 
 			accountType = session.getAttribute("accountType").toString();
-			addAccount(request, user, accountType);
+			try {
+				addAccount(request, user, accountType);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		validateRegistration(out, session, user, location);
 	}
 
-	private void addAccount(HttpServletRequest request, UserDAO user, String accountType) {
+	private void addAccount(HttpServletRequest request, UserDAO user, String accountType) throws SQLException {
 		HttpSession session = request.getSession();
 		if (accountType.equals("PARENT")) {
 			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
@@ -89,12 +94,10 @@ public class UserServlet extends HttpServlet {
 			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
 					request.getParameter("accountType"), request.getParameter("email"),
 					request.getParameter("userName"), request.getParameter("password")));
-			TeacherAccountDAO t = new TeacherAccountDAO();
-			t.add(new TeacherAccount(user.getUsernameId(request.getParameter("userName"))));
 		}
 	}
 
-	private void validateRegistration(PrintWriter out, HttpSession session, UserDAO user, String location) {
+	private void validateRegistration(PrintWriter out, HttpSession session, RegisteredUserDAO user, String location) {
 		String accountType;
 		if (user.getLinesWritten() > 0) {
 			out.println("<script type=\"text/javascript\">");

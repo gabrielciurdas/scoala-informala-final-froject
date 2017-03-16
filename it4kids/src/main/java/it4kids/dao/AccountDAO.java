@@ -11,7 +11,7 @@ public interface AccountDAO<T extends Account> {
 
     Collection<T> getAll();
 
-    T add(T t, int id);
+    T add(T model, Integer id);
 
 
     /*T update(T model);

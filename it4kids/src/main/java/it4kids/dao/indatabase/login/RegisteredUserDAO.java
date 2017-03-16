@@ -1,4 +1,4 @@
-package it4kids.dao.indatabase;
+package it4kids.dao.indatabase.login;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import it4kids.dao.ConnectionToDB;
 import it4kids.dao.UserDAO;
@@ -183,4 +182,10 @@ public class RegisteredUserDAO implements UserDAO {
     public String getUsername() {
         return username;
     }
+
+	@Override
+	public Account add(Account model, Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

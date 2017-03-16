@@ -1,4 +1,4 @@
-package it4kids.dao.indatabase;
+package it4kids.dao.indatabase.login;
 
 /**
  * Created by Gabi on 3/10/2017.
