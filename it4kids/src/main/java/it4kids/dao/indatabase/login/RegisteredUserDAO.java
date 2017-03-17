@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.stereotype.Service;
+
 import it4kids.dao.ConnectionToDB;
 import it4kids.dao.UserDAO;
 import it4kids.domain.login.Account;
@@ -16,6 +18,7 @@ import it4kids.domain.login.User;
 /**
  * Created by Gabi on 3/15/2017.
  */
+@Service
 public class RegisteredUserDAO implements UserDAO {
 
     private ConnectionToDB db = new ConnectionToDB(); //to be aggregated by spring as a bean

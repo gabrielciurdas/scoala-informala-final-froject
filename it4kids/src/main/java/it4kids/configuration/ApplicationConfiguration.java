@@ -6,12 +6,11 @@ package it4kids.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import it4kids.dao.UserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.service.login.AccountService;
+import it4kids.service.login.UserService;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -19,6 +18,11 @@ public class ApplicationConfiguration {
     @Bean
     public AccountService accountService() {
         return new AccountService();
+    }
+    
+    @Bean
+    public UserService userService() {
+    	return new UserService();
     }
 
     @Bean

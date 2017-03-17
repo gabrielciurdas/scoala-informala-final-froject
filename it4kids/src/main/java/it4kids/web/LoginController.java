@@ -1,9 +1,14 @@
-package it4kids.service.login;
+package it4kids.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import it4kids.dao.indatabase.login.RegisteredUserDAO;
+
+@Controller
+@RequestMapping("/it4kids")
 public class LoginController {
 
 	/*@Override
@@ -12,11 +17,11 @@ public class LoginController {
 	}*/
 
 	@Autowired
-    UserService userService;
+    RegisteredUserDAO userService;
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String showLoginPage() {
-        return "login";
+	@RequestMapping("")
+	public String login(ModelAndView modelAndView) {
+        return "index";
     }
 	//to be changed to spring login
 

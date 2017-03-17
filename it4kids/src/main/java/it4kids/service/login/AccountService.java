@@ -16,7 +16,7 @@ import it4kids.domain.login.Account;
 public class AccountService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountService.class);
 
-    private AccountDAO<T extends Account> dao;
+    private AccountDAO dao;
 
     public Collection<Account> listAll() {
     	LOGGER.debug("Listing accounts ");
