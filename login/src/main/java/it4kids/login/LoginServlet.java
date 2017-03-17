@@ -34,6 +34,8 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session2 = req.getSession();
 			session.setAttribute("accountType", accountType);
 			session2.setAttribute("userName", userDAO.getUsername());
+			System.out.println(userDAO.getUsername());
+			System.out.println(userDAO.getUsernameId(userDAO.getUsername()));
 			
 			req.setAttribute("firstName", firstName);
 			req.getRequestDispatcher("user/" + AccountType.valueOf(accountType).getType().toLowerCase()
