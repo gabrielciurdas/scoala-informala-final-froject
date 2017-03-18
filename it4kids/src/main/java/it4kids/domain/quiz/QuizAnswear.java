@@ -1,7 +1,5 @@
 package it4kids.domain.quiz;
 
-import it4kids.dao.quiz.QuizDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +15,5 @@ public class QuizAnswear {
 
 	Quiz q = new Quiz();
 	private final List<Answear> answear = new ArrayList<>();
-	private final QuizDAO dao = dao.findById();
 
 }
