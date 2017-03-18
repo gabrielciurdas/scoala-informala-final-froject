@@ -15,15 +15,15 @@ public class ParentAccount extends Account {
         super(idRegisteredUser);
         idChild = 0;
     }
+    
+    public ParentAccount(int idRegisteredUser) {
+        super(idRegisteredUser);
+    }
 
     public ParentAccount() {
         super();
         idChild = 0;
     }
-    
-    public ParentAccount(int idRegisteredUser) {
-		super(idRegisteredUser);
-	}
 
     public int getIdChild() {
         return idChild;

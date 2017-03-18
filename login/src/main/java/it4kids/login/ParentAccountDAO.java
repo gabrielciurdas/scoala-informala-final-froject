@@ -15,7 +15,7 @@ public class ParentAccountDAO {
      * @param parent
      *            is the parent to be written in the specified database.
      */
-    public void add(ParentAccount parent, int childId) {
+    public void add(ParentAccount parent, int idChild) {
         try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
                 "aNewPa55w0rd");
              PreparedStatement stm = conn
@@ -23,7 +23,7 @@ public class ParentAccountDAO {
                              + " values(?,?)");) {
 
             stm.setInt(1, parent.getIdRegisteredUser());
-            stm.setInt(2, childId);
+            stm.setInt(2, parent.getIdChild());
 
             stm.executeUpdate();
 
@@ -36,10 +36,10 @@ public class ParentAccountDAO {
         try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
                 "aNewPa55w0rd");
              PreparedStatement stm = conn
-                     .prepareStatement("INSERT INTO parent(id_registered_users)"
+                     .prepareStatement("INSERT INTO parent(id_registered_user)"
                              + " values(?)");) {
 
-            stm.setInt(2, parent.getIdRegisteredUser());
+            stm.setInt(1, parent.getIdRegisteredUser());
 
             stm.executeUpdate();
 
@@ -79,7 +79,7 @@ public class ParentAccountDAO {
                 "aNewPa55w0rd");
              Statement stm = conn.createStatement();
              ResultSet rs = stm.executeQuery(
-                     "select id, id_registered_users, id_child" + " from parent");) {
+                     "select id, id_registered_user, id_child" + " from parent");) {
 
             while (rs.next()) {
                 ParentAccount parent = new ParentAccount();
