@@ -5,32 +5,34 @@ package it4kids.domain.login;
  */
 public class ChildAccount extends Account {
 
-    private int idParent;
+	private int idParent;
 
-    public ChildAccount(int id, int idRegisteredUser, int idParent) {
-        super(id, idRegisteredUser);
-        this.idParent = idParent;
-    }
+	public ChildAccount(int id, int idRegisteredUser, int idParent) {
+		setId(id);
+		setIdRegisteredUser(idRegisteredUser);
+		this.idParent = idParent;
+	}
 
-    public ChildAccount(int idRegisteredUser, int idParent) {
-        super(idRegisteredUser);
-        idParent = 0;
-    }
+	public ChildAccount(int idRegisteredUser, int idParent) {
+		setIdRegisteredUser(idRegisteredUser);
+		setIdParent(idParent);
+	}
 
-    public ChildAccount() {
-        super();
-        idParent = 0;
-    }
+	public ChildAccount() {
+		setId(0);
+		setIdRegisteredUser(0);
+		idParent = 0;
+	}
 
-    public ChildAccount(int idRegisteredUser) {
-		super(idRegisteredUser);
+	public ChildAccount(int idRegisteredUser) {
+		setIdRegisteredUser(idRegisteredUser);
 	}
 
 	public int getIdParent() {
-        return idParent;
-    }
+		return getIdParent();
+	}
 
-    public void setIdParent(int idParent) {
-        this.idParent = idParent;
-    }
+	public void setIdParent(int idParent) {
+		this.idParent = idParent;
+	}
 }

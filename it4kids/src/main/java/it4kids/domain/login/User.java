@@ -1,6 +1,6 @@
 package it4kids.domain.login;
 
-public class User {
+public class User extends Account {
 	private String id;
 	private String firstName;
 	private String lastName;
@@ -10,6 +10,7 @@ public class User {
 	private String userName;
 	private String password;
 	private String date;
+	private boolean authenticated;
 	
 	public User(String firstName, String lastName, String relatedUsername, String accountType, String email, String userName, String password) {
 		super();
@@ -20,6 +21,7 @@ public class User {
 		this.email = email;
 		this.userName = userName;
 		this.password = password;
+		authenticated = false;
 	}
 	
 	
@@ -31,6 +33,7 @@ public class User {
 		this.email = email;
 		this.userName = userName;
 		this.password = password;
+		authenticated = false;
 	}
 
 	public User() {
@@ -41,6 +44,7 @@ public class User {
 		userName = "";
 		password = "";
 		date = "";
+		authenticated = false;
 	}
 
 	/**
@@ -129,8 +133,8 @@ public class User {
 		this.date = date;
 	}
 
-	public String getId() {
-		return id;
+	public int getId() {
+		return Integer.parseInt(id);
 	}
 
 	public void setId(String id) {
@@ -139,5 +143,13 @@ public class User {
 	
 	public String getRelatedUsername() {
 		return relatedUsername;
+	}
+	
+	public boolean getAuthenticated() {
+		return authenticated;
+	}
+	
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
 	}
 }
