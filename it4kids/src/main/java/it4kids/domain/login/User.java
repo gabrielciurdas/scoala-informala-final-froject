@@ -24,7 +24,12 @@ public class User extends Account {
 		authenticated = false;
 	}
 	
-	
+	public User(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+	}
+
 	public User(String firstName, String lastName, String accountType, String email, String userName, String password) {
 		super();
 		this.firstName = firstName;

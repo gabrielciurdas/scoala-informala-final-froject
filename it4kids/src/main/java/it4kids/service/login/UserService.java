@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public boolean authenticateUser(String email, String password) {
-    	LOGGER.debug("User to authenicate - email: " + email + ", password" + password);
+    	LOGGER.debug("User to authenticate - email: " + email + ", password" + password);
         return dao.authenticateUser(email, password);
     }
 
