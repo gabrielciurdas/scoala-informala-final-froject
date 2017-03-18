@@ -78,7 +78,6 @@ public class UserDAO {
 	 * @param user
 	 *            is the user to be written in the specified database.
 	 */
-
 	public void add(User user) {
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
 				"aNewPa55w0rd");
@@ -92,20 +91,22 @@ public class UserDAO {
 			stm.setString(4, user.getEmail());
 			stm.setString(5, user.getUserName());
 			stm.setString(6, user.getPassword());
+		    	    
+
 			linesWritten = stm.executeUpdate();
-			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-	public void setChildId(int childId) {
+
+	public void setChildId(int childId, int parentId) {
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
 				"aNewPa55w0rd");
 				PreparedStatement stm = conn
-						.prepareStatement("UPDATE parent SET id_child = ?" );) {
+						.prepareStatement("UPDATE parent SET id_child = ?" + "WHERE id_registered_user = ?");) {
 
 			stm.setInt(1, childId);
+			stm.setInt(2, parentId);
 			//linesWritten = stm.executeUpdate();
 			stm.executeUpdate();
 		} catch (SQLException ex) {
@@ -113,20 +114,21 @@ public class UserDAO {
 		}
 	}
 	
-	public void setParentId(int parentId) {
+	public void setParentId(int parentId, int childId) {
 		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
 				"aNewPa55w0rd");
 				PreparedStatement stm = conn
-						.prepareStatement("INSERT INTO child(id_parent)" + " values(?)");) {
+						.prepareStatement("UPDATE parent SET id_parent = ?" + "WHERE id_registered_user = ?");) {
 
 			stm.setInt(1, parentId);
+			stm.setInt(2, childId);
 			/*linesWritten = stm.executeUpdate();*/
 			stm.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * This method retrieves a list of user objects from the specified database
 	 * by creating a connection with a PostgreSQL server and using a query.

@@ -6,14 +6,16 @@ package it4kids.domain.login;
 public class TeacherAccount extends Account {
 
     public TeacherAccount(int id, int idRegisteredUser) {
-        super(id, idRegisteredUser);
+    	setId(id);
+		setIdRegisteredUser(idRegisteredUser);
     }
 
     public TeacherAccount() {
-        super();
+    	setId(0);
+		setIdRegisteredUser(0);
     }
 
     public TeacherAccount(int idRegisteredUser) {
-        super(idRegisteredUser);
+		setIdRegisteredUser(idRegisteredUser);
     }
 }

@@ -50,36 +50,32 @@ public class UserServlet extends HttpServlet {
 
 	private void addAccount(HttpServletRequest request, UserDAO user, String accountType) {
 		HttpSession session = request.getSession();
+		user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
+				request.getParameter("accountType"), request.getParameter("email"), request.getParameter("userName"),
+				request.getParameter("password")));
+
 		if (accountType.equals("PARENT")) {
-			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
-					request.getParameter("accountType"), request.getParameter("email"),
-					request.getParameter("userName"), request.getParameter("password")));
 			if (request.getParameter("accountType").equals("PARENT")) {
 				ParentAccountDAO p = new ParentAccountDAO();
-				p.add(new ParentAccount(user.getUsernameId(request.getParameter("userName"))),
-						user.getUsernameId(session.getAttribute("userName").toString()));
-				
-				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(user.getUsernameId(session.getAttribute("userName").toString())),
+				p.add(new ParentAccount(user.getUsernameId(request.getParameter("userName")),
+						user.getUsernameId(session.getAttribute("userName").toString())));
+				user.setChildId(user.getUsernameId(session.getAttribute("userName").toString()),
 						user.getUsernameId(request.getParameter("userName")));
-				
+
 			} else if (request.getParameter("accountType").equals("CHILD")) {
 				ChildAccountDAO c = new ChildAccountDAO();
 				c.add(new ChildAccount(user.getUsernameId(request.getParameter("userName"))),
 						user.getUsernameId(session.getAttribute("userName").toString()));
+				user.setChildId(user.getUsernameId(request.getParameter("userName")),
+						user.getUsernameId(session.getAttribute("userName").toString()));
 			}
-			
+
 		} else if (accountType.equals("TEACHER")) {
-			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
-					request.getParameter("accountType"), request.getParameter("email"),
-					request.getParameter("userName"), request.getParameter("password")));
 			ParentAccountDAO p = new ParentAccountDAO();
 			p.add(new ParentAccount(user.getUsernameId(request.getParameter("userName"))));
-			
-		} else if(accountType.equals("ADMIN")) {
-			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
-					request.getParameter("accountType"), request.getParameter("email"),
-					request.getParameter("userName"), request.getParameter("password")));
+			System.out.println("Parent added");
+
+		} else if (accountType.equals("ADMIN")) {
 			TeacherAccountDAO t = new TeacherAccountDAO();
 			t.add(new TeacherAccount(user.getUsernameId(request.getParameter("userName"))));
 		}

@@ -16,17 +16,17 @@ public class ChildAccount extends Account {
         super(idRegisteredUser);
         idParent = 0;
     }
+    
+    public ChildAccount(int idRegisteredUser) {
+        super(idRegisteredUser);
+    }
 
     public ChildAccount() {
         super();
         idParent = 0;
     }
 
-    public ChildAccount(int idRegisteredUser) {
-		super(idRegisteredUser);
-	}
-
-	public int getIdParent() {
+    public int getIdParent() {
         return idParent;
     }
 
