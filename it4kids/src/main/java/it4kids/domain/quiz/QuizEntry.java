@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class QuizEntry {
+public class QuizEntry extends AbstractModel{
 
 	private Builder builder;
 

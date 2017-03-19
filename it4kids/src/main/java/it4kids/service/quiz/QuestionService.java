@@ -3,14 +3,14 @@ package it4kids.service.quiz;
 import java.util.Collection;
 
 import it4kids.dao.quiz.RadioQuestionDAO;
-import it4kids.domain.quiz.RadioQuestion;
+import it4kids.domain.quiz.QuizEntry;
 
 public class QuestionService {
 
 	private RadioQuestionDAO dao;
 
 	// service 1 listAll Questions
-	public Collection<RadioQuestion> listAll() {
+	public Collection<QuizEntry> listAll() {
 		return dao.getAll();
 	}
 
@@ -25,7 +25,7 @@ public class QuestionService {
 	}
 
 	// service 4 add new question
-	public boolean addQuestion() {
+	public boolean createQuestion() {
 		return false;
 	}
 	// Completati daca mai aveti idei de alte services , aici sau in clasa
