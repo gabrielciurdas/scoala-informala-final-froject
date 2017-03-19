@@ -36,6 +36,7 @@ public class LoginController {
 	public ModelAndView userLogin() {
 		ModelAndView result = new ModelAndView("index");
 		UserLogin userLogin = new UserLogin();
+
 		result.addObject("userLogin", userLogin);
 
 		return result;
