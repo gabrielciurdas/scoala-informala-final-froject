@@ -2,7 +2,7 @@ package it4kids.service.quiz;
 
 import java.util.Collection;
 
-import it4kids.dao.quiz.QuizDAO;
+import it4kids.dao.inmemory.quiz.QuizDAO;
 import it4kids.domain.quiz.Quiz;
 
 public class QuizService {

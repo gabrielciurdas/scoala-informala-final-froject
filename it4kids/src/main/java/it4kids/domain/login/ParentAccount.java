@@ -7,22 +7,24 @@ public class ParentAccount extends Account {
     private int idChild;
 
     public ParentAccount(int id, int idRegisteredUser, int idChild) {
-        super(id, idRegisteredUser);
-        this.idChild = idChild;
+    	setId(id);
+		setIdRegisteredUser(idRegisteredUser);
+		this.idChild = idChild;
     }
 
     public ParentAccount(int idRegisteredUser, int idChild) {
-        super(idRegisteredUser);
-        idChild = 0;
+		setIdRegisteredUser(idRegisteredUser);
+		this.idChild = idChild;
     }
 
     public ParentAccount() {
-        super();
+    	setId(0);
+		setIdRegisteredUser(0);
         idChild = 0;
     }
     
     public ParentAccount(int idRegisteredUser) {
-		super(idRegisteredUser);
+		setIdRegisteredUser(idRegisteredUser);
 	}
 
     public int getIdChild() {
@@ -32,6 +34,4 @@ public class ParentAccount extends Account {
     public void setIdChild(int idChild) {
         this.idChild = idChild;
     }
-    
-
 }

@@ -2,8 +2,13 @@ package it4kids.service.quiz;
 
 import java.util.Collection;
 
+<<<<<<< HEAD
 import it4kids.dao.quiz.RadioQuestionDAO;
 import it4kids.domain.quiz.QuizEntry;
+=======
+import it4kids.dao.inmemory.quiz.RadioQuestionDAO;
+import it4kids.domain.quiz.RadioQuestion;
+>>>>>>> b9cfd0722f6983ddda5ff3e09a27a5b0eb576a45
 
 public class QuestionService {
 
