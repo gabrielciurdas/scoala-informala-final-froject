@@ -60,8 +60,11 @@
 	</dependencies>
 	<build>
 		<finalName>it4kids</finalName>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> it4kids
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
