@@ -17,11 +17,11 @@ public abstract class Account {
         this.idRegisteredUser = idRegisteredUser;
     }
 
-  
+  */
     public Account() {
         id = 0;
         idRegisteredUser = 0;
-    }*/
+    }
 
     public int getId() {
         return id;
