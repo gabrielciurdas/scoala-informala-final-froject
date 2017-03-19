@@ -4,42 +4,41 @@
  */
 package it4kids.configuration;
 
-<<<<<<< HEAD
-import it4kids.dao.UserDAO;
-import it4kids.dao.indatabase.login.RegisteredUserDAO;
-import it4kids.dao.indatabase.quiz.QuizDAO;
-import it4kids.dao.inmemory.quiz.IMQuizDAO;
-=======
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
+//<<<<<<< HEAD
 import it4kids.dao.AccountDAO;
 import it4kids.dao.UserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
+import it4kids.dao.indatabase.quiz.OptionDAO;
+import it4kids.dao.indatabase.quiz.QuizDAO;
+import it4kids.dao.indatabase.quiz.QuizEntryDAO;
 import it4kids.dao.inmemory.login.IMAccountDAO;
-import it4kids.dao.inmemory.login.IMUserDAO;
+import it4kids.dao.inmemory.quiz.IMOptionDAO;
+import it4kids.dao.inmemory.quiz.IMQuizDAO;
+import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
 import it4kids.domain.login.UserLogin;
->>>>>>> it4kids
+//>>>>>>> it4kids
 import it4kids.service.login.AccountService;
 import it4kids.service.login.UserLoginService;
 import it4kids.service.login.UserService;
+import it4kids.service.quiz.OptionService;
+import it4kids.service.quiz.QuizEntryService;
 import it4kids.service.quiz.QuizService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+//=======
 
 @Configuration
 public class ApplicationConfiguration {
 
-<<<<<<< HEAD
+	// <<<<<<< HEAD
     @Bean
-    public AccountService accountService() {
+    public AccountService accountService1() {
         return new AccountService();
     }
     
     @Bean
-    public UserService userService() {
+    public UserService userService1() {
     	return new UserService();
     }
 
@@ -49,10 +48,10 @@ public class ApplicationConfiguration {
     }
 
 	@Bean
-	public QuizService employeeService() {
+	public QuizService quizService() {
 		QuizService ems = new QuizService();
 
-		ems.setDao(quizDAO());
+		ems.setQuizDao(quizDAO());
 		return ems;
 	}
 
@@ -61,6 +60,31 @@ public class ApplicationConfiguration {
 		return new IMQuizDAO();
 	}
 
+	@Bean
+	public QuizEntryService quizEntryServiceService() {
+		QuizEntryService ems = new QuizEntryService();
+
+		ems.setQuizEntryDao(quizEntryDAO());
+		return ems;
+	}
+
+	@Bean
+	public QuizEntryDAO quizEntryDAO() {
+		return new IMQuizEntryDAO();
+	}
+
+	@Bean
+	public OptionService employeeService() {
+		OptionService ems = new OptionService();
+
+		ems.setOptionDao(optionDAO());
+		return ems;
+	}
+
+	@Bean
+	public OptionDAO optionDAO() {
+		return new IMOptionDAO();
+	}
   /*  @EnableRedisHttpSession   
     public class Config {   //Spring alternative to HttpSession from Tomcat
 
@@ -69,7 +93,7 @@ public class ApplicationConfiguration {
             return new LettuceConnectionFactory();
         }
     }*/
-=======
+	// =======
 	@Bean
 	public AccountService accountService() {
 		return new AccountService();
@@ -91,10 +115,10 @@ public class ApplicationConfiguration {
 		return new IMUserDAO();
 	}*/
 
-	@Bean
-	public RegisteredUserDAO registeredUserDAO() {
-		return new RegisteredUserDAO();
-	}
+	// @Bean
+	// public RegisteredUserDAO registeredUserDAO() {
+	// return new RegisteredUserDAO();
+	// }
 	
 	@Bean
 	public AccountDAO<UserLogin> accountDAO() {
@@ -108,5 +132,5 @@ public class ApplicationConfiguration {
 	 * @Bean public LettuceConnectionFactory connectionFactory() { return new
 	 * LettuceConnectionFactory(); } }
 	 */
->>>>>>> it4kids
+	// >>>>>>> it4kids
 }

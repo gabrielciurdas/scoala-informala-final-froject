@@ -47,11 +47,11 @@ public class QuizService {
 
 	}
 
-	public void save(Quiz employee) throws it4kids.service.ValidationException {
-		LOGGER.debug("Saving: " + employee);
-		validate(employee);
+	public void save(Quiz quiz) throws it4kids.service.ValidationException {
+		LOGGER.debug("Saving: " + quiz);
+		validate(quiz);
 
-		dao.update(employee);
+		dao.update(quiz);
 	}
 
 	private void validate(Quiz quiz) throws it4kids.service.ValidationException {
@@ -70,11 +70,11 @@ public class QuizService {
 		}
 	}
 
-	public QuizDAO getDao() {
+	public QuizDAO getQuizDao() {
 		return dao;
 	}
 
-	public void setDao(QuizDAO dao) {
+	public void setQuizDao(QuizDAO dao) {
 		this.dao = dao;
 	}
 

@@ -11,9 +11,9 @@
 
 [#list quizList as quiz]
 	<tr>
-	<td>${quiz.name!''}</td>
-	
+	<td>${quiz.name!''}  <a href ="quiz/questions">>Edit</a></td>
 	</tr>
 	
 [/#list]
-</table>
+
+
