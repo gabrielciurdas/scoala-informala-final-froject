@@ -1,6 +1,7 @@
 package it4kids.dao.indatabase.login;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import it4kids.dao.ConnectionToDB;
 import it4kids.dao.UserDAO;
 import it4kids.domain.login.Account;
 import it4kids.domain.login.User;
+import it4kids.domain.login.UserLogin;
 
 /**
  * Created by Gabi on 3/15/2017.
@@ -20,30 +22,40 @@ public class RegisteredUserDAO implements UserDAO {
 
     private ConnectionToDB db = new ConnectionToDB(); //to be aggregated by spring as a bean
     private int linesWritten = 0;
-    private String firstName = "";
+    private UserLogin userLogin = new UserLogin();
+   /* private String firstName = "";
     private String accountType = "";
-    private String username = "";
+    private String username = "";*/
 
-    public boolean authenticateUser(String email, String password) {
-        boolean isValid = false;
-        try (Connection conn = db.getDBConnection();
-             PreparedStatement stm = conn.prepareStatement("select * from registered_users where email='" + email
-                     + "' and password='" + password + "'");
-             ResultSet rs = stm.executeQuery();) {
-            if (rs.next()) {
-                isValid = true;
-                firstName = rs.getString("first_name");
-                accountType = rs.getString("account_type");
-                username = rs.getString("userName");
-            } else {
-                isValid = false;
-            }
+    public boolean authenticateUser(String userName, String password) {
+    	System.out.println("userDAO tries to authenticate " + userName);
+		boolean isValid = false;
+		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
+				"aNewPa55w0rd");
+				Statement stm = conn.createStatement();
+				ResultSet rs = stm.executeQuery("select * from registered_users where userName='" + userName
+						+ "' and password='" + password + "'");) {
+			System.out.println("connected to db");
+			if (rs.next()) {
+				isValid = true;
+				System.out.println("userName found: " + userName);
+				System.out.println("first name: " + rs.getString("first_name"));
+				userLogin.setFirstName(rs.getString("first_name"));
+				System.out.println("users first name: " + userLogin.getFirstName());
+			    userLogin.setAccountType(rs.getString("account_type"));
+			   // userLogin.setId(rs.getInt("id"));
+			    userLogin.setUserName(userName);
+			    userLogin.setPassword(password);
+			    System.out.println("query works");
+			} else {
+				isValid = false;
+			}
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return isValid;
-    }
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return isValid;
+	}
 
     public int getUsernameId(String username) {
         int id = 0;
@@ -171,7 +183,7 @@ public class RegisteredUserDAO implements UserDAO {
         return linesWritten;
     }
 
-    public String getFirstName() {
+  /*  public String getFirstName() {
         return firstName;
     }
 
@@ -181,10 +193,53 @@ public class RegisteredUserDAO implements UserDAO {
 
     public String getUsername() {
         return username;
-    }
+    }*/
+    public UserLogin getUserLogin() {
+		return userLogin;
+	}
 
 	@Override
 	public Account add(Account model, Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private static void loadDriver() {
+		try {
+			Class.forName("org.postgresql.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			System.err.println("Can't load driver. Verify CLASSPATH");
+			System.err.println(e.getMessage());
+		}
+
+	}
+
+	private static Connection newConnection(String type, String host, String port, String dbName, String user,
+			String pw) {
+
+		loadDriver();
+		DriverManager.setLoginTimeout(60); // wait 1 min; optional: DB may be
+		// busy, good to set a higher
+		// timeout
+		try {
+			String url = new StringBuilder().append("jdbc:").append(type).append("://").append(host).append(":")
+					.append(port).append("/").append(dbName).append("?user=").append(user).append("&password=")
+					.append(pw).toString();
+			return DriverManager.getConnection(url);
+		} catch (SQLException e) {
+			System.err.println("Cannot connect to the database: " + e.getMessage());
+		}
+
+		return null;
+	}
+
+	@Override
+	public Account findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Account update(Account model) {
 		// TODO Auto-generated method stub
 		return null;
 	}
