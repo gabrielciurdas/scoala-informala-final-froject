@@ -1,4 +1,4 @@
-package it4kids.dao.inmemory.quiz;
+package it4kids.dao.indatabase.quiz;
 
 import java.util.Collection;
 

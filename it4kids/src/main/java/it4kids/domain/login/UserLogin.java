@@ -1,27 +1,29 @@
 package it4kids.domain.login;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-public class UserLogin {
+public class UserLogin extends Account{
 	
-	@NotNull
-    @Size(min=4, max=30)
     private String userName;
-
-    @NotNull
-    @Size(min=5, max=30)
 	private String password;
+    private String firstName;
+    private String accountType;
+    
+	/*public UserLogin() {
+		super();
+		userName = "";
+		password = "";
+		firstName = "";
+		accountType = "";
+	}*/
 	/**
 	 * @return the userName
 	 */
-	public String getUsername() {
+	public String getUserName() {
 		return userName;
 	}
 	/**
 	 * @param userName the userName to set
 	 */
-	public void setUsername(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 	/**
@@ -39,12 +41,50 @@ public class UserLogin {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	/**
+	 * @return the accountType
+	 */
+	public String getAccountType() {
+		return accountType;
+	}
+	/**
+	 * @param accountType the accountType to set
+	 */
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	
+	public void setId(int id) {
+		super.setId(id);
+	}
+	
+	public int getId() {
+		return super.getId();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((accountType == null) ? 0 : accountType.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
 	/* (non-Javadoc)
@@ -59,18 +99,35 @@ public class UserLogin {
 		if (getClass() != obj.getClass())
 			return false;
 		UserLogin other = (UserLogin) obj;
-		if (userName == null) {
-			if (other.userName != null)
+		if (accountType == null) {
+			if (other.accountType != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!accountType.equals(other.accountType))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
 			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
 		return true;
 	}
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UserLogin [userName=" + userName + ", password=" + password + ", firstName=" + firstName
+				+ ", accountType=" + accountType + "]";
+	}
 	
 }
