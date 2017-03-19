@@ -26,4 +26,20 @@ public class IMAccountDAO<T extends Account> implements AccountDAO<T> {
 		models.put(model.getId(), model);
 		return model;
 	}
+	
+	@Override
+	public T findById(Long id) {
+
+		return models.get(id);
+	}
+	
+	@Override
+	public T update(T model) {
+		if (model.getId() <= 0) {
+			model.setId(ID.getAndIncrement());
+		}
+
+		models.put(model.getId(), model);
+		return model;
+	}
 }

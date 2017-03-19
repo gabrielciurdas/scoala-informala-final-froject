@@ -18,7 +18,7 @@ public interface UserDAO extends AccountDAO<Account> {
 
 	public void add(User user);
 
-	public boolean authenticateUser(String email, String password);
+	public boolean authenticateUser(String userName, String password);
 
 	public int getUsernameId(String username);
 

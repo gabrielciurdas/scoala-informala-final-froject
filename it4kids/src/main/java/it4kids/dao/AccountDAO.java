@@ -12,9 +12,10 @@ public interface AccountDAO<T extends Account> {
     Collection<T> getAll();
 
     T add(T model, Integer id);
+    
+    T findById(Long id);
 
+    T update(T model);
 
-    /*T update(T model);
-
-    boolean delete(T model);*/
+   /* boolean delete(T model);*/
 }
