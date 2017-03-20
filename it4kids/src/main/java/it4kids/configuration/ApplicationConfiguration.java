@@ -5,6 +5,7 @@
 package it4kids.configuration;
 
 //<<<<<<< HEAD
+//<<<<<<< HEAD
 import it4kids.dao.AccountDAO;
 import it4kids.dao.UserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
@@ -16,7 +17,7 @@ import it4kids.dao.inmemory.quiz.IMOptionDAO;
 import it4kids.dao.inmemory.quiz.IMQuizDAO;
 import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
 import it4kids.domain.login.UserLogin;
-//>>>>>>> it4kids
+//>>>>>>> origin/Gabi
 import it4kids.service.login.AccountService;
 import it4kids.service.login.UserLoginService;
 import it4kids.service.login.UserService;
@@ -26,11 +27,14 @@ import it4kids.service.quiz.QuizService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+//>>>>>>> it4kids
+//=======
 //=======
 
 @Configuration
 public class ApplicationConfiguration {
 
+//<<<<<<< HEAD
 	// <<<<<<< HEAD
     @Bean
     public AccountService accountService1() {
@@ -94,15 +98,17 @@ public class ApplicationConfiguration {
         }
     }*/
 	// =======
+//=======
+//>>>>>>> origin/Gabi
 	@Bean
 	public AccountService accountService() {
 		return new AccountService();
 	}
 
-	@Bean
-	public UserService userService() {
-		return new UserService();
-	}
+	// @Bean
+	// public UserService userService() {
+	// return new UserService();
+	// }
 
 	@Bean
 	public UserLoginService userLoginService() {
@@ -115,10 +121,17 @@ public class ApplicationConfiguration {
 		return new IMUserDAO();
 	}*/
 
+//<<<<<<< HEAD
 	// @Bean
 	// public RegisteredUserDAO registeredUserDAO() {
 	// return new RegisteredUserDAO();
 	// }
+//=======
+	@Bean
+	public RegisteredUserDAO registeredUserDAO() {
+		return new RegisteredUserDAO();
+	}
+//>>>>>>> origin/Gabi
 	
 	@Bean
 	public AccountDAO<UserLogin> accountDAO() {
@@ -132,5 +145,8 @@ public class ApplicationConfiguration {
 	 * @Bean public LettuceConnectionFactory connectionFactory() { return new
 	 * LettuceConnectionFactory(); } }
 	 */
+//<<<<<<< HEAD
 	// >>>>>>> it4kids
+//=======
+//>>>>>>> origin/Gabi
 }
