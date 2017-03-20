@@ -19,7 +19,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<a href="/login/user/admin/adminRegister.jsp">Înregistrează noi utilizatori</a>
+			<a href="admin/adminRegister">Înregistrează noi utilizatori</a>
 		</center>
 	</form>
-	<a href='/login/logout.jsp''>Delogare</a>
+	<a href="logout">Delogare</a>

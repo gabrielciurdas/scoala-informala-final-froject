@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import it4kids.dao.ConnectionToDB;
 import it4kids.dao.UserDAO;
 import it4kids.domain.login.Account;

@@ -3,6 +3,7 @@ package it4kids.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -25,6 +27,7 @@ import it4kids.service.ValidationException;
 import it4kids.service.login.UserLoginService;
 
 @Controller
+@SessionAttributes({"userName", "firstName"})
 public class UserLoginController {
 	@Autowired
 	RegisteredUserDAO userService;
@@ -34,7 +37,10 @@ public class UserLoginController {
 
 	@Autowired
 	AccountDAO<Account> userAccount;
-
+	
+/*	@Autowired
+	WebSecurityConfiguration security;
+*/
 	private List<UserLogin> userLoginList = new ArrayList<>();
 
 	// Initialize the list with some data for index screen
@@ -52,11 +58,11 @@ public class UserLoginController {
 	 * @param model
 	 * @return The index view (FTL)
 	 */
-	@RequestMapping("")
+	/*@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView showLogin() {
 
-		return new ModelAndView("login", "userLogin", new UserLogin());
-	}
+		return new ModelAndView("login", "userLogin", new UserLogin(userService.getUserLogin()));
+	}*/
 
 	@RequestMapping("/admin")
 	public ModelAndView adminMainView() {
@@ -71,7 +77,7 @@ public class UserLoginController {
 		result.addObject("userLogin", userService.getUserLogin());
 		return result;
 	}
-
+	
 	@RequestMapping("/parent")
 	public ModelAndView parentMainView() {
 		ModelAndView result = new ModelAndView("parent/parent");
@@ -85,22 +91,25 @@ public class UserLoginController {
 		result.addObject("userLogin", userService.getUserLogin());
 		return result;
 	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+/*
+	@RequestMapping("/login")
 	public ModelAndView login(@Valid @ModelAttribute("userLogin") UserLogin userLogin, BindingResult bindingResult,
 			ModelMap model) throws ValidationException {
 		ModelAndView result = null;
 		String firstName = "firstName";
 		String accountType = "accountType";
 
+		System.out.println("user to be checked: " + userLogin.getUserName());
 		System.out.println("mapping to /login started");
 		if (!bindingResult.hasErrors()) {
+			System.out.println("user checked: " + userLogin.getUserName());
 			model.addAttribute("userName", userLogin.getUserName());
 			model.addAttribute("password", userLogin.getPassword());
+			model.addAttribute("firstName", userLogin.getFirstName());
 			try {
 				user.save(userLogin);
 			} catch (ValidationException e) {
-				result = new ModelAndView("");
+				result = new ModelAndView("/login");
 				result.addObject("error", e.getMessage());
 				result.addObject("userLogin", userLogin);
 			}
@@ -123,6 +132,14 @@ public class UserLoginController {
 		userLogin.setFirstName(firstName);
 		userLogin.setAccountType(accountType);
 		if (userService.authenticateUser(userLogin.getUserName(), userLogin.getPassword())) {
+			System.out.println("user authenticated: " + userLogin.getUserName());
+			AuthenticationManagerBuilder auth = null;
+			try {
+				security.configureGlobal(auth, this.userService);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			firstName = userService.getUserLogin().getFirstName();
 			accountType = AccountType.valueOf(userService.getUserLogin().getAccountType().toString()).name();
 
@@ -133,12 +150,19 @@ public class UserLoginController {
 		}
 		// }
 
-		/*
+		
 		 * catch (ValidationException e) { result = new ModelAndView("");
 		 * result.addObject("error", e.getMessage());
 		 * result.addObject("userLogin", userLogin); }
-		 */
+		 
 		System.out.println("about to return with an error message");
+		return result;
+	}*/
+	
+	@RequestMapping("**/logout")
+	public ModelAndView logOut(HttpSession session) {
+		session.invalidate();
+		ModelAndView result = new ModelAndView("login", "userLogin", new UserLogin(userService.getUserLogin()));
 		return result;
 	}
 }

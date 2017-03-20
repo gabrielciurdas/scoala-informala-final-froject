@@ -1,7 +1,11 @@
 [#ftl]
 
+[#if userLogin??]
+
+
 <form method="post" action="/login/LoginServlet" onsubmit="">
 		<h3>Bine ai venit, ${userLogin.userName}!</h3>
+		<h3>your first name is, ${userLogin.firstName}!</h3>
 		<center>
 			<table border="0" width="40	%" cellpadding="4">
 				<tbody>
@@ -21,3 +25,4 @@
 		</center>
 		<a href="logout">Delogare</a>
 	</form>
+[/#if]

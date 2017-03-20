@@ -7,16 +7,23 @@ public class UserLogin extends Account{
     private String firstName;
     private String accountType;
     
-	/*public UserLogin() {
+	public UserLogin() {
 		super();
 		userName = "";
 		password = "";
 		firstName = "";
 		accountType = "";
-	}*/
+	}
 	/**
 	 * @return the userName
 	 */
+    public UserLogin(UserLogin userLogin) {
+    	this.userName = userLogin.userName;
+    	this.password = userLogin.password;
+    	this.firstName = userLogin.firstName;
+    	this.accountType = userLogin.accountType;
+    }
+    
 	public String getUserName() {
 		return userName;
 	}

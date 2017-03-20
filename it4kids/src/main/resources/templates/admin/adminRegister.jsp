@@ -54,7 +54,7 @@
 				</tbody>
 			</table>
 		</center>
-		<h5><a href='Admin.jsp'>Înapoi la pagina principală</h5>
+		<h5><a href="/admin">Înapoi la pagina principală</h5>
 	</form>
 </body>
 </html>
