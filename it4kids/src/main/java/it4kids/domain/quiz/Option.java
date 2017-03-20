@@ -1,26 +1,17 @@
 package it4kids.domain.quiz;
 
 /**
- * Clasa asta reprezinta intrebarea care se pune plus lista de raspunsuri aferente ei.
+ * Clasa asta reprezinta varianta de raspuns creeata de profesor, cand va fi
+ * pasata elevului el va vedea doar textul.
  * 
  * @author Catalin
  * 
  */
-import java.util.ArrayList;
-import java.util.List;
 
-public class QuizEntry extends AbstractModel {
+public class Option extends AbstractModel {
 
-	private List<Option> option = new ArrayList<>();
 	private String text;
-
-	public List<Option> getOption() {
-		return option;
-	}
-
-	public void setOption(List<Option> option) {
-		this.option = option;
-	}
+	private Boolean correct;
 
 	public String getText() {
 		return text;
@@ -30,11 +21,24 @@ public class QuizEntry extends AbstractModel {
 		this.text = text;
 	}
 
+	public Boolean getCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(Boolean correct) {
+		this.correct = correct;
+	}
+
+	@Override
+	public String toString() {
+		return "Option [text=" + text + ", correct=" + correct + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((option == null) ? 0 : option.hashCode());
+		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
 	}
@@ -47,11 +51,11 @@ public class QuizEntry extends AbstractModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		QuizEntry other = (QuizEntry) obj;
-		if (option == null) {
-			if (other.option != null)
+		Option other = (Option) obj;
+		if (correct == null) {
+			if (other.correct != null)
 				return false;
-		} else if (!option.equals(other.option))
+		} else if (!correct.equals(other.correct))
 			return false;
 		if (text == null) {
 			if (other.text != null)
@@ -60,6 +64,5 @@ public class QuizEntry extends AbstractModel {
 			return false;
 		return true;
 	}
-
 
 }
