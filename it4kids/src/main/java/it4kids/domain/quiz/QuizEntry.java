@@ -9,17 +9,29 @@ package it4kids.domain.quiz;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class QuizEntry extends AbstractModel {
 
-	private List<Option> option = new ArrayList<>();
+	@NotNull
+	@NotEmpty
 	private String text;
+	private Option options;
+	@NotNull
+	private String correctAnswer;
 
-	public List<Option> getOption() {
-		return option;
+	public void setCorrectAnswer() {
+
 	}
 
-	public void setOption(List<Option> option) {
-		this.option = option;
+	public Option getOption() {
+		return options;
+	}
+
+	public void setOption(Option option) {
+		this.options = option;
 	}
 
 	public String getText() {
@@ -34,7 +46,7 @@ public class QuizEntry extends AbstractModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((option == null) ? 0 : option.hashCode());
+		result = prime * result + ((options == null) ? 0 : options.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
 	}
@@ -48,10 +60,10 @@ public class QuizEntry extends AbstractModel {
 		if (getClass() != obj.getClass())
 			return false;
 		QuizEntry other = (QuizEntry) obj;
-		if (option == null) {
-			if (other.option != null)
+		if (options == null) {
+			if (other.options != null)
 				return false;
-		} else if (!option.equals(other.option))
+		} else if (!options.equals(other.options))
 			return false;
 		if (text == null) {
 			if (other.text != null)
@@ -61,5 +73,9 @@ public class QuizEntry extends AbstractModel {
 		return true;
 	}
 
-
 }
+
+// <#-- Set Options: <input name = "option"
+// value="${quizEntry.fields[option]!''}" />
+// Set Correct Answer: <input name = "correctAnswer"
+// value="${quizEntry.correctAnswer!''}" /> -->

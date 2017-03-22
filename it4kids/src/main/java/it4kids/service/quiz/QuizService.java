@@ -15,8 +15,7 @@ import org.springframework.util.StringUtils;
 
 @Service
 public class QuizService {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(QuizService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
 	@Autowired
 	private QuizDAO dao;
@@ -65,8 +64,7 @@ public class QuizService {
 		}
 
 		if (!errors.isEmpty()) {
-			throw new it4kids.service.ValidationException(
-					errors.toArray(new String[] {}));
+			throw new it4kids.service.ValidationException(errors.toArray(new String[] {}));
 		}
 	}
 
@@ -78,25 +76,4 @@ public class QuizService {
 		this.dao = dao;
 	}
 
-	// // service 1 , listeaza toate quizurile disponibile.
-	// public Collection<Quiz> listAll() {
-	// return dao.getAll();
-	// }
-	//
-	// // service 2 delete quiz
-	// public boolean deleteQuiz() {
-	// return false;
-	// }
-	//
-	// // service 3 create quiz
-	// public boolean createQuiz() {
-	// return false;
-	// }
-	//
-	// // service 4 edit quiz ? (despre asta nu-s sigur , s-ar putea sa fie de
-	// // ajuns daca avem edit question pentru fiecare quiz in parte)
-	// // sau ar putea fi editat numele , timpul , etc.
-	// public boolean editQuiz() {
-	// return false;
-	// }
 }

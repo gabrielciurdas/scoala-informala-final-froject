@@ -10,15 +10,15 @@ package it4kids.domain.quiz;
 
 public class Option extends AbstractModel {
 
-	private String text;
+	private String optionText;
 	private Boolean correct;
 
 	public String getText() {
-		return text;
+		return optionText;
 	}
 
 	public void setText(String text) {
-		this.text = text;
+		this.optionText = text;
 	}
 
 	public Boolean getCorrect() {
@@ -31,7 +31,7 @@ public class Option extends AbstractModel {
 
 	@Override
 	public String toString() {
-		return "Option [text=" + text + ", correct=" + correct + "]";
+		return "Option [text=" + optionText + ", correct=" + correct + "]";
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class Option extends AbstractModel {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
-		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
 		return result;
 	}
 
@@ -57,10 +57,10 @@ public class Option extends AbstractModel {
 				return false;
 		} else if (!correct.equals(other.correct))
 			return false;
-		if (text == null) {
-			if (other.text != null)
+		if (optionText == null) {
+			if (other.optionText != null)
 				return false;
-		} else if (!text.equals(other.text))
+		} else if (!optionText.equals(other.optionText))
 			return false;
 		return true;
 	}
