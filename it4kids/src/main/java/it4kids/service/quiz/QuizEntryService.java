@@ -62,7 +62,7 @@ public class QuizEntryService {
 
 
 		if (quizEntry.getOption() == null) {
-			errors.add("There are no answears");
+			errors.add("There are no answers");
 		}
 
 		if (!errors.isEmpty()) {

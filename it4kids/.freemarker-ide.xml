@@ -1,0 +1,7 @@
+<config>
+	<context-values>
+	</context-values>
+	<macro-library>
+		<entry namespace="add" path="src/main/resources/templates/quiz/add.ftl" project="it4kids" type="file"/>
+	</macro-library>
+</config>

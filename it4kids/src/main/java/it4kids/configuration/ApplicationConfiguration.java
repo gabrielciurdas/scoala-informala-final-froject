@@ -20,7 +20,6 @@ import it4kids.domain.login.UserLogin;
 import it4kids.service.login.AccountService;
 import it4kids.service.login.UserLoginService;
 import it4kids.service.login.UserService;
-import it4kids.service.quiz.OptionService;
 import it4kids.service.quiz.QuizEntryService;
 import it4kids.service.quiz.QuizService;
 
@@ -32,27 +31,27 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfiguration {
 
 	// <<<<<<< HEAD
-    @Bean
-    public AccountService accountService1() {
-        return new AccountService();
-    }
-    
-    @Bean
-    public UserService userService1() {
-    	return new UserService();
-    }
+	@Bean
+	public AccountService accountService1() {
+		return new AccountService();
+	}
 
-    @Bean
-    public UserDAO userDAO() {
-        return new RegisteredUserDAO();
-    }
+	@Bean
+	public UserService userService1() {
+		return new UserService();
+	}
+
+	@Bean
+	public UserDAO userDAO() {
+		return new RegisteredUserDAO();
+	}
 
 	@Bean
 	public QuizService quizService() {
-		QuizService ems = new QuizService();
+		QuizService qs = new QuizService();
 
-		ems.setQuizDao(quizDAO());
-		return ems;
+		qs.setQuizDao(quizDAO());
+		return qs;
 	}
 
 	@Bean
@@ -62,10 +61,10 @@ public class ApplicationConfiguration {
 
 	@Bean
 	public QuizEntryService quizEntryServiceService() {
-		QuizEntryService ems = new QuizEntryService();
+		QuizEntryService qes = new QuizEntryService();
 
-		ems.setQuizEntryDao(quizEntryDAO());
-		return ems;
+		qes.setQuizEntryDao(quizEntryDAO());
+		return qes;
 	}
 
 	@Bean
@@ -74,26 +73,10 @@ public class ApplicationConfiguration {
 	}
 
 	@Bean
-	public OptionService employeeService() {
-		OptionService ems = new OptionService();
-
-		ems.setOptionDao(optionDAO());
-		return ems;
-	}
-
-	@Bean
 	public OptionDAO optionDAO() {
 		return new IMOptionDAO();
 	}
-  /*  @EnableRedisHttpSession   
-    public class Config {   //Spring alternative to HttpSession from Tomcat
 
-        @Bean
-        public LettuceConnectionFactory connectionFactory() {
-            return new LettuceConnectionFactory();
-        }
-    }*/
-	// =======
 	@Bean
 	public AccountService accountService() {
 		return new AccountService();
@@ -108,29 +91,10 @@ public class ApplicationConfiguration {
 	public UserLoginService userLoginService() {
 		return new UserLoginService();
 	}
-	
-	/*@Bean
-	@Qualifier("UserLoginService")
-	public UserDAO userDAO() {
-		return new IMUserDAO();
-	}*/
 
-	// @Bean
-	// public RegisteredUserDAO registeredUserDAO() {
-	// return new RegisteredUserDAO();
-	// }
-	
 	@Bean
 	public AccountDAO<UserLogin> accountDAO() {
 		return new IMAccountDAO<>();
 	}
 
-	/*
-	 * @EnableRedisHttpSession public class Config { //Spring alternative to
-	 * HttpSession from Tomcat
-	 * 
-	 * @Bean public LettuceConnectionFactory connectionFactory() { return new
-	 * LettuceConnectionFactory(); } }
-	 */
-	// >>>>>>> it4kids
 }
