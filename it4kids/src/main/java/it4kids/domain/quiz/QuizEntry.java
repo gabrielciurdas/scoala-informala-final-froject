@@ -13,6 +13,7 @@ public class QuizEntry extends AbstractModel {
 
 	private List<Option> option = new ArrayList<>();
 	private String text;
+	private String correctAnswer;
 
 	public List<Option> getOption() {
 		return option;

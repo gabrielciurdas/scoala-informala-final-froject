@@ -11,7 +11,7 @@ package it4kids.domain.quiz;
 public class Option extends AbstractModel {
 
 	private String text;
-	private Boolean correct;
+		
 
 	public String getText() {
 		return text;
@@ -20,25 +20,17 @@ public class Option extends AbstractModel {
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	public Boolean getCorrect() {
-		return correct;
-	}
-
-	public void setCorrect(Boolean correct) {
-		this.correct = correct;
-	}
+	
 
 	@Override
 	public String toString() {
-		return "Option [text=" + text + ", correct=" + correct + "]";
+		return "Option [text=" + text + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
+		int result = 1;		
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
 	}
@@ -52,17 +44,18 @@ public class Option extends AbstractModel {
 		if (getClass() != obj.getClass())
 			return false;
 		Option other = (Option) obj;
-		if (correct == null) {
-			if (other.correct != null)
-				return false;
-		} else if (!correct.equals(other.correct))
-			return false;
+		
 		if (text == null) {
 			if (other.text != null)
 				return false;
 		} else if (!text.equals(other.text))
 			return false;
 		return true;
+	}
+
+	public String getCorrect() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,12 +1,5 @@
 package it4kids.web;
 
-<<<<<<< HEAD
-/**
- * Created by Andrei on 18.03.2017.
- */
-public class QuizController {
-}
-=======
 import it4kids.domain.quiz.Option;
 import it4kids.domain.quiz.Quiz;
 import it4kids.domain.quiz.QuizEntry;
@@ -29,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @RequestMapping("/quiz")
 public class QuizController {
+	private long id;
 
 	@Autowired
 	private QuizService quizService;
@@ -47,19 +41,28 @@ public class QuizController {
 
 	}
 
-	@RequestMapping("/add")
+	@RequestMapping("add")
 	public ModelAndView add() {
 		ModelAndView result = new ModelAndView("quiz/add");
 		result.addObject("quiz", new Quiz());
 		return result;
 	}
+	
+//	@RequestMapping("edit")
+//	public ModelAndView edit(long id) {
+//		ModelAndView result = new ModelAndView("quiz/edit");
+//		result.addObject("quiz", new Quiz());
+//		return result;
+//	}
 
-	@RequestMapping("/save")
+	@RequestMapping("save")
 	public ModelAndView saveQuiz(Quiz quiz, BindingResult bindingresult) {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
+				id++;
+				quiz.setId(id);
 				quizService.save(quiz);
 				result = new ModelAndView();
 				result.setView(new RedirectView("/quiz"));
@@ -201,4 +204,3 @@ public class QuizController {
 		return result;
 	}
 }
->>>>>>> c4876b05dbdf35f3d619335d19ecbbf2918b35c8

@@ -64,10 +64,6 @@ public class OptionService {
 			errors.add("There are no questions");
 		}
 
-		// if (option.getCorrect() == null) {
-		// errors.add("There are no answears");
-		// }
-
 		if (!errors.isEmpty()) {
 			throw new it4kids.service.ValidationException(
 					errors.toArray(new String[] {}));
