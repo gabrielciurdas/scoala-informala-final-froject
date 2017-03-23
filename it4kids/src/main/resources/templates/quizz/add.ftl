@@ -7,7 +7,7 @@
 Quiz Name: <input name = "name" value="${quiz.name!''}" />
 <br>
 
-<input type="hiden" name="id" value="${quiz.id?c}" />
+<input type="hiden" name="id" value="${quiz.id!''}" />
 <br>
 
 <input type="hiden" name="id" value="${quizEntry.id?c}" />

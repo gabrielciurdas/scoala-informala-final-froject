@@ -45,23 +45,23 @@ public class QuizEntryService {
 
 	}
 
-	public void save(QuizEntry quizEntry)
+	public void save(QuizEntry list)
 			throws it4kids.service.ValidationException {
-		LOGGER.debug("Saving: " + quizEntry);
-		validate(quizEntry);
+		LOGGER.debug("Saving: " + list);
+		validate(list);
 
-		dao.update(quizEntry);
+		dao.update(list);
 	}
 
-	private void validate(QuizEntry quizEntry)
+	private void validate(QuizEntry list)
 			throws it4kids.service.ValidationException {
 		List<String> errors = new LinkedList<String>();
-		if (StringUtils.isEmpty(quizEntry.getClass())) {
+		if (StringUtils.isEmpty(list.getClass())) {
 			errors.add("There is no question");
 		}
 
 
-		if (quizEntry.getOption() == null) {
+		if (list.getOption() == null) {
 			errors.add("There are no answears");
 		}
 
