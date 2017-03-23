@@ -10,8 +10,8 @@ package it4kids.domain;
 public abstract class AbstractModel {
 	private long id;
 
-	public long getId() {
-		return id;
+	public int getId() {
+		return (int) id;
 	}
 
 	public void setId(long id) {

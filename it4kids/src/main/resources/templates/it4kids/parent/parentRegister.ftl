@@ -1,6 +1,6 @@
 [#ftl]
 
-<form method="post" action="/login/UserServlet"
+<form method="post" action="/parent/parentRegister/register"
 		onsubmit="return checkUserRegistration()">
 		<center>
 			<table border="1" width="30%" cellpadding="5">

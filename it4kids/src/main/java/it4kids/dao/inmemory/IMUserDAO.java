@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 import org.springframework.util.StringUtils;
 
-import it4kids.dao.UserDAO;
+import it4kids.dao.inmemory.login.UserDAO;
 import it4kids.domain.login.User;
 
 public class IMUserDAO extends IMBaseDAO<User> implements UserDAO {

@@ -1,8 +1,13 @@
 package it4kids.service.login;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import it4kids.dao.inmemory.IMUserDAO;
-import it4kids.domain.UserLogin;
+import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
+import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
 
@@ -23,19 +28,25 @@ public class UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    private IMUserDAO dao;
-
+    private JdbcTemplateUserDAO dao;
+    
+    @Autowired
+    private RegisteredUserDAO registeredUserDAO;
+    
     public Collection<User> listAll() {
     	LOGGER.debug("Listing users ");
         return dao.getAll();
     }
     
-  /*  @Qualifier("userDAO")
     public void save(User user) throws ValidationException {
     	LOGGER.debug("Saving user: " + user);
-    	validate(user);
-    	dao.add(user);
-    }*/
+    	//validate(user);
+    	registeredUserDAO.add(user);
+    }
+    
+    public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	dao.add(req, resp);
+    }
     
     public User get(Long id) {
 		LOGGER.debug("Getting user for id: " + id);
@@ -53,12 +64,12 @@ public class UserService {
         return dao.searchByName(userName);
     }
 
-    public boolean usernameAvailable(String userName) {
+/*    public boolean usernameAvailable(String userName) {
     	LOGGER.debug("Username checked for availability: " + userName);
         return dao.usernameAvailable(userName);
-    }
+    }*/
 
-    public void setChildId(int childId) {
+    /*public void setChildId(int childId) {
     	LOGGER.debug("Child id to be set: " + childId);
         dao.setChildId(childId);
     }
@@ -66,7 +77,7 @@ public class UserService {
     public void setParentId(int parentId) {
     	LOGGER.debug("Parent id to be set: " + parentId);
         dao.setParentId(parentId);
-    }
+    }*/
     
     private void validate(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();

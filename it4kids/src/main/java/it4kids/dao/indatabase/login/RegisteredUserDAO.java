@@ -1,25 +1,19 @@
-/*package it4kids.dao.indatabase.login;
+package it4kids.dao.indatabase.login;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import it4kids.dao.BaseDAO;
 import it4kids.dao.ConnectionToDB;
-import it4kids.dao.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.Account;
 import it4kids.domain.login.User;
 
-*//**
+/**
  * Created by Gabi on 3/15/2017.
- *//*
-public class RegisteredUserDAO implements BaseDAO<Account> {
+ */
+public class RegisteredUserDAO {
 
     private ConnectionToDB db = new ConnectionToDB(); //to be aggregated by spring as a bean
     private int linesWritten = 0;
@@ -45,11 +39,13 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
         return id;
     }
 
-    public boolean usernameAvailable(String username) {
+    public boolean usernameAvailable(String userName) {
         boolean isAvailable = false;
+        System.out.println("it's the connection?");
         try (Connection conn = db.getDBConnection();
              PreparedStatement stm = conn.prepareStatement("select * from registered_users where username='" + username + "'");
              ResultSet rs = stm.executeQuery();) {
+        	System.out.println("connected to db");
             if (rs.next()) {
                 isAvailable = false;
             } else {
@@ -59,16 +55,17 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        System.out.println(isAvailable);
         return isAvailable;
     }
 
-  *//**
+  /**
      * This method writes a User object in the specified database by creating a
      * connection with a PostgreSQL server and using a query.
      *
      * @param user
      *            is the user to be written in the specified database.
-     *//*
+     */
 
     public void add(User user) {
         try (Connection conn = db.getDBConnection();
@@ -76,6 +73,9 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
                      .prepareStatement("INSERT INTO registered_users(first_name, last_name, account_type," +
                              " email, username, password, regdate)" + " values(?,?,?,?,?,?,CURRENT_TIMESTAMP)");) {
 
+        	System.out.println("adding user..." + user.getFirstName());
+        	System.out.println("his account type.." + user.getAccountType());
+        	
             stm.setString(1, user.getFirstName());
             stm.setString(2, user.getLastName());
             stm.setString(3, user.getAccountType());
@@ -83,6 +83,7 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
             stm.setString(5, user.getUserName());
             stm.setString(6, user.getPassword());
             linesWritten = stm.executeUpdate();
+            System.out.println("lines written = " + linesWritten);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -114,13 +115,13 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
         }
     }
 
-    *//**
+    /**
      * This method retrieves a list of user objects from the specified database
      * by creating a connection with a PostgreSQL server and using a query.
      *
      * @return the list of User objects.
-     *//*
-    public Collection<Account> getAll() {
+     */
+ /*   public Collection<Account> getAll() {
         Collection<Account> result = new ArrayList<>();
 
         try (Connection conn = db.getDBConnection(); Statement stm = conn.createStatement();
@@ -145,7 +146,7 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
         }
 
         return result;
-    }
+    }*/
 
     public Account add(Account account, int id) {
         return null;
@@ -174,7 +175,7 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	private static void loadDriver() {
+	/*private static void loadDriver() {
 		try {
 			Class.forName("org.postgresql.Driver").newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -201,9 +202,9 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
 		}
 
 		return null;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public Collection<Account> getAll() {
 		// TODO Auto-generated method stub
 		return null;
@@ -237,6 +238,5 @@ public class RegisteredUserDAO implements BaseDAO<Account> {
 	public Account update(Account model) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 }
-*/

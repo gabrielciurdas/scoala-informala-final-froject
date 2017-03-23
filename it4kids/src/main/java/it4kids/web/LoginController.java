@@ -11,14 +11,14 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.AccountType;
-import it4kids.service.login.UserLoginService;
+import it4kids.service.login.LoginService;
 
 @Controller
 @RequestMapping("/login")
 public class LoginController {
 
 	@Autowired
-	UserLoginService userLoginService;
+	LoginService userLoginService;
 
 	@RequestMapping("")
 	public ModelAndView login() {
@@ -37,12 +37,13 @@ public class LoginController {
 		if (userLoginService.isRegistered(userName, password)) {
 			UserLogin user = new UserLogin();
 			user.setUserName(userName);
-
+			
 			System.out.println("got so far ");
 			System.out.println(
 					"actually this is the account type: " + userLoginService.getJdbcTemplate().getAccountType());
 			accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString().toLowerCase();
-			System.out.println("emai is " + userLoginService.getJdbcTemplate().getEmail());
+			user.setAccountType(accountType);
+			System.out.println("email is " + userLoginService.getJdbcTemplate().getEmail());
 			System.out.println(userLoginService.getJdbcTemplate().getAccountType());
 			System.out.println("account is: " + accountType);
 			request.getSession().setAttribute("currentUser", user);

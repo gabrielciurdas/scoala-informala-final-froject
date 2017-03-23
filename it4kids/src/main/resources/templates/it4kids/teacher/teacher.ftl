@@ -1,6 +1,6 @@
 [#ftl]
 
-<form method="post" action="/teacher/view">
+<form method="post" action="/teacher/teacherRegister/register">
 		<h3>Bine ai venit, ${currentUser.userName}!</h3>
 		<center>
 			<table border="0" width="40	%" cellpadding="4">

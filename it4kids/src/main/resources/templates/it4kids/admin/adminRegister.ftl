@@ -1,8 +1,6 @@
 [#ftl]
-<h3
-<form method="post" action="/admin/register"
-		onsubmit="return checkUserRegistration()">
-		<h3>your first name is, ${currentUser.userName}!</h3>
+
+<form action="/admin/adminRegister/register" method="post">
 		<center>
 			<table border="1" width="30%" cellpadding="5">
 				<thead>

@@ -15,7 +15,7 @@ import it4kids.dao.AccountDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.domain.login.Account;
 import it4kids.domain.login.UserLogin;
-import it4kids.service.login.UserLoginService;
+import it4kids.service.login.LoginService;
 
 //@Controller
 @SessionAttributes({"username"})
@@ -24,7 +24,7 @@ public class UserLoginController {
 	RegisteredUserDAO userService;
 
 	@Autowired
-	private UserLoginService user;
+	private LoginService user;
 
 	@Autowired
 	AccountDAO<Account> userAccount;
@@ -152,4 +152,4 @@ public class UserLoginController {
 		return result;
 	}
 }
-*/*/
+*/
