@@ -1,9 +1,8 @@
 [#ftl]
-
-<form method="post" action="/login/UserServlet"
+<h3
+<form method="post" action="/admin/register"
 		onsubmit="return checkUserRegistration()">
-		<h3>Indeed, ${userLogin.userName}, you are still in session..</h3>
-		<h3>I guess your first name is ${userLogin.firstName}</h3>
+		<h3>your first name is, ${currentUser.userName}!</h3>
 		<center>
 			<table border="1" width="30%" cellpadding="5">
 				<thead>
@@ -23,8 +22,9 @@
 					<tr>
 						<td>Tip de cont</td>
 						<td><select name="accountType">
-								<option value="PARENT">Părinte</option>
-								<option value="CHILD">Copil</option>
+								<option value="TEACHER">Învățător</option>
+								<!-- <option value="PARENT">Părinte</option>
+								<option value="CHILD">Copil</option> -->
 						</select></td>
 					</tr>
 					<tr>
@@ -48,5 +48,5 @@
 				</tbody>
 			</table>
 		</center>
-		<h5><a href="/parent">Înapoi la pagina principală</h5>
+		<h5><a href="/admin/admin">Înapoi la pagina principală</h5>
 	</form>

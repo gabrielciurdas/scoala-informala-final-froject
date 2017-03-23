@@ -1,12 +1,12 @@
-package it4kids.dao;
+package it4kids;
 
-import java.util.Collection;
+/*import java.util.Collection;
 
 import it4kids.domain.login.Account;
 
-/**
+*//**
  * Created by Gabi on 3/15/2017.
- */
+ *//*
 public interface AccountDAO<T extends Account> {
 
     Collection<T> getAll();
@@ -17,5 +17,5 @@ public interface AccountDAO<T extends Account> {
 
     T update(T model);
 
-   /* boolean delete(T model);*/
-}
+    boolean delete(T model);
+}*/

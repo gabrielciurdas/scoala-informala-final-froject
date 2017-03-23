@@ -1,11 +1,11 @@
-package it4kids.domain.quiz;
+/*package it4kids.domain.quiz;
 
-/**
+*//**
  * Clasa pt quiz , nu stiu daca field-urile sunt corecte
  * 
  * @author Flaviu
  *
- */
+ *//*
 public class Quiz extends AbstractModel {
 
 	private int numberOfQuestions;
@@ -24,3 +24,4 @@ public class Quiz extends AbstractModel {
 	}
 
 }
+*/

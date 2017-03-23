@@ -7,14 +7,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import it4kids.dao.UserDAO;
-import it4kids.domain.login.Account;
+import it4kids.dao.inmemory.IMUserDAO;
+import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
-import it4kids.domain.login.UserLogin;
 import it4kids.service.ValidationException;
 
 /**
@@ -25,34 +23,34 @@ public class UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    private UserDAO dao;
+    private IMUserDAO dao;
 
-    public Collection<Account> listAll() {
+    public Collection<User> listAll() {
     	LOGGER.debug("Listing users ");
         return dao.getAll();
     }
     
-    @Qualifier("userDAO")
+  /*  @Qualifier("userDAO")
     public void save(User user) throws ValidationException {
     	LOGGER.debug("Saving user: " + user);
     	validate(user);
     	dao.add(user);
-    }
+    }*/
     
-    public UserLogin get(Long id) {
+    public User get(Long id) {
 		LOGGER.debug("Getting user for id: " + id);
-		return (UserLogin) dao.findById(id);
+		return dao.findById(id);
 
 	}
 
     public boolean authenticateUser(String userName, String password) {
     	LOGGER.debug("User to authenticate - userName: " + userName + ", password" + password);
-        return dao.authenticateUser(userName, password);
+        return dao.userIsRegistered(userName, password);
     }
 
-    public int getUsernameId(String userName) {
+    public Collection<User> searchByName(String userName) {
     	LOGGER.debug("User name to obtain: " + userName);
-        return dao.getUsernameId(userName);
+        return dao.searchByName(userName);
     }
 
     public boolean usernameAvailable(String userName) {

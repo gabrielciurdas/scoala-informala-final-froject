@@ -1,7 +1,7 @@
 [#ftl]
 
-<form method="post" action="login/LoginServlet" onsubmit="">
-		<h3>Bine ai venit, ${userLogin.userName}!</h3>
+<form method="post" action="/admin/adminRegister">
+		<h3>Bine ai venit, ${currentUser.userName}!</h3>
 		<center>
 			<table border="0" width="40	%" cellpadding="4">
 				<tbody>
@@ -19,7 +19,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<a href="admin/adminRegister">Înregistrează noi utilizatori</a>
+			<a href="/admin/adminRegister">Înregistrează noi utilizatori</a>
 		</center>
 	</form>
-	<a href="logout">Delogare</a>
+	<a href="/admin/logout">Delogare</a>

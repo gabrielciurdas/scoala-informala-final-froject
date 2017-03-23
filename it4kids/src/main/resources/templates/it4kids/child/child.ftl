@@ -1,7 +1,7 @@
 [#ftl]
 
-<form method="post" action="/login/LoginServlet" onsubmit="">
-		<h3>Bine ai venit, ${userLogin.userName}!</h3>
+<form method="post" action="/child/quiz" onsubmit="">
+		<h3>Bine ai venit, ${currentUser.userName}!</h3>
 		<center>
 			<table border="0" width="40	%" cellpadding="4">
 				<tbody>
@@ -13,10 +13,10 @@
 					<tr>
 						<td><input type="submit" value="Începe" /></td>
 						<td><input type="submit" value="Începe" /></td>
-						<td><a href="/child/Quiz.jsp">Începe</a></td>
+						<td><a href="/child/Quiz">Începe</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</center>
 	</form>
-	<a href='logout.jsp'>Delogare</a>
+	<a href="/child/logout">Delogare</a>

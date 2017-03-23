@@ -1,4 +1,4 @@
-package it4kids.dao.inmemory.quiz;
+/*package it4kids.dao.inmemory;
 
 import java.util.Collection;
 
@@ -10,3 +10,4 @@ public interface QuizDAO extends BaseDAO<Quiz> {
 	Collection<Quiz> searchByName(String query);
 
 }
+*/

@@ -8,8 +8,8 @@
 	<div class="lc-block">
 		<h1>Welcome!</h1>
 		<div class="alert-normal">
-			Click <a href="/hello" />"here</a> to see a
-			greeting.
+		 <a href="/login" />"Click here to</a> login
+			
 		</div>
 	</div>
 </center>

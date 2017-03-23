@@ -1,4 +1,4 @@
-package it4kids.configuration;
+/*package it4kids.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 	  http.authorizeRequests()
-		.antMatchers("/hello").access("hasRole('ADMIN')")		
 		.anyRequest().permitAll()
 		.and()
 		  .formLogin().loginPage("/login")
@@ -45,4 +44,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     	return new BCryptPasswordEncoder();
     }
 
-}
+}*/

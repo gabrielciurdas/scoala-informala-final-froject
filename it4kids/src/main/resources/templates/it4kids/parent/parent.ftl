@@ -1,11 +1,7 @@
 [#ftl]
 
-[#if userLogin??]
-
-
-<form method="post" action="/login/LoginServlet" onsubmit="">
-		<h3>Bine ai venit, ${userLogin.userName}!</h3>
-		<h3>your first name is, ${userLogin.firstName}!</h3>
+<form method="post" action="/parent/view" onsubmit="">
+		<h3>Bine ai venit, ${currentUser.userName}!</h3>
 		<center>
 			<table border="0" width="40	%" cellpadding="4">
 				<tbody>
@@ -21,8 +17,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<a href="parent/parentRegister">Înregistrați părinți sau copii</a>
+			<a href="/parent/parentRegister">Înregistrați părinți sau copii</a>
 		</center>
-		<a href="logout">Delogare</a>
+		<a href="/parent/logout">Delogare</a>
 	</form>
-[/#if]

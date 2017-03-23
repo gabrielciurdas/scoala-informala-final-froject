@@ -1,4 +1,4 @@
-package it4kids.configuration;
+/*package it4kids.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,3 +27,4 @@ public class AuthenticationConfiguration {
     	return jdbcImpl;
     }
 }
+*/

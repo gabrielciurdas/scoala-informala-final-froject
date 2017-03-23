@@ -1,4 +1,4 @@
-package it4kids.domain.quiz;
+package it4kids.domain;
 
 /**
  * Abstract modelul asta e ca si al lui sebi , banuiesc ca si noi avem nevoie de

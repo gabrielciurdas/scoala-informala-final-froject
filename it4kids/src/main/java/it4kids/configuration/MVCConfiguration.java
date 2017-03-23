@@ -1,4 +1,4 @@
-package it4kids.configuration;
+/*package it4kids.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -9,21 +9,24 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-    	 registry.addViewController("/home").setViewName("home");
-         registry.addViewController("/").setViewName("login");
-         registry.addViewController("/hello").setViewName("hello");
-         registry.addViewController("/login").setViewName("login");
+          registry.addViewController("/home").setViewName("home");
+          registry.addViewController("/").setViewName("login");
+          registry.addViewController("/hello").setViewName("hello");
+          registry.addViewController("/login").setViewName("login");
+          registry.addViewController("/admin").setViewName("admin/Admin");
+          registry.addViewController("/adminRegister").setViewName("admin/adminRegister");
+          registry.addViewController("/403").setViewName("403");
     }
 
-  /*  @Bean
+    @Bean
    	public InternalResourceViewResolver viewResolver() {
    		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-   		resolver.setPrefix("/WEB-INF/jsp/");
+   		resolver.setPrefix("/WEB-INF/it4kids/");
    		resolver.setSuffix(".jsp");
    		return resolver;
-   	}*/
+   	}
     
-    /*@Bean
+    @Bean
 	public FreeMarkerViewResolver getFmViewResolver() {
 		FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
 		resolver.setCache(true);
@@ -63,5 +66,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		resolver.setViewResolvers(resolvers);
 		resolver.setContentNegotiationManager(manager);
 		return resolver;
-	}*/
+	}
 }
+*/
