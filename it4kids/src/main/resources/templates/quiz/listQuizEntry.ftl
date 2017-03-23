@@ -2,10 +2,8 @@
 <div style = floar right><a href ="questions/add">Insert new Question</a>
 </div>
 
-<form method="POST"action="/quiz/questions/saveQuestionList">
-<p>
-	<b>Quiz List
-</p>
+<form method="POST"action="/quiz/{quiz.id!''}/questions/saveQuestionList">
+
 
 <table>
 <tr>
@@ -18,6 +16,8 @@
 	<td>${quizEntry.text!''}  <a href ="questions/options">>Edit</a></td>
 </tr>
 [/#list]
+
+
 
 </table>
 <br>

@@ -7,7 +7,6 @@ package it4kids.configuration;
 //<<<<<<< HEAD
 //<<<<<<< HEAD
 import it4kids.dao.AccountDAO;
-import it4kids.dao.UserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.dao.indatabase.quiz.QuizDAO;
@@ -41,15 +40,15 @@ public class ApplicationConfiguration {
         return new AccountService();
     }
     
-    @Bean
-    public UserService userService1() {
-    	return new UserService();
-    }
+	@Bean
+	public UserService userService1() {
+		return new UserService();
+	}
 
-    @Bean
-    public UserDAO userDAO() {
-        return new RegisteredUserDAO();
-    }
+	// @Bean
+	// public UserDAO userDAO() {
+	// return new RegisteredUserDAO();
+	// }
 
 	@Bean
 	public QuizService quizService() {
@@ -105,10 +104,10 @@ public class ApplicationConfiguration {
 		return new AccountService();
 	}
 
-	// @Bean
-	// public UserService userService() {
-	// return new UserService();
-	// }
+	@Bean
+	public UserService userService() {
+		return new UserService();
+	}
 
 	@Bean
 	public UserLoginService userLoginService() {
