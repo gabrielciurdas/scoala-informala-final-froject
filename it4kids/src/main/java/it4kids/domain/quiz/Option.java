@@ -10,42 +10,37 @@ package it4kids.domain.quiz;
 
 public class Option extends AbstractModel {
 
-	private String optionText;
-	private String correctOptionText;
+	private String textOption;
+	private Boolean correct;
 
-	public Option(String optionText, String correctOptionText) {
-		this.optionText = optionText;
-		this.correctOptionText = correctOptionText;
-
+	public String getText() {
+		return textOption;
 	}
 
-	public String getOptionText() {
-		return optionText;
+	public void setText(String text) {
+		this.textOption = text;
 	}
 
-	public void setOptionText(String text) {
-		this.optionText = text;
+	public Boolean getCorrect() {
+		return correct;
 	}
 
-	public String getCorrectOptionText() {
-		return correctOptionText;
-	}
-
-	public void setCorrectOption(String correct) {
-		this.correctOptionText = correct;
+	public void setCorrect(Boolean correct) {
+		this.correct = correct;
 	}
 
 	@Override
 	public String toString() {
-		return "Option [text=" + optionText + ", correct=" + correctOptionText + "]";
+		return "Option [text=" + textOption + ", correct=" + correct + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((correctOptionText == null) ? 0 : correctOptionText.hashCode());
-		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
+		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
+		result = prime * result
+				+ ((textOption == null) ? 0 : textOption.hashCode());
 		return result;
 	}
 
@@ -58,15 +53,15 @@ public class Option extends AbstractModel {
 		if (getClass() != obj.getClass())
 			return false;
 		Option other = (Option) obj;
-		if (correctOptionText == null) {
-			if (other.correctOptionText != null)
+		if (correct == null) {
+			if (other.correct != null)
 				return false;
-		} else if (!correctOptionText.equals(other.correctOptionText))
+		} else if (!correct.equals(other.correct))
 			return false;
-		if (optionText == null) {
-			if (other.optionText != null)
+		if (textOption == null) {
+			if (other.textOption != null)
 				return false;
-		} else if (!optionText.equals(other.optionText))
+		} else if (!textOption.equals(other.textOption))
 			return false;
 		return true;
 	}

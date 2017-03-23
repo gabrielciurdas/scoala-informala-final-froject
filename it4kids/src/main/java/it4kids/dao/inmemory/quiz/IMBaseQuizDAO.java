@@ -9,7 +9,7 @@ public class IMBaseQuizDAO<T extends it4kids.domain.quiz.AbstractModel>
 		implements it4kids.dao.BaseDAO<T> {
 	private final Map<Long, T> models = new HashMap<Long, T>();
 
-	private static AtomicLong ID = new AtomicLong(System.currentTimeMillis());
+	private static AtomicLong ID = new AtomicLong(1);
 
 	@Override
 	public Collection<T> getAll() {

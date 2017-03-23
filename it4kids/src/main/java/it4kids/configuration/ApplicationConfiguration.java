@@ -5,8 +5,8 @@
 package it4kids.configuration;
 
 //<<<<<<< HEAD
+//<<<<<<< HEAD
 import it4kids.dao.AccountDAO;
-import it4kids.dao.UserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.dao.indatabase.quiz.QuizDAO;
@@ -16,42 +16,46 @@ import it4kids.dao.inmemory.quiz.IMOptionDAO;
 import it4kids.dao.inmemory.quiz.IMQuizDAO;
 import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
 import it4kids.domain.login.UserLogin;
-//>>>>>>> it4kids
+//>>>>>>> origin/Gabi
 import it4kids.service.login.AccountService;
 import it4kids.service.login.UserLoginService;
 import it4kids.service.login.UserService;
+import it4kids.service.quiz.OptionService;
 import it4kids.service.quiz.QuizEntryService;
 import it4kids.service.quiz.QuizService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+//>>>>>>> it4kids
+//=======
 //=======
 
 @Configuration
 public class ApplicationConfiguration {
 
+//<<<<<<< HEAD
 	// <<<<<<< HEAD
-	@Bean
-	public AccountService accountService1() {
-		return new AccountService();
-	}
-
+    @Bean
+    public AccountService accountService1() {
+        return new AccountService();
+    }
+    
 	@Bean
 	public UserService userService1() {
 		return new UserService();
 	}
 
-	@Bean
-	public UserDAO userDAO() {
-		return new RegisteredUserDAO();
-	}
+	// @Bean
+	// public UserDAO userDAO() {
+	// return new RegisteredUserDAO();
+	// }
 
 	@Bean
 	public QuizService quizService() {
-		QuizService qs = new QuizService();
+		QuizService ems = new QuizService();
 
-		qs.setQuizDao(quizDAO());
-		return qs;
+		ems.setQuizDao(quizDAO());
+		return ems;
 	}
 
 	@Bean
@@ -61,10 +65,10 @@ public class ApplicationConfiguration {
 
 	@Bean
 	public QuizEntryService quizEntryServiceService() {
-		QuizEntryService qes = new QuizEntryService();
+		QuizEntryService ems = new QuizEntryService();
 
-		qes.setQuizEntryDao(quizEntryDAO());
-		return qes;
+		ems.setQuizEntryDao(quizEntryDAO());
+		return ems;
 	}
 
 	@Bean
@@ -73,10 +77,28 @@ public class ApplicationConfiguration {
 	}
 
 	@Bean
+	public OptionService employeeService() {
+		OptionService ems = new OptionService();
+
+		ems.setOptionDao(optionDAO());
+		return ems;
+	}
+
+	@Bean
 	public OptionDAO optionDAO() {
 		return new IMOptionDAO();
 	}
+  /*  @EnableRedisHttpSession   
+    public class Config {   //Spring alternative to HttpSession from Tomcat
 
+        @Bean
+        public LettuceConnectionFactory connectionFactory() {
+            return new LettuceConnectionFactory();
+        }
+    }*/
+	// =======
+//=======
+//>>>>>>> origin/Gabi
 	@Bean
 	public AccountService accountService() {
 		return new AccountService();
@@ -91,10 +113,39 @@ public class ApplicationConfiguration {
 	public UserLoginService userLoginService() {
 		return new UserLoginService();
 	}
+	
+	/*@Bean
+	@Qualifier("UserLoginService")
+	public UserDAO userDAO() {
+		return new IMUserDAO();
+	}*/
 
+//<<<<<<< HEAD
+	// @Bean
+	// public RegisteredUserDAO registeredUserDAO() {
+	// return new RegisteredUserDAO();
+	// }
+//=======
+	@Bean
+	public RegisteredUserDAO registeredUserDAO() {
+		return new RegisteredUserDAO();
+	}
+//>>>>>>> origin/Gabi
+	
 	@Bean
 	public AccountDAO<UserLogin> accountDAO() {
 		return new IMAccountDAO<>();
 	}
 
+	/*
+	 * @EnableRedisHttpSession public class Config { //Spring alternative to
+	 * HttpSession from Tomcat
+	 * 
+	 * @Bean public LettuceConnectionFactory connectionFactory() { return new
+	 * LettuceConnectionFactory(); } }
+	 */
+//<<<<<<< HEAD
+	// >>>>>>> it4kids
+//=======
+//>>>>>>> origin/Gabi
 }
