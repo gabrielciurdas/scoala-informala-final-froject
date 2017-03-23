@@ -46,16 +46,18 @@
 <br>
 
 
+		
+		
 		<div class="container-fluid">
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav navbar-left">
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-left">
 				<li><button type="submit" class="btn btn-default"
 							onclick="javascript:goToQuizList();return false">Back</button></li>
 				<li>&nbsp;&nbsp;&nbsp;</li>
 				<li><button type="submit" class="btn btn-default">Save Quiz</button></li>
-				</ul>
-			</div>
-			</div>
+			</ul>
+		</div>
+		</div>
 
 
 

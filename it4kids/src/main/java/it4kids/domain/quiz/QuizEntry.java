@@ -1,13 +1,15 @@
 package it4kids.domain.quiz;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Clasa asta reprezinta intrebarea care se pune plus lista de raspunsuri aferente ei.
  * 
  * @author Catalin
  * 
  */
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,20 +20,17 @@ public class QuizEntry extends AbstractModel {
 	@NotNull
 	@NotEmpty
 	private String text;
-	private Option options;
-	@NotNull
-	private String correctAnswer;
 
-	public void setCorrectAnswer() {
+	private Map<String, List<Option>> questions = new HashMap<String, List<Option>>();
+	private List<Option> options;
 
-	}
+	private Option option;
 
-	public Option getOption() {
-		return options;
-	}
+	public void createQuestion() {
+		QuizEntry quizEntry = new QuizEntry();
+		options.add(new Option(option.getOptionText(), option.getCorrectOptionText()));
+		questions.put(quizEntry.getText(), options);
 
-	public void setOption(Option option) {
-		this.options = option;
 	}
 
 	public String getText() {

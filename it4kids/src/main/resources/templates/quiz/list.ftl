@@ -20,8 +20,15 @@
   </head>
   <body>
     <p><b>Quiz List</p>
-	<div style = float right>
-	<a href ="quiz/add">Create new Quiz</a></div>
+	
+	
+	
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default"><a href ="quiz/add">Create new Quiz</a></button>
+</div>
+	
+	
+	
 	
 	
 

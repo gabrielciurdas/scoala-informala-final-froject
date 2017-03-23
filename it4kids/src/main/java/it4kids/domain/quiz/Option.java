@@ -11,34 +11,40 @@ package it4kids.domain.quiz;
 public class Option extends AbstractModel {
 
 	private String optionText;
-	private Boolean correct;
+	private String correctOptionText;
 
-	public String getText() {
+	public Option(String optionText, String correctOptionText) {
+		this.optionText = optionText;
+		this.correctOptionText = correctOptionText;
+
+	}
+
+	public String getOptionText() {
 		return optionText;
 	}
 
-	public void setText(String text) {
+	public void setOptionText(String text) {
 		this.optionText = text;
 	}
 
-	public Boolean getCorrect() {
-		return correct;
+	public String getCorrectOptionText() {
+		return correctOptionText;
 	}
 
-	public void setCorrect(Boolean correct) {
-		this.correct = correct;
+	public void setCorrectOption(String correct) {
+		this.correctOptionText = correct;
 	}
 
 	@Override
 	public String toString() {
-		return "Option [text=" + optionText + ", correct=" + correct + "]";
+		return "Option [text=" + optionText + ", correct=" + correctOptionText + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
+		result = prime * result + ((correctOptionText == null) ? 0 : correctOptionText.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
 		return result;
 	}
@@ -52,10 +58,10 @@ public class Option extends AbstractModel {
 		if (getClass() != obj.getClass())
 			return false;
 		Option other = (Option) obj;
-		if (correct == null) {
-			if (other.correct != null)
+		if (correctOptionText == null) {
+			if (other.correctOptionText != null)
 				return false;
-		} else if (!correct.equals(other.correct))
+		} else if (!correctOptionText.equals(other.correctOptionText))
 			return false;
 		if (optionText == null) {
 			if (other.optionText != null)
