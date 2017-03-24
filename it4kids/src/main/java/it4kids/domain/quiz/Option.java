@@ -10,16 +10,9 @@ package it4kids.domain.quiz;
 
 public class Option extends AbstractModel {
 
+	private QuizEntry quizEntry;
 	private String textOption;
 	private Boolean correct;
-
-	public String getText() {
-		return textOption;
-	}
-
-	public void setText(String text) {
-		this.textOption = text;
-	}
 
 	public Boolean getCorrect() {
 		return correct;
@@ -27,6 +20,22 @@ public class Option extends AbstractModel {
 
 	public void setCorrect(Boolean correct) {
 		this.correct = correct;
+	}
+
+	public QuizEntry getQuizEntry() {
+		return quizEntry;
+	}
+
+	public void setQuizEntry(QuizEntry quizEntry) {
+		this.quizEntry = quizEntry;
+	}
+
+	public String getTextOption() {
+		return textOption;
+	}
+
+	public void setTextOption(String textOption) {
+		this.textOption = textOption;
 	}
 
 	@Override

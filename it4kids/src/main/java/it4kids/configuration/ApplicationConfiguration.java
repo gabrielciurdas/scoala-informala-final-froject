@@ -20,8 +20,6 @@ import it4kids.domain.login.UserLogin;
 import it4kids.service.login.AccountService;
 import it4kids.service.login.UserLoginService;
 import it4kids.service.login.UserService;
-import it4kids.service.quiz.OptionService;
-import it4kids.service.quiz.QuizEntryService;
 import it4kids.service.quiz.QuizService;
 
 import org.springframework.context.annotation.Bean;
@@ -35,6 +33,11 @@ public class ApplicationConfiguration {
 
 //<<<<<<< HEAD
 	// <<<<<<< HEAD
+
+	// de ce nu asa??? :
+	// @Bean
+	// AccountService accountService;
+	// dupa se poate apela direct cu "this.accountService"
     @Bean
     public AccountService accountService1() {
         return new AccountService();
@@ -64,8 +67,8 @@ public class ApplicationConfiguration {
 	}
 
 	@Bean
-	public QuizEntryService quizEntryServiceService() {
-		QuizEntryService ems = new QuizEntryService();
+	public QuizService quizEntryServiceService() {
+		QuizService ems = new QuizService();
 
 		ems.setQuizEntryDao(quizEntryDAO());
 		return ems;
@@ -77,8 +80,8 @@ public class ApplicationConfiguration {
 	}
 
 	@Bean
-	public OptionService employeeService() {
-		OptionService ems = new OptionService();
+	public QuizService employeeService() {
+		QuizService ems = new QuizService();
 
 		ems.setOptionDao(optionDAO());
 		return ems;

@@ -1,6 +1,6 @@
 package it4kids.service.login;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 

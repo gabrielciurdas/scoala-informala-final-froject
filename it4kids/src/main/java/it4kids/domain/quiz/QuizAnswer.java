@@ -11,9 +11,9 @@ import java.util.List;
  * @author Catalin
  * 
  */
-public class QuizAnswear {
+public class QuizAnswer {
 
 	Quiz q = new Quiz();
-	private final List<Answear> answear = new ArrayList<>();
+	private final List<Answer> answear = new ArrayList<>();
 
 }

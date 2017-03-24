@@ -11,15 +11,17 @@ import java.util.List;
 
 public class QuizEntry extends AbstractModel {
 
-	private List<Option> option = new ArrayList<>();
+	private List<Option> options = new ArrayList<>();
 	private String text;
+	private int expected;
+	private Quiz quiz;
 
-	public List<Option> getOption() {
-		return option;
+	public List<Option> getOptions() {
+		return options;
 	}
 
-	public void setOption(List<Option> option) {
-		this.option = option;
+	public void setOptions(List<Option> option) {
+		this.options = option;
 	}
 
 	public String getText() {
@@ -30,11 +32,19 @@ public class QuizEntry extends AbstractModel {
 		this.text = text;
 	}
 
+	public Quiz getQuiz() {
+		return quiz;
+	}
+
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((option == null) ? 0 : option.hashCode());
+		result = prime * result + ((options == null) ? 0 : options.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
 	}
@@ -48,10 +58,10 @@ public class QuizEntry extends AbstractModel {
 		if (getClass() != obj.getClass())
 			return false;
 		QuizEntry other = (QuizEntry) obj;
-		if (option == null) {
-			if (other.option != null)
+		if (options == null) {
+			if (other.options != null)
 				return false;
-		} else if (!option.equals(other.option))
+		} else if (!options.equals(other.options))
 			return false;
 		if (text == null) {
 			if (other.text != null)
@@ -61,5 +71,12 @@ public class QuizEntry extends AbstractModel {
 		return true;
 	}
 
+	public int getExpected() {
+		return expected;
+	}
+
+	public void setExpected(int expectedAnswer) {
+		this.expected = expectedAnswer;
+	}
 
 }

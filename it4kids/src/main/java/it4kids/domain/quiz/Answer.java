@@ -7,6 +7,6 @@ package it4kids.domain.quiz;
  * @author Catalin
  * 
  */
-public class Answear extends AbstractModel {
+public class Answer extends AbstractModel {
 
 }

@@ -9,6 +9,6 @@ package it4kids.domain.quiz;
  * 
  */
 
-public class QuizPasser {
+public class QuizProxy {
 
 }
