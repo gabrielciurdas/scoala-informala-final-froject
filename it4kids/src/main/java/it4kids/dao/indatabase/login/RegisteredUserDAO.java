@@ -41,11 +41,13 @@ public class RegisteredUserDAO {
 
     public boolean usernameAvailable(String userName) {
         boolean isAvailable = false;
-        System.out.println("it's the connection?");
+        
         try (Connection conn = db.getDBConnection();
              PreparedStatement stm = conn.prepareStatement("select * from registered_users where username='" + username + "'");
              ResultSet rs = stm.executeQuery();) {
+        	
         	System.out.println("connected to db");
+        	
             if (rs.next()) {
                 isAvailable = false;
             } else {
@@ -55,7 +57,7 @@ public class RegisteredUserDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        System.out.println(isAvailable);
+        
         return isAvailable;
     }
 
@@ -73,17 +75,14 @@ public class RegisteredUserDAO {
                      .prepareStatement("INSERT INTO registered_users(first_name, last_name, account_type," +
                              " email, username, password, regdate)" + " values(?,?,?,?,?,?,CURRENT_TIMESTAMP)");) {
 
-        	System.out.println("adding user..." + user.getFirstName());
-        	System.out.println("his account type.." + user.getAccountType());
-        	
             stm.setString(1, user.getFirstName());
             stm.setString(2, user.getLastName());
             stm.setString(3, user.getAccountType());
             stm.setString(4, user.getEmail());
             stm.setString(5, user.getUserName());
             stm.setString(6, user.getPassword());
+            
             linesWritten = stm.executeUpdate();
-            System.out.println("lines written = " + linesWritten);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -95,8 +94,8 @@ public class RegisteredUserDAO {
              PreparedStatement stm = conn.prepareStatement("UPDATE parent SET id_child = ?" );) {
 
             stm.setInt(1, childId);
-            //linesWritten = stm.executeUpdate();
             stm.executeUpdate();
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

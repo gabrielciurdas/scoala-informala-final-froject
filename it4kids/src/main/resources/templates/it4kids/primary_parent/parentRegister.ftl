@@ -1,6 +1,6 @@
 [#ftl]
 
-<form method="post" action="/parent/parentRegister/register"
+<form method="post" action="/primary_parent/parentRegister/parentRegister"
 		onsubmit="return checkUserRegistration()">
 		<center>
 			<table border="1" width="30%" cellpadding="5">
@@ -21,8 +21,8 @@
 					<tr>
 						<td>Tip de cont</td>
 						<td><select name="accountType">
+								<option value="Child">Copil</option>
 								<option value="PARENT">Părinte</option>
-								<option value="CHILD">Copil</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -46,5 +46,5 @@
 				</tbody>
 			</table>
 		</center>
-		<h5><a href="/parent/parent">Înapoi la pagina principală</h5>
+		<h5><a href="/primary_parent/primary_parent">Înapoi la pagina principală</h5>
 	</form>

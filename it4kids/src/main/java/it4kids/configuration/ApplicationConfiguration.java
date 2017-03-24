@@ -13,7 +13,9 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import it4kids.dao.indatabase.login.ChildAccountDAO;
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
+import it4kids.dao.indatabase.login.ParentAccountDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.service.login.AdminService;
 import it4kids.service.login.ChildService;
@@ -39,6 +41,16 @@ public class ApplicationConfiguration {
 	@Bean
 	public RegisteredUserDAO registeredUserDAO() {
 		return new RegisteredUserDAO();
+	}
+	
+	@Bean
+	public ParentAccountDAO parentAccountDAO() {
+		return new ParentAccountDAO();
+	}
+	
+	@Bean
+	public ChildAccountDAO ChildAccountDAO() {
+		return new ChildAccountDAO();
 	}
 	
 	@Bean 
@@ -84,9 +96,4 @@ public class ApplicationConfiguration {
 	public JdbcTemplateUserDAO jdbcTemplateDAO() {
 		return new JdbcTemplateUserDAO(dataSource());
 	}
-	/*
-	@Bean
-	public UserDAO userDAO() {
-		return new JdbcTemplateUserDAO(dataSource());
-	}*/
 }

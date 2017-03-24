@@ -32,7 +32,7 @@ public abstract class IMBaseDAO<T extends AbstractModel>
 			model.setId(ID.getAndIncrement());
 		}
 
-		models.put(model.getId(), model);
+		models.put((long) model.getId(), model);
 		return model;
 	}
 

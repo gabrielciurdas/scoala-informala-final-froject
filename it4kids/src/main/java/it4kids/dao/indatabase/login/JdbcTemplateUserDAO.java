@@ -27,6 +27,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	private RegisteredUserDAO userDAO = new RegisteredUserDAO();
 	private String accountType;
 	private String email;
+	private int id;
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -77,7 +78,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 		return model;
 	}
-
+	
 	@Override
 	public boolean delete(User model) {
 		// TODO Auto-generated method stub
@@ -125,6 +126,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 			System.out.println(userDetails.get(0).getEmail());
 			System.out.println(userDetails.get(0).getAccountType());
 
+			id = userDetails.get(0).getId();
 			email = userDetails.get(0).getEmail();
 			accountType = userDetails.get(0).getAccountType();
 		}
@@ -142,7 +144,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		//HttpSession session = request.getSession();
 		UserLogin userLogin =(UserLogin) ((HttpServletRequest)request).getSession().getAttribute("currentUser");
 		
 		String location = "";
@@ -154,7 +155,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 			System.out.println("account type : " + accountType);
 			location = "it4kids/" + accountType + "/" + accountType + "Register.jsp";
 			
-			//accountType = session.getAttribute("accountType").toString();
 			try {
 				addAccount(request, accountType);
 			} catch (SQLException e) {
@@ -179,30 +179,27 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		
 		System.out.println("user name: " + user.getFirstName());
 		System.out.println("account type format ok? " + accountType);
-		if (accountType.equalsIgnoreCase("PARENT")) {
+		if (accountType.equalsIgnoreCase("PRIMARY_PARENT")) {
 			System.out.println("adding user " + user.getUserName());
 			userDAO.add(user);
 			System.out.println("added");
 			if (user.getAccountType().equalsIgnoreCase("PARENT")) {
 				System.out.println("adding to parent table");
 				ParentAccountDAO p = new ParentAccountDAO();
-				p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))),
-						p.getChildId(userLogin.getUserName()));
+				p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
 				System.out.println("added");
 				
-				System.out.println("adding to parent table");
+				/*System.out.println("adding to parent table");
 				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(p.getChildId(userLogin.getUserName())),
-						userDAO.getUsernameId(request.getParameter("userName")));
-				System.out.println("added");
+				c.add(new ChildAccount(p.getChildId(userLogin.getUserName())));
+				System.out.println("added");*/
 				
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
 				ParentAccountDAO p = new ParentAccountDAO();
 				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(userDAO.getUsernameId(request.getParameter("userName"))),
-						userDAO.getUsernameId(userLogin.getUserName()));
-				p.add(new ParentAccount(userDAO.getUsernameId(userLogin.getUserName()),
-						userDAO.getUsernameId(userLogin.getUserName())));
+				c.add(new ChildAccount(userDAO.getUsernameId(request.getParameter("userName"))));
+				/*p.add(new ParentAccount(userDAO.getUsernameId(userLogin.getUserName()),
+						userDAO.getUsernameId(userLogin.getUserName())));*/
 			}
 
 		} else if (accountType.equalsIgnoreCase("TEACHER")) {
@@ -257,5 +254,9 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	public String getEmail() {
 		return email;
+	}
+	
+	public int getId() {
+		return id;
 	}
 }

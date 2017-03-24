@@ -8,29 +8,6 @@ import it4kids.domain.AbstractModel;
 public abstract class Account  extends AbstractModel{
     private int idRegisteredUser;
 
-    /*public Account(int id, int idRegisteredUser) {
-        this.id = id;
-        this.idRegisteredUser = idRegisteredUser;
-    }
-
-    public Account(int idRegisteredUser) {
-        id = 0;
-        this.idRegisteredUser = idRegisteredUser;
-    }
-
-  */
-/*    public Account() {
-        id = 0;
-        idRegisteredUser = 0;
-    }
-*/
-  /*  public int getId() {
-        return id;
-    }
-
-    public void setId(int i) {
-        this.id = i;
-    }*/
 
     public int getIdRegisteredUser() {
         return idRegisteredUser;

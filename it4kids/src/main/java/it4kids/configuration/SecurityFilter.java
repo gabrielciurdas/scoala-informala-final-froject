@@ -46,7 +46,6 @@ import it4kids.service.SecurityService;
 
 		@Override
 		public void init(FilterConfig arg0) throws ServletException {
-			// TODO Auto-generated method stub
 			
 		}
 }

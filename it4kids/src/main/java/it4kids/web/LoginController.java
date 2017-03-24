@@ -31,6 +31,7 @@ public class LoginController {
 	public ModelAndView onLogin(String userName, String password, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("");
 		String accountType = "";
+		
 		userName = request.getParameter("userName");
 		password = request.getParameter("password");
 		
@@ -38,14 +39,10 @@ public class LoginController {
 			UserLogin user = new UserLogin();
 			user.setUserName(userName);
 			
-			System.out.println("got so far ");
-			System.out.println(
-					"actually this is the account type: " + userLoginService.getJdbcTemplate().getAccountType());
 			accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString().toLowerCase();
 			user.setAccountType(accountType);
-			System.out.println("email is " + userLoginService.getJdbcTemplate().getEmail());
-			System.out.println(userLoginService.getJdbcTemplate().getAccountType());
-			System.out.println("account is: " + accountType);
+			user.setId(userLoginService.getJdbcTemplate().getId());
+			
 			request.getSession().setAttribute("currentUser", user);
 			
 			modelAndView.setView(new RedirectView("/" + accountType + "/" + accountType));
@@ -121,6 +118,4 @@ public class LoginController {
 		System.out.println("about to return with an error message");
 		return result;
 	}*/
-	
-
 }

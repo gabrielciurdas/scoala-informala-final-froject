@@ -1,6 +1,7 @@
 package it4kids.domain;
 
 public class UserLogin {
+	private int id;
 	private String userName;
 	private String accountType;
 
@@ -19,4 +20,13 @@ public class UserLogin {
 	public String getAccountType() {
 		return accountType;
 	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 }

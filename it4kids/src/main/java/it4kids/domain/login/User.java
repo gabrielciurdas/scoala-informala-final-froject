@@ -13,46 +13,7 @@ public class User extends AbstractModel {
 	private String date;
 	private boolean authenticated;
 	
-/*	public User(String firstName, String lastName, String relatedUsername, String accountType, String email, String userName, String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.relatedUsername =  relatedUsername;
-		this.accountType = AccountType.valueOf(accountType).name();
-		this.email = email;
-		this.userName = userName;
-		this.password = password;
-		authenticated = false;
-	}
-	*/
-/*	public User(String email, String password) {
-		super();
-		this.email = email;
-		this.password = password;
-	}
 
-	public User(String firstName, String lastName, String accountType, String email, String userName, String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.accountType = AccountType.valueOf(accountType).name();
-		this.email = email;
-		this.userName = userName;
-		this.password = password;
-		authenticated = false;
-	}
-
-	public User() {
-		firstName = "";
-		lastName = "";
-		accountType = "";
-		email = "";
-		userName = "";
-		password = "";
-		date = "";
-		authenticated = false;
-	}
-*/
 	/**
 	 * @return the firstName
 	 */

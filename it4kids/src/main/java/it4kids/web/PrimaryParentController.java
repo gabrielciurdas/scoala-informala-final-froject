@@ -26,16 +26,16 @@ public class PrimaryParentController {
 /*	@Autowired
 	RegisteredUserDAO userService;*/
 	
-	@RequestMapping("/parent")
+	@RequestMapping("/primary_parent")
 	public ModelAndView parentToMainView() {
-		ModelAndView result = new ModelAndView("it4kids/primary_parent/parent");
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/primary_parent");
 		
 		return result;
 	}
 	
 	@RequestMapping("/")
 	public ModelAndView returnToParentMainView() {
-		ModelAndView result = new ModelAndView("it4kids/primary_parent/parent");
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/primary_parent");
 		
 		return result;
 	}
@@ -47,8 +47,8 @@ public class PrimaryParentController {
 		return result;
 	}
 	
-	@RequestMapping("/parentRegister/register")
-	public ModelAndView onRegister(HttpServletRequest req, HttpServletResponse resp) {
+	@RequestMapping("/parentRegister/parentRegister")
+	public ModelAndView onParentRegister(HttpServletRequest req, HttpServletResponse resp) {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/parentRegister");
 		try {
 			System.out.println("trying to register");
@@ -58,4 +58,25 @@ public class PrimaryParentController {
 		}
 		return result;
 	}
+	
+	@RequestMapping("/assignParent")
+	public ModelAndView assignParentView() {
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/assignParent");
+		
+		return result;
+	}
+	
+	@RequestMapping("/assignParent/assign")
+	public ModelAndView onAssignParent(HttpServletRequest req, HttpServletResponse resp) {
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/assignParent");
+		System.out.println("trying to register");
+		
+		String childUserName = req.getParameter("childUserName");
+		String parentUserName = req.getParameter("parentUserName");
+		
+		parentService.assignParent(childUserName, parentUserName, req, resp);
+		
+		return result;
+	}
+	
 }

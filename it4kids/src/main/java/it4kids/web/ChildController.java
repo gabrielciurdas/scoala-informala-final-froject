@@ -36,12 +36,4 @@ public class ChildController {
 		
 		return result;
 	}
-	
-/*	@RequestMapping("/logout")
-	public ModelAndView logOut(HttpSession session) {
-		session.invalidate();
-		ModelAndView result = new ModelAndView("it4kids/login");
-		return result;
-	}
-*/
 }
