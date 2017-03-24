@@ -19,4 +19,4 @@
 			</table>
 		</center>
 	</form>
-	<a href="/child/logout">Delogare</a>
+	<a href="/logout">Delogare</a>

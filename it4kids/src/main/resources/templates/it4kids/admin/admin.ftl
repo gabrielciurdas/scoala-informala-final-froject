@@ -22,4 +22,4 @@
 			<a href="/admin/adminRegister">Înregistrează noi utilizatori</a>
 		</center>
 	</form>
-	<a href="/admin/logout">Delogare</a>
+	<a href="/logout">Delogare</a>

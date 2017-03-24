@@ -75,4 +75,22 @@ public class ChildAccountDAO {
 		}
 		return result;
 	}
+	
+	  public int getParentId(String childId) {
+			int id = 0;
+	        try (Connection conn = db.getDBConnection();
+	             PreparedStatement stm = conn.prepareStatement("select id_parent from child where id_registered_user='" + childId + "'");
+	             ResultSet rs = stm.executeQuery();)
+	             {
+				if (rs.next()) {
+					id = rs.getInt("id");
+				} else {
+					System.out.println("username does not exist");
+				}
+
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			return id;
+		}
 }

@@ -34,7 +34,7 @@
 				    </div>
 				[/#if]
 			    
-				<form action="/login/save" method="POST">
+				<form action="/onLogin" method="POST">
 					<div class="form-group">
 						<label for="firstName">Nume de utilizator</label> 
 						<input type="text"

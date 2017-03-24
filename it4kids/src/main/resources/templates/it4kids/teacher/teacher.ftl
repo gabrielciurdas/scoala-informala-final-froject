@@ -22,4 +22,4 @@
 			<a href="/teacher/teacherRegister">Înregistrează noi profesori sau părinți</a>
 		</center>
 	</form>
-	<a href="/teacher/logout">Delogare</a>
+	<a href="/logout">Delogare</a>

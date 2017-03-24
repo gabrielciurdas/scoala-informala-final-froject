@@ -14,20 +14,20 @@ import it4kids.domain.login.AccountType;
 import it4kids.service.login.LoginService;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/")
 public class LoginController {
 
 	@Autowired
 	LoginService userLoginService;
 
-	@RequestMapping("")
+	@RequestMapping("/login")
 	public ModelAndView login() {
 		ModelAndView modelAndView = new ModelAndView("it4kids/login");
 
 		return modelAndView;
 	}
 
-	@RequestMapping("/save")
+	@RequestMapping("/onLogin")
 	public ModelAndView onLogin(String userName, String password, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("");
 		String accountType = "";
@@ -52,6 +52,13 @@ public class LoginController {
 		}
 
 		return modelAndView;
+	}
+
+	@RequestMapping("/logout")
+	public ModelAndView logOut(HttpSession session) {
+		session.invalidate();
+		ModelAndView result = new ModelAndView("it4kids/login");
+		return result;
 	}
 	
 	/*@RequestMapping("/save")

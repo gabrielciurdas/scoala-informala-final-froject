@@ -71,7 +71,7 @@ public class ParentAccountDAO {
     public int getChildId(String parentId) {
 		int id = 0;
         try (Connection conn = db.getDBConnection();
-             PreparedStatement stm = conn.prepareStatement("select id from child where id_parent='" + parentId + "'");
+             PreparedStatement stm = conn.prepareStatement("select id_registered_user from parent where id_registered_user='" + parentId + "'");
              ResultSet rs = stm.executeQuery();)
              {
 			if (rs.next()) {
@@ -85,6 +85,24 @@ public class ParentAccountDAO {
 		}
 		return id;
 	}
+    
+    public int getParentId(String idRegisteredUser) {
+    	int id = 0;
+        try (Connection conn = db.getDBConnection();
+             PreparedStatement stm = conn.prepareStatement("select id_registered_user from parent where id_registered_user='" + idRegisteredUser + "'");
+             ResultSet rs = stm.executeQuery();)
+             {
+			if (rs.next()) {
+				id = rs.getInt("id");
+			} else {
+				System.out.println("username does not exist");
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return id;
+    }
 
     /**
      * This method retrieves a list of ParentAccount objects from the specified database
