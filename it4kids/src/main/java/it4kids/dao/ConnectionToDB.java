@@ -13,7 +13,7 @@ public class ConnectionToDB {
 
 	public Connection getDBConnection() {
 		loadDriver();
-		// wait 1 min; optional: DB may be busy,
+		// set timeout 1 min; optional: DB may be busy,
 		// busy, good to set a higher timeout
 		DriverManager.setLoginTimeout(60); 
 		

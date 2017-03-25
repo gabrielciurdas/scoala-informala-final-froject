@@ -10,6 +10,7 @@ package it4kids.domain.quiz;
 
 public class Option extends AbstractModel {
 
+<<<<<<< HEAD
 
 	private String text;
 		
@@ -26,6 +27,35 @@ public class Option extends AbstractModel {
 		this.textOption = text;
 	}
 	
+=======
+	private QuizEntry quizEntry;
+	private String textOption;
+	private Boolean correct;
+
+	public Boolean getCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(Boolean correct) {
+		this.correct = correct;
+	}
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
+
+	public QuizEntry getQuizEntry() {
+		return quizEntry;
+	}
+
+	public void setQuizEntry(QuizEntry quizEntry) {
+		this.quizEntry = quizEntry;
+	}
+
+	public String getTextOption() {
+		return textOption;
+	}
+
+	public void setTextOption(String textOption) {
+		this.textOption = textOption;
+	}
 
 	@Override
 	public String toString() {

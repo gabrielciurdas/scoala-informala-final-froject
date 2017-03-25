@@ -7,6 +7,7 @@ import it4kids.service.ValidationException;
 import it4kids.service.quiz.QuizService;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,38 +94,64 @@ public class QuizController {
 	public ModelAndView edit(Long id) {
 		ModelAndView result = new ModelAndView("quizz/edit");
 
+<<<<<<< HEAD
 		// Collection<QuizEntry> quizEntryes = quizEntryService.listAll();
 		result.addObject("quizEntry", new QuizEntry());
 		result.addObject("quiz", quizService.getQuiz(id));
 		// result.addObject("quizEntryList", quizEntryes);
+=======
+		Quiz quiz = quizService.get(id);
+		result.addObject("quiz", quiz);
+		QuizEntry quizEntry = new QuizEntry();
+		quizEntry.getOptions().add(new Option());
+		quizEntry.getOptions().add(new Option());
+		quizEntry.getOptions().add(new Option());
+		quizEntry.getOptions().add(new Option());
+		quizEntry.setQuiz(quiz);
+		result.addObject("quizEntry", quizEntry);
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit/add", method = RequestMethod.POST)
-	public ModelAndView saveQuizEntry(Long id, QuizEntry quizEntry,
-			Option option,
-			BindingResult bindingresult) throws ValidationException {
+	public ModelAndView saveQuizEntry(Long quizId, Long quizEntryId,
+			Integer expected,
+			QuizEntry quizEntry, Option option, BindingResult bindingresult)
+			throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
+<<<<<<< HEAD
 
 				quizService.save(quizEntry);
 				quizService.save(option);
 				Quiz quiz = quizService.getQuiz(id);
+=======
+				QuizEntry qe = quizService.getQuizEntry(quizEntryId);
+				option.setQuizEntry(qe);
+				List<Option> options = quizEntry.getOptions();
+				int i = 1;
+				for (Option option2 : options) {
+					option2.setCorrect(i == expected);
+					option2.setQuizEntry(quizEntry);
+					quizService.saveOption(option2);
+					i++;
+				}
+				Quiz quiz = quizService.get(quizId);
+				quizEntry.setQuiz(quiz);
+				quizService.saveQuizEntry(quizEntry);
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 				quiz.getQuestions().add(quizEntry);
 				quizService.save(quiz);
 				result = new ModelAndView();
 				result.addObject("id", quiz.getId());
-				// result.addObject("quizEntry", new QuizEntry());
-				// result.addObject("quiz", quiz);
 				result.setView(new RedirectView("/edit"));
 			} catch (ValidationException e) {
 				result = new ModelAndView("quizz/edit");
 				result.addObject("error", e.getMessage());
 				result.addObject("quizEntry", quizEntry);
-				result.addObject("option", option);
 			}
 		} else {
 			List<FieldError> errors = bindingresult.getFieldErrors();
@@ -139,27 +166,33 @@ public class QuizController {
 			result = new ModelAndView("quizz/edit");
 			result.addObject("error", sb.toString());
 			result.addObject("quizEntry", quizEntry);
-			result.addObject("option", option);
 		}
 		return result;
 	}
 
-	//
-	// public String add(@ModelAttribute("user") Quiz quiz) throws
-	// ValidationException {
-	//
-	// if (null != quiz && null != quiz.getName()
-	// && !quiz.getName().isEmpty()) {
-	//
-	// synchronized (quizService) {
-	// quizService.save(quiz);
-	// }
-	//
-	// }
-	//
-	// return "redirect:index.html";
-	// }
+	@RequestMapping("/deleteQuestion")
+	public ModelAndView deleteQuizEntry(Long quizEntryId, Long id)
+			throws ValidationException {
 
+		QuizEntry qz = quizService.getQuizEntry(quizEntryId);
+
+		Quiz quiz = quizService.get(id);
+		Iterator<QuizEntry> quizList = quiz.getQuestions().iterator();
+		while (quizList.hasNext()) {
+			qz = quizList.next();
+			if (qz.getId() == quizEntryId) {
+				quizList.remove();
+			}
+		}
+		quizService.save(quiz);
+		ModelAndView result = new ModelAndView();
+		RedirectView redirect = new RedirectView("/edit?id="
+				+ qz.getQuiz().getId());
+		result.setView(redirect);
+		return result;
+	}
+
+<<<<<<< HEAD
 	// @RequestMapping("")
 	// public ModelAndView list() {
 	// ModelAndView result = new ModelAndView("quiz/list");
@@ -350,3 +383,6 @@ public class QuizController {
 // // result.setView(new RedirectView("/quiz/questions"));
 // // return result;
 // // }
+=======
+}
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8

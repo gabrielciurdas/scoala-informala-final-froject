@@ -23,6 +23,7 @@ public class QuizService {
 			.getLogger(QuizService.class);
 
 	@Autowired
+<<<<<<< HEAD
 	private QuizDAO quizDao;
 	
 
@@ -40,6 +41,43 @@ public class QuizService {
 		Quiz emp = quizDao.findById(id);
 		if (emp != null) {
 			quizDao.delete(emp);
+=======
+	private QuizDAO daoQuiz;
+	@Autowired
+	private QuizEntryDAO daoQuizEntry;
+	@Autowired
+	private OptionDAO daoOption;
+
+	public Collection<Quiz> listAll() {
+		return daoQuiz.getAll();
+	}
+
+	public boolean delete(Long id) {
+		LOGGER.debug("Deleting quiz for id: " + id);
+		Quiz emp = daoQuiz.findById(id);
+		if (emp != null) {
+			daoQuiz.delete(emp);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteQuizEntry(Long id) {
+		LOGGER.debug("Deleting quiz for id: " + id);
+		QuizEntry emp = daoQuizEntry.findById(id);
+		if (emp != null) {
+			daoQuizEntry.delete(emp);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteOption(Long id) {
+		LOGGER.debug("Deleting quiz for id: " + id);
+		Option emp = daoOption.findById(id);
+		if (emp != null) {
+			daoOption.delete(emp);
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 			return true;
 		}
 
@@ -48,7 +86,23 @@ public class QuizService {
 
 	public Quiz getQuiz(Long id) {
 		LOGGER.debug("Getting quiz for id: " + id);
+<<<<<<< HEAD
 		return quizDao.findById(id);
+=======
+		return daoQuiz.findById(id);
+
+	}
+
+	public QuizEntry getQuizEntry(Long id) {
+		LOGGER.debug("Getting quiz for id: " + id);
+		return daoQuizEntry.findById(id);
+
+	}
+
+	public Option getOption(Long id) {
+		LOGGER.debug("Getting quiz for id: " + id);
+		return daoOption.findById(id);
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 
 	}
 
@@ -56,12 +110,32 @@ public class QuizService {
 		LOGGER.debug("Saving: " + quiz);
 		validate(quiz);
 
+<<<<<<< HEAD
 		quizDao.update(quiz);
+=======
+		daoQuiz.update(quiz);
+	}
+
+	public void saveQuizEntry(QuizEntry entry)
+			throws it4kids.service.ValidationException {
+		LOGGER.debug("Saving: " + entry);
+		validateQuizEntry(entry);
+
+		daoQuizEntry.update(entry);
+	}
+
+	public void saveOption(Option option)
+			throws it4kids.service.ValidationException {
+		LOGGER.debug("Saving: " + option);
+		validateOption(option);
+
+		daoOption.update(option);
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 	}
 
 	private void validate(Quiz quiz) throws it4kids.service.ValidationException {
 		List<String> errors = new LinkedList<String>();
-		if (StringUtils.isEmpty(quiz.getClass())) {
+		if (StringUtils.isEmpty(quiz.getName())) {
 			errors.add("Name is Empty");
 		}
 
@@ -75,7 +149,47 @@ public class QuizService {
 		}
 	}
 
+	private void validateQuizEntry(QuizEntry list)
+			throws it4kids.service.ValidationException {
+		List<String> errors = new LinkedList<String>();
+		if (StringUtils.isEmpty(list.getClass())) {
+			errors.add("There is no question");
+		}
+
+
+		if (list.getOptions() == null) {
+			errors.add("There are no answears");
+		}
+
+		if (!errors.isEmpty()) {
+			throw new it4kids.service.ValidationException(
+					errors.toArray(new String[] {}));
+		}
+	}
+
+	private void validateOption(Option option)
+			throws it4kids.service.ValidationException {
+		List<String> errors = new LinkedList<String>();
+		if (StringUtils.isEmpty(option.getClass())) {
+			errors.add("Name is Empty");
+		}
+
+		if (option.getTextOption() == null) {
+			errors.add("There are no questions");
+		}
+
+		// if (option.getCorrect() == null) {
+		// errors.add("There are no answears");
+		// }
+
+		if (!errors.isEmpty()) {
+			throw new it4kids.service.ValidationException(
+					errors.toArray(new String[] {}));
+		}
+	}
+
 	public QuizDAO getQuizDao() {
+<<<<<<< HEAD
 		return quizDao;
 	}
 
@@ -207,4 +321,29 @@ public class QuizService {
 	public void setOptionDao(OptionDAO dao) {
 		this.optionDao = dao;
 	}
+=======
+		return daoQuiz;
+	}
+
+	public void setQuizDao(QuizDAO dao) {
+		this.daoQuiz = dao;
+	}
+
+	public QuizEntryDAO getQuizEntryDao() {
+		return daoQuizEntry;
+	}
+
+	public void setQuizEntryDao(QuizEntryDAO dao) {
+		this.daoQuizEntry = dao;
+	}
+
+	public OptionDAO getOptionDao() {
+		return daoOption;
+	}
+
+	public void setOptionDao(OptionDAO dao) {
+		this.daoOption = dao;
+	}
+
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 }
