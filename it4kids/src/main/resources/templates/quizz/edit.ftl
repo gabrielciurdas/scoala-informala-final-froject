@@ -1,4 +1,5 @@
-[#ftl]
+  
+  [#ftl]
 <p><b>Question List
 </p>
 
@@ -16,11 +17,13 @@
 
   	<tr>
   		<th>Questions</th>
+  		<th></th>
   	</tr>
     [#list quiz.questions as quizEntry]
 
   	<tr>
   		<td>${(quizEntry.text)!''}</td>
+  		<td><a href=""/delete?id=${quizEntry.id?c}"">Delete</a>&nbsp;<a href="edit?id=${quizEntry.id?c}">Edit</a>
   	</tr>
     [/#list]
   </table>

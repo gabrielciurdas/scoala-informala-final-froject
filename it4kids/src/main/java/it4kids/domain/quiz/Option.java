@@ -10,13 +10,13 @@ package it4kids.domain.quiz;
 
 public class Option extends AbstractModel {
 
-<<<<<<< HEAD
+
 	private String text;
 		
-=======
+
 	private String textOption;
 	private Boolean correct;
->>>>>>> origin/Catalin
+
 
 	public String getText() {
 		return textOption;
@@ -29,25 +29,22 @@ public class Option extends AbstractModel {
 
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "Option [text=" + text + "]";
-=======
+
+		;
+
 		return "Option [text=" + textOption + ", correct=" + correct + "]";
->>>>>>> origin/Catalin
+
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-<<<<<<< HEAD
-		int result = 1;		
-		result = prime * result + ((text == null) ? 0 : text.hashCode());
-=======
+
 		int result = 1;
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result
 				+ ((textOption == null) ? 0 : textOption.hashCode());
->>>>>>> origin/Catalin
+
 		return result;
 	}
 
@@ -60,11 +57,11 @@ public class Option extends AbstractModel {
 		if (getClass() != obj.getClass())
 			return false;
 		Option other = (Option) obj;
-<<<<<<< HEAD
+
 		
 		if (text == null) {
 			if (other.text != null)
-=======
+
 		if (correct == null) {
 			if (other.correct != null)
 				return false;
@@ -72,10 +69,11 @@ public class Option extends AbstractModel {
 			return false;
 		if (textOption == null) {
 			if (other.textOption != null)
->>>>>>> origin/Catalin
+
 				return false;
 		} else if (!textOption.equals(other.textOption))
 			return false;
+		}
 		return true;
 	}
 
