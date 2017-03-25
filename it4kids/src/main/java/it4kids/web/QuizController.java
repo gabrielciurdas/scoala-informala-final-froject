@@ -97,13 +97,16 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/edit/add", method = RequestMethod.POST)
-	public ModelAndView saveQuizEntry(Long quizId, Integer expected,
+	public ModelAndView saveQuizEntry(Long quizId, Long quizEntryId,
+			Integer expected,
 			QuizEntry quizEntry, Option option, BindingResult bindingresult)
 			throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
+				QuizEntry qe = quizService.getQuizEntry(quizEntryId);
+				option.setQuizEntry(qe);
 				List<Option> options = quizEntry.getOptions();
 				int i = 1;
 				for (Option option2 : options) {
