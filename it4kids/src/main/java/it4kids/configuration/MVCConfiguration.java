@@ -1,29 +1,32 @@
 /*package it4kids.configuration;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
-import org.springframework.web.accept.ContentNegotiationManager;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-
-import freemarker.template.TemplateException;
 
 @Configuration
-@EnableWebMvc
-public class MVCConfiguration extends WebMvcConfigurerAdapter {
+public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+          registry.addViewController("/home").setViewName("home");
+          registry.addViewController("/").setViewName("login");
+          registry.addViewController("/hello").setViewName("hello");
+          registry.addViewController("/login").setViewName("login");
+          registry.addViewController("/admin").setViewName("admin/Admin");
+          registry.addViewController("/adminRegister").setViewName("admin/adminRegister");
+          registry.addViewController("/403").setViewName("403");
+    }
 
-	@Bean
+    @Bean
+   	public InternalResourceViewResolver viewResolver() {
+   		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+   		resolver.setPrefix("/WEB-INF/it4kids/");
+   		resolver.setSuffix(".jsp");
+   		return resolver;
+   	}
+    
+    @Bean
 	public FreeMarkerViewResolver getFmViewResolver() {
 		FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
 		resolver.setCache(true);
@@ -39,7 +42,7 @@ public class MVCConfiguration extends WebMvcConfigurerAdapter {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/");
 		resolver.setSuffix(".jsp");
-		resolver.setOrder(0);
+		resolver.setOrder(2);
 		return resolver;
 	}
 	
@@ -53,14 +56,12 @@ public class MVCConfiguration extends WebMvcConfigurerAdapter {
 	    return result;
 	  }	
 	
-
 	@Bean
 	public ViewResolver contentNegotiatingViewResolver(
 			ContentNegotiationManager manager) {
 		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
 		resolvers.add(getFmViewResolver());
 		resolvers.add(getJspViewResolver());
-
 		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
 		resolver.setViewResolvers(resolvers);
 		resolver.setContentNegotiationManager(manager);

@@ -1,82 +1,62 @@
 package it4kids.domain.quiz;
 
-/**
- * Clasa asta reprezinta intrebarea care se pune plus lista de raspunsuri aferente ei.
- * 
- * @author Catalin
- * 
- */
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class QuizEntry extends AbstractModel {
+public class QuizEntry {
 
-	private List<Option> options = new ArrayList<>();
-	private String text;
-	private int expected;
-	private Quiz quiz;
+	private Builder builder;
 
-	public List<Option> getOptions() {
-		return options;
+	private QuizEntry(Builder builder) {
+		this.builder = builder;
 	}
 
-	public void setOptions(List<Option> option) {
-		this.options = option;
+	public String getQuestion() {
+		return builder.question;
 	}
 
-	public String getText() {
-		return text;
+	public Map<Integer, String> getOptions() {
+		return builder.options;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public Set<Integer> getResults() {
+		return builder.results;
 	}
 
-	public Quiz getQuiz() {
-		return quiz;
-	}
+	public static class Builder {
 
-	public void setQuiz(Quiz quiz) {
-		this.quiz = quiz;
-	}
+		private String question;
+		private Map<Integer, String> options;
+		private Set<Integer> results;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((options == null) ? 0 : options.hashCode());
-		result = prime * result + ((text == null) ? 0 : text.hashCode());
-		return result;
-	}
+		public Builder() {
+			this.options = new HashMap<>();
+			this.results = new HashSet<>();
+		}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		QuizEntry other = (QuizEntry) obj;
-		if (options == null) {
-			if (other.options != null)
-				return false;
-		} else if (!options.equals(other.options))
-			return false;
-		if (text == null) {
-			if (other.text != null)
-				return false;
-		} else if (!text.equals(other.text))
-			return false;
-		return true;
-	}
+		public Builder setQuestion(String question) {
+			this.question = question;
+			return this;
+		}
 
-	public int getExpected() {
-		return expected;
-	}
+		public Builder addOption(int option, String description) {
+			options.put(option, description);
+			return this;
+		}
 
-	public void setExpected(int expectedAnswer) {
-		this.expected = expectedAnswer;
+		public Builder addResults(int... results) {
+			for (int result : results) {
+				this.results.add(result);
+			}
+			return this;
+		}
+
+		public QuizEntry build() {
+			return new QuizEntry(this);
+		}
+
 	}
 
 }
