@@ -1,5 +1,7 @@
 package it4kids.web;
 
+import it4kids.domain.quiz.Option;
+import it4kids.domain.quiz.Quiz;
 import it4kids.domain.quiz.QuizEntry;
 import it4kids.service.ValidationException;
 import it4kids.service.quiz.QuizService;
@@ -7,8 +9,6 @@ import it4kids.service.quiz.QuizService;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.text.html.Option;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

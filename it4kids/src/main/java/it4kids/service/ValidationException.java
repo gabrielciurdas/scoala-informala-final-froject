@@ -16,11 +16,4 @@ public class ValidationException extends Exception {
 		return causes != null ? Arrays.toString(causes) : "No CAUSE!";
 	}
 
-	public String[] getCauses() {
-		return causes;
-	}
-
-	public void setCauses(String[] causes) {
-		this.causes = causes;
-	}
 }

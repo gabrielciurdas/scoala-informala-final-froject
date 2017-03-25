@@ -16,7 +16,6 @@ import it4kids.domain.login.ChildAccount;
 public class ChildAccountDAO {
 
 	private ConnectionToDB db = new ConnectionToDB();
-	private int linesWritten = 0;
 
 	/**
 	 * This method writes a ChildAccount object in the specified database by
@@ -24,17 +23,19 @@ public class ChildAccountDAO {
 	 *
 	 * @param child
 	 *            is the parent to be written in the specified database.
+	 * @param parentId is the id of the child's parent.
 	 */
-	public void add(ChildAccount child)
+	public void add(ChildAccount child, int parentId)
 			throws SQLException {
 
-		final String insertSQL = "INSERT INTO child(id_registered_user)"
-				+ " values(?)";
+		final String insertSQL = "INSERT INTO child(id_registered_user, id_parent)"
+				+ " values(?,?)";
 
 		try (Connection conn = db.getDBConnection();
 			 PreparedStatement stm = conn.prepareStatement(insertSQL);){
 
 			stm.setInt(1, child.getIdRegisteredUser());
+			stm.setInt(2, parentId);
 			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
@@ -73,40 +74,5 @@ public class ChildAccountDAO {
 			ex.printStackTrace();
 		}
 		return result;
-	}
-	
-	 public void assignParent(int parentId, int childId) {
-	    	final String insertSQL = "UPDATE child SET id_parent = ?" + "WHERE id_registered_user = ?";
-	    	try (Connection conn = db.getDBConnection();
-	                PreparedStatement stm = conn.prepareStatement(insertSQL);){
-
-				stm.setInt(1, parentId);
-				stm.setInt(2, childId);
-				linesWritten = stm.executeUpdate();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		}
-	 
-	  public int getParentId(String childId) {
-			int id = 0;
-	        try (Connection conn = db.getDBConnection();
-	             PreparedStatement stm = conn.prepareStatement("select id_parent from child where id_registered_user='" + childId + "'");
-	             ResultSet rs = stm.executeQuery();)
-	             {
-				if (rs.next()) {
-					id = rs.getInt("id");
-				} else {
-					System.out.println("username does not exist");
-				}
-
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-			return id;
-		}
-	  
-	  public int getLinesWritten() {
-		return linesWritten;
 	}
 }
