@@ -1,25 +1,46 @@
 [#ftl]
 
-<form method="post" action="/primary_parent/parentRegister/register" onsubmit="">
-		<h3>Bine ai venit, ${currentUser.userName}!</h3>
-		<center>
-			<table border="0" width="40	%" cellpadding="4">
-				<tbody>
-					<tr>
-						<td>Copilul tău</td>
-						<td>Teste</td>
-						<td>Materiale educaționale</td>
-					</tr>
-					<tr>
-						<td><input type="submit" value="Rezultate" /></td>
-						<td><input type="submit" value="Lista" /></td>
-						<td><input type="submit" value="Lista" /></td>
-					</tr>
-				</tbody>
-			</table>
-			<tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#home">Pagina Principală</a></li>
+    <li><a data-toggle="pill" href="#account">Cont</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+    <br>
+      <p> Bine ai venit, ${currentUser.userName}!</p>
+      <br>
+      <p> <a href="/logout">Delogare</a> <p>
+      
+  <br>
+
+	<div id="account" class="tab-pane fade">
 						<a href="/primary_parent/parentRegister">Înregistrați părinți sau copii</a><br>
 						<a href="/primary_parent/assignParent">Asignați un părinte</a><br><br>
-		</center>
-		<a href="/logout">Delogare</a>
-	</form>
+    </div>
+    
+    <div id="logout" class="tab-pane fade">
+      <p> <a href="/logout">Delogare</a> <p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+

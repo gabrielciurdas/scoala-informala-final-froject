@@ -17,6 +17,7 @@ import it4kids.dao.indatabase.login.ChildAccountDAO;
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.ParentAccountDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
+import it4kids.dao.indatabase.login.TeacherAccountDAO;
 import it4kids.service.login.AdminService;
 import it4kids.service.login.ChildService;
 import it4kids.service.login.ParentService;
@@ -51,6 +52,11 @@ public class ApplicationConfiguration {
 	@Bean
 	public ChildAccountDAO ChildAccountDAO() {
 		return new ChildAccountDAO();
+	}
+	
+	@Bean
+	public TeacherAccountDAO TeacherAccountDAO() {
+		return new TeacherAccountDAO();
 	}
 	
 	@Bean 

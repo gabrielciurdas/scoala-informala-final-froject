@@ -1,4 +1,4 @@
-[#ftl]
+<#ftl encoding='UTF-8'>
 
 <form method="post" action="/primary_parent/parentRegister/parentRegister"
 		onsubmit="return checkUserRegistration()">
@@ -21,7 +21,7 @@
 					<tr>
 						<td>Tip de cont</td>
 						<td><select name="accountType">
-								<option value="Child">Copil</option>
+								<option value="CHILD">Copil</option>
 								<option value="PARENT">Părinte</option>
 						</select></td>
 					</tr>

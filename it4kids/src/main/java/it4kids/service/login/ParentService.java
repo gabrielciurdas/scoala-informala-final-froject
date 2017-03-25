@@ -59,9 +59,29 @@ public class ParentService {
 			out.println("</script>");
 
 		} else {
-			out.println("<script charset=" + "utf-8" + "type=\"text/javascript\">");
+			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Numele de utilizator există deja');");
 			out.println("</script>");
 		}
 	}
+/*
+	public Collection<User> listMyChildren(int id) {
+		LOGGER.debug("Listing chidren ");
+		return parentDAO.getChildren(int id);
+	}
+	public Collection<User> search( String query) {
+		LOGGER.debug("Searching for " + query);
+		return userDAO.searchByName(query);
+	}
+
+	public boolean delete(int id) {
+		LOGGER.debug("Deleting parent for id: " + id);
+		User user = userDAO.findById(id);
+		if (user != null) {
+			userDAO.delete(user);
+			return true;
+		}
+
+		return false;
+	}*/
 }

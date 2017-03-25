@@ -38,6 +38,12 @@ public class UserService {
         return dao.getAll();
     }
     
+    public Collection<User> listAllParents() {
+    	LOGGER.debug("Listing parents ");
+        return dao.getAllParents();
+    }
+    
+    
     public void save(User user) throws ValidationException {
     	LOGGER.debug("Saving user: " + user);
     	//validate(user);
@@ -45,7 +51,9 @@ public class UserService {
     }
     
     public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	dao.add(req, resp);
+		if (dao.usernameAvailable(req.getParameter("userName"))) {
+	    	dao.add(req, resp);
+		}
     }
     
     public User get(Long id) {

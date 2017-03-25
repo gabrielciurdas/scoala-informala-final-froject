@@ -1,25 +1,45 @@
 [#ftl]
 
-<form method="post" action="/admin/adminRegister/register">
-		<h3>Bine ai venit, ${currentUser.userName}!</h3>
-		<center>
-			<table border="0" width="40	%" cellpadding="4">
-				<tbody>
-					<tr>
-						<td>Învățători</td>
-						<td>Profesori</td>
-						<td>Copii</td>
-						<td>Teste</td>
-					</tr>
-					<tr>
-						<td><input type="submit" value="Vezi lista" /></td>
-						<td><input type="submit" value="Vezi lista" /></td>
-						<td><input type="submit" value="Vezi lista" /></td>
-						<td><input type="submit" value="Vezi lista" /></td>
-					</tr>
-				</tbody>
-			</table>
-			<a href="/admin/adminRegister">Înregistrează noi utilizatori</a>
-		</center>
-	</form>
-	<a href="/logout">Delogare</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#home">Pagina Principală</a></li>
+    <li><a data-toggle="pill" href="#teacher">Învățători</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+    <br>
+      <p> Bine ai venit, ${currentUser.userName}!</p>
+      <br>
+      <p> <a href="/logout">Delogare</a> <p>
+      
+  <br>
+
+	<div id="teacher" class="tab-pane fade">
+						<a href="/admin/adminRegister">Înregistrează învățători</a><br>
+    </div>
+    
+    <div id="logout" class="tab-pane fade">
+      <p> <a href="/logout">Delogare</a> <p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+

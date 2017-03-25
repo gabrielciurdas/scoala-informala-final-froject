@@ -46,7 +46,6 @@ public class ParentAccountDAO {
 
     }
     
-
     /**
      * This method writes a {@link ParentAccount} object in the specified database by creating a
      * connection with a PostgreSQL server and using a query.

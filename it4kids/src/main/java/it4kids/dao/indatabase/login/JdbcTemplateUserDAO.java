@@ -2,6 +2,8 @@ package it4kids.dao.indatabase.login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import it4kids.dao.ConnectionToDB;
 import it4kids.dao.inmemory.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.ChildAccount;
@@ -25,6 +28,7 @@ import it4kids.domain.login.User;
 public class JdbcTemplateUserDAO implements UserDAO {
 	private JdbcTemplate jdbcTemplate;
 	private RegisteredUserDAO userDAO = new RegisteredUserDAO();
+	private ConnectionToDB db = new ConnectionToDB();
 	private String accountType;
 	private String email;
 	private int id;
@@ -38,9 +42,13 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return jdbcTemplate.query("select * from registered_users", new UserMapper());
 	}
 
-	@Override
-	public User findById(Long id) {
-		return jdbcTemplate.queryForObject("select * from registered_users where id = ?", new Long[] { id },
+	public Collection<User> getAllParents() {
+		return jdbcTemplate.query("select * from registered_users where account_type like'%PARENT'", new UserMapper());
+	}
+	
+	//@Override
+	public User findById(int id) {
+		return jdbcTemplate.queryForObject("select * from registered_users where id = ?", new Integer[] { id },
 				new UserMapper());
 	}
 
@@ -86,9 +94,9 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	}
 
 	@Override
-	public Collection<User> searchByName(String query) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<User> searchByName(String name) {
+		
+			return jdbcTemplate.query("select * from registered_users WHERE first_name=" + name, new UserMapper());
 	}
 
 	private static class UserMapper implements RowMapper<User> {
@@ -120,15 +128,10 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		// String test = "";
 		if (!userDetails.isEmpty()) {
 			isRegistered = true;
-			System.out.println("user found");
-			System.out.println(userDetails.size());
-			System.out.println(userDetails.get(0).getUserName());
-			System.out.println(userDetails.get(0).getEmail());
-			System.out.println(userDetails.get(0).getAccountType());
 
 			id = userDetails.get(0).getId();
 			email = userDetails.get(0).getEmail();
-			accountType = userDetails.get(0).getAccountType();
+			accountType = accountType.valueOf(userDetails.get(0).getAccountType());
 		}
 		return isRegistered;
 	}
@@ -213,6 +216,28 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		}
 	}
 
+	  public boolean usernameAvailable(String userName) {
+	        boolean isAvailable = false;
+	        
+	        try (Connection conn = db.getDBConnection();
+	             PreparedStatement stm = conn.prepareStatement("select * from registered_users where username='" + userName + "'");
+	             ResultSet rs = stm.executeQuery();) {
+	        	
+	        	System.out.println("connected to db");
+	        	
+	            if (rs.next()) {
+	                isAvailable = false;
+	            } else {
+	                isAvailable = true;
+	            }
+
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+	        
+	        return isAvailable;
+	    }
+	
 	private void validateRegistration(PrintWriter out, String accountType, String location) {
 		if (userDAO.getLinesWritten() > 0) {
 			out.println("<script type=\"text/javascript\">");
@@ -258,5 +283,11 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public User findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
