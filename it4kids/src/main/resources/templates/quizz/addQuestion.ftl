@@ -1,18 +1,20 @@
 [#ftl]
-
+[#if error??]
+<div style="color:red">${error}</div>
+[/#if]
 
   
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Quiz Index</title>
+    <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -22,52 +24,52 @@
     <![endif]-->
   </head>
   <body>
+  
   <div class="panel panel-default">
   <div class="panel-heading">
-    <h2 class="panel-title">Quiz List</h2>
+    <h3 class="panel-title">Emploeey List</h3>
   </div>
   <div class="panel-body">
- <table class = "table">
-  <fieldset>
-  	<legend>Add Quiz</legend>
-  <form action="add" method="POST">
- 	Quiz Name: <input type="text" name="name" value="${(quiz.name)!''}" />	<br/>
+  
+    <table class = "table">
+
+
+<fieldset>
+  	<legend>Add Question</legend>
+  <form action="saveQuestion" method="POST">
+  
+ 	Question: <input type="text" name="text" value="${(quizEntry.text)!''}" /> 
+ 	<br/><br/><br/><br/>
+ 		 Answer1: <input type="text" name="textOption1" value="${(optionsWrapper.textOption1)!''}" />
+		 Answer2: <input type="text" name="textOption2" value="${(optionsWrapper.textOption2)!''}" />
+		 Answer3: <input type="text" name="textOption3" value="${(optionsWrapper.textOption3)!''}" />
+		 Answer4: <input type="text" name="textOption4" value="${(optionsWrapper.textOption4)!''}" />
+    <br/><br/>
+ 	Correct Answer: <input type="number" max="4" min="1" name="expected" value="${(optionsWrapper.expected)!''}" />
+ 	<br/><br/>
   	<input type="submit" value="   Save   " />
   	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
+  	<input type="hidden" name="quizEntryId" value="${(quizEntry.id)!''}" />
+  	<br/><br/>
+  	<a href="/edit?quizId=${quiz.id?c}">Back</a>
+  	<br/><br/>
   </form>
   </fieldset>
-  </br>
-  </br>
-  </br>
-  </br>
-  <div class="panel panel-primary">
-  <!-- Default panel contents -->
-  
-  <div class="panel-heading">Quiz Name</div>
+  <br/>
 
-  <!-- Table -->
-  <table class="table">
-    [#list quizList as quiz]
-  	<tr>
-  		<td>${(quiz.name)!''}</td>
-  		<td>
-  		<div class="row">
-  <div class="col-sm-6 col-md-4">
-      <div class="caption">
-        <p><a href="/delete?quizId=${quiz.id?c}" class="btn btn-danger" role="button">Delete</a>&nbsp; <a href="/edit?quizId=${quiz.id?c}" class="btn btn-success" role="button">Edit</a></p>
+
+</table>
   </div>
 </div>
-  		</td>
-  	</tr>
-    [/#list]
-  </table>
-</div>
+  
+  
+    
+
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
-
-

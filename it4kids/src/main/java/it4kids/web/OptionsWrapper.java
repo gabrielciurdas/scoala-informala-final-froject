@@ -1,7 +1,7 @@
 package it4kids.web;
 
-public class QuizEntryForm {
-	private String question;
+public class OptionsWrapper {
+
 	private String textOption1;
 	private String textOption2;
 	private String textOption3;

@@ -28,70 +28,60 @@
   </div>
   <div class="panel-body">
  <table class = "table">
+ 
+<p><b>
+<div style = floor right><a href="/index">Back</a>
+</br></br></br>
+<a href ="/addQuestion?quizId=${quiz.id?c}">ADD Question</a>
 
-  <fieldset>
-  	<legend>Add Question</legend>
-  <form action="edit/add" method="POST">
- 	Question: <input type="text" name="text" value="${(quizEntry.text)!''}" /> 
- 	<br/><br/><br/><br/>
- 		 Answer1: <input type="text" name="textOption1" value="${(option.textOption1)!''}" />
-		 Answer2: <input type="text" name="textOption2" value="${(option.textOption2)!''}" />
-		 Answer3: <input type="text" name="textOption3" value="${(option.textOption3)!''}" />
-		 Answer4: <input type="text" name="textOption4" value="${(option.textOption4)!''}" />
-    <br/><br/>
- 	Correct Answer: <input type="number" max="4" min="1" name="expected" value="${(option.expexted)!''}" />
- 	<br/><br/>
-  	<input type="submit" value="   Save   " />
-  	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
-  	<input type="hidden" name="quizEntryId" value="${(quizEntry.id)!''}" />
-  	<br/><br/>
-  	<a href="/index">Back to quiz</a>
-  	<br/><br/>
-  </form>
-  </fieldset>
-  <br/>
-  
-  
-  
+</div>
+</p>
+<br/><br/>
+
     <div class="panel panel-primary">
   <!-- Default panel contents -->
   <div class="panel-heading">Question List</div>
-
   <!-- Table -->
-  <table class="table">
-  
-  	<tr>
-  		<th>Question</th> 
-  		<th>Options</th>
-  	</tr>
+  <table class="table" style="width:80%;margin-left: auto;margin-right: auto;padding:0;">
     [#list quiz.questions as quizEntry]
-
   	<tr>
-  		<td>${(quizEntry.text)!''}</td>
-  		<td>${(quizEntry.expected)!''}</td>
+  		<th>Question</th>
+  		<td><h4>${(quizEntry.text)!''}</h4></td>
   		<td>
-  	    [#if quizEntry.options??]
-  	    <table class="table">
-  	    	<tr>
-		  		<th>Option</th> 
-		  		<th>Expected Answer</th>
-  	    	</tr>
-			[#list quizEntry.options as option]
-  	    	<tr>
-				<td>${(option.textOption)!''}</td> 
-				<td>${(option.correct?string('yes', 'no'))!''}</td>
-  	    	</tr>
-	        [/#list]
-	    </table>
-		[/#if]
-		</td> 
-  		
-  		<td>
-  		<a href="/deleteQuestion?id=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Delete</a>
-  		&nbsp;<a href="/edit?id=${quizEntry.id?c}">Edit</a>
+  		<a href="/deleteQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Delete</a>
+  		&nbsp;<a href="/editQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Edit</a>
   		</td>
   	</tr>
-  	
+    [#if quizEntry.options??]
+    	<tr>
+	    	<th>Options</th>
+    		<td colspan=2>
+    			<table class="table" style="margin:0;padding:0;">
+    				<tr>
+						[#list quizEntry.options as option]
+				  		<td> 
+							${(option.textOption)!''}
+			        	</td> 
+				        [/#list]
+    				</tr>
+    			</table>
+    		</td>
+    	</tr>
+    	<tr>
+			<th>Expected Answer</th>
+    		<td colspan=2>
+    			<table class="table" style="margin:0;padding:0;">
+    				<tr>
+						[#list quizEntry.options as option]
+				  		<td> 
+							${(option.correct?string('yes', 'no'))!''}
+			        	</td>
+				        [/#list]
+    				</tr>
+    			</table>
+    		</td>
+    	</tr>
+	[/#if]
     [/#list]
   </table>
 </div>

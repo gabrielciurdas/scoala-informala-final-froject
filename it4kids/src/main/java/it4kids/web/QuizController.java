@@ -76,8 +76,8 @@ public class QuizController {
 	}
 
 	@RequestMapping("/delete")
-	public ModelAndView delete(Long id) {
-		quizService.delete(id);
+	public ModelAndView delete(Long quizId) {
+		quizService.delete(quizId);
 		ModelAndView result = new ModelAndView();
 		RedirectView redirect = new RedirectView("/index");
 		result.setView(redirect);
@@ -85,29 +85,42 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(Long id) {
+	public ModelAndView edit(Long quizId) {
 		ModelAndView result = new ModelAndView("quizz/edit");
 
-		Quiz quiz = quizService.get(id);
+		Quiz quiz = quizService.get(quizId);
 		QuizEntry quizEntry = new QuizEntry();
-		QuizEntryForm qef = new QuizEntryForm();
+		OptionsWrapper qef = new OptionsWrapper();
 		quizEntry.setQuiz(quiz);
 		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
-		result.addObject("option", qef);
+		result.addObject("optionsWrapper", qef);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/edit/add", method = RequestMethod.POST)
-	public ModelAndView saveQuizEntry(Long quizId, QuizEntry quizEntry,
-			QuizEntryForm qef, BindingResult bindingresult)
+	@RequestMapping("/addQuestion")
+	public ModelAndView addQuizEntry(Long quizId) {
+		ModelAndView result = new ModelAndView("quizz/addQuestion");
+		Quiz quiz = quizService.get(quizId);
+		QuizEntry quizEntry = new QuizEntry();
+		OptionsWrapper qef = new OptionsWrapper();
+		quizEntry.setQuiz(quiz);
+		result.addObject("quiz", quiz);
+		result.addObject("quizEntry", quizEntry);
+		result.addObject("optionsWrapper", qef);
+		return result;
+	}
+
+	@RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
+	public ModelAndView saveQuizEntry(Long quizId, Long quizEntryId,
+			QuizEntry quizEntry,
+			OptionsWrapper qef, BindingResult bindingresult)
 			throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
-
 				Quiz quiz = quizService.get(quizId);
 				quizEntry.setQuiz(quiz);
 				quizService.saveQuizEntry(quizEntry);
@@ -120,10 +133,10 @@ public class QuizController {
 				quiz.getQuestions().add(quizEntry);
 				quizService.save(quiz);
 				result = new ModelAndView();
-				result.addObject("id", quiz.getId());
-				result.setView(new RedirectView("/edit"));
+				result.addObject("quizId", quiz.getId());
+				result.setView(new RedirectView("/edit?quizId=" + quizId));
 			} catch (ValidationException e) {
-				result = new ModelAndView("quizz/edit");
+				result = new ModelAndView("quizz/addQuestion");
 				result.addObject("error", e.getMessage());
 				result.addObject("quizEntry", quizEntry);
 			}
@@ -137,14 +150,56 @@ public class QuizController {
 				sb.append("<br>");
 			}
 
-			result = new ModelAndView("quizz/edit");
+			result = new ModelAndView("quizz/addQuestion");
 			result.addObject("error", sb.toString());
 			result.addObject("quizEntry", quizEntry);
 		}
 		return result;
 	}
 
-	private List<Option> saveOptions(QuizEntry quizEntry, QuizEntryForm qef)
+	@RequestMapping("/deleteQuestion")
+	public ModelAndView deleteQuizEntry(Long quizEntryId, Long quizId)
+			throws ValidationException {
+
+		QuizEntry qz = quizService.getQuizEntry(quizEntryId);
+
+		Quiz quiz = quizService.get(quizId);
+		Iterator<QuizEntry> quizList = quiz.getQuestions().iterator();
+		while (quizList.hasNext()) {
+			qz = quizList.next();
+			if (qz.getId() == quizEntryId) {
+				quizList.remove();
+			}
+		}
+		quizService.save(quiz);
+		ModelAndView result = new ModelAndView();
+		RedirectView redirect = new RedirectView("/edit?quizId="
+				+ qz.getQuiz().getId());
+		result.setView(redirect);
+		return result;
+	}
+
+	@RequestMapping("/editQuestion")
+	public ModelAndView editQuestion(Long quizId, Long quizEntryId) {
+		ModelAndView result = new ModelAndView("quizz/addQuestion");
+		QuizEntry qz = quizService.getQuizEntry(quizEntryId);
+
+		Quiz quiz = quizService.get(quizId);
+
+		if (qz != null) {
+			OptionsWrapper qef = this.readOptions(qz.getOptions());
+			result.addObject("quiz", quiz);
+			result.addObject("quizEntry", qz);
+			result.addObject("optionsWrapper", qef);
+		} else {
+			result = new ModelAndView();
+			RedirectView redirect = new RedirectView("/edit?quizId=" + quizId);
+			result.setView(redirect);
+		}
+		return result;
+	}
+
+	private List<Option> saveOptions(QuizEntry quizEntry, OptionsWrapper qef)
 			throws ValidationException {
 		List<Option> options = new ArrayList<Option>();
 		String textOption1 = qef.getTextOption1();
@@ -189,25 +244,35 @@ public class QuizController {
 		return options;
 	}
 
-	@RequestMapping("/deleteQuestion")
-	public ModelAndView deleteQuizEntry(Long quizEntryId, Long id)
-			throws ValidationException {
-
-		QuizEntry qz = quizService.getQuizEntry(quizEntryId);
-
-		Quiz quiz = quizService.get(id);
-		Iterator<QuizEntry> quizList = quiz.getQuestions().iterator();
-		while (quizList.hasNext()) {
-			qz = quizList.next();
-			if (qz.getId() == quizEntryId) {
-				quizList.remove();
+	private OptionsWrapper readOptions(List<Option> options) {
+		OptionsWrapper result = new OptionsWrapper();
+		for (int i = 0; i < options.size(); i++) {
+			Option currentOption = options.get(i);
+			if (currentOption.getCorrect()) {
+				result.setExpected(i + 1);
 			}
 		}
-		quizService.save(quiz);
-		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("/edit?id="
-				+ qz.getQuiz().getId());
-		result.setView(redirect);
+
+		Option optionOne = options.get(0);
+		String textOption1;
+		textOption1 = optionOne.getTextOption();
+		result.setTextOption1(textOption1);
+
+		Option optionTwo = options.get(1);
+		String textOption2;
+		textOption2 = optionTwo.getTextOption();
+		result.setTextOption2(textOption2);
+
+		Option optionThree = options.get(2);
+		String textOption3;
+		textOption3 = optionThree.getTextOption();
+		result.setTextOption3(textOption3);
+
+		Option optionFour = options.get(3);
+		String textOption4;
+		textOption4 = optionFour.getTextOption();
+		result.setTextOption4(textOption4);
+
 		return result;
 	}
 
