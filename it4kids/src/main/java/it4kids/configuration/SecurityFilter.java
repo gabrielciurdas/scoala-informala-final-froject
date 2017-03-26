@@ -49,7 +49,7 @@ public class SecurityFilter implements Filter {
 			} else {
 			}
 		}
-		if (url.contains("primary_parent")) {
+/*		if (url.contains("primary_parent")) {
 			if (!userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
 				// servletResponse.sendError(401);
@@ -88,7 +88,7 @@ public class SecurityFilter implements Filter {
 			}
 			else {
 			}
-		}
+		}*/
 
 		System.out.println("Thread name: " + Thread.currentThread().getName() + ", current user: "
 				+ (userLogin != null ? userLogin.getUserName() : null));

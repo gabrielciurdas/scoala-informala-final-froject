@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.domain.login.User;
+import it4kids.service.SecurityService;
 import it4kids.service.ValidationException;
 
 /**
@@ -32,6 +33,9 @@ public class UserService {
     
     @Autowired
     private RegisteredUserDAO registeredUserDAO;
+    
+    @Autowired
+    private SecurityService securityService;
     
     public Collection<User> listAll() {
     	LOGGER.debug("Listing users ");
