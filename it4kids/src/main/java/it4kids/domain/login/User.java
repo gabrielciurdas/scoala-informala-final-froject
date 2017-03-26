@@ -1,7 +1,8 @@
 package it4kids.domain.login;
 
-public class User extends Account {
-	private String id;
+import it4kids.domain.AbstractModel;
+
+public class User extends AbstractModel {
 	private String firstName;
 	private String lastName;
 	private String relatedUsername;
@@ -12,45 +13,6 @@ public class User extends Account {
 	private String date;
 	private boolean authenticated;
 	
-	public User(String firstName, String lastName, String relatedUsername, String accountType, String email, String userName, String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.relatedUsername =  relatedUsername;
-		this.accountType = AccountType.valueOf(accountType).name();
-		this.email = email;
-		this.userName = userName;
-		this.password = password;
-		authenticated = false;
-	}
-	
-	public User(String email, String password) {
-		super();
-		this.email = email;
-		this.password = password;
-	}
-
-	public User(String firstName, String lastName, String accountType, String email, String userName, String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.accountType = AccountType.valueOf(accountType).name();
-		this.email = email;
-		this.userName = userName;
-		this.password = password;
-		authenticated = false;
-	}
-
-	public User() {
-		firstName = "";
-		lastName = "";
-		accountType = "";
-		email = "";
-		userName = "";
-		password = "";
-		date = "";
-		authenticated = false;
-	}
 
 	/**
 	 * @return the firstName
@@ -137,14 +99,6 @@ public class User extends Account {
 	public void setDate(String date) {
 		this.date = date;
 	}
-
-	public int getId() {
-		return Integer.parseInt(id);
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public String getRelatedUsername() {
 		return relatedUsername;
@@ -156,5 +110,81 @@ public class User extends Account {
 	
 	public void setAuthenticated(boolean authenticated) {
 		this.authenticated = authenticated;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accountType == null) ? 0 : accountType.hashCode());
+		result = prime * result + (authenticated ? 1231 : 1237);
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((relatedUsername == null) ? 0 : relatedUsername.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (accountType == null) {
+			if (other.accountType != null)
+				return false;
+		} else if (!accountType.equals(other.accountType))
+			return false;
+		if (authenticated != other.authenticated)
+			return false;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (relatedUsername == null) {
+			if (other.relatedUsername != null)
+				return false;
+		} else if (!relatedUsername.equals(other.relatedUsername))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
+		return true;
 	}
 }

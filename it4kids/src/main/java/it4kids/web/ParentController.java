@@ -5,27 +5,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import it4kids.dao.indatabase.login.RegisteredUserDAO;
+import it4kids.service.login.ParentService;
+import it4kids.service.login.UserService;
+
 
 @Controller
 @RequestMapping("/parent")
 public class ParentController {
 
 	@Autowired
-	RegisteredUserDAO userService;
+	private UserService userService;
+	
+	@Autowired
+	private ParentService parentService;
 	
 	@RequestMapping("/parent")
-	public ModelAndView returnToMainView() {
-		ModelAndView result = new ModelAndView("parent/parent");
-		result.addObject("userLogin", userService.getUserLogin());
+	public ModelAndView parentToMainView() {
+		ModelAndView result = new ModelAndView("it4kids/parent/parent");
+		
 		return result;
 	}
 	
-	@RequestMapping("/parentRegister")
-	public ModelAndView parentRegisterView() {
-		ModelAndView result = new ModelAndView("parent/parentRegister");
-		result.addObject("userLogin", userService.getUserLogin());
+	@RequestMapping("/")
+	public ModelAndView returnToParentMainView() {
+		ModelAndView result = new ModelAndView("it4kids/parent/parent");
+		
 		return result;
 	}
-	
 }

@@ -4,43 +4,40 @@
  */
 package it4kids.configuration;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import it4kids.dao.AccountDAO;
-import it4kids.dao.UserDAO;
+import it4kids.dao.indatabase.login.ChildAccountDAO;
+import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
+import it4kids.dao.indatabase.login.ParentAccountDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
-import it4kids.dao.inmemory.login.IMAccountDAO;
-import it4kids.dao.inmemory.login.IMUserDAO;
-import it4kids.domain.login.UserLogin;
-import it4kids.service.login.AccountService;
-import it4kids.service.login.UserLoginService;
+import it4kids.dao.indatabase.login.TeacherAccountDAO;
+import it4kids.service.login.AdminService;
+import it4kids.service.login.ChildService;
+import it4kids.service.login.ParentService;
+import it4kids.service.login.TeacherService;
 import it4kids.service.login.UserService;
 
 @Configuration
 public class ApplicationConfiguration {
+	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
+	private static final String DB_USER = "postgres";
+	private static final String DB_PASSWORD = "aNewPa55w0rd";
 
 	@Bean
-	public AccountService accountService() {
-		return new AccountService();
+	public FilterRegistrationBean securityFilter() {
+		FilterRegistrationBean registration = new FilterRegistrationBean();
+		registration.setFilter(createSecurityFilter());
+		registration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
+		registration.addUrlPatterns("/*");
+		return registration;
 	}
-
-	@Bean
-	public UserService userService() {
-		return new UserService();
-	}
-
-	@Bean
-	public UserLoginService userLoginService() {
-		return new UserLoginService();
-	}
-	
-	/*@Bean
-	@Qualifier("UserLoginService")
-	public UserDAO userDAO() {
-		return new IMUserDAO();
-	}*/
 
 	@Bean
 	public RegisteredUserDAO registeredUserDAO() {
@@ -48,15 +45,61 @@ public class ApplicationConfiguration {
 	}
 	
 	@Bean
-	public AccountDAO<UserLogin> accountDAO() {
-		return new IMAccountDAO<>();
+	public ParentAccountDAO parentAccountDAO() {
+		return new ParentAccountDAO();
+	}
+	
+	@Bean
+	public ChildAccountDAO ChildAccountDAO() {
+		return new ChildAccountDAO();
+	}
+	
+	@Bean
+	public TeacherAccountDAO TeacherAccountDAO() {
+		return new TeacherAccountDAO();
+	}
+	
+	@Bean 
+	public AdminService adminService() {
+		return new AdminService();
+	}
+	
+	@Bean 
+	public UserService userService() {
+		return new UserService();
+	}
+	
+	@Bean 
+	public TeacherService teacherService() {
+		return new TeacherService();
+	}
+	
+	@Bean ParentService parentService() {
+		return new ParentService();
+	}
+	
+	@Bean 
+	public ChildService chilldService() {
+		return new ChildService();
+	}
+	
+	@Bean
+	public SecurityFilter createSecurityFilter() {
+		return new SecurityFilter();
 	}
 
-	/*
-	 * @EnableRedisHttpSession public class Config { //Spring alternative to
-	 * HttpSession from Tomcat
-	 * 
-	 * @Bean public LettuceConnectionFactory connectionFactory() { return new
-	 * LettuceConnectionFactory(); } }
-	 */
+	@Bean
+	public BasicDataSource dataSource() {
+
+		BasicDataSource basicDataSource = new BasicDataSource();
+		basicDataSource.setUrl(DB_CONNECTION);
+		basicDataSource.setUsername(DB_USER);
+		basicDataSource.setPassword(DB_PASSWORD);
+
+		return basicDataSource;
+	}
+	@Bean
+	public JdbcTemplateUserDAO jdbcTemplateDAO() {
+		return new JdbcTemplateUserDAO(dataSource());
+	}
 }
