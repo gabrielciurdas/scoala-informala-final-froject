@@ -1,36 +1,31 @@
 package it4kids.domain.quiz;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Clasa asta reprezinta intrebarea care se pune plus lista de raspunsuri aferente ei.
  * 
  * @author Catalin
  * 
  */
-
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuizEntry extends AbstractModel {
 
-	@NotNull
-	@NotEmpty
+	private List<Option> options = new ArrayList<>();
 	private String text;
+<<<<<<< HEAD
+	private String correctAnswer;
+=======
+	private int expected;
+	private Quiz quiz;
+>>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 
-	private Map<String, List<Option>> questions = new HashMap<String, List<Option>>();
-	private List<Option> options;
+	public List<Option> getOptions() {
+		return options;
+	}
 
-	private Option option;
-
-	public void createQuestion() {
-		QuizEntry quizEntry = new QuizEntry();
-		options.add(new Option(option.getOptionText(), option.getCorrectOptionText()));
-		questions.put(quizEntry.getText(), options);
-
+	public void setOptions(List<Option> option) {
+		this.options = option;
 	}
 
 	public String getText() {
@@ -39,6 +34,14 @@ public class QuizEntry extends AbstractModel {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public Quiz getQuiz() {
+		return quiz;
+	}
+
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
 	}
 
 	@Override
@@ -72,9 +75,12 @@ public class QuizEntry extends AbstractModel {
 		return true;
 	}
 
-}
+	public int getExpected() {
+		return expected;
+	}
 
-// <#-- Set Options: <input name = "option"
-// value="${quizEntry.fields[option]!''}" />
-// Set Correct Answer: <input name = "correctAnswer"
-// value="${quizEntry.correctAnswer!''}" /> -->
+	public void setExpected(int expectedAnswer) {
+		this.expected = expectedAnswer;
+	}
+
+}

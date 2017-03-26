@@ -1,10 +1,10 @@
 [#ftl]
 <p><b>Quiz List
-<div style = float right><a href ="options/add">Add Options</a>
+<div style = floar right><a href ="options/add">Add Options</a>
 </div>
 </p>
 
-<form method="POST"action="/questions/saveQuestionList">
+<form method="POST"action="/quiz/questions/saveQuestionList">
 
 <table>
 <tr>
@@ -17,12 +17,16 @@
 	<tr>
 	<td>${option.text!''}</td> 
 	
+	<td>${option.correct!''} 
+	
+	<input type="radio" name="correct" value="${option.true!''}" checked = "checked"/>
+	
+	</td>
 	</tr>
 	
 [/#list]
 
 </table>
 <br>
-  <input type="submit" value="save">
-  <a href="/questions">Cancel</a>
+  <input type="submit" value="save"><a href="/quiz/questions">Cancel</a>
 </form>

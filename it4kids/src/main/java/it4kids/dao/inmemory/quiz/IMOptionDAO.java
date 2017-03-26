@@ -20,7 +20,7 @@ public class IMOptionDAO extends IMBaseQuizDAO<Option> implements OptionDAO {
 		Collection<Option> all = new LinkedList<Option>(getAll());
 		for (Iterator<Option> it = all.iterator(); it.hasNext();) {
 			Option emp = it.next();
-			String ss = emp.getOptionText() + " " + emp.getCorrectOptionText();
+			String ss = emp.getTextOption() + " " + emp.getCorrect();
 			if (!ss.toLowerCase().contains(query.toLowerCase())) {
 				it.remove();
 			}

@@ -13,6 +13,7 @@ public class Quiz extends AbstractModel {
 
 	private List<QuizEntry> questions = new ArrayList<>();
 	private String name;
+	
 
 	public List<QuizEntry> getQuestions() {
 		return questions;
@@ -29,6 +30,9 @@ public class Quiz extends AbstractModel {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+		
+	
 
 	// aici ma gandesc la un Quiz , care are ca dependinta un question , iar
 	// question are ca dependinta un quiz si un correct answer.
