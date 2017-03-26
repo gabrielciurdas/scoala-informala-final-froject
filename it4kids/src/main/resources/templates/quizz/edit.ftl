@@ -34,15 +34,12 @@
   <form action="edit/add" method="POST">
  	Question: <input type="text" name="text" value="${(quizEntry.text)!''}" /> 
  	<br/><br/><br/><br/>
- 	[#if quizEntry.options??]
- 	[#list quizEntry.options as option]
-		Answer: <input type="text" name="textOption" value="${(option.textOption)!''}" />
-		<input type="radio" name="correct" value="${(option.correct)!''}" />
-		<br/><br/>
-    [/#list]
-    [/#if]
+ 		 Answer1: <input type="text" name="textOption1" value="${(option.textOption1)!''}" />
+		 Answer2: <input type="text" name="textOption2" value="${(option.textOption2)!''}" />
+		 Answer3: <input type="text" name="textOption3" value="${(option.textOption3)!''}" />
+		 Answer4: <input type="text" name="textOption4" value="${(option.textOption4)!''}" />
     <br/><br/>
- 	Correct Answer: <input type="number" max="4" min="1" name="expected" value="1" />
+ 	Correct Answer: <input type="number" max="4" min="1" name="expected" value="${(option.expexted)!''}" />
  	<br/><br/>
   	<input type="submit" value="   Save   " />
   	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
@@ -65,8 +62,7 @@
   
   	<tr>
   		<th>Question</th> 
-  		<th>Expected Answer</th>
-  		<th>Answer</th>
+  		<th>Options</th>
   	</tr>
     [#list quiz.questions as quizEntry]
 
@@ -75,16 +71,23 @@
   		<td>${(quizEntry.expected)!''}</td>
   		<td>
   	    [#if quizEntry.options??]
-	[#list quizEntry.options as option]
-		<td>${(option.textOption)!''}
+  	    <table class="table">
+  	    	<tr>
+		  		<th>Option</th> 
+		  		<th>Expected Answer</th>
+  	    	</tr>
+			[#list quizEntry.options as option]
+  	    	<tr>
+				<td>${(option.textOption)!''}</td> 
+				<td>${(option.correct?string('yes', 'no'))!''}</td>
+  	    	</tr>
+	        [/#list]
+	    </table>
+		[/#if]
 		</td> 
-		<td>${(option.correct)!''}
-		</td>
-		</td> 
-        [/#list]
-[/#if]
   		
-  		<td> <a href="/deleteQuestion?id=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Delete</a>
+  		<td>
+  		<a href="/deleteQuestion?id=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Delete</a>
   		&nbsp;<a href="/edit?id=${quizEntry.id?c}">Edit</a>
   		</td>
   	</tr>

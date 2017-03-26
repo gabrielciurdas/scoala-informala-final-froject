@@ -6,6 +6,7 @@ import it4kids.domain.quiz.QuizEntry;
 import it4kids.service.ValidationException;
 import it4kids.service.quiz.QuizService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -23,9 +24,13 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("")
 public class QuizController {
 
+	private static final int OPTION_ONE = 1;
+	private static final int OPTION_TWO = 2;
+	private static final int OPTION_THREE = 3;
+	private static final int OPTION_FOUR = 4;
+
 	@Autowired
 	private QuizService quizService;
-
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView list() {
@@ -84,40 +89,34 @@ public class QuizController {
 		ModelAndView result = new ModelAndView("quizz/edit");
 
 		Quiz quiz = quizService.get(id);
-		result.addObject("quiz", quiz);
 		QuizEntry quizEntry = new QuizEntry();
-		quizEntry.getOptions().add(new Option());
-		quizEntry.getOptions().add(new Option());
-		quizEntry.getOptions().add(new Option());
-		quizEntry.getOptions().add(new Option());
+		QuizEntryForm qef = new QuizEntryForm();
 		quizEntry.setQuiz(quiz);
+		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
+		result.addObject("option", qef);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit/add", method = RequestMethod.POST)
-	public ModelAndView saveQuizEntry(Long quizId, Long quizEntryId,
-			Integer expected,
-			QuizEntry quizEntry, Option option, BindingResult bindingresult)
+	public ModelAndView saveQuizEntry(Long quizId, QuizEntry quizEntry,
+			QuizEntryForm qef, BindingResult bindingresult)
 			throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
-				QuizEntry qe = quizService.getQuizEntry(quizEntryId);
-				option.setQuizEntry(qe);
-				List<Option> options = quizEntry.getOptions();
-				int i = 1;
-				for (Option option2 : options) {
-					option2.setCorrect(i == expected);
-					option2.setQuizEntry(quizEntry);
-					quizService.saveOption(option2);
-					i++;
-				}
+
 				Quiz quiz = quizService.get(quizId);
 				quizEntry.setQuiz(quiz);
 				quizService.saveQuizEntry(quizEntry);
+
+				List<Option> options = saveOptions(quizEntry, qef);
+				// doar pt IMDAO -- start
+				quizEntry.setOptions(options);
+				quizService.saveQuizEntry(quizEntry);
+				// doar pt IMDAO -- end
 				quiz.getQuestions().add(quizEntry);
 				quizService.save(quiz);
 				result = new ModelAndView();
@@ -143,6 +142,51 @@ public class QuizController {
 			result.addObject("quizEntry", quizEntry);
 		}
 		return result;
+	}
+
+	private List<Option> saveOptions(QuizEntry quizEntry, QuizEntryForm qef)
+			throws ValidationException {
+		List<Option> options = new ArrayList<Option>();
+		String textOption1 = qef.getTextOption1();
+		if (textOption1 != null && textOption1.trim().length() > 0) {
+			Option o1 = new Option();
+			o1.setTextOption(textOption1);
+			o1.setCorrect(OPTION_ONE == qef.getExpected());
+			o1.setQuizEntry(quizEntry);
+			quizService.saveOption(o1);
+			options.add(o1);
+		}
+
+		String textOption2 = qef.getTextOption2();
+		if (textOption2 != null && textOption2.trim().length() > 0) {
+			Option o2 = new Option();
+			o2.setTextOption(textOption2);
+			o2.setCorrect(OPTION_TWO == qef.getExpected());
+			o2.setQuizEntry(quizEntry);
+			quizService.saveOption(o2);
+			options.add(o2);
+		}
+
+		String textOption3 = qef.getTextOption3();
+		if (textOption3 != null && textOption3.trim().length() > 0) {
+			Option o3 = new Option();
+			o3.setTextOption(textOption3);
+			o3.setCorrect(OPTION_THREE == qef.getExpected());
+			o3.setQuizEntry(quizEntry);
+			quizService.saveOption(o3);
+			options.add(o3);
+		}
+
+		String textOption4 = qef.getTextOption4();
+		if (textOption4 != null && textOption4.trim().length() > 0) {
+			Option o4 = new Option();
+			o4.setTextOption(textOption4);
+			o4.setCorrect(OPTION_FOUR == qef.getExpected());
+			o4.setQuizEntry(quizEntry);
+			quizService.saveOption(o4);
+			options.add(o4);
+		}
+		return options;
 	}
 
 	@RequestMapping("/deleteQuestion")

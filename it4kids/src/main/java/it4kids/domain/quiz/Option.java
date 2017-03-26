@@ -30,13 +30,6 @@ public class Option extends AbstractModel {
 		this.quizEntry = quizEntry;
 	}
 
-	public String getTextOption() {
-		return textOption;
-	}
-
-	public void setTextOption(String textOption) {
-		this.textOption = textOption;
-	}
 
 	@Override
 	public String toString() {
@@ -74,5 +67,15 @@ public class Option extends AbstractModel {
 			return false;
 		return true;
 	}
+
+	public String getTextOption() {
+		return textOption;
+	}
+
+	public void setTextOption(String textOption) {
+		this.textOption = textOption;
+	}
+
+
 
 }
