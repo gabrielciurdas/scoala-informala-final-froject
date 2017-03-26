@@ -5,16 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/*public class QuizEntry extends AbstractModel {
-
-	private List<Option> options = new ArrayList<>();
-	private String text;
-	private Quiz quiz;
-
-	public List<Option> getOptions() {
-		return options;
-	}*/
-
 public class QuizEntry {
 
 	private Builder builder;
