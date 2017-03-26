@@ -13,7 +13,6 @@ public class QuizEntry extends AbstractModel {
 
 	private List<Option> options = new ArrayList<>();
 	private String text;
-	private int expected;
 	private Quiz quiz;
 
 	public List<Option> getOptions() {
@@ -69,14 +68,6 @@ public class QuizEntry extends AbstractModel {
 		} else if (!text.equals(other.text))
 			return false;
 		return true;
-	}
-
-	public int getExpected() {
-		return expected;
-	}
-
-	public void setExpected(int expectedAnswer) {
-		this.expected = expectedAnswer;
 	}
 
 }

@@ -13,10 +13,32 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class Teste {
 
+	private static final int OPTION_ONE = 1;
+	private static final int OPTION_TWO = 2;
+	private static final int OPTION_THREE = 3;
+	private static final int OPTION_FOUR = 4;
+
 	@Autowired
 	QuizService quizService;
 
 	public static void main(String[] args) {
+		QuizEntryForm qef = new QuizEntryForm();
+
+		Option o1 = new Option();
+		o1.setTextOption(qef.getTextOption1());
+		o1.setCorrect(OPTION_ONE == qef.getExpected());
+
+		Option o2 = new Option();
+		o2.setTextOption(qef.getTextOption1());
+		o2.setCorrect(OPTION_TWO == qef.getExpected());
+
+		Option o3 = new Option();
+		o3.setTextOption(qef.getTextOption1());
+		o3.setCorrect(OPTION_THREE == qef.getExpected());
+
+		Option o4 = new Option();
+		o4.setTextOption(qef.getTextOption1());
+		o4.setCorrect(OPTION_FOUR == qef.getExpected());
 
 	}
 
