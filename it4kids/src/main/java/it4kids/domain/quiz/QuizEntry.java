@@ -1,21 +1,11 @@
 package it4kids.domain.quiz;
 
-<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-=======
-/**
- * Clasa asta reprezinta intrebarea care se pune plus lista de raspunsuri aferente ei.
- * 
- * @author Catalin
- * 
- */
-import java.util.ArrayList;
-import java.util.List;
 
-public class QuizEntry extends AbstractModel {
+/*public class QuizEntry extends AbstractModel {
 
 	private List<Option> options = new ArrayList<>();
 	private String text;
@@ -23,8 +13,7 @@ public class QuizEntry extends AbstractModel {
 
 	public List<Option> getOptions() {
 		return options;
-	}
->>>>>>> origin/Catalin
+	}*/
 
 public class QuizEntry {
 
@@ -48,7 +37,6 @@ public class QuizEntry {
 
 	public static class Builder {
 
-<<<<<<< HEAD
 		private String question;
 		private Map<Integer, String> options;
 		private Set<Integer> results;
@@ -81,6 +69,4 @@ public class QuizEntry {
 
 	}
 
-=======
->>>>>>> origin/Catalin
 }

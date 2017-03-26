@@ -1,5 +1,7 @@
 package it4kids.domain.quiz;
 
+import it4kids.domain.AbstractModel;
+
 /**
  * Clasa asta reprezinta varianta de raspuns creeata de profesor, cand va fi
  * pasata elevului el va vedea doar textul.
