@@ -3,7 +3,7 @@ package it4kids.web;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class LoginController { 
+public class LoginController {
 	// <<<<<<< HEAD
 	// // <<<<<<< HEAD
 	//
@@ -206,9 +206,6 @@ public class LoginController {
 	// * resp); } }
 	// */
 	// // >>>>>>> it4kids
-
-}
-
 	// =======
 	// /*
 	// @Autowired
@@ -310,5 +307,4 @@ public class LoginController {
 	// * resp); } }
 	// */
 	// >>>>>>> origin/Gabi
-
-
+}

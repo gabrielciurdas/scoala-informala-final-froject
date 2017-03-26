@@ -18,9 +18,7 @@
 	<td>${option.text!''}</td> 
 	
 	<td>${option.correct!''} 
-	
-	<input type="radio" name="correct" value="${option.true!''}" checked = "checked"/>
-	
+	<input type="radio" name="correct" value="${option.correct!''}"/>
 	</td>
 	</tr>
 	

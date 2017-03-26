@@ -9,8 +9,9 @@ import java.util.LinkedList;
 
 import org.springframework.util.StringUtils;
 
-public class IMQuizDAO extends IMBaseQuizDAO<Quiz> {
+public class IMQuizDAO extends IMBaseQuizDAO<Quiz> implements QuizDAO {
 
+	@Override
 	public Collection<Quiz> searchByName(String query) {
 		if (StringUtils.isEmpty(query)) {
 			return getAll();

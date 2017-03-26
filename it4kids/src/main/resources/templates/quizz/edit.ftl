@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-  
-  [#ftl]
-<p><b>Question List
-</p>
-=======
 [#ftl]
->>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
 
 
   
@@ -71,22 +64,14 @@
   <table class="table">
   
   	<tr>
-<<<<<<< HEAD
-  		<th>Questions</th>
-  		<th></th>
-=======
   		<th>Question</th> 
   		<th>Expected Answer</th>
   		<th>Answer</th>
->>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
   	</tr>
     [#list quiz.questions as quizEntry]
 
   	<tr>
   		<td>${(quizEntry.text)!''}</td>
-<<<<<<< HEAD
-  		<td><a href=""/delete?id=${quizEntry.id?c}"">Delete</a>&nbsp;<a href="edit?id=${quizEntry.id?c}">Edit</a>
-=======
   		<td>${(quizEntry.expected)!''}</td>
   		<td>
   	    [#if quizEntry.options??]
@@ -102,7 +87,6 @@
   		<td> <a href="/deleteQuestion?id=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Delete</a>
   		&nbsp;<a href="/edit?id=${quizEntry.id?c}">Edit</a>
   		</td>
->>>>>>> 313da294fe366a957c0104af1fe310b8197455a8
   	</tr>
   	
     [/#list]
