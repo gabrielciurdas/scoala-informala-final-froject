@@ -91,7 +91,7 @@ public class QuizController {
 		Quiz quiz = quizService.get(quizId);
 		QuizEntry quizEntry = new QuizEntry();
 		OptionsWrapper qef = new OptionsWrapper();
-		quizEntry.setQuiz(quiz);
+		quizEntry.setQuizId(quizId);
 		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
 		result.addObject("optionsWrapper", qef);
@@ -105,7 +105,7 @@ public class QuizController {
 		Quiz quiz = quizService.get(quizId);
 		QuizEntry quizEntry = new QuizEntry();
 		OptionsWrapper qef = new OptionsWrapper();
-		quizEntry.setQuiz(quiz);
+		quizEntry.setQuizId(quizId);
 		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
 		result.addObject("optionsWrapper", qef);
@@ -122,10 +122,10 @@ public class QuizController {
 
 			try {
 				Quiz quiz = quizService.get(quizId);
-				quizEntry.setQuiz(quiz);
+				quizEntry.setQuizId(quizId);
 				quizService.saveQuizEntry(quizEntry);
 
-				List<Option> options = saveOptions(quizEntry, qef);
+				List<Option> options = saveOptions(quizEntryId, qef);
 				// doar pt IMDAO -- start
 				quizEntry.setOptions(options);
 				quizService.saveQuizEntry(quizEntry);
@@ -174,7 +174,7 @@ public class QuizController {
 		quizService.save(quiz);
 		ModelAndView result = new ModelAndView();
 		RedirectView redirect = new RedirectView("/edit?quizId="
-				+ qz.getQuiz().getId());
+				+ qz.getQuizId());
 		result.setView(redirect);
 		return result;
 	}
@@ -199,7 +199,7 @@ public class QuizController {
 		return result;
 	}
 
-	private List<Option> saveOptions(QuizEntry quizEntry, OptionsWrapper qef)
+	private List<Option> saveOptions(Long quizEntryId, OptionsWrapper qef)
 			throws ValidationException {
 		List<Option> options = new ArrayList<Option>();
 		String textOption1 = qef.getTextOption1();
@@ -207,7 +207,7 @@ public class QuizController {
 			Option o1 = new Option();
 			o1.setTextOption(textOption1);
 			o1.setCorrect(OPTION_ONE == qef.getExpected());
-			o1.setQuizEntry(quizEntry);
+			o1.setQuizEntryId(quizEntryId);
 			quizService.saveOption(o1);
 			options.add(o1);
 		}
@@ -217,7 +217,7 @@ public class QuizController {
 			Option o2 = new Option();
 			o2.setTextOption(textOption2);
 			o2.setCorrect(OPTION_TWO == qef.getExpected());
-			o2.setQuizEntry(quizEntry);
+			o2.setQuizEntryId(quizEntryId);
 			quizService.saveOption(o2);
 			options.add(o2);
 		}
@@ -227,7 +227,7 @@ public class QuizController {
 			Option o3 = new Option();
 			o3.setTextOption(textOption3);
 			o3.setCorrect(OPTION_THREE == qef.getExpected());
-			o3.setQuizEntry(quizEntry);
+			o3.setQuizEntryId(quizEntryId);
 			quizService.saveOption(o3);
 			options.add(o3);
 		}
@@ -237,7 +237,7 @@ public class QuizController {
 			Option o4 = new Option();
 			o4.setTextOption(textOption4);
 			o4.setCorrect(OPTION_FOUR == qef.getExpected());
-			o4.setQuizEntry(quizEntry);
+			o4.setQuizEntryId(quizEntryId);
 			quizService.saveOption(o4);
 			options.add(o4);
 		}

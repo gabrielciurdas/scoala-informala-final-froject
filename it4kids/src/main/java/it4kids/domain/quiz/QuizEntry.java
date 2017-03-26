@@ -13,7 +13,7 @@ public class QuizEntry extends AbstractModel {
 
 	private List<Option> options = new ArrayList<>();
 	private String text;
-	private Quiz quiz;
+	private Long quizId;
 
 	public List<Option> getOptions() {
 		return options;
@@ -31,12 +31,12 @@ public class QuizEntry extends AbstractModel {
 		this.text = text;
 	}
 
-	public Quiz getQuiz() {
-		return quiz;
+	public Long getQuizId() {
+		return quizId;
 	}
 
-	public void setQuiz(Quiz quiz) {
-		this.quiz = quiz;
+	public void setQuizId(Long quizId) {
+		this.quizId = quizId;
 	}
 
 	@Override

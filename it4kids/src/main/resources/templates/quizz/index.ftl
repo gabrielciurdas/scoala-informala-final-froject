@@ -21,7 +21,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body bgcolor="##ffff99">
   <div class="panel panel-default">
   <div class="panel-heading">
     <h2 class="panel-title">Quiz List</h2>
@@ -30,9 +30,12 @@
  <table class = "table">
   <fieldset>
   	<legend>Add Quiz</legend>
-  <form action="add" method="POST">
- 	Quiz Name: <input type="text" name="name" value="${(quiz.name)!''}" />	<br/>
-  	<input type="submit" value="   Save   " />
+  <form class="form-inline" action="add" method="POST">
+  <div class="form-group">
+    <label for="name">Quiz Name</label>
+ 	<input type="text" name="name" value="${(quiz.name)!''}" />	
+ 	</div>
+  	<button type="submit" class="btn btn-primary">Save</button>
   	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
   </form>
   </fieldset>

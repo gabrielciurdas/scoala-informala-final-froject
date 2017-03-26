@@ -2,7 +2,6 @@
 [#if error??]
 <div style="color:red">${error}</div>
 [/#if]
-
   
   <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +22,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body bgcolor="##ffff99">
   
   <div class="panel panel-default">
   <div class="panel-heading">
@@ -36,36 +35,51 @@
 
 <fieldset>
   	<legend>Add Question</legend>
-  <form action="saveQuestion" method="POST">
-  
- 	Question: <input type="text" name="text" value="${(quizEntry.text)!''}" /> 
- 	<br/><br/><br/><br/>
- 		 Answer1: <input type="text" name="textOption1" value="${(optionsWrapper.textOption1)!''}" />
-		 Answer2: <input type="text" name="textOption2" value="${(optionsWrapper.textOption2)!''}" />
-		 Answer3: <input type="text" name="textOption3" value="${(optionsWrapper.textOption3)!''}" />
-		 Answer4: <input type="text" name="textOption4" value="${(optionsWrapper.textOption4)!''}" />
-    <br/><br/>
- 	Correct Answer: <input type="number" max="4" min="1" name="expected" value="${(optionsWrapper.expected)!''}" />
+  <form class="form-horizontal" action="saveQuestion" method="POST">
+ 
+    <div class="form-group">
+      <label for="text">Question:</label>
+      <input type="text" name="text" value="${(quizEntry.text)!''}" />
+       
+    </div>
+   
+ 	<br/><br/><br/>
+ 	 <div class="form-group">
+       <label for="textOption1">Answer1:</label>
+       <input type="text" name="textOption1" value="${(optionsWrapper.textOption1)!''}" />    
+      </div>
+    <div class="form-group">
+      <label for="textOption2">Answer2:</label>
+      <input type="text" name="textOption2" value="${(optionsWrapper.textOption2)!''}" />
+    </div>
+    <div class="form-group">
+      <label for="textOption3">Answer3:</label>
+     <input type="text" name="textOption3" value="${(optionsWrapper.textOption3)!''}" />
+    </div>
+    <div class="form-group">
+      <label for="textOption4">Answer4:</label>
+      <input type="text" name="textOption4" value="${(optionsWrapper.textOption4)!''}" />
+    </div>
+ 		  <br/><br/>
+	 <div class="form-group">
+      <label for="expected">Correct Answer:</label>
+       <input type="number" max="4" min="1" name="expected" value="${(optionsWrapper.expected)!''}" />
+    </div>
+ 	
  	<br/><br/>
-  	<input type="submit" value="   Save   " />
+  	<button type="submit" class="btn btn-primary">Save</button>
   	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
   	<input type="hidden" name="quizEntryId" value="${(quizEntry.id)!''}" />
   	<br/><br/>
-  	<a href="/edit?quizId=${quiz.id?c}">Back</a>
+  	<a href="/edit?quizId=${quiz.id?c}" class="btn btn-info" role="button"">Back</a>
   	<br/><br/>
   </form>
   </fieldset>
   <br/>
 
-
 </table>
   </div>
 </div>
-  
-  
-    
-
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

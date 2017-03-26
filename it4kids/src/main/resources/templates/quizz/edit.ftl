@@ -21,7 +21,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body bgcolor="##ffff99">
   <div class="panel panel-default">
   <div class="panel-heading">
     <h2 class="panel-title">Question List</h2>
@@ -30,9 +30,9 @@
  <table class = "table">
  
 <p><b>
-<div style = floor right><a href="/index">Back</a>
+<div style = floor right><a href="/index" class="btn btn-info" role="button"">Back</a>
 </br></br></br>
-<a href ="/addQuestion?quizId=${quiz.id?c}">ADD Question</a>
+<a href ="/addQuestion?quizId=${quiz.id?c}" class="btn btn-primary" role="button"">ADD Question</a>
 
 </div>
 </p>
@@ -48,8 +48,10 @@
   		<th>Question</th>
   		<td><h4>${(quizEntry.text)!''}</h4></td>
   		<td>
-  		<a href="/deleteQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Delete</a>
-  		&nbsp;<a href="/editQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Edit</a>
+  		<div class="caption">
+  		<a href="/deleteQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}" class="btn btn-danger" role="button"">Delete</a>
+  		&nbsp;<a href="/editQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}" class="btn btn-success" role="button"">Edit</a>
+  		</div>
   		</td>
   	</tr>
     [#if quizEntry.options??]
