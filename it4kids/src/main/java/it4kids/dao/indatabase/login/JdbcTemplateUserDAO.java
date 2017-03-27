@@ -31,7 +31,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	private ConnectionToDB db = new ConnectionToDB();
 	private String accountType;
 	private String email;
-	private int id;
+	private long id;
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -281,7 +281,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return email;
 	}
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

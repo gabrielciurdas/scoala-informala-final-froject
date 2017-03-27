@@ -18,11 +18,18 @@ import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.ParentAccountDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.login.TeacherAccountDAO;
+import it4kids.dao.indatabase.quiz.OptionDAO;
+import it4kids.dao.indatabase.quiz.QuizDAO;
+import it4kids.dao.indatabase.quiz.QuizEntryDAO;
+import it4kids.dao.inmemory.quiz.IMOptionDAO;
+import it4kids.dao.inmemory.quiz.IMQuizDAO;
+import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
 import it4kids.service.login.AdminService;
 import it4kids.service.login.ChildService;
 import it4kids.service.login.ParentService;
 import it4kids.service.login.TeacherService;
 import it4kids.service.login.UserService;
+import it4kids.service.quiz.QuizService;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -87,6 +94,45 @@ public class ApplicationConfiguration {
 	public SecurityFilter createSecurityFilter() {
 		return new SecurityFilter();
 	}
+	
+	@Bean
+	public QuizService quizService() {
+		QuizService ems = new QuizService();
+
+		ems.setQuizDao(quizDAO());
+		return ems;
+	}
+
+	@Bean
+	public QuizDAO quizDAO() {
+		return new IMQuizDAO();
+	}
+
+	@Bean
+	public QuizService quizEntryServiceService() {
+		QuizService ems = new QuizService();
+
+		ems.setQuizEntryDao(quizEntryDAO());
+		return ems;
+	}
+
+	@Bean
+	public QuizEntryDAO quizEntryDAO() {
+		return new IMQuizEntryDAO();
+	}
+
+	@Bean
+	public QuizService employeeService() {
+		QuizService ems = new QuizService();
+
+		ems.setOptionDao(optionDAO());
+		return ems;
+	}
+
+	@Bean
+	public OptionDAO optionDAO() {
+		return new IMOptionDAO();
+}
 
 	@Bean
 	public BasicDataSource dataSource() {
