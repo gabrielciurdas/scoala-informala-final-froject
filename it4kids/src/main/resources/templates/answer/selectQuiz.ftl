@@ -21,6 +21,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
+  
+  
+  
   <body>
   <div class="panel panel-default">
   <div class="panel-heading">
@@ -53,7 +56,7 @@
   		<div class="row">
   <div class="col-sm-6 col-md-4">
       <div class="caption">
-        <p><a href="/Start?id=${quiz.id?c}" class="btn btn-success" role="button">Start Quiz</a></p>
+        <p><a href="/start?id=${quiz.id?c}" class="btn btn-success" role="button">Start Quiz</a></p>
   </div>
 </div>
   		</td>

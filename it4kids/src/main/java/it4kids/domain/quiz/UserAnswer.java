@@ -3,8 +3,9 @@ package it4kids.domain.quiz;
 public class UserAnswer {
 
 	private QuizEntry qEntry;
+	private Option option;
 
-	private int selectedAnswer;
+	private boolean selectedAnswer;
 
 	private boolean answerIsCorrect = true;
 	private int numberOfQuestions;
@@ -12,7 +13,7 @@ public class UserAnswer {
 
 	public boolean checkIfAnswerIsCorrect() {
 
-		if (qEntry.getExpected() == selectedAnswer) {
+		if (option.getCorrect() == selectedAnswer) {
 			numberOfQuestions++;
 			numberOfCorrectAnswers++;
 			return answerIsCorrect;
@@ -26,11 +27,11 @@ public class UserAnswer {
 		return qEntry;
 	}
 
-	public int getSelectedAnswer() {
+	public boolean getSelectedAnswer() {
 		return selectedAnswer;
 	}
 
-	public void setSelectedAnswer(int selectedAnswer) {
+	public void setSelectedAnswer(boolean selectedAnswer) {
 		this.selectedAnswer = selectedAnswer;
 	}
 
