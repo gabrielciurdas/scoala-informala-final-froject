@@ -21,18 +21,13 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-<<<<<<< HEAD
   <body bgcolor="##ffff99">
-=======
-  <body>
->>>>>>> parent of e07083c... Reverse commit #2
   <div class="panel panel-default">
   <div class="panel-heading">
     <h2 class="panel-title">Question List</h2>
   </div>
   <div class="panel-body">
  <table class = "table">
-<<<<<<< HEAD
  
 <p><b>
 <div style = floor right><a href="/index" class="btn btn-info" role="button"">Back</a>
@@ -89,72 +84,6 @@
     		</td>
     	</tr>
 	[/#if]
-=======
-
-  <fieldset>
-  	<legend>Add Question</legend>
-  <form action="edit/add" method="POST">
- 	Question: <input type="text" name="text" value="${(quizEntry.text)!''}" /> 
- 	<br/><br/><br/><br/>
- 		 Answer1: <input type="text" name="textOption1" value="${(option.textOption1)!''}" />
-		 Answer2: <input type="text" name="textOption2" value="${(option.textOption2)!''}" />
-		 Answer3: <input type="text" name="textOption3" value="${(option.textOption3)!''}" />
-		 Answer4: <input type="text" name="textOption4" value="${(option.textOption4)!''}" />
-    <br/><br/>
- 	Correct Answer: <input type="number" max="4" min="1" name="expected" value="${(option.expexted)!''}" />
- 	<br/><br/>
-  	<input type="submit" value="   Save   " />
-  	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
-  	<input type="hidden" name="quizEntryId" value="${(quizEntry.id)!''}" />
-  	<br/><br/>
-  	<a href="/index">Back to quiz</a>
-  	<br/><br/>
-  </form>
-  </fieldset>
-  <br/>
-  
-  
-  
-    <div class="panel panel-primary">
-  <!-- Default panel contents -->
-  <div class="panel-heading">Question List</div>
-
-  <!-- Table -->
-  <table class="table">
-  
-  	<tr>
-  		<th>Question</th> 
-  		<th>Options</th>
-  	</tr>
-    [#list quiz.questions as quizEntry]
-
-  	<tr>
-  		<td>${(quizEntry.text)!''}</td>
-  		<td>${(quizEntry.expected)!''}</td>
-  		<td>
-  	    [#if quizEntry.options??]
-  	    <table class="table">
-  	    	<tr>
-		  		<th>Option</th> 
-		  		<th>Expected Answer</th>
-  	    	</tr>
-			[#list quizEntry.options as option]
-  	    	<tr>
-				<td>${(option.textOption)!''}</td> 
-				<td>${(option.correct?string('yes', 'no'))!''}</td>
-  	    	</tr>
-	        [/#list]
-	    </table>
-		[/#if]
-		</td> 
-  		
-  		<td>
-  		<a href="/deleteQuestion?id=${quiz.id?c}&quizEntryId=${quizEntry.id?c}">Delete</a>
-  		&nbsp;<a href="/edit?id=${quizEntry.id?c}">Edit</a>
-  		</td>
-  	</tr>
-  	
->>>>>>> parent of e07083c... Reverse commit #2
     [/#list]
   </table>
 </div>

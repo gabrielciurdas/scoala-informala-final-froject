@@ -22,11 +22,7 @@ public class Teste {
 	QuizService quizService;
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
 		OptionsWrapper qef = new OptionsWrapper();
-=======
-		QuizEntryForm qef = new QuizEntryForm();
->>>>>>> parent of e07083c... Reverse commit #2
 
 		Option o1 = new Option();
 		o1.setTextOption(qef.getTextOption1());

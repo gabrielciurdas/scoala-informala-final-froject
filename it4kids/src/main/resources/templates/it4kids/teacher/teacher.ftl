@@ -15,6 +15,7 @@
     <li class="active"><a data-toggle="pill" href="#home">Pagina Principală</a></li>
     <li><a data-toggle="pill" href="#parent">Părinți</a></li>
     <li><a data-toggle="pill" href="#child">Copii</a></li>
+        <li><a data-toggle="pill" href="#quiz">Quiz</a></li>
     <li><a data-toggle="pill" href="#logout">Delogare</a></li>
   </ul>
   
@@ -26,12 +27,15 @@
 
     </div>
     <div id="parent" class="tab-pane fade">
-      <h3>Părinți</h3>
-      <div action="/it4kids/teacher/parentList" method="GET"></div>
+      <h3>Părinți   </h3>
+       <p> <a href="/teacher/parentList">Vedeți lista</a> <p>
     </div>
     <div id="child" class="tab-pane fade">
-      <h3>Copii 2</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+      <h3>Copii   </h3>
+    </div>
+    <div id="quiz" class="tab-pane fade">
+      <h3>Quiz    </h3>
+      <a href="/teacher/addQuiz">Adăugați un quiz</a><br><br>
     </div>
     <div id="logout" class="tab-pane fade">
       <p> <a href="/logout">Delogare</a> <p>

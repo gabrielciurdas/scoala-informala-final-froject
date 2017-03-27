@@ -28,7 +28,7 @@ public class TeacherController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/teacher")
+	@RequestMapping("/parentList")
 	public ModelAndView teacherMainView(@RequestParam(defaultValue="") String name) {
 		ModelAndView result = new ModelAndView("it4kids/teacher/parentList");
 		
@@ -72,13 +72,13 @@ public class TeacherController {
 		return result;
 	}
 	
-	/*
+	
 	@RequestMapping("/teacher")
 	public ModelAndView teacherMainView() {
 		ModelAndView result = new ModelAndView("it4kids/teacher/teacher");
 		
 		return result;
-	}*/
+	}
 	
 	@RequestMapping("/")
 	public ModelAndView returnToTeacherMainView() {

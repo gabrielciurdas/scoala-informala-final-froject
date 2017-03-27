@@ -1,10 +1,5 @@
 package it4kids.domain.quiz;
 
-<<<<<<< HEAD
-=======
-import it4kids.domain.AbstractModel;
-
->>>>>>> parent of e07083c... Reverse commit #2
 /**
  * Clasa asta reprezinta varianta de raspuns creeata de profesor, cand va fi
  * pasata elevului el va vedea doar textul.
@@ -15,11 +10,7 @@ import it4kids.domain.AbstractModel;
 
 public class Option extends AbstractModel {
 
-<<<<<<< HEAD
 	private Long quizEntryId;
-=======
-	private QuizEntry quizEntry;
->>>>>>> parent of e07083c... Reverse commit #2
 	private String textOption;
 	private Boolean correct;
 
@@ -31,21 +22,12 @@ public class Option extends AbstractModel {
 		this.correct = correct;
 	}
 
-<<<<<<< HEAD
 	public Long getQuizEntryId() {
 		return quizEntryId;
 	}
 
 	public void setQuizEntryId(Long quizEntryId) {
 		this.quizEntryId = quizEntryId;
-=======
-	public QuizEntry getQuizEntry() {
-		return quizEntry;
-	}
-
-	public void setQuizEntry(QuizEntry quizEntry) {
-		this.quizEntry = quizEntry;
->>>>>>> parent of e07083c... Reverse commit #2
 	}
 
 
