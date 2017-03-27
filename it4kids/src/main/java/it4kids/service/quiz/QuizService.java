@@ -1,4 +1,4 @@
-/*package it4kids.service.quiz;
+package it4kids.service.quiz;
 
 import java.util.Collection;
 
@@ -30,4 +30,3 @@ public class QuizService {
 		return false;
 	}
 }
-*/

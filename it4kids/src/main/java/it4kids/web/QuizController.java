@@ -76,8 +76,13 @@ public class QuizController {
 	}
 
 	@RequestMapping("/delete")
+<<<<<<< HEAD
 	public ModelAndView delete(Long quizId) {
 		quizService.delete(quizId);
+=======
+	public ModelAndView delete(Long id) {
+		quizService.delete(id);
+>>>>>>> parent of e07083c... Reverse commit #2
 		ModelAndView result = new ModelAndView();
 		RedirectView redirect = new RedirectView("/index");
 		result.setView(redirect);
@@ -85,6 +90,7 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+<<<<<<< HEAD
 	public ModelAndView edit(Long quizId) {
 		ModelAndView result = new ModelAndView("quizz/edit");
 
@@ -95,10 +101,23 @@ public class QuizController {
 		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
 		result.addObject("optionsWrapper", qef);
+=======
+	public ModelAndView edit(Long id) {
+		ModelAndView result = new ModelAndView("quizz/edit");
+
+		Quiz quiz = quizService.get(id);
+		QuizEntry quizEntry = new QuizEntry();
+		QuizEntryForm qef = new QuizEntryForm();
+		quizEntry.setQuiz(quiz);
+		result.addObject("quiz", quiz);
+		result.addObject("quizEntry", quizEntry);
+		result.addObject("option", qef);
+>>>>>>> parent of e07083c... Reverse commit #2
 
 		return result;
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("/addQuestion")
 	public ModelAndView addQuizEntry(Long quizId) {
 		ModelAndView result = new ModelAndView("quizz/addQuestion");
@@ -116,16 +135,30 @@ public class QuizController {
 	public ModelAndView saveQuizEntry(Long quizId, Long quizEntryId,
 			QuizEntry quizEntry,
 			OptionsWrapper qef, BindingResult bindingresult)
+=======
+	@RequestMapping(value = "/edit/add", method = RequestMethod.POST)
+	public ModelAndView saveQuizEntry(Long quizId, QuizEntry quizEntry,
+			QuizEntryForm qef, BindingResult bindingresult)
+>>>>>>> parent of e07083c... Reverse commit #2
 			throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
+<<<<<<< HEAD
 				Quiz quiz = quizService.get(quizId);
 				quizEntry.setQuizId(quizId);
 				quizService.saveQuizEntry(quizEntry);
 
 				List<Option> options = saveOptions(quizEntryId, qef);
+=======
+
+				Quiz quiz = quizService.get(quizId);
+				quizEntry.setQuiz(quiz);
+				quizService.saveQuizEntry(quizEntry);
+
+				List<Option> options = saveOptions(quizEntry, qef);
+>>>>>>> parent of e07083c... Reverse commit #2
 				// doar pt IMDAO -- start
 				quizEntry.setOptions(options);
 				quizService.saveQuizEntry(quizEntry);
@@ -133,10 +166,17 @@ public class QuizController {
 				quiz.getQuestions().add(quizEntry);
 				quizService.save(quiz);
 				result = new ModelAndView();
+<<<<<<< HEAD
 				result.addObject("quizId", quiz.getId());
 				result.setView(new RedirectView("/edit?quizId=" + quizId));
 			} catch (ValidationException e) {
 				result = new ModelAndView("quizz/addQuestion");
+=======
+				result.addObject("id", quiz.getId());
+				result.setView(new RedirectView("/edit"));
+			} catch (ValidationException e) {
+				result = new ModelAndView("quizz/edit");
+>>>>>>> parent of e07083c... Reverse commit #2
 				result.addObject("error", e.getMessage());
 				result.addObject("quizEntry", quizEntry);
 			}
@@ -150,13 +190,18 @@ public class QuizController {
 				sb.append("<br>");
 			}
 
+<<<<<<< HEAD
 			result = new ModelAndView("quizz/addQuestion");
+=======
+			result = new ModelAndView("quizz/edit");
+>>>>>>> parent of e07083c... Reverse commit #2
 			result.addObject("error", sb.toString());
 			result.addObject("quizEntry", quizEntry);
 		}
 		return result;
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("/deleteQuestion")
 	public ModelAndView deleteQuizEntry(Long quizEntryId, Long quizId)
 			throws ValidationException {
@@ -200,6 +245,9 @@ public class QuizController {
 	}
 
 	private List<Option> saveOptions(Long quizEntryId, OptionsWrapper qef)
+=======
+	private List<Option> saveOptions(QuizEntry quizEntry, QuizEntryForm qef)
+>>>>>>> parent of e07083c... Reverse commit #2
 			throws ValidationException {
 		List<Option> options = new ArrayList<Option>();
 		String textOption1 = qef.getTextOption1();
@@ -207,7 +255,11 @@ public class QuizController {
 			Option o1 = new Option();
 			o1.setTextOption(textOption1);
 			o1.setCorrect(OPTION_ONE == qef.getExpected());
+<<<<<<< HEAD
 			o1.setQuizEntryId(quizEntryId);
+=======
+			o1.setQuizEntry(quizEntry);
+>>>>>>> parent of e07083c... Reverse commit #2
 			quizService.saveOption(o1);
 			options.add(o1);
 		}
@@ -217,7 +269,11 @@ public class QuizController {
 			Option o2 = new Option();
 			o2.setTextOption(textOption2);
 			o2.setCorrect(OPTION_TWO == qef.getExpected());
+<<<<<<< HEAD
 			o2.setQuizEntryId(quizEntryId);
+=======
+			o2.setQuizEntry(quizEntry);
+>>>>>>> parent of e07083c... Reverse commit #2
 			quizService.saveOption(o2);
 			options.add(o2);
 		}
@@ -227,7 +283,11 @@ public class QuizController {
 			Option o3 = new Option();
 			o3.setTextOption(textOption3);
 			o3.setCorrect(OPTION_THREE == qef.getExpected());
+<<<<<<< HEAD
 			o3.setQuizEntryId(quizEntryId);
+=======
+			o3.setQuizEntry(quizEntry);
+>>>>>>> parent of e07083c... Reverse commit #2
 			quizService.saveOption(o3);
 			options.add(o3);
 		}
@@ -237,13 +297,18 @@ public class QuizController {
 			Option o4 = new Option();
 			o4.setTextOption(textOption4);
 			o4.setCorrect(OPTION_FOUR == qef.getExpected());
+<<<<<<< HEAD
 			o4.setQuizEntryId(quizEntryId);
+=======
+			o4.setQuizEntry(quizEntry);
+>>>>>>> parent of e07083c... Reverse commit #2
 			quizService.saveOption(o4);
 			options.add(o4);
 		}
 		return options;
 	}
 
+<<<<<<< HEAD
 	private OptionsWrapper readOptions(List<Option> options) {
 		OptionsWrapper result = new OptionsWrapper();
 		for (int i = 0; i < options.size(); i++) {
@@ -273,6 +338,27 @@ public class QuizController {
 		textOption4 = optionFour.getTextOption();
 		result.setTextOption4(textOption4);
 
+=======
+	@RequestMapping("/deleteQuestion")
+	public ModelAndView deleteQuizEntry(Long quizEntryId, Long id)
+			throws ValidationException {
+
+		QuizEntry qz = quizService.getQuizEntry(quizEntryId);
+
+		Quiz quiz = quizService.get(id);
+		Iterator<QuizEntry> quizList = quiz.getQuestions().iterator();
+		while (quizList.hasNext()) {
+			qz = quizList.next();
+			if (qz.getId() == quizEntryId) {
+				quizList.remove();
+			}
+		}
+		quizService.save(quiz);
+		ModelAndView result = new ModelAndView();
+		RedirectView redirect = new RedirectView("/edit?id="
+				+ qz.getQuiz().getId());
+		result.setView(redirect);
+>>>>>>> parent of e07083c... Reverse commit #2
 		return result;
 	}
 

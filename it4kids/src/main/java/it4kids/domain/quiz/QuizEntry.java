@@ -26,6 +26,16 @@ import java.util.Map;
 import java.util.Set;
 >>>>>>> origin/it4kids
 
+/*public class QuizEntry extends AbstractModel {
+
+	private List<Option> options = new ArrayList<>();
+	private String text;
+	private Quiz quiz;
+
+	public List<Option> getOptions() {
+		return options;
+	}*/
+
 public class QuizEntry {
 
 	private Builder builder;
