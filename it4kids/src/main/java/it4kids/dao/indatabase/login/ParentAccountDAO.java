@@ -15,7 +15,6 @@ import it4kids.domain.login.ParentAccount;
  */
 public class ParentAccountDAO {
     ConnectionToDB db = new ConnectionToDB();
-    private int linesWritten = 0;
     /**
      * This method writes a {@link ParentAccount} object in the specified database by creating a
      * connection with a PostgreSQL server and using a query.
@@ -37,7 +36,7 @@ public class ParentAccountDAO {
 
             stm.setInt(1, parent.getIdRegisteredUser());
             stm.setInt(2, childId);
-            linesWritten = stm.executeUpdate();
+            stm.executeUpdate();
             System.out.println("Record is inserted into DBUSER table!");
 
         } catch (SQLException e) {
@@ -45,7 +44,7 @@ public class ParentAccountDAO {
         }
 
     }
-    
+
     /**
      * This method writes a {@link ParentAccount} object in the specified database by creating a
      * connection with a PostgreSQL server and using a query.
@@ -68,24 +67,11 @@ public class ParentAccountDAO {
             System.out.println(e.getMessage());
         }
     }
-    
-    public void assignChild(int childId, int parentId) {
-    	final String insertSQL = "UPDATE parent SET id_child = ?" + "WHERE id_registered_user = ?";
-    	try (Connection conn = db.getDBConnection();
-                PreparedStatement stm = conn.prepareStatement(insertSQL);){
 
-			stm.setInt(1, childId);
-			stm.setInt(2, parentId);
-			linesWritten = stm.executeUpdate();
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-	}
-    
     public int getChildId(String parentId) {
 		int id = 0;
         try (Connection conn = db.getDBConnection();
-             PreparedStatement stm = conn.prepareStatement("select id_registered_user from parent where id_registered_user='" + parentId + "'");
+             PreparedStatement stm = conn.prepareStatement("select id from child where id_parent='" + parentId + "'");
              ResultSet rs = stm.executeQuery();)
              {
 			if (rs.next()) {
@@ -99,24 +85,6 @@ public class ParentAccountDAO {
 		}
 		return id;
 	}
-    
-    public int getParentId(String idRegisteredUser) {
-    	int id = 0;
-        try (Connection conn = db.getDBConnection();
-             PreparedStatement stm = conn.prepareStatement("select id_registered_user from parent where id_registered_user='" + idRegisteredUser + "'");
-             ResultSet rs = stm.executeQuery();)
-             {
-			if (rs.next()) {
-				id = rs.getInt("id");
-			} else {
-				System.out.println("username does not exist");
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return id;
-    }
 
     /**
      * This method retrieves a list of ParentAccount objects from the specified database
@@ -147,8 +115,4 @@ public class ParentAccountDAO {
 
         return result;
     }
-    
-    public int getLinesWritten() {
-		return linesWritten;
-	}
 }

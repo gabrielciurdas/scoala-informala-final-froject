@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,7 +46,7 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView saveQuiz(Quiz quiz, BindingResult bindingresult)
+	public ModelAndView saveQuiz(@Valid Quiz quiz, BindingResult bindingresult)
 			throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
@@ -61,6 +63,7 @@ public class QuizController {
 		} else {
 			List<FieldError> errors = bindingresult.getFieldErrors();
 			StringBuilder sb = new StringBuilder();
+
 			for (FieldError fieldError : errors) {
 				sb.append(fieldError.getField());
 				sb.append("-");
@@ -114,14 +117,14 @@ public class QuizController {
 
 	@RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
 	public ModelAndView saveQuizEntry(Long quizId, Long quizEntryId,
-			QuizEntry quizEntry,
-			OptionsWrapper qef, BindingResult bindingresult)
-			throws ValidationException {
+			@Valid QuizEntry quizEntry, OptionsWrapper qef,
+			BindingResult bindingresult) throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
 				Quiz quiz = quizService.get(quizId);
+				quizEntry.setId(quizEntryId);
 				quizEntry.setQuizId(quizId);
 				quizService.saveQuizEntry(quizEntry);
 
@@ -130,7 +133,7 @@ public class QuizController {
 				quizEntry.setOptions(options);
 				quizService.saveQuizEntry(quizEntry);
 				// doar pt IMDAO -- end
-				quiz.getQuestions().add(quizEntry);
+				updateQuizQuestions(quizEntry, quiz);
 				quizService.save(quiz);
 				result = new ModelAndView();
 				result.addObject("quizId", quiz.getId());
@@ -155,6 +158,21 @@ public class QuizController {
 			result.addObject("quizEntry", quizEntry);
 		}
 		return result;
+	}
+
+	private void updateQuizQuestions(QuizEntry quizEntry, Quiz quiz) {
+
+		List<QuizEntry> questions = quiz.getQuestions();
+
+		for (Iterator<QuizEntry> it = questions.iterator(); it.hasNext();) {
+			QuizEntry entry = it.next();
+
+			if (entry.getId() == quizEntry.getId()) {
+				it.remove();
+			}
+		}
+		questions.add(quizEntry);
+
 	}
 
 	@RequestMapping("/deleteQuestion")

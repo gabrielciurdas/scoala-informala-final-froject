@@ -2,7 +2,7 @@ package it4kids.dao;
 
 import java.util.Collection;
 
-import it4kids.domain.AbstractModel;
+import it4kids.domain.quiz.AbstractModel;
 
 public interface BaseDAO<T extends AbstractModel> {
 

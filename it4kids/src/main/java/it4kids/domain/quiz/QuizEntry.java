@@ -9,10 +9,14 @@ package it4kids.domain.quiz;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 public class QuizEntry extends AbstractModel {
 
 	private List<Option> options = new ArrayList<>();
+	@NotNull
 	private String text;
+	@NotNull
 	private Long quizId;
 
 	public List<Option> getOptions() {

@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class It4kidsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(it4kidsApplication.class, args);
+		SpringApplication.run(It4kidsApplication.class, args);
 	}
 }
-	 

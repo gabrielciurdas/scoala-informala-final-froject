@@ -1,5 +1,7 @@
 package it4kids.domain.quiz;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Clasa asta reprezinta varianta de raspuns creeata de profesor, cand va fi
  * pasata elevului el va vedea doar textul.
@@ -10,6 +12,7 @@ package it4kids.domain.quiz;
 
 public class Option extends AbstractModel {
 
+	@NotNull
 	private Long quizEntryId;
 	private String textOption;
 	private Boolean correct;
