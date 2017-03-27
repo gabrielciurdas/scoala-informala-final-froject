@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import it4kids.dao.AccountDAO;
+import it4kids.dao.BaseDAO;
 import it4kids.domain.login.Account;
 
 /**
@@ -16,15 +16,16 @@ import it4kids.domain.login.Account;
 public class AccountService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountService.class);
 
-    private AccountDAO dao;
+    private BaseDAO dao;
 
     public Collection<Account> listAll() {
     	LOGGER.debug("Listing accounts ");
         return dao.getAll();
     }
 
-    public void saveAccount(Account account, int id) {
+  /*  public void saveAccount(Account account, int id) {
         LOGGER.debug("Saving: " + account + " with id " + id);
         dao.add(account, id);
     }
+}*/
 }

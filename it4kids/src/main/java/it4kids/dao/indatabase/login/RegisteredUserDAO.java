@@ -1,61 +1,26 @@
 package it4kids.dao.indatabase.login;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import it4kids.dao.ConnectionToDB;
-import it4kids.dao.UserDAO;
+import it4kids.domain.UserLogin;
 import it4kids.domain.login.Account;
 import it4kids.domain.login.User;
-import it4kids.domain.login.UserLogin;
 
 /**
  * Created by Gabi on 3/15/2017.
  */
-public class RegisteredUserDAO implements UserDAO {
+public class RegisteredUserDAO {
 
     private ConnectionToDB db = new ConnectionToDB(); //to be aggregated by spring as a bean
     private int linesWritten = 0;
     private UserLogin userLogin = new UserLogin();
-   /* private String firstName = "";
+    private String firstName = "";
     private String accountType = "";
-    private String username = "";*/
-
-    public boolean authenticateUser(String userName, String password) {
-    	System.out.println("userDAO tries to authenticate " + userName);
-		boolean isValid = false;
-		try (Connection conn = newConnection("postgresql", "localhost", "5432", "it4kids", "postgres",
-				"aNewPa55w0rd");
-				Statement stm = conn.createStatement();
-				ResultSet rs = stm.executeQuery("select * from registered_users where userName='" + userName
-						+ "' and password='" + password + "'");) {
-			System.out.println("connected to db");
-			if (rs.next()) {
-				isValid = true;
-				System.out.println("userName found: " + userName);
-				System.out.println("first name: " + rs.getString("first_name"));
-				userLogin.setFirstName(rs.getString("first_name"));
-				System.out.println("users first name: " + userLogin.getFirstName());
-			    userLogin.setAccountType(rs.getString("account_type"));
-			   // userLogin.setId(rs.getInt("id"));
-			    userLogin.setUserName(userName);
-			    userLogin.setPassword(password);
-			    System.out.println("query works");
-			} else {
-				isValid = false;
-			}
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return isValid;
-	}
+    private String username = "";
 
     public int getUsernameId(String username) {
         int id = 0;
@@ -74,11 +39,15 @@ public class RegisteredUserDAO implements UserDAO {
         return id;
     }
 
-    public boolean usernameAvailable(String username) {
+    public boolean usernameAvailable(String userName) {
         boolean isAvailable = false;
+        
         try (Connection conn = db.getDBConnection();
              PreparedStatement stm = conn.prepareStatement("select * from registered_users where username='" + username + "'");
              ResultSet rs = stm.executeQuery();) {
+        	
+        	System.out.println("connected to db");
+        	
             if (rs.next()) {
                 isAvailable = false;
             } else {
@@ -88,10 +57,11 @@ public class RegisteredUserDAO implements UserDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        
         return isAvailable;
     }
 
-    /**
+  /**
      * This method writes a User object in the specified database by creating a
      * connection with a PostgreSQL server and using a query.
      *
@@ -111,6 +81,7 @@ public class RegisteredUserDAO implements UserDAO {
             stm.setString(4, user.getEmail());
             stm.setString(5, user.getUserName());
             stm.setString(6, user.getPassword());
+            
             linesWritten = stm.executeUpdate();
 
         } catch (SQLException ex) {
@@ -123,8 +94,8 @@ public class RegisteredUserDAO implements UserDAO {
              PreparedStatement stm = conn.prepareStatement("UPDATE parent SET id_child = ?" );) {
 
             stm.setInt(1, childId);
-            //linesWritten = stm.executeUpdate();
             stm.executeUpdate();
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -136,7 +107,7 @@ public class RegisteredUserDAO implements UserDAO {
                      .prepareStatement("INSERT INTO child(id_parent)" + " values(?)");) {
 
             stm.setInt(1, parentId);
-			/*linesWritten = stm.executeUpdate();*/
+			linesWritten = stm.executeUpdate();
             stm.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -149,7 +120,7 @@ public class RegisteredUserDAO implements UserDAO {
      *
      * @return the list of User objects.
      */
-    public Collection<Account> getAll() {
+ /*   public Collection<Account> getAll() {
         Collection<Account> result = new ArrayList<>();
 
         try (Connection conn = db.getDBConnection(); Statement stm = conn.createStatement();
@@ -161,6 +132,7 @@ public class RegisteredUserDAO implements UserDAO {
 
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
+                user.setAccountType(rs.getString("account_type"));
                 user.setEmail(rs.getString("email"));
                 user.setUserName(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
@@ -173,7 +145,7 @@ public class RegisteredUserDAO implements UserDAO {
         }
 
         return result;
-    }
+    }*/
 
     public Account add(Account account, int id) {
         return null;
@@ -183,7 +155,7 @@ public class RegisteredUserDAO implements UserDAO {
         return linesWritten;
     }
 
-  /*  public String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -193,17 +165,16 @@ public class RegisteredUserDAO implements UserDAO {
 
     public String getUsername() {
         return username;
-    }*/
+    }
     public UserLogin getUserLogin() {
 		return userLogin;
 	}
 
-	@Override
 	public Account add(Account model, Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	private static void loadDriver() {
+	/*private static void loadDriver() {
 		try {
 			Class.forName("org.postgresql.Driver").newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -230,6 +201,12 @@ public class RegisteredUserDAO implements UserDAO {
 		}
 
 		return null;
+	}*/
+
+	/*@Override
+	public Collection<Account> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -243,4 +220,22 @@ public class RegisteredUserDAO implements UserDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean delete(Account model) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Account findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Account update(Account model) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
 }
