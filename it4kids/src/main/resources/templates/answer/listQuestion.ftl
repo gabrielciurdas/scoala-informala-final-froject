@@ -38,7 +38,7 @@
   	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
   	<input type="hidden" name="quizEntryId" value="${(quizEntry.id)!''}" />
   	<br/><br/>
-  	<a href="/index">Back to quiz</a>
+  	<a href="/index">Inapoi la test</a>
   	<br/><br/>
   </form>
   

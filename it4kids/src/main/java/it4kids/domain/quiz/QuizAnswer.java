@@ -1,30 +1,40 @@
 package it4kids.domain.quiz;
 
-/**
- * Clasa asta este ceea ce o sa vada elevul ca si quiz, si unde o sa raspunda.
- * Ea o sa fie legata de quizul creeat de profesor. Si o sa contina o lista de
- * raspunsuri.
- * 
- * @author Catalin
- * 
- */
-public class QuizAnswer {
+import java.util.ArrayList;
+import java.util.List;
+
+public class QuizAnswer extends AbstractModel {
 	private Quiz quiz;
-	private UserAnswer userAnswer;
-	private double grade;
+	private QuizEntry qEntry;
+	private Option option;
+	private List<Option> options = new ArrayList<>();
 
-	public QuizAnswer(Quiz quiz) {
+	public long getQuizID(long id) {
+		return quiz.getId();
+	}
+
+	public Option getOption() {
+		return option;
+	}
+
+	public List<Option> getOptions() {
+		return options;
+	}
+
+	public void setQuiz(Quiz quiz) {
 		this.quiz = quiz;
-
 	}
 
-	public String showSummary() {
-		return "Number of questions answered :" + userAnswer.getNumberOfQuestions() + "\n Number of correct answers : "
-				+ userAnswer.getNumberOfCorrectAnswers();
+	public void setOption(Option option) {
+		this.option = option;
 	}
 
-	public double getGrade() {
-		return grade = (userAnswer.getNumberOfCorrectAnswers() * 10) / userAnswer.getNumberOfQuestions();
+	public void setOptions(List<Option> options) {
+		this.options = options;
+	}
+
+	public QuizEntry getqEntry() {
+		return qEntry;
 	}
 
 }

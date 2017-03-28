@@ -67,7 +67,7 @@ public class ApplicationConfiguration {
 	@Bean
 	public UserAnswerService userAnswerService() {
 		UserAnswerService uas = new UserAnswerService();
-		uas.setDaoAnswer(AnswerDAO());
+		uas.setAnswerDAO(AnswerDAO());
 		return uas;
 	}
 

@@ -15,7 +15,7 @@ import it4kids.service.quiz.QuizService;
 import it4kids.service.quiz.UserAnswerService;
 
 @Controller
-@RequestMapping("/answer")
+@RequestMapping(value = "/answer", method = RequestMethod.GET)
 public class UserAnswerController {
 
 	@Autowired
@@ -36,14 +36,14 @@ public class UserAnswerController {
 		return result;
 	}
 
-	@RequestMapping(value = "/start/index")
+	@RequestMapping(value = "/start", method = RequestMethod.GET)
 	public ModelAndView startQuiz(Long id) {
 		ModelAndView result = new ModelAndView("answer/listQuestions");
 
 		Quiz quiz = quizService.get(id);
 		QuizEntry quizEntry = new QuizEntry();
 		QuizEntryForm qef = new QuizEntryForm();
-		quizEntry.setQuiz(quiz);
+		// quizEntry.setQuiz(quiz);
 		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
 		result.addObject("option", qef);
