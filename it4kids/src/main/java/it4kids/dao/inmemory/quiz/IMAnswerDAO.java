@@ -6,9 +6,10 @@ import java.util.LinkedList;
 
 import org.springframework.util.StringUtils;
 
+import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.domain.quiz.QuizAnswer;
 
-public class IMAnswerDAO extends IMBaseAnswerDAO<QuizAnswer> {
+public class IMAnswerDAO extends IMBaseAnswerDAO<QuizAnswer> implements AnswerDAO {
 
 	public Collection<QuizAnswer> searchByName(String query) {
 		if (StringUtils.isEmpty(query)) {

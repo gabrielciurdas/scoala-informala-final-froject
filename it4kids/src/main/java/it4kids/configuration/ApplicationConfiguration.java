@@ -18,7 +18,6 @@ import it4kids.dao.inmemory.quiz.IMOptionDAO;
 import it4kids.dao.inmemory.quiz.IMQuizDAO;
 import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
 import it4kids.domain.login.UserLogin;
-//>>>>>>> origin/Gabi
 import it4kids.service.login.AccountService;
 import it4kids.service.login.UserLoginService;
 import it4kids.service.login.UserService;
@@ -27,20 +26,10 @@ import it4kids.service.quiz.UserAnswerService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//>>>>>>> it4kids
-//=======
-//=======
 
 @Configuration
 public class ApplicationConfiguration {
 
-	// <<<<<<< HEAD
-	// <<<<<<< HEAD
-
-	// de ce nu asa??? :
-	// @Bean
-	// AccountService accountService;
-	// dupa se poate apela direct cu "this.accountService"
 	@Bean
 	public AccountService accountService1() {
 		return new AccountService();
