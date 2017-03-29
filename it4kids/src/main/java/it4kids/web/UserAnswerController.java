@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.domain.quiz.Quiz;
 import it4kids.domain.quiz.QuizAnswer;
-import it4kids.domain.quiz.QuizEntry;
 import it4kids.service.quiz.QuizService;
 import it4kids.service.quiz.UserAnswerService;
 
@@ -39,16 +38,12 @@ public class UserAnswerController {
 
 	@RequestMapping(value = "/start", method = RequestMethod.GET)
 	public ModelAndView startQuiz(Long id) {
-		ModelAndView result = new ModelAndView("answer/listQuestions");
+		ModelAndView result = new ModelAndView("answer/listQuestion");
 
 		Quiz quiz = quizService.get(id);
-		QuizEntry quizEntry = new QuizEntry();
 		QuizAnswer quizAnswer = new QuizAnswer();
-		QuizEntryForm qef = new QuizEntryForm();
 		// quizEntry.setQuiz(quiz);
 		result.addObject("quiz", quiz);
-		result.addObject("quizEntry", quizEntry);
-		result.addObject("option", qef);
 		result.addObject("answers", quizAnswer);
 
 		return result;
