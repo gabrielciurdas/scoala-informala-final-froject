@@ -22,33 +22,17 @@
     <![endif]-->
   </head>
   <body>
- 
-
-<<<<<<< Catalin
-  <h2>Lista Intrebari</h2>
-=======
-   <form action="edit/add" method="GET">
- 	Question: <input type="text" name="text" value="${(quizEntry.text)!''}" /> 
- 	<br/><br/><br/><br/>
- 		 Answer1: <input type="text" name="textOption1" value="${(option.textOption1)!''}" />
-		 Answer2: <input type="text" name="textOption2" value="${(option.textOption2)!''}" />
-		 Answer3: <input type="text" name="textOption3" value="${(option.textOption3)!''}" />
-		 Answer4: <input type="text" name="textOption4" value="${(option.textOption4)!''}" />
-    <br/><br/>
- 
-  	<input type="submit" value="   Save   " />
-  	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
-  	<input type="hidden" name="quizEntryId" value="${(quizEntry.id)!''}" />
-  	<br/><br/>
-  	<a href="/index">Inapoi la test</a>
-  	<br/><br/>
-  </form>
->>>>>>> 3b64b7d QuizAnswer Class and UserAnswerServices
-  
-  
-<div class="panel panel-default">
+  	<div class="panel panel-default">
+  	<div class="panel-heading">
+  	<img src="/image/demo.png" alt="">
+	    
+	  </div>
+	  <div class="panel-body">
+	 <table class = "table">
+	 </br></br>
+<div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading">Lista Intrebari</div>
+  <div class="panel-heading"><b>Lista Intrebari</div>
 
   <!-- Table -->
   <table class="table">
