@@ -46,9 +46,28 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return jdbcTemplate.query("select * from registered_users where account_type like'%PARENT'", new UserMapper());
 	}
 	
-	//@Override
-	public User findById(int id) {
-		return jdbcTemplate.queryForObject("select * from registered_users where id = ?", new Integer[] { id },
+	public Collection<User> getAllTeachers() {
+		return jdbcTemplate.query("select * from registered_users where account_type='TEACHER'", new UserMapper());
+	}
+	
+	public Collection<User> getAllChildren() {
+		return jdbcTemplate.query("select * from registered_users where account_type='CHILD'", new UserMapper());
+	}
+	
+	public Collection<User> getChildren(List<Long> childrenId) {
+		Collection<User> children = new ArrayList<>();
+		
+		for(Long l: childrenId) {
+			System.out.println("trying to add: " + l);
+			children.add(findById(l));
+		}
+		return children;
+	}
+	
+	@Override
+	public User findById(Long id) {
+		System.out.println("trying to find + " + id);
+		return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'", 
 				new UserMapper());
 	}
 
@@ -241,7 +260,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	private void validateRegistration(PrintWriter out, String accountType, String location) {
 		if (userDAO.getLinesWritten() > 0) {
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Înregistrare efectuată cu succes');");
+			out.println("alert('Inregistrare efectuata cu succes');");
 			//out.println("location='" + location + "';");
 			out.println("</script>");
 
@@ -249,7 +268,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 			//accountType = session.getAttribute("accountType").toString().toLowerCase();
 			//location = "it4kids/" + accountType.toLowerCase() + "/" + accountType.toLowerCase() + "Register";
 			out.println("<script charset=" + "utf-8" + "type=\"text/javascript\">");
-			out.println("alert('Numele de utilizator există deja');");
+			out.println("alert('Numele de utilizator exista deja');");
 		//	out.println("location='" + "" + "';");
 			out.println("</script>");
 		}
@@ -285,9 +304,16 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return id;
 	}
 
-	@Override
+	/*@Override
 	public User findById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
+
+	/*@Override
+	public User findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
+
 }

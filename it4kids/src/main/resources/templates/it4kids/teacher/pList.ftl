@@ -24,19 +24,24 @@
 	  
 	  <div class="panel panel-default">
 	  <div class="panel-heading">
-	    <h3 class="panel-title">Copiii dumneavoastră</h3>
+	     <div id="home" class="tab-pane fade in active">
+	     <p> <a href="/teacher/teacher">Pagina principala</a> <p>
+  <br>
 	  </div>
+	  <br>
+	   <div id="home" class="tab-pane fade in active">
+     	    <h3 class="panel-title">Lista parintilor</h3>
+  <br>
 	  <div class="panel-body">
 		 
-		 <form class="navbar-form navbar-left" style="width: 100%" role="search" action="/it4kids/primary_parent/" method="GET">
-		  <div class="form-group">
-		    <input type="text" class="form-control" placeholder="Search" name="query" value="${query!''}">
-		  </div>
-		  <button type="submit" class="btn btn-default">Submit</button>
 		   <div style="float:right">
-			<a href="/primary_parent/parentRegister">+Înregistrează părinți sau copii</a>
 		</div>
 		<div style="float:right">
+		<a href="/logout">Delogare</a>
+		</div>
+		<br><br>
+		<div style="float:right">
+		<a href="/teacher/teacherRegister">+Adauga parinti</a>
 		</div>
 		</form>
 		 
@@ -54,8 +59,8 @@
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
-				<td><a href="/it4kids/primary_parent/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;
-				<a href="/it4kids/primary_parent/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+				<td><a href="/admin/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;
+				<a href="/admin/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 			</tr>
 		[/#list]
 		

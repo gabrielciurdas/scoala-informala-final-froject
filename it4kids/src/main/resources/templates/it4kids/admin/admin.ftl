@@ -15,7 +15,7 @@
 <div class="container">
   <ul class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Pagina Principală</a></li>
-    <li><a data-toggle="pill" href="#teacher">Învățători</a></li>
+    <li><a data-toggle="pill" href="#teacher">Invatatori</a></li>
   </ul>
   
   <div class="tab-content">
@@ -28,7 +28,8 @@
   <br>
 
 	<div id="teacher" class="tab-pane fade">
-						<a href="/admin/adminRegister">Înregistrează învățători</a><br>
+						<p> <a href="/admin/tList">Vedeti lista</a> <p>
+
     </div>
     
     <div id="logout" class="tab-pane fade">

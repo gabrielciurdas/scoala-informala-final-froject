@@ -25,28 +25,23 @@
 	  <div class="panel panel-default">
 	  <div class="panel-heading">
 	     <div id="home" class="tab-pane fade in active">
-      <p> Bine ai venit, ${currentUser.userName}!</p>
+         <p> <a href="/admin/admin">Pagina principala</a> <p>
   <br>
 	  </div>
 	  <br>
 	   <div id="home" class="tab-pane fade in active">
-     	    <h3 class="panel-title">Lista de părinți</h3>
+     	    <h3 class="panel-title">Lista profesorilor</h3>
   <br>
 	  <div class="panel-body">
 		 
-		 <form class="navbar-form navbar-left" style="width: 100%" role="search" action="/it4kids/teacher/" method="GET">
-		  <div class="form-group">
-		    <input type="text" class="form-control" placeholder="Search" name="query" value="${query!''}">
-		  </div>
-		  <button type="submit" class="btn btn-default">Submit</button>
 		   <div style="float:right">
-			<a href="/teacher/teacherRegister">+Adaugă părinți</a>
 		</div>
 		<div style="float:right">
+		<a href="/logout">Delogare</a>
 		</div>
-		<br>
+		<br><br>
 		<div style="float:right">
-			<a href="/logout">Delogare</a>
+		<a href="/admin/adminRegister">+Adaugă părinți</a>
 		</div>
 		</form>
 		 
@@ -64,8 +59,8 @@
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
-				<td><a href="/it4kids/teacher/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;
-				<a href="/it4kids/teacher/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+				<td><a href="/admin/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;
+				<a href="/admin/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 			</tr>
 		[/#list]
 		

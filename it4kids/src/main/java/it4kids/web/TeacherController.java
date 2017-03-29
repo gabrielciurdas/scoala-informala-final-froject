@@ -28,12 +28,27 @@ public class TeacherController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/parentList")
-	public ModelAndView teacherMainView(@RequestParam(defaultValue="") String name) {
-		ModelAndView result = new ModelAndView("it4kids/teacher/parentList");
+	@RequestMapping("/pList")
+	public ModelAndView teacherParentList(@RequestParam(defaultValue="") String name) {
+		
+		System.out.println("trying to set view of parentList");
+		ModelAndView result = new ModelAndView("it4kids/teacher/pList");
 		
 		Collection<User> users = "".equals(name) 
 				? userService.listAllParents() : userService.searchByName(name);
+		result.addObject("userList", users);
+		
+		result.addObject("query", name);
+
+		return result;
+	}
+	
+	@RequestMapping("/cList")
+	public ModelAndView teacherChildrenList(@RequestParam(defaultValue="") String name) {
+		ModelAndView result = new ModelAndView("it4kids/teacher/cList");
+		
+		Collection<User> users = "".equals(name) 
+				? userService.listAllChildren() : userService.searchByName(name);
 		result.addObject("userList", users);
 		
 		result.addObject("query", name);
@@ -107,10 +122,4 @@ public class TeacherController {
 		return result;
 	}
 	
-	/*@RequestMapping("/logout")
-	public ModelAndView logOut(HttpSession session) {
-		session.invalidate();
-		ModelAndView result = new ModelAndView("it4kids/login");
-		return result;
-	}*/
 }

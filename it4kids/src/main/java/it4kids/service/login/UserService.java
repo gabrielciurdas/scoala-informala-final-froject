@@ -1,6 +1,7 @@
 package it4kids.service.login;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +38,12 @@ public class UserService {
     @Autowired
     private SecurityService securityService;
     
+    public User getUserById(long id) {
+    	LOGGER.debug("Getting user with id: " + id);
+    	
+    	return dao.findById(id);
+    }
+    
     public Collection<User> listAll() {
     	LOGGER.debug("Listing users ");
         return dao.getAll();
@@ -47,6 +54,21 @@ public class UserService {
         return dao.getAllParents();
     }
     
+    public Collection<User> listAllTeachers() {
+    	LOGGER.debug("Listing teachers ");
+        return dao.getAllTeachers();
+    }
+    
+    public Collection<User> listAllChildren() {
+    	LOGGER.debug("Listing children ");
+        return dao.getAllChildren();
+    }
+    
+    public Collection<User> listChildren(List<Long> childrenId) {
+    	LOGGER.debug("getting children ");
+    	
+    	return dao.getChildren(childrenId);
+    }
     
     public void save(User user) throws ValidationException {
     	LOGGER.debug("Saving user: " + user);

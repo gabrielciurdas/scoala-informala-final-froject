@@ -14,7 +14,7 @@
 </head>
 [#escape x as x?html]
 
-
+<body>
 	<div class="container">
 
 		<div class="panel panel-default" style="margin-left:auto; margin-right:auto; width:400px">
@@ -34,17 +34,17 @@
 				    </div>
 				[/#if]
 			    
-				<form action="/onLogin" method="POST">
+				<form action="/onLogin" method="POST" onsubmit="return checkLogin()">
 					<div class="form-group">
-						<label for="firstName">Nume de utilizator</label> 
+						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
-							class="form-control" id="userName" name="userName"
+							class="form-control" id="userName" name="userName" required title="Numele nu poate fi gol"}
 							placeHolder="Nume de utilizator" "/>
 					</div>
 					<div class="form-group">
-						<label for="lastName">Parola</label> 
+						<label for="password">Parola</label> 
 						<input type="password"
-							class="form-control" id="password" name="password"
+							class="form-control" id="password" name="password" required title="Parola nu poate fi goala"}
 							placeHolder="Parola" />
 					</div>
 
@@ -55,10 +55,12 @@
 								<li><button type="submit" class="btn btn-default">LOGIN</button></li>
 							</ul>
 						</div>
+						
 					</div>
 					<br /> <input type="hidden" class="form-control" id="id" value="0" />
 			</form>
 			</div>
 		</div>
 	</div>
+	</body>
 [/#escape]

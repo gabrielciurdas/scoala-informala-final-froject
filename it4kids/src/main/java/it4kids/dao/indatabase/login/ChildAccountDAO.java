@@ -25,16 +25,28 @@ public class ChildAccountDAO {
 	 * @param child
 	 *            is the parent to be written in the specified database.
 	 */
-	public void add(ChildAccount child)
-			throws SQLException {
+	public void add(ChildAccount child) throws SQLException {
 
-		final String insertSQL = "INSERT INTO child(id_registered_user)"
-				+ " values(?)";
+		final String insertSQL = "INSERT INTO child(id_registered_user)" + " values(?)";
 
-		try (Connection conn = db.getDBConnection();
-			 PreparedStatement stm = conn.prepareStatement(insertSQL);){
+		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
 
 			stm.setInt(1, child.getIdRegisteredUser());
+			stm.executeUpdate();
+			System.out.println("Record is inserted into DBUSER table!");
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void addParent(int parentId, int childId) {
+		final String insertSQL = "INSERT INTO child(id_registered_user, id_parent)" + " values(?,?)";
+
+		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
+
+			stm.setInt(1, parentId);
+			stm.setInt(2, childId);
 			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
@@ -53,12 +65,11 @@ public class ChildAccountDAO {
 	public List<ChildAccount> getAll() throws SQLException {
 		List<ChildAccount> result = new ArrayList<>();
 
-		final String getChild = "select id, id_registered_users, id_parent"
-				+ " from child";
+		final String getChild = "select id, id_registered_users, id_parent" + " from child";
 
 		try (Connection conn = db.getDBConnection();
-			 PreparedStatement stm = conn.prepareStatement(getChild);
-			 ResultSet rs = stm.executeQuery();) {
+				PreparedStatement stm = conn.prepareStatement(getChild);
+				ResultSet rs = stm.executeQuery();) {
 
 			while (rs.next()) {
 				ChildAccount child = new ChildAccount();
@@ -74,39 +85,61 @@ public class ChildAccountDAO {
 		}
 		return result;
 	}
-	
-	 public void assignParent(int parentId, int childId) {
-	    	final String insertSQL = "UPDATE child SET id_parent = ?" + "WHERE id_registered_user = ?";
-	    	try (Connection conn = db.getDBConnection();
-	                PreparedStatement stm = conn.prepareStatement(insertSQL);){
 
-				stm.setInt(1, parentId);
-				stm.setInt(2, childId);
-				linesWritten = stm.executeUpdate();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		}
-	 
-	  public int getParentId(String childId) {
-			int id = 0;
-	        try (Connection conn = db.getDBConnection();
-	             PreparedStatement stm = conn.prepareStatement("select id_parent from child where id_registered_user='" + childId + "'");
-	             ResultSet rs = stm.executeQuery();)
-	             {
-				if (rs.next()) {
-					id = rs.getInt("id");
-				} else {
-					System.out.println("username does not exist");
-				}
+	public void assignParent(int parentId, int childId) {
+		final String insertSQL = "UPDATE child SET id_parent = ?" + "WHERE id_registered_user = ?";
+		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
 
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-			return id;
+			stm.setInt(1, parentId);
+			stm.setInt(2, childId);
+			linesWritten = stm.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
-	  
-	  public int getLinesWritten() {
+	}
+
+	public boolean hasParentAssigned(long childId) {
+		boolean assigned = false;
+
+		try (Connection conn = db.getDBConnection();
+				PreparedStatement stm = conn
+						.prepareStatement("select * from child where id_parent IS NULL" );
+				ResultSet rs = stm.executeQuery();) {
+
+			System.out.println("connected to db");
+
+			if (rs.next()) {
+					assigned = false;
+			} else {
+				assigned = true;
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+		return assigned;
+	}
+
+	public int getParentId(String childId) {
+		int id = 0;
+		try (Connection conn = db.getDBConnection();
+				PreparedStatement stm = conn
+						.prepareStatement("select * from child where id_registered_user='" + childId + "'");
+				ResultSet rs = stm.executeQuery();) {
+			if (rs.next()) {
+				id = rs.getInt("id");
+			} else {
+				System.out.println("username does not exist");
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return id;
+	}
+
+	public int getLinesWritten() {
 		return linesWritten;
 	}
 }

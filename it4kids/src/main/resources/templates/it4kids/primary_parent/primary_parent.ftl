@@ -14,7 +14,8 @@
 
 <div class="container">
   <ul class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Pagina Principală</a></li>
+    <li class="active"><a data-toggle="pill" href="#home">Pagina Principala</a></li>
+     <li><a data-toggle="pill" href="#child">Copii</a></li>
     <li><a data-toggle="pill" href="#account">Cont</a></li>
   </ul>
   
@@ -26,10 +27,14 @@
       <p> <a href="/logout">Delogare</a> <p>
       
   <br>
+  <div id="child" class="tab-pane fade">
+						<p> <a href="/primary_parent/cList">Copii inregistrati</a> <p>
+
+    </div>
 
 	<div id="account" class="tab-pane fade">
-						<a href="/primary_parent/parentRegister">Înregistrați părinți sau copii</a><br>
-						<a href="/primary_parent/assignParent">Asignați un părinte</a><br><br>
+						<a href="/primary_parent/parentRegister">Inregistrati parinti sau copii</a><br>
+						<a href="/primary_parent/assignParent">Asignati un părinte</a><br><br>
     </div>
     
     <div id="logout" class="tab-pane fade">
