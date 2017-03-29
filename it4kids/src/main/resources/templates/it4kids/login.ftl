@@ -21,30 +21,18 @@
 
 			<div class="panel-body">
 			
-			    [#if errors??]
-				    <div>
-				        <ul>
-				            [#list errors as error]
-				            <br>
-				                <b style="color:red">
-				                [#if error.field??]${error.field}: [/#if]${error.defaultMessage}
-				                </b>
-				            [/#list]
-				        </ul>
-				    </div>
-				[/#if]
 			    
 				<form action="/onLogin" method="POST" onsubmit="return checkLogin()">
 					<div class="form-group">
 						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
-							class="form-control" id="userName" name="userName" required title="Numele nu poate fi gol"}
+							class="form-control" id="userName" name="userName" }
 							placeHolder="Nume de utilizator" "/>
 					</div>
 					<div class="form-group">
 						<label for="password">Parola</label> 
 						<input type="password"
-							class="form-control" id="password" name="password" required title="Parola nu poate fi goala"}
+							class="form-control" id="password" name="password" }
 							placeHolder="Parola" />
 					</div>
 
@@ -55,7 +43,18 @@
 								<li><button type="submit" class="btn btn-default">LOGIN</button></li>
 							</ul>
 						</div>
-						
+					[#if errors??]
+				    	<div>
+				        	<ul>
+				            	[#list errors as error]
+				            	<br>
+				                	<b style="color:red">
+				                	[#if error.field??]${error.field}: [/#if]${error.defaultMessage}
+				               		</b>
+				            	[/#list]
+				        	</ul>
+				    	</div>
+					[/#if]
 					</div>
 					<br /> <input type="hidden" class="form-control" id="id" value="0" />
 			</form>

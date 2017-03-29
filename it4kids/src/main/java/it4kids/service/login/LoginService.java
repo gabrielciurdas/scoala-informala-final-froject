@@ -36,18 +36,22 @@ public class LoginService {
 		return jdbcTemplate;
 	}
 
-	public void save(String userName, String password) throws ValidationException {
-		validate(userName, password);
+	public void save(UserLogin user) throws ValidationException {
+		validate(user.getUserName(), user.getPassword());
 	}
 	
 	private void validate(String userName, String password) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		if (StringUtils.isEmpty(userName)) {
-			errors.add("Numele de utilizator e gol");
+			errors.add("Numele de utilizator nu poate fi gol.");
 		}
 
 		if (StringUtils.isEmpty(password)) {
-			errors.add("Parola nu poate fi goala");
+			errors.add("Parola nu poate fi goala.");
+		}
+		
+		if(!jdbcTemplate.userIsRegistered(userName, password)) {
+			errors.add("Numele de utilizator si parola sunt invalide.");
 		}
 
 		if (!errors.isEmpty()) {

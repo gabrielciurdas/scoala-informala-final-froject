@@ -6,7 +6,7 @@
 			<table border="1" width="30%" cellpadding="5">
 				<thead>
 					<tr>
-						<th colspan="2">Introduceți datele</th>
+						<th colspan="2">Introduceti datele</th>
 					</tr>
 				</thead>
 				<tbody>
