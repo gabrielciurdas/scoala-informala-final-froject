@@ -1,5 +1,11 @@
 package it4kids.web;
 
+import it4kids.dao.indatabase.quiz.AnswerDAO;
+import it4kids.domain.quiz.Quiz;
+import it4kids.domain.quiz.QuizAnswer;
+import it4kids.service.quiz.QuizService;
+import it4kids.service.quiz.UserAnswerService;
+
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import it4kids.dao.indatabase.quiz.AnswerDAO;
-import it4kids.domain.quiz.Quiz;
-import it4kids.domain.quiz.QuizAnswer;
-import it4kids.service.quiz.QuizService;
-import it4kids.service.quiz.UserAnswerService;
-
 @Controller
-@RequestMapping(value = "/answer")
+@RequestMapping(value = "/answer", method = RequestMethod.GET)
 public class UserAnswerController {
 
 	@Autowired
@@ -42,7 +42,6 @@ public class UserAnswerController {
 
 		Quiz quiz = quizService.get(id);
 		QuizAnswer quizAnswer = new QuizAnswer();
-		// quizEntry.setQuiz(quiz);
 		result.addObject("quiz", quiz);
 		result.addObject("answers", quizAnswer);
 
