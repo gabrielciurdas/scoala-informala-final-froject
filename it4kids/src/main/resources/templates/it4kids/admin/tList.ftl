@@ -19,7 +19,6 @@
     <![endif]-->
   </head>
   
-  
 	  <body>
 	  
 	  <div class="panel panel-default">
@@ -41,7 +40,7 @@
 		</div>
 		<br><br>
 		<div style="float:right">
-		<a href="/admin/adminRegister">+Adaugă părinți</a>
+		<a href="/admin/adminRegister">+Adauga profesor</a>
 		</div>
 		</form>
 		 

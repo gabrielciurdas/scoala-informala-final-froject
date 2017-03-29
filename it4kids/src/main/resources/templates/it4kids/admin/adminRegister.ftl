@@ -1,11 +1,28 @@
 [#ftl]
+[#import "/spring.ftl" as spring /]
+<!DOCTYPE html>
+<html>
+<head lang="en">
 
-<form action="/admin/adminRegister/register" method="post">
+<title>it4kids</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link
+	href="[@spring.url '/css/bootstrap.min.css' /]" rel="stylesheet" media="screen" />
+
+</head>
+<body>
+
+	<div class="container" >
+		<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/>
+		</a>
+		
+		<form action="/admin/adminRegister/register" method="post">
 		<center>
-			<table border="1" width="30%" cellpadding="5">
+			<table height=300 border="0"  cellpadding="5">
 				<thead>
 					<tr>
-						<th colspan="2">Introduceți datele</th>
+						<th colspan="2">Introduceti datele</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -28,7 +45,7 @@
 					<tr>
 						<td>Email</td>
 						<td><input type="email" name="email" value=""
-							oninvalid="this.setCustomValidity(this.willValidate?'':'Trebuie să introduceți o adresă de email validă')" required="required"/></td>
+							oninvalid="this.setCustomValidity(this.willValidate?'':'Trebuie să introduceti o adresă de email valida')" required="required"/></td>
 					</tr>
 					<tr>
 						<td>Nume Utilizator</td>
@@ -48,3 +65,10 @@
 		</center>
 		<h5><a href="/admin/admin">Inapoi la pagina principala</h5>
 	</form>
+
+	</div>
+
+</body>
+</html>
+
+

@@ -1,7 +1,5 @@
 package it4kids.web;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +28,9 @@ public class ChildController {
 		return result;
 	}
 	
-	@RequestMapping("/quiz")
+	@RequestMapping("/newQuiz")
 	public ModelAndView quizView() {
-		ModelAndView result = new ModelAndView("it4kids/child/quiz");
+		ModelAndView result = new ModelAndView("it4kids/child/newQuiz");
 		
 		return result;
 	}

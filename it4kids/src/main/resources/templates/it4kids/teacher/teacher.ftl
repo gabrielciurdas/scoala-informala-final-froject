@@ -32,15 +32,15 @@
     </div>
     <div id="parent" class="tab-pane fade">
       <h3>Parinți   </h3>
-       <p> <a href="/teacher/pList">Vedeti lista</a> <p>
+       <p> <a href="/teacher/pList">Vezi lista</a> <p>
     </div>
     <div id="child" class="tab-pane fade">
       <h3>Copii   </h3>
-      <p> <a href="/teacher/cList">Vedeti lista</a> <p>
+      <p> <a href="/teacher/cList">Vezi lista</a> <p>
     </div>
     <div id="quiz" class="tab-pane fade">
       <h3>Quiz    </h3>
-      <a href="/quiz/addQuiz">Adaugati un quiz</a><br><br>
+      <a href="/quiz/addQuiz">Adauga un quiz</a><br><br>
     </div>
     <div id="logout" class="tab-pane fade">
       <p> <a href="/logout">Delogare</a> <p>

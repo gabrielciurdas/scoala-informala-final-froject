@@ -28,7 +28,7 @@
   <br>
 
 	<div id="child" class="tab-pane fade">
-						<p> <a href="/parent/cList">Vedeti lista</a> <p>
+						<p> <a href="/parent/cList">Vezi lista</a> <p>
 
     </div>
     

@@ -33,8 +33,8 @@
     </div>
 
 	<div id="account" class="tab-pane fade">
-						<a href="/primary_parent/parentRegister">Inregistrati parinti sau copii</a><br>
-						<a href="/primary_parent/assignParent">Asignati un părinte</a><br><br>
+						<a href="/primary_parent/parentRegister">Inregistreaza parinti sau copii</a><br>
+						<a href="/primary_parent/assignParent">Asigneaza un parinte</a><br><br>
     </div>
     
     <div id="logout" class="tab-pane fade">

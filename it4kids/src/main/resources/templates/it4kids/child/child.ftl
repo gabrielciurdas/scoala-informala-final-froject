@@ -27,9 +27,8 @@
       
   <br>
 
-	<div id="account" class="tab-pane fade">
-						<a href="/primary_parent/parentRegister">Înregistrați părinți sau copii</a><br>
-						<a href="/primary_parent/assignParent">Asignați un părinte</a><br><br>
+	<div id="test" class="tab-pane fade">
+						<a href="/child/newQuiz">Incepe testul</a><br>
     </div>
     
     <div id="logout" class="tab-pane fade">
