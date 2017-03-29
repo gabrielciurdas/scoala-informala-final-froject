@@ -16,7 +16,6 @@ import it4kids.dao.inmemory.quiz.IMOptionDAO;
 import it4kids.dao.inmemory.quiz.IMQuizDAO;
 import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
 import it4kids.domain.login.UserLogin;
-//>>>>>>> origin/Gabi
 import it4kids.service.login.AccountService;
 import it4kids.service.login.UserLoginService;
 import it4kids.service.login.UserService;
@@ -25,17 +24,17 @@ import it4kids.service.quiz.UserAnswerService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//=======
 
 @Configuration
 public class ApplicationConfiguration {
 
 
-    @Bean
-    public AccountService accountService1() {
-        return new AccountService();
-    }
     
+	@Bean
+	public AccountService accountService1() {
+		return new AccountService();
+	}
+
 	@Bean
 	public UserService userService1() {
 		return new UserService();

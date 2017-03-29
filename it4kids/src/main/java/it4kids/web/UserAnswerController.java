@@ -3,6 +3,7 @@ package it4kids.web;
 import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.domain.quiz.Quiz;
 import it4kids.domain.quiz.QuizAnswer;
+import it4kids.domain.quiz.QuizEntry;
 import it4kids.service.quiz.QuizService;
 import it4kids.service.quiz.UserAnswerService;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/answer", method = RequestMethod.GET)
+@RequestMapping(value = "/answer")
 public class UserAnswerController {
 
 	@Autowired
@@ -42,7 +43,12 @@ public class UserAnswerController {
 
 		Quiz quiz = quizService.get(id);
 		QuizAnswer quizAnswer = new QuizAnswer();
+		QuizEntry quizEntry = new QuizEntry();
+		OptionsWrapper qef = new OptionsWrapper();
+		// quizEntry.setQuiz(quiz);
 		result.addObject("quiz", quiz);
+		result.addObject("quizEntry", quizEntry);
+		result.addObject("option", qef);
 		result.addObject("answers", quizAnswer);
 
 		return result;
