@@ -6,7 +6,7 @@
 			<table border="1" width="30%" cellpadding="5">
 				<thead>
 					<tr>
-						<th colspan="2">Introduceți numele de utilizator pentru: </th>
+						<th colspan="2">Introduceti numele de utilizator pentru: </th>
 					</tr>
 				</thead>
 				<tbody>

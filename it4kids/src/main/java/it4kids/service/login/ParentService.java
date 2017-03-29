@@ -2,9 +2,7 @@ package it4kids.service.login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import it4kids.dao.indatabase.login.ChildAccountDAO;
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.ParentAccountDAO;
-import it4kids.domain.login.ChildAccount;
 
 public class ParentService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParentService.class);
@@ -33,29 +30,32 @@ public class ParentService {
 
 	public void assignParent(String childUserName, String parentUserName, 
 			HttpServletRequest request, HttpServletResponse response) {
-
+		LOGGER.debug("Assign parent process has started ");
+		
 		int childId = 0;
 		int parentId = 0;
 
 		if(parentDAO.hasNoChildAssigned(parentId)) {
-			System.out.println("does not have a child assigned");
+			LOGGER.debug("parent does not have a child assigned");
 			parentId = userDAO.getUserId(parentUserName);
 			childId = userDAO.getUserId(childUserName);
 			parentDAO.assignChild(childId, parentId);
 		} else {
-			System.out.println("has a child assigned");
+			LOGGER.debug("parent has a child assigned");
 			childId = userDAO.getUserId(childUserName);
 			parentId = userDAO.getUserId(parentUserName);
 			parentDAO.addChild(childId, parentId);
 		}
 		if(!childDAO.hasParentAssigned(childId)) {
+			LOGGER.debug("child does not have a parent assigned");
 			parentId = userDAO.getUserId(parentUserName);
 			childId = userDAO.getUserId(childUserName);
-			childDAO.assignParent(parentId, childId);
+			childDAO.assignParent(childId, parentId);
 		} else {
+			LOGGER.debug("child does has a parent assigned");
+			childId = userDAO.getUserId(childUserName);
 			parentId = userDAO.getUserId(parentUserName);
-			parentId = userDAO.getUserId(parentUserName);
-			childDAO.addParent(parentId, childId);
+			childDAO.addParent(childId, parentId);
 		}
 		
 		try {
@@ -82,17 +82,16 @@ public class ParentService {
 
 		} else {
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Numele de utilizator exista deja');");
+			out.println("alert('Asignarea nu a avut succes);");
 			out.println("</script>");
 		}
 	}
 
-
-	public List<Long> getChildrenId(long id) {
+	public LinkedHashSet<Long> getChildrenId(long id) {
 		return parentDAO.getChildrenId(id);
 	}
 
-	public List<Long> getParentsId(long id) {
+	public Long getParentsId(long id) {
 		return parentDAO.getParentsId(id);
 	}
 	

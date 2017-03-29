@@ -5,11 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import it4kids.dao.ConnectionToDB;
-import it4kids.domain.login.ChildAccount;
 import it4kids.domain.login.ParentAccount;
 
 /**
@@ -70,21 +69,21 @@ public class ParentAccountDAO {
 		}
 	}
 
-	public void addChild(int parentId, int childId) {
+	public void addChild(int childId, int parentId) {
 		final String insertSQL = "INSERT INTO parent(id_registered_user, id_child)" + " values(?,?)";
 
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
 
-			stm.setInt(1, childId);
-			stm.setInt(2, parentId);
-			stm.executeUpdate();
+			stm.setInt(1, parentId);
+			stm.setInt(2, childId);
+			linesWritten = stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void assignChild(int childId, int parentId) {
 		final String insertSQL = "UPDATE parent SET id_child = ?" + "WHERE id_registered_user = ?";
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
@@ -115,42 +114,38 @@ public class ParentAccountDAO {
 		return id;
 	}
 
-	public ArrayList<Long> getChildrenId(long parentId) {
-		ArrayList<Long> childrenId = new ArrayList<>();
+	public LinkedHashSet<Long> getChildrenId(long parentId) {
+		System.out.println("trying to find child id with parent: " + parentId);
+		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
 
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn
-						.prepareStatement("select id_child from parent where id_registered_user='" + parentId + "'");
+						.prepareStatement("select * from parent where id_registered_user='" + parentId + "'");
 				ResultSet rs = stm.executeQuery();) {
-			if (rs.next()) {
-				while(rs.next()) {
+			while (rs.next()) {
+				if(rs.getInt("id_child") != 0) {
 					System.out.println("child found " + rs.getInt("id_child"));
 					childrenId.add((long) rs.getInt("id_child"));
 					System.out.println("and added");
 				}
-			} else {
-				System.out.println("username does not exist");
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		System.out.println(childrenId.toString());
 		return childrenId;
 	}
 
-	public List<Long> getParentsId(long childId) {
-		ArrayList<Long> parentsId = new ArrayList<>();
-
+	public Long getParentsId(long childId) {
+		Long parentId = 0L;
+		System.out.println("connected to child db");
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn
-						.prepareStatement("select * from child where id_registered_user='" + childId + "'");
+						.prepareStatement("select id_parent from child where id_registered_user='" + childId + "'");
 				ResultSet rs = stm.executeQuery();) {
 			if (rs.next()) {
-				while(rs.next()) {
-					System.out.println("parent found " + rs.getInt("id_parent"));
-					parentsId.add((long) rs.getInt("id_parent"));
-					System.out.println("and added");
-				}
+				parentId = rs.getLong("id_parent");
 			} else {
 				System.out.println("user does not exist");
 			}
@@ -158,7 +153,7 @@ public class ParentAccountDAO {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		return parentsId;
+		return parentId;
 	}
 
 	public int getParentId(String idRegisteredUser) {
@@ -209,36 +204,33 @@ public class ParentAccountDAO {
 
 		return result;
 	}
-	
-	public boolean hasNoChildAssigned(long parentId) {
-		        boolean toAssign = false;
-		        
-		        try (Connection conn = db.getDBConnection();
-		             PreparedStatement stm = conn.prepareStatement("select * from parent where id_registered_user ='" + parentId + 
-		            		 "' and id_child IS NULL");
-		             ResultSet rs = stm.executeQuery();) {
-		        	
-		        	System.out.println("connected and checking if parent has any child assigned");
-		        	
-		            if (rs.next()) {
-		                	toAssign = true;
-		                	System.out.println("to assign: " + toAssign);
-		            } else {
-		                toAssign = false;
-		            	System.out.println("to assign: " + toAssign);
-		            }
 
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		        }
-		        
-		        return toAssign;
+	public boolean hasNoChildAssigned(long parentId) {
+		boolean assigned = false;
+
+		try (Connection conn = db.getDBConnection();
+				PreparedStatement stm = conn.prepareStatement(
+						"select * from parent where id_registered_user ='" + parentId + "' and id_child IS NULL");
+				ResultSet rs = stm.executeQuery();) {
+			System.out.println("connected and checking if parent has any child unassigned");
+
+			if (rs.next()) {
+				assigned = false;
+				System.out.println("to assign: " + assigned);
+			} else {
+				assigned = true;
+				System.out.println("to assign: " + assigned);
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+		return assigned;
 	}
-	
+
 	public int getLinesWritten() {
 		return linesWritten;
 	}
-
-
 
 }

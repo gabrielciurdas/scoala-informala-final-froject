@@ -64,37 +64,6 @@
 		</table>
 		
 	  </div>
-	  <br>
-	  <div class="panel-body">
-		 
-		   <div style="float:right">
-		</div>
-		<div style="float:right">
-		</div>
-		<br><br>
-		</form>
-		 <p> Parinti asignati </p><br>
-		<table class="table">
-		<tr>
-			<th>Nume</th>
-			<th>Prenume</th>
-			<th>Email</th>
-			<th></th>
-		</tr>
-		
-		[#if userList2??]
-		[#list userList2 as user]
-		 
-			<tr>
-				<td>${user.firstName!''}</td>
-				<td>${user.lastName!''}</td>
-				<td>${user.email!''}</td>
-			</tr>
-		[/#list]
-		[/#if]
-		</table>
-		
-	  </div>
 	</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

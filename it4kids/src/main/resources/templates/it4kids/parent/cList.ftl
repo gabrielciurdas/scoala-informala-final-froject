@@ -50,6 +50,7 @@
 			<th></th>
 		</tr>
 		
+		[#if userList??]
 		[#list userList as user]
 		 
 			<tr>
@@ -58,7 +59,7 @@
 				<td>${user.email!''}</td>
 			</tr>
 		[/#list]
-		
+		[/#if]
 		</table>
 		
 	  </div>

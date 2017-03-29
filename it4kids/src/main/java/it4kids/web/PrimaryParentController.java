@@ -1,9 +1,8 @@
 package it4kids.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,41 +39,23 @@ public class PrimaryParentController {
 
 		UserLogin user = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 		long id = user.getId();
+		System.out.println("user id: " + id);
 
-		List<Long> childrenId = new ArrayList<>();
-		List<User> children = new ArrayList<User>();
-		List<Long> parentsId = new ArrayList<>();
-		List<User> parents = new ArrayList<User>();
-
-		if (parentService.getParentDAO().hasNoChildAssigned(id)) {
-			return result;
-		}
-
+		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
+		LinkedHashSet<User> children = new LinkedHashSet<User>();
+		LinkedHashSet<Long> parentsId = new LinkedHashSet<>();
+		
 		childrenId = parentService.getChildrenId(id);
-		children = new ArrayList<User>();
-
+		System.out.println("childrenId: " + childrenId);
 		for (Long l : childrenId) {
-			children.add(userService.getUserById(l));
-			System.out.println("found " + l);
+			if (childService.getChildDAO().hasParentAssigned(l)) {
+				children.add(userService.getUserById(l));
+				parentsId.add(parentService.getParentsId(l));
+			}
 		}
+
 		Collection<User> users = children;
 		result.addObject("userList", users);
-
-		
-		if (childService.getChildDAO().hasParentAssigned(children.get(0).getId())) {
-			return result;
-		}
-		parentsId = parentService.getParentsId(children.get(0).getId());
-		System.out.println("parents id: " + parentsId.toString());
-		parents = new ArrayList<User>();
-
-		for (Long l : parentsId) {
-			parents.add(userService.getUserById(l));
-		}
-
-		Collection<User> users2 = parents;
-
-		result.addObject("userList2", users2);
 
 		return result;
 	}

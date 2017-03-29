@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import it4kids.dao.ConnectionToDB;
@@ -16,6 +17,7 @@ import it4kids.domain.login.ChildAccount;
 public class ChildAccountDAO {
 
 	private ConnectionToDB db = new ConnectionToDB();
+	private LinkedHashSet<Long> parentsId = new LinkedHashSet<Long>();
 	private int linesWritten = 0;
 
 	/**
@@ -40,15 +42,15 @@ public class ChildAccountDAO {
 		}
 	}
 	
-	public void addParent(int parentId, int childId) {
+	public void addParent(int childId, int parentId) {
 		final String insertSQL = "INSERT INTO child(id_registered_user, id_parent)" + " values(?,?)";
 
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
 
-			stm.setInt(1, parentId);
-			stm.setInt(2, childId);
-			stm.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!");
+			stm.setInt(1, childId);
+			stm.setInt(2, parentId);
+			linesWritten = stm.executeUpdate();
+			System.out.println("Record is inserted into DBUSER table! /parent added");
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -86,7 +88,7 @@ public class ChildAccountDAO {
 		return result;
 	}
 
-	public void assignParent(int parentId, int childId) {
+	public void assignParent(int childId, int parentId) {
 		final String insertSQL = "UPDATE child SET id_parent = ?" + "WHERE id_registered_user = ?";
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
 
@@ -103,9 +105,8 @@ public class ChildAccountDAO {
 
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn
-						.prepareStatement("select * from child where id_parent IS NULL" );
+						.prepareStatement("select id_parent from child WHERE id_registered_user ='" + childId +"' and id_parent IS NULL" );
 				ResultSet rs = stm.executeQuery();) {
-
 			System.out.println("connected to db");
 
 			if (rs.next()) {

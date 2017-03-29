@@ -1,7 +1,6 @@
 package it4kids.service.login;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -97,21 +96,6 @@ public class UserService {
     	LOGGER.debug("User name to obtain: " + userName);
         return dao.searchByName(userName);
     }
-
-/*    public boolean usernameAvailable(String userName) {
-    	LOGGER.debug("Username checked for availability: " + userName);
-        return dao.usernameAvailable(userName);
-    }*/
-
-    /*public void setChildId(int childId) {
-    	LOGGER.debug("Child id to be set: " + childId);
-        dao.setChildId(childId);
-    }
-
-    public void setParentId(int parentId) {
-    	LOGGER.debug("Parent id to be set: " + parentId);
-        dao.setParentId(parentId);
-    }*/
     
     private void validate(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
