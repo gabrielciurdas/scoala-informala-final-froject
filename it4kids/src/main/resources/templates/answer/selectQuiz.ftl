@@ -43,7 +43,7 @@
   <div class="panel panel-primary">
   <!-- Default panel contents -->
   
-  <div class="panel-heading">Nume Chestionar</div>
+  <div class="panel-heading"><b>Nume Chestionar</div>
 
   <!-- Table -->
   <table class="table">
