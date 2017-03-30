@@ -1,35 +1,13 @@
 package it4kids.domain.login;
 
+import it4kids.domain.AbstractModel;
+
 /**
  * Created by Gabi on 3/10/2017.
  */
-public abstract class Account {
-    private Integer id;
+public class Account  extends AbstractModel{
     private int idRegisteredUser;
 
-    /*public Account(int id, int idRegisteredUser) {
-        this.id = id;
-        this.idRegisteredUser = idRegisteredUser;
-    }
-
-    public Account(int idRegisteredUser) {
-        id = 0;
-        this.idRegisteredUser = idRegisteredUser;
-    }
-
-  */
-    public Account() {
-        id = 0;
-        idRegisteredUser = 0;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int i) {
-        this.id = i;
-    }
 
     public int getIdRegisteredUser() {
         return idRegisteredUser;
@@ -38,4 +16,34 @@ public abstract class Account {
     public void setIdRegisteredUser(int idRegisteredUser) {
         this.idRegisteredUser = idRegisteredUser;
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idRegisteredUser;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (idRegisteredUser != other.idRegisteredUser)
+			return false;
+		return true;
+	}
+    
+    
 }
