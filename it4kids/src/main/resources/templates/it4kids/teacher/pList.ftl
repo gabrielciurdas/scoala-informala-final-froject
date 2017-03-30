@@ -1,4 +1,5 @@
 [#ftl]
+[#import "/spring.ftl" as spring /]
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Lista invatatorilor</title>
 
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -18,9 +19,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  
-  
-	  <body>
+ <body>
+<div class="container">
+  <a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125" border="10"/>
+		</a> <br>
 	  
 	  <div class="panel panel-default">
 	  <div class="panel-heading">
@@ -36,12 +38,9 @@
 		 
 		   <div style="float:right">
 		</div>
-		<div style="float:right">
-		<a href="/logout">Delogare</a>
-		</div>
 		<br><br>
 		<div style="float:right">
-		<a href="/teacher/teacherRegister">+Adauga parinti</a>
+		<a href="/teacher/teacherRegister"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga parinte</a>
 		</div>
 		</form>
 		 

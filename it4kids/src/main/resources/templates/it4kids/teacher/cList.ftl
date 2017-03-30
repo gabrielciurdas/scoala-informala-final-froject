@@ -1,4 +1,5 @@
 [#ftl]
+[#import "/spring.ftl" as spring /]
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,8 +20,10 @@
     <![endif]-->
   </head>
   
-  
 	  <body>
+	  <div class="container">
+  <a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125" border="10"/>
+		</a> <br>
 	  
 	  <div class="panel panel-default">
 	  <div class="panel-heading">
@@ -35,9 +38,6 @@
 	  <div class="panel-body">
 		 
 		   <div style="float:right">
-		</div>
-		<div style="float:right">
-		<a href="/logout">Delogare</a>
 		</div>
 		<br><br>
 		</form>

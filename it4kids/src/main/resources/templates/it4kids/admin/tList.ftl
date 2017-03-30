@@ -1,4 +1,5 @@
 [#ftl]
+[#import "/spring.ftl" as spring /]
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Lista invatatorilor</title>
 
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -18,8 +19,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  
-	  <body>
+ <body>
+<div class="container">
+  <a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125" border="10"/>
+		</a> <br>
 	  
 	  <div class="panel panel-default">
 	  <div class="panel-heading">
@@ -29,18 +32,16 @@
 	  </div>
 	  <br>
 	   <div id="home" class="tab-pane fade in active">
-     	    <h3 class="panel-title">Lista profesorilor</h3>
+     	    <h3 class="panel-title">Lista invatatorilor</h3>
   <br>
 	  <div class="panel-body">
 		 
 		   <div style="float:right">
 		</div>
-		<div style="float:right">
-		<a href="/logout">Delogare</a>
-		</div>
+		
 		<br><br>
 		<div style="float:right">
-		<a href="/admin/adminRegister">+Adauga profesor</a>
+		<a href="/admin/adminRegister"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga invatator</a>
 		</div>
 		</form>
 		 
@@ -72,6 +73,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
+    </div>
   </body>
 </html>
 

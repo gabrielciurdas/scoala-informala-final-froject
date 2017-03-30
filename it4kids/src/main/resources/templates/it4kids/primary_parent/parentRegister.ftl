@@ -18,11 +18,12 @@
 		</a>
 		
 		<form action="/primary_parent/parentRegister/parentRegister" method="post">
+		<h5><a href="/primary_parent/primary_parent">Pagina principala</a></h5>
 		<center>
 			<table height=300 border="0" width="40%"  cellpadding="5">
 				<thead>
 					<tr>
-						<th colspan="2">Introduceti datele</th>
+						<th colspan="1">Introduceti datele</th><br><br>
 					</tr>
 				</thead>
 				<tbody>
@@ -58,11 +59,11 @@
 					<tr>
 						<td><input type="submit" value="Submit" /></td>
 						<td><input type="reset" value="Reset" /></td>
+						<td><a href="/primary_parent/primary_parent/">Cancel</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</center>
-		<h5><a href="/primary_parent/primary_parent">Inapoi la pagina principala</h5>
 	</form>
 
 	</div>

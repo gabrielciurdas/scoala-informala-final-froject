@@ -18,6 +18,7 @@
 		</a>
 		
 		<form action="/admin/adminRegister/register" method="post">
+		<h5><a href="/admin/admin">Pagina Principala</a></h5>
 		<center>
 			<table height=300 border="0"  cellpadding="5">
 				<thead>
@@ -59,11 +60,11 @@
 					<tr>
 						<td><input type="submit" value="Submit" /></td>
 						<td><input type="reset" value="Reset" /></td>
+						<td><a href="/admin/tList/">Cancel</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</center>
-		<h5><a href="/admin/admin">Inapoi la pagina principala</h5>
 	</form>
 
 	</div>

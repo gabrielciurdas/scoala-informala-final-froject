@@ -19,9 +19,6 @@
 
 		<ol class="breadcrumb">
 			<li class="active">Pagina Principală</li>
-			<li class="active">Învățători</li>
-			<li class="active">Copii</li>
-			<li class="active">Părinți</li>
 			
 			[#if currentUser??]
 			<li><a href="/logout">Logout</a></li>

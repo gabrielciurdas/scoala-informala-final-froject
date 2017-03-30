@@ -16,7 +16,8 @@
 
 <body>
 	<div class="container">
-
+<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/>
+		</a>
 		<div class="panel panel-default" style="margin-left:auto; margin-right:auto; width:400px">
 
 			<div class="panel-body">
