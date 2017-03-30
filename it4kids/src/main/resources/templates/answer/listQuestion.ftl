@@ -22,32 +22,35 @@
     <![endif]-->
   </head>
   <body>
- 
-
-  <h2>Lista Intrebari</h2>
-  
-  
-<div class="panel panel-default">
+  	<div class="panel panel-default">
+  	<div class="panel-heading">
+  	<img src="/image/demo.png" alt="">
+	    
+	  </div>
+	  <div class="panel-body">
+	 <table class = "table">
+	 </br></br>
+<div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading">Lista Intrebari</div>
+  <div class="panel-heading"><b>Lista Intrebari</div>
 
   <!-- Table -->
   <table class="table">
   
   	<tr>
-  		<th>Intrebare</th> 
-  		<th>Variante de Raspuns</th>
+  		<th><h4><b><i>Intrebare</i></b></h4></th>
+  		<th><h4><b><i>Variante de Raspuns</i></b></h4></th>
   	</tr>
     [#list quiz.questions as quizEntry]
   	<tr>
-  		<td>${(quizEntry.text)!''}</td>
+  		<td><h3><p style="color:#00aaff"><b>${(quizEntry.text)!''}</b></p></h3></td>
 
   		<td>
   	    [#if quizEntry.options??]
   	    <table class="table">
 				[#list quizEntry.options as option]
   	    	<tr>
-				<tr><input type="radio" name="q1" value="a" id="q1a"><label for="q1a">${(option.textOption)!''}</label><br/></tr>	
+				<tr><h4 style="color:#ff751a"><b><input type="checkbox" name="q1" value="a" id="q1a"><label for="q1a">${(option.textOption)!''}</label><br/></b></h4></tr>	
   	    	</tr>
 	        [/#list]
 	    </table>
@@ -59,7 +62,7 @@
 </div>
 
   
-   <p><a href="/answer/index" class="btn btn-danger" role="button">Salveaza Chestionar</a></p>
+    <p align = "center"><a href="/answer/index" class="btn btn-warning" role="button">Salveaza Chestionar</a></p>
        
 </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

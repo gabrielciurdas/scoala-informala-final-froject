@@ -1,7 +1,5 @@
 package it4kids.web;
 
-<<<<<<< HEAD
-=======
 import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.domain.quiz.Quiz;
 import it4kids.domain.quiz.QuizAnswer;
@@ -9,7 +7,6 @@ import it4kids.domain.quiz.QuizEntry;
 import it4kids.service.quiz.QuizService;
 import it4kids.service.quiz.UserAnswerService;
 
->>>>>>> origin/Catalin
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-<<<<<<< HEAD
-import it4kids.dao.indatabase.quiz.AnswerDAO;
-import it4kids.domain.quiz.Quiz;
-import it4kids.domain.quiz.QuizAnswer;
-import it4kids.service.quiz.QuizService;
-import it4kids.service.quiz.UserAnswerService;
-
-=======
->>>>>>> origin/Catalin
 @Controller
 @RequestMapping(value = "/answer")
 public class UserAnswerController {
@@ -55,17 +43,12 @@ public class UserAnswerController {
 
 		Quiz quiz = quizService.get(id);
 		QuizAnswer quizAnswer = new QuizAnswer();
-<<<<<<< HEAD
-		// quizEntry.setQuiz(quiz);
-		result.addObject("quiz", quiz);
-=======
 		QuizEntry quizEntry = new QuizEntry();
 		OptionsWrapper qef = new OptionsWrapper();
 		// quizEntry.setQuiz(quiz);
 		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
 		result.addObject("option", qef);
->>>>>>> origin/Catalin
 		result.addObject("answers", quizAnswer);
 
 		return result;
