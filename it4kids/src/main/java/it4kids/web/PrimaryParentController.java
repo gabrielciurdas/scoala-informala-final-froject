@@ -7,15 +7,22 @@ import java.util.LinkedHashSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import it4kids.domain.UserLogin;
+import it4kids.domain.login.Account;
 import it4kids.domain.login.User;
+import it4kids.service.ValidationException;
+import it4kids.service.login.AccountService;
 import it4kids.service.login.ChildService;
 import it4kids.service.login.ParentService;
 import it4kids.service.login.UserService;
@@ -32,7 +39,7 @@ public class PrimaryParentController {
 
 	@Autowired
 	private ChildService childService;
-
+	
 	@RequestMapping("/cList")
 	public ModelAndView parentChildrenList(@RequestParam(defaultValue = "") String name, HttpServletRequest request) {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/cList");
@@ -82,14 +89,41 @@ public class PrimaryParentController {
 	}
 
 	@RequestMapping("/parentRegister/parentRegister")
-	public ModelAndView onParentRegister(HttpServletRequest req, HttpServletResponse resp) {
+	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
+			HttpServletRequest req, HttpServletResponse resp) {
+		
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/parentRegister");
-		try {
-			System.out.println("trying to register");
-			userService.add(req, resp);
-		} catch (ServletException | IOException e) {
-			e.printStackTrace();
+		
+		boolean hasErrors = false;
+		if (!bindingResult.hasErrors()) {
+			System.out.println("user: " + user.getUserName());
+			try {
+				userService.save(user);
+					try {
+						userService.add(req, resp);
+					} catch (ServletException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				return result;
+				
+			} catch (ValidationException e) {
+				for (String msg : e.getCauses()) {
+					bindingResult.addError(new ObjectError("user", msg));
+				}
+				hasErrors = true;
+			}
+		} else {
+			hasErrors = true;
 		}
+
+		if (hasErrors) {
+			result = new ModelAndView("it4kids/primary_parent/parentRegister");
+			result.addObject("user", user);
+			result.addObject("errors", bindingResult.getAllErrors());
+		}
+
 		return result;
 	}
 
@@ -99,18 +133,43 @@ public class PrimaryParentController {
 
 		return result;
 	}
-
+	
 	@RequestMapping("/assignParent/assign")
-	public ModelAndView onAssignParent(HttpServletRequest req, HttpServletResponse resp) {
+	public ModelAndView onAssign(@Valid @ModelAttribute("user") User user,  BindingResult bindingResult, 
+			HttpServletRequest req, HttpServletResponse resp) {
+		
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/assignParent");
-		System.out.println("trying to register");
+		
+		User child = new User();
+		User parent = new User();
+		child.setUserName(req.getParameter("childUserName"));
+		parent.setUserName(req.getParameter("parentUserName"));
+		
+		boolean hasErrors = false;
+		if (!bindingResult.hasErrors()) {
+			try {
+				userService.saveAssign(child);
+				userService.saveAssign(parent);
+				
+				parentService.assignParent(child.getUserName(), parent.getUserName(), req, resp);
+				return result;
+				
+			} catch (ValidationException e) {
+				for (String msg : e.getCauses()) {
+					bindingResult.addError(new ObjectError("user", msg));
+				}
+				hasErrors = true;
+			}
+		} else {
+			hasErrors = true;
+		}
 
-		String childUserName = req.getParameter("childUserName");
-		String parentUserName = req.getParameter("parentUserName");
-
-		parentService.assignParent(childUserName, parentUserName, req, resp);
+		if (hasErrors) {
+			result = new ModelAndView("it4kids/primary_parent/assignParent");
+			result.addObject("user", user);
+			result.addObject("errors", bindingResult.getAllErrors());
+		}
 
 		return result;
 	}
-
 }

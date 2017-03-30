@@ -135,6 +135,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		}
 	}
 
+	
 	@Override
 	public boolean userIsRegistered(String userName, String password) {
 		boolean isRegistered = false;

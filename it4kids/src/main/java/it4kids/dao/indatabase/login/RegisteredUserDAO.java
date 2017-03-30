@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.UserLogin;
@@ -60,6 +62,26 @@ public class RegisteredUserDAO {
 			ex.printStackTrace();
 		}
 		return available;
+	}
+	
+	public boolean userExists(int id) {
+		boolean exists = false;
+		try (Connection conn = db.getDBConnection();
+				Statement stm = conn.createStatement();
+				ResultSet rs = stm.executeQuery("select * from registered_users where id='" + id + "'");) {
+			System.out.println("connected to db");
+
+			if (rs.next()) {
+				exists = true;
+			} else {
+				exists = false;
+			}
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return exists;
 	}
 
 	/**

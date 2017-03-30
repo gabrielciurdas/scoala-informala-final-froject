@@ -6,15 +6,20 @@ import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import it4kids.domain.login.User;
+import it4kids.service.ValidationException;
 import it4kids.service.login.TeacherService;
 import it4kids.service.login.UserService;
 
@@ -110,16 +115,41 @@ public class TeacherController {
 	}
 	
 	@RequestMapping("/teacherRegister/register")
-	public ModelAndView onRegister(HttpServletRequest req, HttpServletResponse resp) {
+	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
+			HttpServletRequest req, HttpServletResponse resp) {
+		
 		ModelAndView result = new ModelAndView("it4kids/teacher/teacherRegister");
-		try {
-			System.out.println("trying to register");
-			userService.add(req, resp);
-			//result.setView(new RedirectView());
-		} catch (ServletException | IOException e) {
-			e.printStackTrace();
+		
+		boolean hasErros = false;
+		if (!bindingResult.hasErrors()) {
+			System.out.println("user: " + user.getUserName());
+			try {
+				userService.save(user);
+					try {
+						userService.add(req, resp);
+					} catch (ServletException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				return result;
+				
+			} catch (ValidationException e) {
+				for (String msg : e.getCauses()) {
+					bindingResult.addError(new ObjectError("user", msg));
+				}
+				hasErros = true;
+			}
+		} else {
+			hasErros = true;
 		}
+
+		if (hasErros) {
+			result = new ModelAndView("it4kids/teacher/teacherRegister");
+			result.addObject("user", user);
+			result.addObject("errors", bindingResult.getAllErrors());
+		}
+
 		return result;
 	}
-	
 }

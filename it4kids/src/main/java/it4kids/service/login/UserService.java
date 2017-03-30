@@ -74,6 +74,10 @@ public class UserService {
     	validate(user);
     }
     
+    public void saveAssign(User user) throws ValidationException {
+    	validateUserName(user);
+    }
+    
     public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	    	dao.add(req, resp);
     }
@@ -97,52 +101,76 @@ public class UserService {
     private void validate(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		if (StringUtils.isEmpty(user.getFirstName())) {
-			errors.add("Prenumele este gol");
+			errors.add("Prenumele este gol.");
 		}
 		
 		if(user.getFirstName().length() < 3) {
-			errors.add("Prenumele trebuie sa fie compus din cel putin trei litere");
+			errors.add("Prenumele trebuie sa fie compus din cel putin trei litere.");
 		}
 		
 		if(!Pattern.matches("[a-zA-Z ]+", user.getFirstName())) {
-			errors.add("Prenumele trebuie sa fie compus doar din litere");
+			errors.add("Prenumele trebuie sa fie compus doar din litere.");
 		}
 
 		if (StringUtils.isEmpty(user.getLastName())) {
-			errors.add("Numele este gol");
+			errors.add("Numele este gol.");
 		}
 		
 		if(user.getLastName().length() < 3) {
-			errors.add("Numele trebuie sa fie compus din cel putin trei litere");
+			errors.add("Numele trebuie sa fie compus din cel putin trei litere.");
 		}
 		
 		if(!Pattern.matches("[a-zA-Z ]+", user.getLastName())) {
-			errors.add("Numele trebuie sa fie compus doar din litere");
+			errors.add("Numele trebuie sa fie compus doar din litere.");
 		}
 
 		if (StringUtils.isEmpty(user.getEmail())) {
-			errors.add("Adresa de email este goală");
+			errors.add("Adresa de email este goală.");
 		}
 		
 
 		if (StringUtils.isEmpty(user.getPassword())) {
-			errors.add("Parola este goală");
+			errors.add("Parola este goală.");
 		} 
 		
 		if(user.getPassword().length() < 6) {
-			errors.add("Parola trebuie sa fie compusa din cel putin sase caractere");
+			errors.add("Parola trebuie sa fie compusa din cel putin sase caractere.");
 		}
 		
 		if(!Pattern.matches("[a-zA-Z0-9 ]+", user.getPassword())) {
-			errors.add("Parola poate fi compusa doar din litere si numere");
+			errors.add("Parola poate fi compusa doar din litere si numere.");
 		}
 		
 		if (StringUtils.isEmpty(user.getUserName())) {
-			errors.add("Numele de utilizator este gol");
+			errors.add("Numele de utilizator este gol.");
+		}
+		
+		if(!Pattern.matches("[a-zA-Z0-9 ]+", user.getUserName())) {
+			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
 		
 		if (StringUtils.isEmpty(user.getAccountType())) {
-			errors.add("Tipul de cont este gol");
+			errors.add("Tipul de cont este gol.");
+		}
+		
+		if (!errors.isEmpty()) {
+			throw new ValidationException(errors.toArray(new String[] {}));
+		}
+	}
+    
+    private void validateUserName(User user) throws ValidationException {
+		List<String> errors = new LinkedList<String>();
+		
+		if (StringUtils.isEmpty(user.getUserName())) {
+			errors.add("Numele de utilizator este gol.");
+		}
+		
+		if(!Pattern.matches("[a-zA-Z0-9 ]+", user.getUserName())) {
+			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
+		}
+		
+		if(registeredUserDAO.usernameAvailable(user.getUserName())) {
+			errors.add("Utilizatorul " + user.getUserName() + " nu exista.");
 		}
 		
 		if (!errors.isEmpty()) {

@@ -35,7 +35,7 @@ public class ParentService {
 		int childId = 0;
 		int parentId = 0;
 
-		if(parentDAO.hasNoChildAssigned(parentId)) {
+		if(!parentDAO.hasNoChildAssigned(parentId)) {
 			LOGGER.debug("parent does not have a child assigned");
 			parentId = userDAO.getUserId(parentUserName);
 			childId = userDAO.getUserId(childUserName);
