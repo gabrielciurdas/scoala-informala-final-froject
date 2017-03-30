@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +83,8 @@ public class QuizService {
 
 	}
 
-	public void save(Quiz quiz) throws it4kids.service.ValidationException {
+	public void save(@Valid Quiz quiz)
+			throws it4kids.service.ValidationException {
 		LOGGER.debug("Saving: " + quiz);
 		validate(quiz);
 
@@ -102,7 +105,8 @@ public class QuizService {
 		daoOption.update(option);
 	}
 
-	private void validate(Quiz quiz) throws it4kids.service.ValidationException {
+	private void validate(@Valid Quiz quiz)
+			throws it4kids.service.ValidationException {
 		List<String> errors = new LinkedList<String>();
 		if (StringUtils.isEmpty(quiz.getName())) {
 			errors.add("Name is Empty");

@@ -22,7 +22,7 @@ public class Teste {
 	QuizService quizService;
 
 	public static void main(String[] args) {
-		QuizEntryForm qef = new QuizEntryForm();
+		OptionsWrapper qef = new OptionsWrapper();
 
 		Option o1 = new Option();
 		o1.setTextOption(qef.getTextOption1());

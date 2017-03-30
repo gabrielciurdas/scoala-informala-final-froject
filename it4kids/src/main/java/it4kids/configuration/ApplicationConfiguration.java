@@ -4,8 +4,6 @@
  */
 package it4kids.configuration;
 
-//<<<<<<< HEAD
-//<<<<<<< HEAD
 import it4kids.dao.AccountDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.quiz.AnswerDAO;
@@ -30,6 +28,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfiguration {
 
+<<<<<<< HEAD
+	@Bean
+	public AccountService accountService1() {
+		return new AccountService();
+	}
+
+=======
+
+    
+>>>>>>> origin/Catalin
 	@Bean
 	public AccountService accountService1() {
 		return new AccountService();
@@ -40,10 +48,6 @@ public class ApplicationConfiguration {
 		return new UserService();
 	}
 
-	// @Bean
-	// public UserDAO userDAO() {
-	// return new RegisteredUserDAO();
-	// }
 
 	@Bean
 	public QuizService quizService() {
@@ -95,6 +99,7 @@ public class ApplicationConfiguration {
 	public OptionDAO optionDAO() {
 		return new IMOptionDAO();
 	}
+<<<<<<< HEAD
 
 	/*
 	 * @EnableRedisHttpSession public class Config { //Spring alternative to
@@ -106,6 +111,8 @@ public class ApplicationConfiguration {
 	// =======
 	// =======
 	// >>>>>>> origin/Gabi
+=======
+>>>>>>> origin/Catalin
 	@Bean
 	public AccountService accountService() {
 		return new AccountService();
@@ -120,6 +127,7 @@ public class ApplicationConfiguration {
 	public UserLoginService userLoginService() {
 		return new UserLoginService();
 	}
+<<<<<<< HEAD
 
 	/*
 	 * @Bean
@@ -134,16 +142,24 @@ public class ApplicationConfiguration {
 	// return new RegisteredUserDAO();
 	// }
 	// =======
+=======
+	
+>>>>>>> origin/Catalin
 	@Bean
 	public RegisteredUserDAO registeredUserDAO() {
 		return new RegisteredUserDAO();
 	}
+<<<<<<< HEAD
 	// >>>>>>> origin/Gabi
 
+=======
+	
+>>>>>>> origin/Catalin
 	@Bean
 	public AccountDAO<UserLogin> accountDAO() {
 		return new IMAccountDAO<>();
 	}
+<<<<<<< HEAD
 
 	/*
 	 * @EnableRedisHttpSession public class Config { //Spring alternative to
@@ -156,4 +172,6 @@ public class ApplicationConfiguration {
 	// >>>>>>> it4kids
 	// =======
 	// >>>>>>> origin/Gabi
+=======
+>>>>>>> origin/Catalin
 }
