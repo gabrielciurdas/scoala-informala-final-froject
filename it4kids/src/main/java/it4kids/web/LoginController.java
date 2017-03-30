@@ -1,310 +1,90 @@
 package it4kids.web;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import it4kids.domain.UserLogin;
+import it4kids.domain.login.AccountType;
+import it4kids.service.ValidationException;
+import it4kids.service.login.LoginService;
 
 @Controller
 public class LoginController {
-	// <<<<<<< HEAD
-	// // <<<<<<< HEAD
-	//
-	// @Autowired
-	// RegisteredUserDAO userService;
-	//
-	// /* @RequestMapping("")
-	// public String userLogin(Model model) {
-	// return "index";
-	// }*/
-	// /*@RequestMapping("")
-	// public ModelAndView userLogin() {
-	// ModelAndView result = new ModelAndView("index");
-	// result.addObject("userLogin", new UserLogin());
-	// return result;
-	// }*/
-	// @RequestMapping("")
-	// public ModelAndView userLogin() {
-	// ModelAndView result = new ModelAndView("index");
-	// UserLogin userLogin = new UserLogin();
-	// result.addObject("userLogin", userLogin);
-	//
-	// return result;
-	// }
-	//
-	// @GetMapping("/userLogin")
-	// public String loginForm(Model model) {
-	// model.addAttribute("userLogin", new UserLogin());
-	// return "userLogin";
-	// }
-	//
-	// @PostMapping("/userLogin")
-	// public String loginSubmit(@ModelAttribute UserLogin userLogin) {
-	// return "result";
-	// }
-	//
-	// @GetMapping("/login")
-	// public void handleLoginRequest(@RequestParam String email, @RequestParam
-	// String password, Model model) {
-	// ModelAndView result = new ModelAndView();
-	// //Model model2;
-	// model.addAttribute("user", new User(email, password));
-	// if (!userService.authenticateUser(email, password)) {
-	// result.setView(new RedirectView("invalidPassword"));
-	// //return "invalidPassword";
-	// }
-	// /* model.put("email", email);
-	// model.put("password", password);*/
-	// String firstName = "";
-	// String accountType = "";
-	//
-	// // req.getSession().setAttribute("userid", email);
-	//
-	// firstName = userService.getFirstName();
-	// accountType = AccountType.valueOf(userService.getAccountType()).name();
-	//
-	// /*
-	// * HttpSession session = req.getSession(); HttpSession session2 =
-	// * req.getSession();
-	// */
-	// /*
-	// * session.setAttribute("accountType", accountType);
-	// * session2.setAttribute("userName", userDAO.getUsername());
-	// */
-	// // req.setAttribute("firstName", firstName);
-	// result.setView(new RedirectView("user/" +
-	// AccountType.valueOf(accountType).getType().toLowerCase() + "/"
-	// + AccountType.valueOf(accountType).getType() + ".jsp"));
-	// /* req.getRequestDispatcher("user/" +
-	// AccountType.valueOf(accountType).getType().toLowerCase() + "/"
-	// + AccountType.valueOf(accountType).getType() + ".jsp").forward(req,
-	// resp);*/
-	// }
-	//
-	// /*
-	// * @Override protected void doPost(HttpServletRequest req,
-	// * HttpServletResponse resp) throws ServletException, IOException {
-	// * RegisteredUserDAO userDAO = new RegisteredUserDAO(); String email =
-	// * req.getParameter("email"); String password =
-	// * req.getParameter("password"); String firstName = ""; String accountType
-	// =
-	// * "";
-	// *
-	// * if (userDAO.authenticateUser(email, password)) {
-	// * req.getSession().setAttribute("userid", email);
-	// *
-	// * firstName = userDAO.getFirstName(); accountType =
-	// * AccountType.valueOf(userDAO.getAccountType()).name();
-	// *
-	// * HttpSession session = req.getSession(); HttpSession session2 =
-	// * req.getSession(); session.setAttribute("accountType", accountType);
-	// * session2.setAttribute("userName", userDAO.getUsername());
-	// *
-	// * req.setAttribute("firstName", firstName);
-	// * req.getRequestDispatcher("user/" +
-	// * AccountType.valueOf(accountType).getType().toLowerCase() + "/" +
-	// * AccountType.valueOf(accountType).getType()+ ".jsp").forward(req, resp);
-	// }
-	// * else { req.getRequestDispatcher("invalidPassword.jsp").forward(req,
-	// * resp); } }
-	// */
-	// // =======
-	// /*
-	// @Autowired
-	// RegisteredUserDAO userService;*/
-	// /*
-	// @RequestMapping("")
-	// public String userLogin(Model model) {
-	// return "index";
-	// }*/
-	// /*@RequestMapping("")
-	// public ModelAndView userLogin() {
-	// ModelAndView result = new ModelAndView("index");
-	// result.addObject("userLogin", new UserLogin());
-	// return result;
-	// }*/
-	// /*@RequestMapping("")
-	// public ModelAndView userLogin() {
-	// ModelAndView result = new ModelAndView("index");
-	// UserLogin userLogin = new UserLogin();
-	// result.addObject("userLogin", userLogin);
-	//
-	// return result;
-	// }*/
-	// /*
-	// @GetMapping("/userLogin")
-	// public String loginForm(Model model) {
-	// model.addAttribute("userLogin", new UserLogin());
-	// return "userLogin";
-	// }
-	//
-	// @PostMapping("/userLogin")
-	// public String loginSubmit(@ModelAttribute UserLogin userLogin) {
-	// return "result";
-	// }*/
-	//
-	// /* @GetMapping("/login")
-	// public void handleLoginRequest(@RequestParam String userName,
-	// @RequestParam String password, Model model) {
-	// ModelAndView result = new ModelAndView();
-	// //Model model2;
-	// model.addAttribute("user", new User(userName, password));
-	// if (!userService.authenticateUser(userName, password)) {
-	// result.setView(new RedirectView("invalidPassword"));
-	// //return "invalidPassword";
-	// }
-	// model.put("email", email);
-	// model.put("password", password);
-	// String firstName = "";
-	// String accountType = "";
-	//
-	// // req.getSession().setAttribute("userid", email);
-	//
-	// firstName = userService.getFirstName();
-	// accountType = AccountType.valueOf(userService.getAccountType()).name();
-	//
-	//
-	// * HttpSession session = req.getSession(); HttpSession session2 =
-	// * req.getSession();
-	//
-	//
-	// * session.setAttribute("accountType", accountType);
-	// * session2.setAttribute("userName", userDAO.getUsername());
-	//
-	// // req.setAttribute("firstName", firstName);
-	// result.setView(new RedirectView("user/" +
-	// AccountType.valueOf(accountType).getType().toLowerCase() + "/"
-	// + AccountType.valueOf(accountType).getType() + ".jsp"));
-	// req.getRequestDispatcher("user/" +
-	// AccountType.valueOf(accountType).getType().toLowerCase() + "/"
-	// + AccountType.valueOf(accountType).getType() + ".jsp").forward(req,
-	// resp);
-	// }*/
-	//
-	// /*
-	// * @Override protected void doPost(HttpServletRequest req,
-	// * HttpServletResponse resp) throws ServletException, IOException {
-	// * RegisteredUserDAO userDAO = new RegisteredUserDAO(); String email =
-	// * req.getParameter("email"); String password =
-	// * req.getParameter("password"); String firstName = ""; String accountType
-	// =
-	// * "";
-	// *
-	// * if (userDAO.authenticateUser(email, password)) {
-	// * req.getSession().setAttribute("userid", email);
-	// *
-	// * firstName = userDAO.getFirstName(); accountType =
-	// * AccountType.valueOf(userDAO.getAccountType()).name();
-	// *
-	// * HttpSession session = req.getSession(); HttpSession session2 =
-	// * req.getSession(); session.setAttribute("accountType", accountType);
-	// * session2.setAttribute("userName", userDAO.getUsername());
-	// *
-	// * req.setAttribute("firstName", firstName);
-	// * req.getRequestDispatcher("user/" +
-	// * AccountType.valueOf(accountType).getType().toLowerCase() + "/" +
-	// * AccountType.valueOf(accountType).getType()+ ".jsp").forward(req, resp);
-	// }
-	// * else { req.getRequestDispatcher("invalidPassword.jsp").forward(req,
-	// * resp); } }
-	// */
-	// // >>>>>>> it4kids
-	// =======
-	// /*
-	// @Autowired
-	// RegisteredUserDAO userService;*/
-	// /*
-	// @RequestMapping("")
-	// public String userLogin(Model model) {
-	// return "index";
-	// }*/
-	// /*@RequestMapping("")
-	// public ModelAndView userLogin() {
-	// ModelAndView result = new ModelAndView("index");
-	// result.addObject("userLogin", new UserLogin());
-	// return result;
-	// }*/
-	// /*@RequestMapping("")
-	// public ModelAndView userLogin() {
-	// ModelAndView result = new ModelAndView("index");
-	// UserLogin userLogin = new UserLogin();
-	// result.addObject("userLogin", userLogin);
-	//
-	// return result;
-	// }*/
-	// /*
-	// @GetMapping("/userLogin")
-	// public String loginForm(Model model) {
-	// model.addAttribute("userLogin", new UserLogin());
-	// return "userLogin";
-	// }
-	//
-	// @PostMapping("/userLogin")
-	// public String loginSubmit(@ModelAttribute UserLogin userLogin) {
-	// return "result";
-	// }*/
-	//
-	// /* @GetMapping("/login")
-	// public void handleLoginRequest(@RequestParam String userName,
-	// @RequestParam String password, Model model) {
-	// ModelAndView result = new ModelAndView();
-	// //Model model2;
-	// model.addAttribute("user", new User(userName, password));
-	// if (!userService.authenticateUser(userName, password)) {
-	// result.setView(new RedirectView("invalidPassword"));
-	// //return "invalidPassword";
-	// }
-	// model.put("email", email);
-	// model.put("password", password);
-	// String firstName = "";
-	// String accountType = "";
-	//
-	// // req.getSession().setAttribute("userid", email);
-	//
-	// firstName = userService.getFirstName();
-	// accountType = AccountType.valueOf(userService.getAccountType()).name();
-	//
-	//
-	// * HttpSession session = req.getSession(); HttpSession session2 =
-	// * req.getSession();
-	//
-	//
-	// * session.setAttribute("accountType", accountType);
-	// * session2.setAttribute("userName", userDAO.getUsername());
-	//
-	// // req.setAttribute("firstName", firstName);
-	// result.setView(new RedirectView("user/" +
-	// AccountType.valueOf(accountType).getType().toLowerCase() + "/"
-	// + AccountType.valueOf(accountType).getType() + ".jsp"));
-	// req.getRequestDispatcher("user/" +
-	// AccountType.valueOf(accountType).getType().toLowerCase() + "/"
-	// + AccountType.valueOf(accountType).getType() + ".jsp").forward(req,
-	// resp);
-	// }*/
-	//
-	// /*
-	// * @Override protected void doPost(HttpServletRequest req,
-	// * HttpServletResponse resp) throws ServletException, IOException {
-	// * RegisteredUserDAO userDAO = new RegisteredUserDAO(); String email =
-	// * req.getParameter("email"); String password =
-	// * req.getParameter("password"); String firstName = ""; String accountType
-	// =
-	// * "";
-	// *
-	// * if (userDAO.authenticateUser(email, password)) {
-	// * req.getSession().setAttribute("userid", email);
-	// *
-	// * firstName = userDAO.getFirstName(); accountType =
-	// * AccountType.valueOf(userDAO.getAccountType()).name();
-	// *
-	// * HttpSession session = req.getSession(); HttpSession session2 =
-	// * req.getSession(); session.setAttribute("accountType", accountType);
-	// * session2.setAttribute("userName", userDAO.getUsername());
-	// *
-	// * req.setAttribute("firstName", firstName);
-	// * req.getRequestDispatcher("user/" +
-	// * AccountType.valueOf(accountType).getType().toLowerCase() + "/" +
-	// * AccountType.valueOf(accountType).getType()+ ".jsp").forward(req, resp);
-	// }
-	// * else { req.getRequestDispatcher("invalidPassword.jsp").forward(req,
-	// * resp); } }
-	// */
-	// >>>>>>> origin/Gabi
+
+	@Autowired
+	LoginService userLoginService;
+
+	@RequestMapping("/login")
+	public ModelAndView login() {
+		ModelAndView modelAndView = new ModelAndView("it4kids/login");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/onLogin", method = RequestMethod.POST)
+	public ModelAndView onLogin(@Valid @ModelAttribute("userLogin") UserLogin userLogin, BindingResult bindingResult,
+			HttpServletRequest request) {
+		String accountType = "";
+		UserLogin newUser = new UserLogin();
+		newUser.setUserName(request.getParameter("userName"));
+		newUser.setPassword(request.getParameter("password"));
+		ModelAndView modelAndView = new ModelAndView();
+
+		boolean hasErros = false;
+		if (!bindingResult.hasErrors()) {
+			System.out.println("user: " + newUser.getUserName());
+			try {
+				userLoginService.save(newUser);
+				if (userLoginService.isRegistered(newUser.getUserName(), newUser.getPassword())) {
+					accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString()
+							.toLowerCase();
+					newUser.setAccountType(accountType); //
+					newUser.setId(userLoginService.getJdbcTemplate().getId());
+
+					request.getSession().setAttribute("currentUser", newUser);
+
+					modelAndView.setView(new RedirectView("/" + accountType + "/" + accountType));
+				}
+				return modelAndView;
+				
+			} catch (ValidationException e) {
+				for (String msg : e.getCauses()) {
+					bindingResult.addError(new ObjectError("userLogin", msg));
+				}
+				hasErros = true;
+			}
+		} else {
+			hasErros = true;
+		}
+
+		if (hasErros) {
+			modelAndView = new ModelAndView("it4kids/login");
+			modelAndView.addObject("userLogin", newUser);
+			modelAndView.addObject("errors", bindingResult.getAllErrors());
+		}
+
+		return modelAndView;
+	}
+
+	@RequestMapping("/logout")
+	public ModelAndView logOut(HttpSession session) {
+		session.invalidate();
+		ModelAndView result = new ModelAndView("/home");
+		return result;
+	}
 }
