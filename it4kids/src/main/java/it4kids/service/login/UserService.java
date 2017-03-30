@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -70,15 +71,11 @@ public class UserService {
     }
     
     public void save(User user) throws ValidationException {
-    	LOGGER.debug("Saving user: " + user);
-    	//validate(user);
-    	registeredUserDAO.add(user);
+    	validate(user);
     }
     
     public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (dao.usernameAvailable(req.getParameter("userName"))) {
 	    	dao.add(req, resp);
-		}
     }
     
     public User get(Long id) {
@@ -102,41 +99,58 @@ public class UserService {
 		if (StringUtils.isEmpty(user.getFirstName())) {
 			errors.add("Prenumele este gol");
 		}
+		
+		if(user.getFirstName().length() < 3) {
+			errors.add("Prenumele trebuie sa fie compus din cel putin trei litere");
+		}
+		
+		if(!Pattern.matches("[a-zA-Z ]+", user.getFirstName())) {
+			errors.add("Prenumele trebuie sa fie compus doar din litere");
+		}
 
 		if (StringUtils.isEmpty(user.getLastName())) {
 			errors.add("Numele este gol");
+		}
+		
+		if(user.getLastName().length() < 3) {
+			errors.add("Numele trebuie sa fie compus din cel putin trei litere");
+		}
+		
+		if(!Pattern.matches("[a-zA-Z ]+", user.getLastName())) {
+			errors.add("Numele trebuie sa fie compus doar din litere");
 		}
 
 		if (StringUtils.isEmpty(user.getEmail())) {
 			errors.add("Adresa de email este goală");
 		}
+		
 
 		if (StringUtils.isEmpty(user.getPassword())) {
 			errors.add("Parola este goală");
 		} 
 		
-		if (StringUtils.isEmpty(user.getUserName())) {
-			errors.add("Numele de utilizator este gol");
+		if(user.getPassword().length() < 6) {
+			errors.add("Parola trebuie sa fie compusa din cel putin sase caractere");
 		}
 		
-		if (StringUtils.isEmpty(user.getRelatedUsername())) {
-			errors.add("Numele membrului de familie este gol");
+		if(!Pattern.matches("[a-zA-Z0-9 ]+", user.getPassword())) {
+			errors.add("Parola poate fi compusa doar din litere si numere");
+		}
+		
+		if (StringUtils.isEmpty(user.getUserName())) {
+			errors.add("Numele de utilizator este gol");
 		}
 		
 		if (StringUtils.isEmpty(user.getAccountType())) {
 			errors.add("Tipul de cont este gol");
 		}
 		
-		if (StringUtils.isEmpty(user.getId())) {
-			errors.add("Id este gol");
-		}
-		
-		if (StringUtils.isEmpty(user.getDate())) {
-			errors.add("Data este goală");
-		}
-		
 		if (!errors.isEmpty()) {
 			throw new ValidationException(errors.toArray(new String[] {}));
 		}
+	}
+    
+    public JdbcTemplateUserDAO getDao() {
+		return dao;
 	}
 }

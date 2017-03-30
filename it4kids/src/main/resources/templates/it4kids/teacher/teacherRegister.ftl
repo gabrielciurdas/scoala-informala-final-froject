@@ -28,11 +28,11 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>Nume</td>
+						<td>Prenume</td>
 						<td><input type="text" name="firstName" value="" required="required"/></td>
 					</tr>
 					<tr>
-						<td>Prenume</td>
+						<td>Nume</td>
 						<td><input type="text" name="lastName" value=""  required="required"/></td>
 					</tr>
 					<tr>

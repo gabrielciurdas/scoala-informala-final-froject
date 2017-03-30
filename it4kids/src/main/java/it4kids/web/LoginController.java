@@ -40,23 +40,23 @@ public class LoginController {
 	public ModelAndView onLogin(@Valid @ModelAttribute("userLogin") UserLogin userLogin, BindingResult bindingResult,
 			HttpServletRequest request) {
 		String accountType = "";
-		UserLogin user = new UserLogin();
-		user.setUserName(request.getParameter("userName"));
-		user.setPassword(request.getParameter("password"));
+		UserLogin newUser = new UserLogin();
+		newUser.setUserName(request.getParameter("userName"));
+		newUser.setPassword(request.getParameter("password"));
 		ModelAndView modelAndView = new ModelAndView();
 
 		boolean hasErros = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user: " + user.getUserName());
+			System.out.println("user: " + newUser.getUserName());
 			try {
-				userLoginService.save(user);
-				if (userLoginService.isRegistered(user.getUserName(), user.getPassword())) {
+				userLoginService.save(newUser);
+				if (userLoginService.isRegistered(newUser.getUserName(), newUser.getPassword())) {
 					accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString()
 							.toLowerCase();
-					user.setAccountType(accountType); //
-					user.setId(userLoginService.getJdbcTemplate().getId());
+					newUser.setAccountType(accountType); //
+					newUser.setId(userLoginService.getJdbcTemplate().getId());
 
-					request.getSession().setAttribute("currentUser", user);
+					request.getSession().setAttribute("currentUser", newUser);
 
 					modelAndView.setView(new RedirectView("/" + accountType + "/" + accountType));
 				}
@@ -74,7 +74,7 @@ public class LoginController {
 
 		if (hasErros) {
 			modelAndView = new ModelAndView("it4kids/login");
-			modelAndView.addObject("userLogin", user);
+			modelAndView.addObject("userLogin", newUser);
 			modelAndView.addObject("errors", bindingResult.getAllErrors());
 		}
 
