@@ -27,12 +27,12 @@
 	  <div class="panel panel-default">
 	  <div class="panel-heading">
 	     <div id="home" class="tab-pane fade in active">
-         <p> <a href="/primary_parent/primary_parent">Pagina principala</a> <p>
+         <p> <a href="/parent/parent">Pagina principala</a> <p>
   <br>
 	  </div>
 	  <br>
 	   <div id="home" class="tab-pane fade in active">
-     	    <h3 class="panel-title">Copii</h3>
+     	    <h3 class="panel-title">Lista copiilor</h3>
   <br>
 	  <div class="panel-body">
 		 
@@ -71,3 +71,7 @@
     </div>
   </body>
 </html>
+
+
+
+

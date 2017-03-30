@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Lista copiilor</title>
+    <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -19,26 +19,26 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
- <body>
-<div class="container">
+  
+	  <body>
+	  <div class="container">
   <a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125" border="10"/>
 		</a> <br>
 	  
 	  <div class="panel panel-default">
 	  <div class="panel-heading">
 	     <div id="home" class="tab-pane fade in active">
-         <p> <a href="/primary_parent/primary_parent">Pagina principala</a> <p>
+         <p> <a href="/teacher/teacher">Pagina principala</a> <p>
   <br>
 	  </div>
 	  <br>
 	   <div id="home" class="tab-pane fade in active">
-     	    <h3 class="panel-title">Copii</h3>
+     	    <h3 class="panel-title">Lista copiilor</h3>
   <br>
 	  <div class="panel-body">
 		 
 		   <div style="float:right">
 		</div>
-		
 		<br><br>
 		</form>
 		 
@@ -68,6 +68,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
-    </div>
   </body>
 </html>
