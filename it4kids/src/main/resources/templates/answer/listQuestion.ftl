@@ -1,14 +1,16 @@
 [#ftl]
-[#import "/spring.ftl" as spring /]
-<!DOCTYPE html>
+
+
+  
+  <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Lista copiilor</title>
-
+    <title>Question Index</title>
+    
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -19,55 +21,54 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
- <body>
-<div class="container">
-  <a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125" border="10"/>
-		</a> <br>
-	  
-	  <div class="panel panel-default">
-	  <div class="panel-heading">
-	     <div id="home" class="tab-pane fade in active">
-         <p> <a href="/primary_parent/primary_parent">Pagina principala</a> <p>
-  <br>
+  <body>
+  	<div class="panel panel-default">
+  	<div class="panel-heading">
+  	<img src="/image/demo.png" alt="">
+	    
 	  </div>
-	  <br>
-	   <div id="home" class="tab-pane fade in active">
-     	    <h3 class="panel-title">Copii</h3>
-  <br>
 	  <div class="panel-body">
-		 
-		   <div style="float:right">
-		</div>
-		
-		<br><br>
-		</form>
-		 
-		<table class="table">
-		<tr>
-			<th>Nume</th>
-			<th>Prenume</th>
-			<th>Email</th>
-			<th></th>
-		</tr>
-		
-		[#list userList as user]
-		 
-			<tr>
-				<td>${user.firstName!''}</td>
-				<td>${user.lastName!''}</td>
-				<td>${user.email!''}</td>
-			</tr>
-		[/#list]
-		
-		</table>
-		
-	  </div>
-	</div>
+	 <table class = "table">
+	 </br></br>
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><b>Lista Intrebari</div>
 
+  <!-- Table -->
+  <table class="table">
+  
+  	<tr>
+  		<th><h4><b><i>Intrebare</i></b></h4></th>
+  		<th><h4><b><i>Variante de Raspuns</i></b></h4></th>
+  	</tr>
+    [#list quiz.questions as quizEntry]
+  	<tr>
+  		<td><h3><p style="color:#00aaff"><b>${(quizEntry.text)!''}</b></p></h3></td>
+
+  		<td>
+  	    [#if quizEntry.options??]
+  	    <table class="table">
+				[#list quizEntry.options as option]
+  	    	<tr>
+				<tr><h4 style="color:#ff751a"><b><input type="checkbox" name="q1" value="a" id="q1a"><label for="q1a">${(option.textOption)!''}</label><br/></b></h4></tr>	
+  	    	</tr>
+	        [/#list]
+	    </table>
+		[/#if]
+  	</tr>
+  	
+    [/#list]
+  </table>
+</div>
+
+  
+    <p align = "center"><a href="/answer/index" class="btn btn-warning" role="button">Salveaza Chestionar</a></p>
+       
+</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
-    </div>
   </body>
 </html>
+ 
