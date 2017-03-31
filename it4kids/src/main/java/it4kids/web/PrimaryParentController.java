@@ -81,18 +81,18 @@ public class PrimaryParentController {
 		return result;
 	}
 
-	@RequestMapping("/parentRegister")
-	public ModelAndView parentRegisterView() {
-		ModelAndView result = new ModelAndView("it4kids/primary_parent/parentRegister");
+	@RequestMapping("/register")
+	public ModelAndView registerView() {
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/register");
 
 		return result;
 	}
 
-	@RequestMapping("/parentRegister/parentRegister")
+	@RequestMapping("/register/register")
 	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
 			HttpServletRequest req, HttpServletResponse resp) {
 		
-		ModelAndView result = new ModelAndView("it4kids/primary_parent/parentRegister");
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/register");
 		
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
@@ -119,7 +119,7 @@ public class PrimaryParentController {
 		}
 
 		if (hasErrors) {
-			result = new ModelAndView("it4kids/primary_parent/parentRegister");
+			result = new ModelAndView("it4kids/primary_parent/register");
 			result.addObject("user", user);
 			result.addObject("errors", bindingResult.getAllErrors());
 		}
@@ -127,18 +127,18 @@ public class PrimaryParentController {
 		return result;
 	}
 
-	@RequestMapping("/assignParent")
-	public ModelAndView assignParentView() {
-		ModelAndView result = new ModelAndView("it4kids/primary_parent/assignParent");
+	@RequestMapping("/assign")
+	public ModelAndView assignView() {
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/assign");
 
 		return result;
 	}
 	
-	@RequestMapping("/assignParent/assign")
+	@RequestMapping("/assign/assign")
 	public ModelAndView onAssign(@Valid @ModelAttribute("user") User user,  BindingResult bindingResult, 
 			HttpServletRequest req, HttpServletResponse resp) {
 		
-		ModelAndView result = new ModelAndView("it4kids/primary_parent/assignParent");
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/assign");
 		
 		User child = new User();
 		User parent = new User();
@@ -165,7 +165,7 @@ public class PrimaryParentController {
 		}
 
 		if (hasErrors) {
-			result = new ModelAndView("it4kids/primary_parent/assignParent");
+			result = new ModelAndView("it4kids/primary_parent/assign");
 			result.addObject("user", user);
 			result.addObject("errors", bindingResult.getAllErrors());
 		}

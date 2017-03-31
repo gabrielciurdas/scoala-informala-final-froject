@@ -40,7 +40,7 @@
 		</div>
 		<br><br>
 		<div style="float:right">
-		<a href="/teacher/teacherRegister"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga parinte</a>
+		<a href="/teacher/register"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga parinte</a>
 		</div>
 		</form>
 		 

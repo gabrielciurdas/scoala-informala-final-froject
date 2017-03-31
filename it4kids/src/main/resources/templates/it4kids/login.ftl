@@ -41,7 +41,7 @@
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
 								
-								<li><button type="submit" class="btn btn-default">LOGIN</button></li>
+								<li><button type="submit" class="btn btn-info">LOGIN</button></li>
 							</ul>
 						</div>
 					[#if errors??]

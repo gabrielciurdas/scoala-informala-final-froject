@@ -91,9 +91,9 @@ public class AdminController {
 		return result;
 	}
 	
-	@RequestMapping("/adminRegister")
+	@RequestMapping("/register")
 	public ModelAndView adminRegisterView() {
-		ModelAndView result = new ModelAndView("it4kids/admin/adminRegister");
+		ModelAndView result = new ModelAndView("it4kids/admin/register");
 		
 		return result;
 	}
@@ -102,7 +102,7 @@ public class AdminController {
 	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
 			HttpServletRequest req, HttpServletResponse resp) {
 		
-		ModelAndView result = new ModelAndView("it4kids/admin/adminRegister");
+		ModelAndView result = new ModelAndView("it4kids/admin/register");
 		
 		boolean hasErros = false;
 		if (!bindingResult.hasErrors()) {
@@ -129,7 +129,7 @@ public class AdminController {
 		}
 
 		if (hasErros) {
-			result = new ModelAndView("it4kids/admin/adminRegister");
+			result = new ModelAndView("it4kids/admin/register");
 			result.addObject("user", user);
 			result.addObject("errors", bindingResult.getAllErrors());
 		}

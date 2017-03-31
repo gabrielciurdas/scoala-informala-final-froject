@@ -107,18 +107,18 @@ public class TeacherController {
 		return result;
 	}
 	
-	@RequestMapping("/teacherRegister")
+	@RequestMapping("/register")
 	public ModelAndView registrationView() {
-		ModelAndView result = new ModelAndView("it4kids/teacher/teacherRegister");
+		ModelAndView result = new ModelAndView("it4kids/teacher/register");
 		
 		return result;
 	}
 	
-	@RequestMapping("/teacherRegister/register")
+	@RequestMapping("/register/register")
 	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
 			HttpServletRequest req, HttpServletResponse resp) {
 		
-		ModelAndView result = new ModelAndView("it4kids/teacher/teacherRegister");
+		ModelAndView result = new ModelAndView("it4kids/teacher/register");
 		
 		boolean hasErros = false;
 		if (!bindingResult.hasErrors()) {
@@ -145,7 +145,7 @@ public class TeacherController {
 		}
 
 		if (hasErros) {
-			result = new ModelAndView("it4kids/teacher/teacherRegister");
+			result = new ModelAndView("it4kids/teacher/register");
 			result.addObject("user", user);
 			result.addObject("errors", bindingResult.getAllErrors());
 		}

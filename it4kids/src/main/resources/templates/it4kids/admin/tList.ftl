@@ -41,7 +41,7 @@
 		
 		<br><br>
 		<div style="float:right">
-		<a href="/admin/adminRegister"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga invatator</a>
+		<a href="/admin/register"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga invatator</a>
 		</div>
 		</form>
 		 
