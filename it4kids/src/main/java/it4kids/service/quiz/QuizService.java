@@ -1,14 +1,11 @@
 package it4kids.service.quiz;
 
-import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.dao.indatabase.quiz.QuizDAO;
 import it4kids.dao.indatabase.quiz.QuizEntryDAO;
 import it4kids.domain.quiz.Option;
 import it4kids.domain.quiz.Quiz;
-import it4kids.domain.quiz.QuizAnswer;
 import it4kids.domain.quiz.QuizEntry;
-import it4kids.domain.quiz.UserAnswer;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -32,10 +29,7 @@ public class QuizService {
 	private QuizEntryDAO daoQuizEntry;
 	@Autowired
 	private OptionDAO daoOption;
-	@Autowired
-	private AnswerDAO daoAnswer;
-	
-		
+
 	public Collection<Quiz> listAll() {
 		return daoQuiz.getAll();
 	}

@@ -28,11 +28,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfiguration {
 
-<<<<<<< HEAD
-=======
 
     
->>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
 	@Bean
 	public AccountService accountService1() {
 		return new AccountService();
@@ -118,20 +115,4 @@ public class ApplicationConfiguration {
 	public AccountDAO<UserLogin> accountDAO() {
 		return new IMAccountDAO<>();
 	}
-<<<<<<< HEAD
-
-	/*
-	 * @EnableRedisHttpSession public class Config { //Spring alternative to
-	 * HttpSession from Tomcat
-	 * 
-	 * @Bean public LettuceConnectionFactory connectionFactory() { return new
-	 * LettuceConnectionFactory(); } }
-	 */
-	// <<<<<<< HEAD
-	// >>>>>>> it4kids
-	// =======
-	// >>>>>>> origin/Gabi
 }
-=======
-}
->>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c

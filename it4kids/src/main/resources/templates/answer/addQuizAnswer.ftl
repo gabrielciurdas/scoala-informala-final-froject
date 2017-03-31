@@ -22,17 +22,18 @@
     <![endif]-->
   </head>
   <body>
+  
   	<div class="panel panel-default">
-  	<div class="panel-heading">
-  	<img src="/image/demo.png" alt="">
+  		<div class="panel-heading">
+  			<img src="/image/demo.png" alt="">
 	    
-	  </div>
-	  <div class="panel-body">
-	 <table class = "table">
-	 </br></br>
-<div class="panel panel-primary">
+		 </div>
+	  	<div class="panel-body">
+	 	<table class = "table">
+		 </br></br>
+		<div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading"><b>Lista Intrebari</div>
+ 		 <div class="panel-heading"><b>Lista Raspunsuri</div>
 
   <!-- Table -->
   <table class="table">
@@ -41,39 +42,48 @@
   
   	<tr>
   		<th><h4><b><i>Intrebare</i></b></h4></th>
-  		<th><h4><b><i>Variante de Raspuns</i></b></h4></th>
+  		<th><h4><b><i>Raspuns Ales</i></b></h4></th>
   	</tr>
-    [#list quiz.questions as quizEntry]
+
   	<tr>
-  		<td><h3><p style="color:#00aaff"><b>${(quizEntry.text)!''}</b></p></h3></td>
+  		<td><h3><p style="color:#00aaff"><b>Programul</b></p></h3></td>
 
-  		<td>
-  	    [#if quizEntry.options??]
-  	    <table class="table">
-				[#list quizEntry.options as option]
-  	    	<tr>
-				<tr><h4 style="color:#ff751a"><b><input type="checkbox" name="q1" value="a" id="q1a"><label for="q1a">${(option.textOption)!''}</label><br/></b></h4></tr>	
-  	    	</tr>
-	        [/#list]
-	    </table>
-		[/#if]
+  		<td><h4 style="color:#ff751a"><b>Este o lista de algoritmi pe care il intelege calculatorul si pe care il poate executa</b></h4></td>
+  	
   	</tr>
   	
-    [/#list]
-  </table>
-</div>
+  	<tr>
+  		<td><h3><p style="color:#00aaff"><b>Care din afirmatiile de mai jos sunt adevarate?</b></p></h3></td>
 
-  
-    <form class="form-horizontal" action="saveAnswer" method="POST">
-		
-    	<button type="submit" class="btn btn-primary">Salveaza</button>
-    	<input type="hidden" name="quizId" value="${(quiz.id)!''}" />
-  		<input type="hidden" name="quizAnswerId" value="${(quizAnswer.id)!''}" />
-  		
-  </form>
+  		<td><h4 style="color:#ff751a"><b>Algoritmul este o lista de pasi sau instructiuni pe care ii urmam pentru a obtine un rezultat</b></h4></td>
   	
-       
+  	</tr>
+  	
+  	<tr>
+  		<td><h3><p style="color:#00aaff"><b>Limbajul de programare este o limba pe care o intelege calculatorul</b></p></h3></td>
+
+  		<td><h4 style="color:#ff751a"><b>Adevarat</b></h4></td>
+  	
+  	</tr>
+  	
+  	<tr>
+  		<td><h3><p style="color:#00aaff"><b>Un robotel poate fi programat in</b></p></h3></td>
+
+  		<td><h4 style="color:#ff751a"><b>Scratch</b></h4></td>
+  	
+  	</tr>
+  	
+ 	</table>
+  </table>
+  
+ 
+  
+</div>     
 </div>
+</div>
+ <a href="/index" class="btn btn-info" align="center" role="button"">Inapoi La Chestionare</a>
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
