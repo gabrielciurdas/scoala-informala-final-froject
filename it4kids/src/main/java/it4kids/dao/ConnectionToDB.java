@@ -13,8 +13,7 @@ public class ConnectionToDB {
 
 	public Connection getDBConnection() {
 		loadDriver();
-		// set timeout 1 min; optional: DB may be busy,
-		// busy, good to set a higher timeout
+		// wait 1 min; optional: DB may be busy so it is good to set a higher timeout
 		DriverManager.setLoginTimeout(60); 
 		
 		try {
@@ -35,18 +34,4 @@ public class ConnectionToDB {
 		}
 
 	}
-	//this is not needed because Connection and PreparedStatement aure autoclosable
-
-	/*public void cleanUp(PreparedStatement preparedStatement,
-			Connection dbConnection) throws SQLException {
-
-		if (preparedStatement != null) {
-			preparedStatement.close();
-		}
-
-		if (dbConnection != null) {
-			dbConnection.close();
-		}
-	}*/
-
 }
