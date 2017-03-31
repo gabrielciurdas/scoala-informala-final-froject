@@ -79,7 +79,7 @@
     				<tr>
 						[#list quizEntry.options as option]
 				  		<td> 
-							${(option.correct?string('yes', 'no'))!''}
+							${(option.correct?string('corect', 'incorect'))!''}
 			        	</td>
 				        [/#list]
     				</tr>
