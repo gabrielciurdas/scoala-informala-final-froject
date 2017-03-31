@@ -12,7 +12,7 @@
     <title>Quiz Index</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,27 +25,25 @@
   
   
   <body>
+ 
+  
+  
+  
+  
   <div class="panel panel-default">
   <div class="panel-heading">
-    <h2 class="panel-title">Quiz List</h2>
-  </div>
+   <button type="button" class="btn btn-default"><h2 class="panel-title">Chestionar Disponibil</h2></button> 
+ 
   <div class="panel-body">
  <table class = "table">
-  <fieldset>
-  	<legend>Start Quiz</legend>
-  <form action="add" method="GET">
- 	Quiz Name: <input type="text" name="name" value="${(quiz.name)!''}" />	<br/>
-  	<input type="hidden" name="id" value="${(quiz.id)!''}" />
-  </form>
-  </fieldset>
+
   </br>
-  </br>
-  </br>
+
   </br>
   <div class="panel panel-primary">
   <!-- Default panel contents -->
   
-  <div class="panel-heading">Quiz Name</div>
+  <div class="panel-heading">Nume Chestionar</div>
 
   <!-- Table -->
   <table class="table">
@@ -56,20 +54,20 @@
   		<div class="row">
   <div class="col-sm-6 col-md-4">
       <div class="caption">
-        <p><a href="/start?id=${quiz.id?c}" class="btn btn-success" role="button">Start Quiz</a></p>
+        <p><a href="/answer/start?id=${quiz.id?c}" class="btn btn-danger" role="button">Porneste Chestionar</a></p>
+       
   </div>
 </div>
   		</td>
   	</tr>
     [/#list]
   </table>
+   </div>
 </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
-
-

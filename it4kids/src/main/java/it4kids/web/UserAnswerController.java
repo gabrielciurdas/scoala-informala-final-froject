@@ -1,6 +1,7 @@
 package it4kids.web;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,12 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.domain.quiz.Quiz;
+import it4kids.domain.quiz.QuizAnswer;
 import it4kids.domain.quiz.QuizEntry;
+import it4kids.domain.quiz.UserAnswer;
 import it4kids.service.quiz.QuizService;
 import it4kids.service.quiz.UserAnswerService;
 
 @Controller
-@RequestMapping("/answer")
+@RequestMapping(value = "/answer")
 public class UserAnswerController {
 
 	@Autowired
@@ -36,19 +39,29 @@ public class UserAnswerController {
 		return result;
 	}
 
-	@RequestMapping(value = "/start/index")
+	@RequestMapping(value = "/start", method = RequestMethod.GET)
 	public ModelAndView startQuiz(Long id) {
-		ModelAndView result = new ModelAndView("answer/listQuestions");
+		ModelAndView result = new ModelAndView("answer/listQuestion");
 
 		Quiz quiz = quizService.get(id);
-		QuizEntry quizEntry = new QuizEntry();
-		QuizEntryForm qef = new QuizEntryForm();
-		quizEntry.setQuiz(quiz);
+		QuizAnswer quizAnswer = new QuizAnswer();
+		// quizEntry.setQuiz(quiz);
 		result.addObject("quiz", quiz);
-		result.addObject("quizEntry", quizEntry);
-		result.addObject("option", qef);
+		result.addObject("answers", quizAnswer);
 
 		return result;
+	}
+	
+	@RequestMapping(value = "/start", method = RequestMethod.GET)
+	public ModelAndView showResult() {
+		ModelAndView result = new ModelAndView("answer/listResult");
+
+		
+		Collection<QuizAnswer> answer = userService.listAll();
+		result.addObject("answers", answer);
+		return result;
+
+		
 	}
 
 }

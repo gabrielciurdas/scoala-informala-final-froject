@@ -1,11 +1,14 @@
 package it4kids.service.quiz;
 
+import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.dao.indatabase.quiz.QuizDAO;
 import it4kids.dao.indatabase.quiz.QuizEntryDAO;
 import it4kids.domain.quiz.Option;
 import it4kids.domain.quiz.Quiz;
+import it4kids.domain.quiz.QuizAnswer;
 import it4kids.domain.quiz.QuizEntry;
+import it4kids.domain.quiz.UserAnswer;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -19,8 +22,7 @@ import org.springframework.util.StringUtils;
 
 @Service
 public class QuizService {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(QuizService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
 	@Autowired
 	private QuizDAO daoQuiz;
@@ -28,7 +30,10 @@ public class QuizService {
 	private QuizEntryDAO daoQuizEntry;
 	@Autowired
 	private OptionDAO daoOption;
-
+	@Autowired
+	private AnswerDAO daoAnswer;
+	
+		
 	public Collection<Quiz> listAll() {
 		return daoQuiz.getAll();
 	}
@@ -89,16 +94,14 @@ public class QuizService {
 		daoQuiz.update(quiz);
 	}
 
-	public void saveQuizEntry(QuizEntry entry)
-			throws it4kids.service.ValidationException {
+	public void saveQuizEntry(QuizEntry entry) throws it4kids.service.ValidationException {
 		LOGGER.debug("Saving: " + entry);
 		validateQuizEntry(entry);
 
 		daoQuizEntry.update(entry);
 	}
 
-	public void saveOption(Option option)
-			throws it4kids.service.ValidationException {
+	public void saveOption(Option option) throws it4kids.service.ValidationException {
 		LOGGER.debug("Saving: " + option);
 		validateOption(option);
 
@@ -116,31 +119,26 @@ public class QuizService {
 		}
 
 		if (!errors.isEmpty()) {
-			throw new it4kids.service.ValidationException(
-					errors.toArray(new String[] {}));
+			throw new it4kids.service.ValidationException(errors.toArray(new String[] {}));
 		}
 	}
 
-	private void validateQuizEntry(QuizEntry list)
-			throws it4kids.service.ValidationException {
+	private void validateQuizEntry(QuizEntry list) throws it4kids.service.ValidationException {
 		List<String> errors = new LinkedList<String>();
 		if (StringUtils.isEmpty(list.getClass())) {
 			errors.add("There is no question");
 		}
 
-
 		if (list.getOptions() == null) {
-			errors.add("There are no answears");
+			errors.add("There are no answers");
 		}
 
 		if (!errors.isEmpty()) {
-			throw new it4kids.service.ValidationException(
-					errors.toArray(new String[] {}));
+			throw new it4kids.service.ValidationException(errors.toArray(new String[] {}));
 		}
 	}
 
-	private void validateOption(Option option)
-			throws it4kids.service.ValidationException {
+	private void validateOption(Option option) throws it4kids.service.ValidationException {
 		List<String> errors = new LinkedList<String>();
 		if (StringUtils.isEmpty(option.getClass())) {
 			errors.add("Name is Empty");
@@ -155,8 +153,7 @@ public class QuizService {
 		// }
 
 		if (!errors.isEmpty()) {
-			throw new it4kids.service.ValidationException(
-					errors.toArray(new String[] {}));
+			throw new it4kids.service.ValidationException(errors.toArray(new String[] {}));
 		}
 	}
 
