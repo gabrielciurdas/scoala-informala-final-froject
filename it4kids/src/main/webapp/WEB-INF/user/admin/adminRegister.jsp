@@ -28,11 +28,11 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>Prenume</td>
+						<td>Nume</td>
 						<td><input type="text" name="firstName" value="" required="required"/></td>
 					</tr>
 					<tr>
-						<td>Nume</td>
+						<td>Prenume</td>
 						<td><input type="text" name="lastName" value=""  required="required"/></td>
 					</tr>
 					<tr>
@@ -54,26 +54,15 @@
 					</tr>
 					<tr>
 						<td>Parola</td>
-						<td><input type="password" name="password" value="" required="required" /></td>
+						<td><input pattern=".{6,20}" type="password" name="password" value="" title="minimum of 6 characters, maximum 20 characters"
+						oninvalid="this.setCustomValidity(this.willValidate?'':'Trebuie să folosiți cel puțin 6 caractere și cel mult 20')" required="required" /></td>
 					</tr>
 					<tr>
 						<td><input type="submit" value="Submit" /></td>
 						<td><input type="reset" value="Reset" /></td>
 						<td><a href="/admin/tList/">Cancel</a></td>
+					</tr>
 				</tbody>
-				</tr>
-					[#if errors??]
-				    	<div>
-				        	<ul>
-				            	[#list errors as error]
-				            	<br>
-				                	<b style="color:red">
-				                	[#if error.field??]${error.field}: [/#if]${error.defaultMessage}
-				               		</b>
-				            	[/#list]
-				        	</ul>
-				    	</div>
-					[/#if]
 			</table>
 		</center>
 	</form>

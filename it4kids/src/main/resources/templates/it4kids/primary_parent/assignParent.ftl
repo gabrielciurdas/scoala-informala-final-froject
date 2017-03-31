@@ -43,18 +43,6 @@
 						<td><a href="/primary_parent/primary_parent/">Cancel</a></td>
 					</tr>
 				</tbody>
-					[#if errors??]
-				    	<div>
-				        	<ul>
-				            	[#list errors as error]
-				            	<br>
-				                	<b style="color:red">
-				                	[#if error.field??]${error.field}: [/#if]${error.defaultMessage}
-				               		</b>
-				            	[/#list]
-				        	</ul>
-				    	</div>
-					[/#if]
 			</table>
 		</center>
 	</form>
