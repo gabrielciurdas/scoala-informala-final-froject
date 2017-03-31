@@ -50,7 +50,7 @@
 				    </div>
 				[/#if]
 			    
-		<form action="/admin/adminRegister/register" method="post">
+		<form action="/admin/register/register" method="post">
 					<div class="form-group">
 						<label for="firstName">Prenume</label> 
 						<input type="text"

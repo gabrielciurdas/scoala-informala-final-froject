@@ -56,7 +56,6 @@ public class AdminController {
 	@RequestMapping("it4kids/admin/delete")
 	public ModelAndView delete(int id) {
 		System.out.println("trying to delete");
-		//userService.delete(id);
 		ModelAndView result = new ModelAndView();
 		RedirectView redirect = new RedirectView("");
 		result.setView(redirect);
@@ -98,7 +97,7 @@ public class AdminController {
 		return result;
 	}
 	
-	@RequestMapping("/adminRegister/register")
+	@RequestMapping("/register/register")
 	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
 			HttpServletRequest req, HttpServletResponse resp) {
 		
