@@ -1,11 +1,10 @@
 package it4kids.domain.login;
 
-import it4kids.domain.AbstractModel;
 
 /**
  * Created by Gabi on 3/10/2017.
  */
-public class Account  extends AbstractModel{
+public class Account extends it4kids.domain.quiz.AbstractModel {
     private int idRegisteredUser;
 
 

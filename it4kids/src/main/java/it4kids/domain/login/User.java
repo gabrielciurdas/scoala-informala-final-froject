@@ -138,7 +138,8 @@ public class User extends Account {
 		this.date = date;
 	}
 
-	public int getId() {
+	@Override
+	public long getId() {
 		return Integer.parseInt(id);
 	}
 

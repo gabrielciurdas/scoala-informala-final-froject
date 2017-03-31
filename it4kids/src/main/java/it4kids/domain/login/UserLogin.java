@@ -73,7 +73,8 @@ public class UserLogin extends Account{
 		super.setId(id);
 	}
 	
-	public int getId() {
+	@Override
+	public long getId() {
 		return super.getId();
 	}
 	

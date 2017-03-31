@@ -1,17 +1,17 @@
 package it4kids.dao.inmemory.login;
 
+import it4kids.dao.AccountDAO;
+import it4kids.domain.login.Account;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import it4kids.dao.AccountDAO;
-import it4kids.domain.login.Account;
-
 public class IMAccountDAO<T extends Account> implements AccountDAO<T> {
 	
-	protected Map<Integer, T> models = new HashMap<Integer, T>();
-	protected static AtomicInteger ID = new AtomicInteger((int) System.currentTimeMillis());
+	protected Map<Long, T> models = new HashMap<Long, T>();
+	protected static AtomicInteger ID = new AtomicInteger(1);
 
 	@Override
 	public Collection<T> getAll() {
