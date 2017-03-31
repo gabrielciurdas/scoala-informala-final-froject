@@ -22,6 +22,7 @@
     <![endif]-->
   </head>
   <body>
+<<<<<<< HEAD
  
 
   <h2>Lista Intrebari</h2>
@@ -30,24 +31,46 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">Lista Intrebari</div>
+=======
+  	<div class="panel panel-default">
+  	<div class="panel-heading">
+  	<img src="/image/demo.png" alt="">
+	    
+	  </div>
+	  <div class="panel-body">
+	 <table class = "table">
+	 </br></br>
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><b>Lista Intrebari</div>
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
 
   <!-- Table -->
   <table class="table">
   
   	<tr>
+<<<<<<< HEAD
   		<th>Intrebare</th> 
   		<th>Variante de Raspuns</th>
+=======
+  		<th><h4><b><i>Intrebare</i></b></h4></th>
+  		<th><h4><b><i>Variante de Raspuns</i></b></h4></th>
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
   	</tr>
     [#list quiz.questions as quizEntry]
   	<tr>
-  		<td>${(quizEntry.text)!''}</td>
+  		<td><h3><p style="color:#00aaff"><b>${(quizEntry.text)!''}</b></p></h3></td>
 
   		<td>
   	    [#if quizEntry.options??]
   	    <table class="table">
 				[#list quizEntry.options as option]
   	    	<tr>
+<<<<<<< HEAD
 				<tr><input type="radio" name="q1" value="a" id="q1a"><label for="q1a">${(option.textOption)!''}</label><br/></tr>	
+=======
+				<tr><h4 style="color:#ff751a"><b><input type="checkbox" name="q1" value="a" id="q1a"><label for="q1a">${(option.textOption)!''}</label><br/></b></h4></tr>	
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
   	    	</tr>
 	        [/#list]
 	    </table>
@@ -59,7 +82,11 @@
 </div>
 
   
+<<<<<<< HEAD
    <p><a href="/answer/result" class="btn btn-danger" role="button">Salveaza Chestionar</a></p>
+=======
+    <p align = "center"><a href="/answer/index" class="btn btn-warning" role="button">Salveaza Chestionar</a></p>
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
        
 </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -67,4 +94,9 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/js/bootstrap.min.js"></script>
   </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+ 
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c

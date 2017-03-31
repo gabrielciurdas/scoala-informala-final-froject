@@ -4,8 +4,6 @@
  */
 package it4kids.configuration;
 
-//<<<<<<< HEAD
-//<<<<<<< HEAD
 import it4kids.dao.AccountDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.quiz.AnswerDAO;
@@ -30,6 +28,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfiguration {
 
+<<<<<<< HEAD
+=======
+
+    
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
 	@Bean
 	public AccountService accountService1() {
 		return new AccountService();
@@ -40,10 +43,6 @@ public class ApplicationConfiguration {
 		return new UserService();
 	}
 
-	// @Bean
-	// public UserDAO userDAO() {
-	// return new RegisteredUserDAO();
-	// }
 
 	@Bean
 	public QuizService quizService() {
@@ -95,17 +94,6 @@ public class ApplicationConfiguration {
 	public OptionDAO optionDAO() {
 		return new IMOptionDAO();
 	}
-
-	/*
-	 * @EnableRedisHttpSession public class Config { //Spring alternative to
-	 * HttpSession from Tomcat
-	 * 
-	 * @Bean public LettuceConnectionFactory connectionFactory() { return new
-	 * LettuceConnectionFactory(); } }
-	 */
-	// =======
-	// =======
-	// >>>>>>> origin/Gabi
 	@Bean
 	public AccountService accountService() {
 		return new AccountService();
@@ -120,30 +108,17 @@ public class ApplicationConfiguration {
 	public UserLoginService userLoginService() {
 		return new UserLoginService();
 	}
-
-	/*
-	 * @Bean
-	 * 
-	 * @Qualifier("UserLoginService") public UserDAO userDAO() { return new
-	 * IMUserDAO(); }
-	 */
-
-	// <<<<<<< HEAD
-	// @Bean
-	// public RegisteredUserDAO registeredUserDAO() {
-	// return new RegisteredUserDAO();
-	// }
-	// =======
+	
 	@Bean
 	public RegisteredUserDAO registeredUserDAO() {
 		return new RegisteredUserDAO();
 	}
-	// >>>>>>> origin/Gabi
-
+	
 	@Bean
 	public AccountDAO<UserLogin> accountDAO() {
 		return new IMAccountDAO<>();
 	}
+<<<<<<< HEAD
 
 	/*
 	 * @EnableRedisHttpSession public class Config { //Spring alternative to
@@ -157,3 +132,6 @@ public class ApplicationConfiguration {
 	// =======
 	// >>>>>>> origin/Gabi
 }
+=======
+}
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c

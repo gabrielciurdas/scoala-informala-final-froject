@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,7 +46,7 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView saveQuiz(Quiz quiz, BindingResult bindingresult)
+	public ModelAndView saveQuiz(@Valid Quiz quiz, BindingResult bindingresult)
 			throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
@@ -61,6 +63,7 @@ public class QuizController {
 		} else {
 			List<FieldError> errors = bindingresult.getFieldErrors();
 			StringBuilder sb = new StringBuilder();
+
 			for (FieldError fieldError : errors) {
 				sb.append(fieldError.getField());
 				sb.append("-");
@@ -76,8 +79,8 @@ public class QuizController {
 	}
 
 	@RequestMapping("/delete")
-	public ModelAndView delete(Long id) {
-		quizService.delete(id);
+	public ModelAndView delete(Long quizId) {
+		quizService.delete(quizId);
 		ModelAndView result = new ModelAndView();
 		RedirectView redirect = new RedirectView("/index");
 		result.setView(redirect);
@@ -85,45 +88,58 @@ public class QuizController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(Long id) {
+	public ModelAndView edit(Long quizId) {
 		ModelAndView result = new ModelAndView("quizz/edit");
 
-		Quiz quiz = quizService.get(id);
+		Quiz quiz = quizService.get(quizId);
 		QuizEntry quizEntry = new QuizEntry();
-		QuizEntryForm qef = new QuizEntryForm();
-		quizEntry.setQuiz(quiz);
+		OptionsWrapper qef = new OptionsWrapper();
+		quizEntry.setQuizId(quizId);
 		result.addObject("quiz", quiz);
 		result.addObject("quizEntry", quizEntry);
-		result.addObject("option", qef);
+		result.addObject("optionsWrapper", qef);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/edit/add", method = RequestMethod.POST)
-	public ModelAndView saveQuizEntry(Long quizId, QuizEntry quizEntry,
-			QuizEntryForm qef, BindingResult bindingresult)
-			throws ValidationException {
+	@RequestMapping("/addQuestion")
+	public ModelAndView addQuizEntry(Long quizId) {
+		ModelAndView result = new ModelAndView("quizz/addQuestion");
+		Quiz quiz = quizService.get(quizId);
+		QuizEntry quizEntry = new QuizEntry();
+		OptionsWrapper qef = new OptionsWrapper();
+		quizEntry.setQuizId(quizId);
+		result.addObject("quiz", quiz);
+		result.addObject("quizEntry", quizEntry);
+		result.addObject("optionsWrapper", qef);
+		return result;
+	}
+
+	@RequestMapping(value = "/saveQuestion", method = RequestMethod.POST)
+	public ModelAndView saveQuizEntry(Long quizId, Long quizEntryId,
+			@Valid QuizEntry quizEntry, OptionsWrapper qef,
+			BindingResult bindingresult) throws ValidationException {
 		ModelAndView result = null;
 		if (!bindingresult.hasErrors()) {
 
 			try {
-
 				Quiz quiz = quizService.get(quizId);
-				quizEntry.setQuiz(quiz);
+				quizEntry.setId(quizEntryId);
+				quizEntry.setQuizId(quizId);
 				quizService.saveQuizEntry(quizEntry);
 
-				List<Option> options = saveOptions(quizEntry, qef);
+				List<Option> options = saveOptions(quizEntryId, qef);
 				// doar pt IMDAO -- start
 				quizEntry.setOptions(options);
 				quizService.saveQuizEntry(quizEntry);
 				// doar pt IMDAO -- end
-				quiz.getQuestions().add(quizEntry);
+				updateQuizQuestions(quizEntry, quiz);
 				quizService.save(quiz);
 				result = new ModelAndView();
-				result.addObject("id", quiz.getId());
-				result.setView(new RedirectView("/edit"));
+				result.addObject("quizId", quiz.getId());
+				result.setView(new RedirectView("/edit?quizId=" + quizId));
 			} catch (ValidationException e) {
-				result = new ModelAndView("quizz/edit");
+				result = new ModelAndView("quizz/addQuestion");
 				result.addObject("error", e.getMessage());
 				result.addObject("quizEntry", quizEntry);
 			}
@@ -137,65 +153,35 @@ public class QuizController {
 				sb.append("<br>");
 			}
 
-			result = new ModelAndView("quizz/edit");
+			result = new ModelAndView("quizz/addQuestion");
 			result.addObject("error", sb.toString());
 			result.addObject("quizEntry", quizEntry);
 		}
 		return result;
 	}
 
-	private List<Option> saveOptions(QuizEntry quizEntry, QuizEntryForm qef)
-			throws ValidationException {
-		List<Option> options = new ArrayList<Option>();
-		String textOption1 = qef.getTextOption1();
-		if (textOption1 != null && textOption1.trim().length() > 0) {
-			Option o1 = new Option();
-			o1.setTextOption(textOption1);
-			o1.setCorrect(OPTION_ONE == qef.getExpected());
-			o1.setQuizEntry(quizEntry);
-			quizService.saveOption(o1);
-			options.add(o1);
-		}
+	private void updateQuizQuestions(QuizEntry quizEntry, Quiz quiz) {
 
-		String textOption2 = qef.getTextOption2();
-		if (textOption2 != null && textOption2.trim().length() > 0) {
-			Option o2 = new Option();
-			o2.setTextOption(textOption2);
-			o2.setCorrect(OPTION_TWO == qef.getExpected());
-			o2.setQuizEntry(quizEntry);
-			quizService.saveOption(o2);
-			options.add(o2);
-		}
+		List<QuizEntry> questions = quiz.getQuestions();
 
-		String textOption3 = qef.getTextOption3();
-		if (textOption3 != null && textOption3.trim().length() > 0) {
-			Option o3 = new Option();
-			o3.setTextOption(textOption3);
-			o3.setCorrect(OPTION_THREE == qef.getExpected());
-			o3.setQuizEntry(quizEntry);
-			quizService.saveOption(o3);
-			options.add(o3);
-		}
+		for (Iterator<QuizEntry> it = questions.iterator(); it.hasNext();) {
+			QuizEntry entry = it.next();
 
-		String textOption4 = qef.getTextOption4();
-		if (textOption4 != null && textOption4.trim().length() > 0) {
-			Option o4 = new Option();
-			o4.setTextOption(textOption4);
-			o4.setCorrect(OPTION_FOUR == qef.getExpected());
-			o4.setQuizEntry(quizEntry);
-			quizService.saveOption(o4);
-			options.add(o4);
+			if (entry.getId() == quizEntry.getId()) {
+				it.remove();
+			}
 		}
-		return options;
+		questions.add(quizEntry);
+
 	}
 
 	@RequestMapping("/deleteQuestion")
-	public ModelAndView deleteQuizEntry(Long quizEntryId, Long id)
+	public ModelAndView deleteQuizEntry(Long quizEntryId, Long quizId)
 			throws ValidationException {
 
 		QuizEntry qz = quizService.getQuizEntry(quizEntryId);
 
-		Quiz quiz = quizService.get(id);
+		Quiz quiz = quizService.get(quizId);
 		Iterator<QuizEntry> quizList = quiz.getQuestions().iterator();
 		while (quizList.hasNext()) {
 			qz = quizList.next();
@@ -205,10 +191,108 @@ public class QuizController {
 		}
 		quizService.save(quiz);
 		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("/edit?id="
-				+ qz.getQuiz().getId());
+		RedirectView redirect = new RedirectView("/edit?quizId="
+				+ qz.getQuizId());
 		result.setView(redirect);
 		return result;
+	}
+
+	@RequestMapping("/editQuestion")
+	public ModelAndView editQuestion(Long quizId, Long quizEntryId) {
+		ModelAndView result = new ModelAndView("quizz/addQuestion");
+		QuizEntry qz = quizService.getQuizEntry(quizEntryId);
+
+		Quiz quiz = quizService.get(quizId);
+
+		if (qz != null) {
+			OptionsWrapper qef = this.readOptions(qz.getOptions());
+			result.addObject("quiz", quiz);
+			result.addObject("quizEntry", qz);
+			result.addObject("optionsWrapper", qef);
+		} else {
+			result = new ModelAndView();
+			RedirectView redirect = new RedirectView("/edit?quizId=" + quizId);
+			result.setView(redirect);
+		}
+		return result;
+	}
+
+	private List<Option> saveOptions(Long quizEntryId, OptionsWrapper qef)
+			throws ValidationException {
+		List<Option> options = new ArrayList<Option>();
+		String textOption1 = qef.getTextOption1();
+		if (textOption1 != null && textOption1.trim().length() > 0) {
+			Option o1 = new Option();
+			o1.setTextOption(textOption1);
+			o1.setCorrect(OPTION_ONE == qef.getExpected());
+			o1.setQuizEntryId(quizEntryId);
+			quizService.saveOption(o1);
+			options.add(o1);
+		}
+
+		String textOption2 = qef.getTextOption2();
+		if (textOption2 != null && textOption2.trim().length() > 0) {
+			Option o2 = new Option();
+			o2.setTextOption(textOption2);
+			o2.setCorrect(OPTION_TWO == qef.getExpected());
+			o2.setQuizEntryId(quizEntryId);
+			quizService.saveOption(o2);
+			options.add(o2);
+		}
+
+		String textOption3 = qef.getTextOption3();
+		if (textOption3 != null && textOption3.trim().length() > 0) {
+			Option o3 = new Option();
+			o3.setTextOption(textOption3);
+			o3.setCorrect(OPTION_THREE == qef.getExpected());
+			o3.setQuizEntryId(quizEntryId);
+			quizService.saveOption(o3);
+			options.add(o3);
+		}
+
+		String textOption4 = qef.getTextOption4();
+		if (textOption4 != null && textOption4.trim().length() > 0) {
+			Option o4 = new Option();
+			o4.setTextOption(textOption4);
+			o4.setCorrect(OPTION_FOUR == qef.getExpected());
+			o4.setQuizEntryId(quizEntryId);
+			quizService.saveOption(o4);
+			options.add(o4);
+		}
+		return options;
+	}
+
+	private OptionsWrapper readOptions(List<Option> options) {
+		OptionsWrapper result = new OptionsWrapper();
+		for (int i = 0; i < options.size(); i++) {
+			Option currentOption = options.get(i);
+			if (currentOption.getCorrect()) {
+				result.setExpected(i + 1);
+			}
+		}
+		String textOption1 = getTextOption(options, 1);
+		result.setTextOption1(textOption1);
+
+		String textOption2 = getTextOption(options, 2);
+		result.setTextOption2(textOption2);
+
+		String textOption3 = getTextOption(options, 3);
+		result.setTextOption3(textOption3);
+
+		String textOption4 = getTextOption(options, 4);
+		result.setTextOption4(textOption4);
+
+		return result;
+	}
+
+	private String getTextOption(List<Option> options, int optionNumber) {
+		String textOption = "";
+		if (optionNumber > 0 && options.size() >= optionNumber) {
+			Option option = options.get(optionNumber - 1);
+			textOption = option.getTextOption();
+		}
+
+		return textOption;
 	}
 
 }

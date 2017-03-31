@@ -26,4 +26,8 @@ public class IMAnswerDAO extends IMBaseAnswerDAO<QuizAnswer> implements AnswerDA
 		}
 		return all;
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c

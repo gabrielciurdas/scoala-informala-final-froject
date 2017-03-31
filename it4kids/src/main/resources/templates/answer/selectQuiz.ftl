@@ -21,8 +21,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
+  <body>
   
   
+<<<<<<< HEAD
   
   <body>
  
@@ -33,6 +35,17 @@
   <div class="panel panel-default">
   <div class="panel-heading">
    <button type="button" class="btn btn-default"><h2 class="panel-title">Chestionar Disponibil</h2></button> 
+=======
+  <div class="panel panel-default">
+  	<div class="panel-heading">
+  	<img src="/image/demo.png" alt="">
+	    
+	  </div>
+	  <div class="panel-body">
+	 <table class = "table">
+	 </br></br>
+   <button type="button" class="btn btn-info"><h2 class="panel-title">Chestionar Disponibil</h2></button> 
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
  
   <div class="panel-body">
  <table class = "table">
@@ -43,7 +56,11 @@
   <div class="panel panel-primary">
   <!-- Default panel contents -->
   
+<<<<<<< HEAD
   <div class="panel-heading">Nume Chestionar</div>
+=======
+  <div class="panel-heading"><b>Nume Chestionar</div>
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
 
   <!-- Table -->
   <table class="table">
@@ -54,7 +71,11 @@
   		<div class="row">
   <div class="col-sm-6 col-md-4">
       <div class="caption">
+<<<<<<< HEAD
         <p><a href="/answer/start?id=${quiz.id?c}" class="btn btn-danger" role="button">Porneste Chestionar</a></p>
+=======
+        <p><a href="/answer/start?id=${quiz.id?c}" class="btn btn-danger" role="button"><b>Porneste Chestionar</a></p>
+>>>>>>> b1019802cd67b23e2b6ceb47cc171b46b4be3f3c
        
   </div>
 </div>
