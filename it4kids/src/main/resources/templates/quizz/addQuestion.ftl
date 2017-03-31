@@ -34,6 +34,9 @@
 
 
 <fieldset>
+[#if error??]
+<div style="color:red">${error}</div>
+[/#if]
   	<legend>Adauga Intrebare</legend>
   <form class="form-horizontal" action="saveQuestion" method="POST">
  

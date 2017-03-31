@@ -16,7 +16,6 @@ public class QuizEntry extends AbstractModel {
 	private List<Option> options = new ArrayList<>();
 	@NotNull
 	private String text;
-	@NotNull
 	private Long quizId;
 
 	public List<Option> getOptions() {

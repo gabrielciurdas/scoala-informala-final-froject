@@ -30,6 +30,9 @@
 	  <div class="panel-body">
 	 <table class = "table">
 	  <fieldset>
+	  [#if error??]
+<div style="color:red">${error}</div>
+[/#if]
 	  	<legend>Adauga Chestionar</legend>
 	  <form class="form-inline" action="add" method="POST">
 	  <div class="form-group">

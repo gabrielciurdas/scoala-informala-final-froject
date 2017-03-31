@@ -270,28 +270,29 @@ public class QuizController {
 				result.setExpected(i + 1);
 			}
 		}
-
-		Option optionOne = options.get(0);
-		String textOption1;
-		textOption1 = optionOne.getTextOption();
+		String textOption1 = getTextOption(options, 1);
 		result.setTextOption1(textOption1);
 
-		Option optionTwo = options.get(1);
-		String textOption2;
-		textOption2 = optionTwo.getTextOption();
+		String textOption2 = getTextOption(options, 2);
 		result.setTextOption2(textOption2);
 
-		Option optionThree = options.get(2);
-		String textOption3;
-		textOption3 = optionThree.getTextOption();
+		String textOption3 = getTextOption(options, 3);
 		result.setTextOption3(textOption3);
 
-		Option optionFour = options.get(3);
-		String textOption4;
-		textOption4 = optionFour.getTextOption();
+		String textOption4 = getTextOption(options, 4);
 		result.setTextOption4(textOption4);
 
 		return result;
+	}
+
+	private String getTextOption(List<Option> options, int optionNumber) {
+		String textOption = "";
+		if (optionNumber > 0 && options.size() >= optionNumber) {
+			Option option = options.get(optionNumber - 1);
+			textOption = option.getTextOption();
+		}
+
+		return textOption;
 	}
 
 }
