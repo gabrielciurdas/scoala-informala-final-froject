@@ -1,5 +1,12 @@
 package it4kids.service.login;
 
+import it4kids.dao.indatabase.login.ChildAccountDAO;
+import it4kids.dao.indatabase.login.ParentAccountDAO;
+import it4kids.dao.indatabase.login.RegisteredUserDAO;
+import it4kids.domain.login.ChildAccount;
+import it4kids.domain.login.ParentAccount;
+import it4kids.domain.login.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -9,14 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import it4kids.dao.UserDAO;
-import it4kids.dao.indatabase.login.ChildAccountDAO;
-import it4kids.dao.indatabase.login.ParentAccountDAO;
-import it4kids.dao.indatabase.login.RegisteredUserDAO;
-import it4kids.domain.login.ChildAccount;
-import it4kids.domain.login.ParentAccount;
-import it4kids.domain.login.User;
 
 /**
  * Servlet implementation class UserServlet
@@ -36,6 +35,7 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
@@ -62,7 +62,8 @@ public class UserServlet extends HttpServlet {
 		validateRegistration(out, session, user, location);
 	}
 
-	private void addAccount(HttpServletRequest request, UserDAO user, String accountType) throws SQLException {
+	private void addAccount(HttpServletRequest request, RegisteredUserDAO user,
+			String accountType) throws SQLException {
 		HttpSession session = request.getSession();
 		if (accountType.equals("PARENT")) {
 			user.add(new User(request.getParameter("firstName"), request.getParameter("lastName"),
@@ -74,13 +75,13 @@ public class UserServlet extends HttpServlet {
 						user.getUsernameId(session.getAttribute("userName").toString()));
 				
 				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(user.getUsernameId(session.getAttribute("userName").toString())),
-						user.getUsernameId(request.getParameter("userName")));
+				c.add(new ChildAccount(user.getUsernameId(session.getAttribute(
+						"userName").toString())));
 				
 			} else if (request.getParameter("accountType").equals("CHILD")) {
 				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(user.getUsernameId(request.getParameter("userName"))),
-						user.getUsernameId(session.getAttribute("userName").toString()));
+				c.add(new ChildAccount(user.getUsernameId(request
+						.getParameter("userName"))));
 			}
 			
 		} else if (accountType.equals("TEACHER")) {

@@ -1,9 +1,14 @@
 package it4kids.dao.indatabase.login;
 
+import it4kids.dao.ConnectionToDB;
+import it4kids.dao.UserDAO;
+import it4kids.domain.UserLogin;
+import it4kids.domain.login.ChildAccount;
+import it4kids.domain.login.ParentAccount;
+import it4kids.domain.login.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,17 +23,10 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import it4kids.dao.ConnectionToDB;
-import it4kids.dao.inmemory.login.UserDAO;
-import it4kids.domain.UserLogin;
-import it4kids.domain.login.ChildAccount;
-import it4kids.domain.login.ParentAccount;
-import it4kids.domain.login.User;
-
 public class JdbcTemplateUserDAO implements UserDAO {
-	private JdbcTemplate jdbcTemplate;
-	private RegisteredUserDAO userDAO = new RegisteredUserDAO();
-	private ConnectionToDB db = new ConnectionToDB();
+	private final JdbcTemplate jdbcTemplate;
+	private final RegisteredUserDAO userDAO = new RegisteredUserDAO();
+	private final ConnectionToDB db = new ConnectionToDB();
 	private String accountType;
 	private String email;
 	private long id;
@@ -83,6 +81,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 							model.getUserName(), model.getPassword(), model.getDate(), model.getId()
 
 					}, new RowMapper<Long>() {
+						@Override
 						public Long mapRow(ResultSet rs, int arg1) throws SQLException {
 							return rs.getLong(1);
 						}
@@ -96,6 +95,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 							model.getUserName(), model.getPassword(), model.getDate(), model.getId()
 
 					}, new RowMapper<Long>() {
+						@Override
 						public Long mapRow(ResultSet rs, int arg1) throws SQLException {
 							return rs.getLong(1);
 						}
@@ -167,7 +167,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		UserLogin userLogin =(UserLogin) ((HttpServletRequest)request).getSession().getAttribute("currentUser");
+		UserLogin userLogin =(UserLogin) request.getSession().getAttribute("currentUser");
 		
 		String accountType = "";
 		if(userDAO.usernameAvailable(request.getParameter("userName"))) {
@@ -234,33 +234,57 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		}
 	}
 
-	public int getUserId(String userName) {
 
-		return userDAO.getUsernameId(userName);
+	@Override
+	public void add(User user) {
+		// TODO Auto-generated method stub
+
 	}
 
-	public boolean userNameNotTaken(String userName) {
-
-		return userDAO.usernameAvailable(userName);
+	@Override
+	public boolean authenticateUser(String userName, String password) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
+	@Override
+	public int getUsernameId(String username) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean usernameAvailable(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
 	public void setChildId(int childId) {
-		userDAO.setChildId(childId);
+		// TODO Auto-generated method stub
+
 	}
 
+	@Override
 	public void setParentId(int parentId) {
-		userDAO.setParentId(parentId);
+		// TODO Auto-generated method stub
+
 	}
 
 	public String getAccountType() {
-		return accountType;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-	
 	public long getId() {
-		return id;
+		// TODO Auto-generated method stub
+		return 0;
 	}
+
+	@Override
+	public User add(User model, Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

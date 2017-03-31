@@ -1,20 +1,19 @@
 package it4kids.dao.inmemory.login;
 
-import java.util.Collection;
-
 import it4kids.dao.UserDAO;
-import it4kids.domain.login.Account;
 import it4kids.domain.login.ChildAccount;
 import it4kids.domain.login.ParentAccount;
 import it4kids.domain.login.User;
 
-public class IMUserDAO extends IMAccountDAO<Account> implements UserDAO {
+import java.util.Collection;
+
+public class IMUserDAO extends IMAccountDAO<User> implements UserDAO {
 	
 	//private UserService userService = new UserService(); //for authentication with DB 
-	private User user = new User();
+	private final User user = new User();
 
 	@Override
-	public Collection<Account> getAll() {
+	public Collection<User> getAll() {
 		return models.values();
 	}
 	
@@ -24,6 +23,7 @@ public class IMUserDAO extends IMAccountDAO<Account> implements UserDAO {
 		return model;
 	}*/
 
+	@Override
 	public void add(User user) {
 		models.put(user.getId(), user);
 		
@@ -57,5 +57,29 @@ public class IMUserDAO extends IMAccountDAO<Account> implements UserDAO {
 	public void setParentId(int parentId) {
 		ChildAccount child = new ChildAccount();
 		child.setIdParent(parentId);
+	}
+
+	@Override
+	public boolean userIsRegistered(String userName, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Collection<User> searchByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean delete(User model) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public User update(User model) {
+		// TODO Auto-generated method stub
+		return null;
 	}
  }

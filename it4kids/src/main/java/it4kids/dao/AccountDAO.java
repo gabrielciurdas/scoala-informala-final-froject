@@ -1,15 +1,15 @@
 package it4kids.dao;
 
-import java.util.Collection;
-
 import it4kids.domain.login.Account;
+
+import java.util.Collection;
 
 /**
  * Created by Gabi on 3/15/2017.
  */
 public interface AccountDAO<T extends Account> {
 
-    Collection<T> getAll();
+	Collection<T> getAll();
 
     T add(T model, Integer id);
     

@@ -1,5 +1,9 @@
 package it4kids.service.login;
 
+import it4kids.dao.indatabase.login.ChildAccountDAO;
+import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
+import it4kids.dao.indatabase.login.ParentAccountDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedHashSet;
@@ -11,10 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import it4kids.dao.indatabase.login.ChildAccountDAO;
-import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
-import it4kids.dao.indatabase.login.ParentAccountDAO;
 
 public class ParentService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParentService.class);
@@ -37,24 +37,24 @@ public class ParentService {
 
 		if(!parentDAO.hasNoChildAssigned(parentId)) {
 			LOGGER.debug("parent does not have a child assigned");
-			parentId = userDAO.getUserId(parentUserName);
-			childId = userDAO.getUserId(childUserName);
+			parentId = userDAO.getUsernameId(parentUserName);
+			childId = userDAO.getUsernameId(childUserName);
 			parentDAO.assignChild(childId, parentId);
 		} else {
 			LOGGER.debug("parent has a child assigned");
-			childId = userDAO.getUserId(childUserName);
-			parentId = userDAO.getUserId(parentUserName);
+			childId = userDAO.getUsernameId(childUserName);
+			parentId = userDAO.getUsernameId(parentUserName);
 			parentDAO.addChild(childId, parentId);
 		}
 		if(!childDAO.hasParentAssigned(childId)) {
 			LOGGER.debug("child does not have a parent assigned");
-			parentId = userDAO.getUserId(parentUserName);
-			childId = userDAO.getUserId(childUserName);
+			parentId = userDAO.getUsernameId(parentUserName);
+			childId = userDAO.getUsernameId(childUserName);
 			childDAO.assignParent(childId, parentId);
 		} else {
 			LOGGER.debug("child does has a parent assigned");
-			childId = userDAO.getUserId(childUserName);
-			parentId = userDAO.getUserId(parentUserName);
+			childId = userDAO.getUsernameId(childUserName);
+			parentId = userDAO.getUsernameId(parentUserName);
 			childDAO.addParent(childId, parentId);
 		}
 		
