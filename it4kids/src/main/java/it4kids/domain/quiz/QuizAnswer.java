@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuizAnswer extends AbstractModel {
+
+	private Long quizAnswerId;
 	private Quiz quiz;
 	private QuizEntry qEntry;
 	private Option option;
@@ -35,6 +37,14 @@ public class QuizAnswer extends AbstractModel {
 
 	public QuizEntry getqEntry() {
 		return qEntry;
+	}
+
+	public Long getQuizAnswerId() {
+		return quizAnswerId;
+	}
+
+	public void setQuizAnswerId(Long quizAnswerId) {
+		this.quizAnswerId = quizAnswerId;
 	}
 
 }

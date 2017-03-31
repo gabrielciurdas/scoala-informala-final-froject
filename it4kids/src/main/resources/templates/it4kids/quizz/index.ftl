@@ -63,7 +63,9 @@
 	  		<div class="row">
 	  <div class="col-sm-6 col-md-4">
 	      <div class="caption">
-	        <p><a href="/delete?quizId=${quiz.id?c}" class="btn btn-danger" role="button">Sterge</a>&nbsp; <a href="/edit?quizId=${quiz.id?c}" class="btn btn-success" role="button">Editeaza</a></p>
+	        <p><a href="/delete?quizId=${quiz.id?c}" class="btn btn-danger" role="button">Sterge</a>&nbsp; 
+	        <a href="/edit?quizId=${quiz.id?c}" class="btn btn-success" role="button">Editeaza</a>
+	        <a href="/answer/addQuizAnswer" class="btn btn-primary" role="button">Vezi Raspunsuri</a></p>
 	  </div>
 	</div>
 	  		</td>
