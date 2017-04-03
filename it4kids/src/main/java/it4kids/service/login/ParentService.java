@@ -2,6 +2,7 @@ package it4kids.service.login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedHashSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +30,33 @@ public class ParentService {
 
 	public void assignParent(String childUserName, String parentUserName, 
 			HttpServletRequest request, HttpServletResponse response) {
+		LOGGER.debug("Assign parent process has started ");
+		
+		int childId = 0;
+		int parentId = 0;
 
-		int childId = userDAO.getUserId(childUserName);
-		int parentId = userDAO.getUserId(parentUserName);
-
-		parentDAO.assignChild(childId, parentId);
-		childDAO.assignParent(parentId, childId);
+		if(!parentDAO.hasNoChildAssigned(parentId)) {
+			LOGGER.debug("parent does not have a child assigned");
+			parentId = userDAO.getUserId(parentUserName);
+			childId = userDAO.getUserId(childUserName);
+			parentDAO.assignChild(childId, parentId);
+		} else {
+			LOGGER.debug("parent has a child assigned");
+			childId = userDAO.getUserId(childUserName);
+			parentId = userDAO.getUserId(parentUserName);
+			parentDAO.addChild(childId, parentId);
+		}
+		if(!childDAO.hasParentAssigned(childId)) {
+			LOGGER.debug("child does not have a parent assigned");
+			parentId = userDAO.getUserId(parentUserName);
+			childId = userDAO.getUserId(childUserName);
+			childDAO.assignParent(childId, parentId);
+		} else {
+			LOGGER.debug("child does has a parent assigned");
+			childId = userDAO.getUserId(childUserName);
+			parentId = userDAO.getUserId(parentUserName);
+			childDAO.addParent(childId, parentId);
+		}
 		
 		try {
 			validateRegistration(request, response);
@@ -53,23 +75,31 @@ public class ParentService {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		if (parentDAO.getLinesWritten() > 0 && childDAO.getLinesWritten() > 0) {
+		if (parentDAO.getLinesWritten() > 0 || childDAO.getLinesWritten() > 0) {
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Asignarea a fost efectuată cu succes');");
+			out.println("alert('Asignarea a fost efectuata cu succes');");
 			out.println("</script>");
 
 		} else {
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Numele de utilizator există deja');");
+			out.println("alert('Asignarea nu a avut succes);");
 			out.println("</script>");
 		}
 	}
-/*
-	public Collection<User> listMyChildren(int id) {
-		LOGGER.debug("Listing chidren ");
-		return parentDAO.getChildren(int id);
+
+	public LinkedHashSet<Long> getChildrenId(long id) {
+		return parentDAO.getChildrenId(id);
 	}
-	public Collection<User> search( String query) {
+
+	public Long getParentsId(long id) {
+		return parentDAO.getParentsId(id);
+	}
+	
+
+	public ParentAccountDAO getParentDAO() {
+		return parentDAO;
+	}
+	/*public Collection<User> search( String query) {
 		LOGGER.debug("Searching for " + query);
 		return userDAO.searchByName(query);
 	}

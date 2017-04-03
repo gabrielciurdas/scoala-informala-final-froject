@@ -10,6 +10,6 @@ public class IndexController {
 
 	@RequestMapping("")
 	public ModelAndView index() {
-		return new ModelAndView("index");
+		return new ModelAndView("/home");
 	}
 }

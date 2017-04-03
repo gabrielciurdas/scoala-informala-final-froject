@@ -32,7 +32,7 @@ public class TeacherService {
 		return userDAO.searchByName(query);
 	}
 
-	public boolean delete(int id) {
+	public boolean delete(long id) {
 		LOGGER.debug("Deleting parent for id: " + id);
 		User user = userDAO.findById(id);
 		if (user != null) {

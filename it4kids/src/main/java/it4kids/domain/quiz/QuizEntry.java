@@ -1,62 +1,78 @@
 package it4kids.domain.quiz;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+/**
+ * Clasa asta reprezinta intrebarea care se pune plus lista de raspunsuri aferente ei.
+ * 
+ * @author Catalin
+ * 
+ */
+import java.util.ArrayList;
+import java.util.List;
 
-public class QuizEntry {
+import javax.validation.constraints.NotNull;
 
-	private Builder builder;
+import it4kids.domain.AbstractModel;
 
-	private QuizEntry(Builder builder) {
-		this.builder = builder;
+public class QuizEntry extends AbstractModel {
+
+	private List<Option> options = new ArrayList<>();
+	@NotNull
+	private String text;
+	private Long quizId;
+
+	public List<Option> getOptions() {
+		return options;
 	}
 
-	public String getQuestion() {
-		return builder.question;
+	public void setOptions(List<Option> option) {
+		this.options = option;
 	}
 
-	public Map<Integer, String> getOptions() {
-		return builder.options;
+	public String getText() {
+		return text;
 	}
 
-	public Set<Integer> getResults() {
-		return builder.results;
+	public void setText(String text) {
+		this.text = text;
 	}
 
-	public static class Builder {
+	public Long getQuizId() {
+		return quizId;
+	}
 
-		private String question;
-		private Map<Integer, String> options;
-		private Set<Integer> results;
+	public void setQuizId(Long quizId) {
+		this.quizId = quizId;
+	}
 
-		public Builder() {
-			this.options = new HashMap<>();
-			this.results = new HashSet<>();
-		}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((options == null) ? 0 : options.hashCode());
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		return result;
+	}
 
-		public Builder setQuestion(String question) {
-			this.question = question;
-			return this;
-		}
-
-		public Builder addOption(int option, String description) {
-			options.put(option, description);
-			return this;
-		}
-
-		public Builder addResults(int... results) {
-			for (int result : results) {
-				this.results.add(result);
-			}
-			return this;
-		}
-
-		public QuizEntry build() {
-			return new QuizEntry(this);
-		}
-
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QuizEntry other = (QuizEntry) obj;
+		if (options == null) {
+			if (other.options != null)
+				return false;
+		} else if (!options.equals(other.options))
+			return false;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
+		return true;
 	}
 
 }

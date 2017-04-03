@@ -14,37 +14,26 @@
 </head>
 [#escape x as x?html]
 
-
+<body>
 	<div class="container">
-
+<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/>
+		</a>
 		<div class="panel panel-default" style="margin-left:auto; margin-right:auto; width:400px">
 
 			<div class="panel-body">
 			
-			    [#if errors??]
-				    <div>
-				        <ul>
-				            [#list errors as error]
-				            <br>
-				                <b style="color:red">
-				                [#if error.field??]${error.field}: [/#if]${error.defaultMessage}
-				                </b>
-				            [/#list]
-				        </ul>
-				    </div>
-				[/#if]
 			    
-				<form action="/onLogin" method="POST">
+				<form action="/onLogin" method="POST" onsubmit="return checkLogin()">
 					<div class="form-group">
-						<label for="firstName">Nume de utilizator</label> 
+						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
-							class="form-control" id="userName" name="userName"
+							class="form-control" id="userName" name="userName" }
 							placeHolder="Nume de utilizator" "/>
 					</div>
 					<div class="form-group">
-						<label for="lastName">Parola</label> 
+						<label for="password">Parola</label> 
 						<input type="password"
-							class="form-control" id="password" name="password"
+							class="form-control" id="password" name="password" }
 							placeHolder="Parola" />
 					</div>
 
@@ -52,13 +41,26 @@
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
 								
-								<li><button type="submit" class="btn btn-default">LOGIN</button></li>
+								<li><button type="submit" class="btn btn-info">LOGIN</button></li>
 							</ul>
 						</div>
+					[#if errors??]
+				    	<div>
+				        	<ul>
+				            	[#list errors as error]
+				            	<br>
+				                	<b style="color:red">
+				                	[#if error.field??]${error.field}: [/#if]${error.defaultMessage}
+				               		</b>
+				            	[/#list]
+				        	</ul>
+				    	</div>
+					[/#if]
 					</div>
 					<br /> <input type="hidden" class="form-control" id="id" value="0" />
 			</form>
 			</div>
 		</div>
 	</div>
+	</body>
 [/#escape]

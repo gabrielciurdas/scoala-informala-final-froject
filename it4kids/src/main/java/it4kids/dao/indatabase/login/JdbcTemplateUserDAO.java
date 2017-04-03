@@ -31,7 +31,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	private ConnectionToDB db = new ConnectionToDB();
 	private String accountType;
 	private String email;
-	private int id;
+	private long id;
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -46,9 +46,28 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return jdbcTemplate.query("select * from registered_users where account_type like'%PARENT'", new UserMapper());
 	}
 	
-	//@Override
-	public User findById(int id) {
-		return jdbcTemplate.queryForObject("select * from registered_users where id = ?", new Integer[] { id },
+	public Collection<User> getAllTeachers() {
+		return jdbcTemplate.query("select * from registered_users where account_type='TEACHER'", new UserMapper());
+	}
+	
+	public Collection<User> getAllChildren() {
+		return jdbcTemplate.query("select * from registered_users where account_type='CHILD'", new UserMapper());
+	}
+	
+	public Collection<User> getChildren(List<Long> childrenId) {
+		Collection<User> children = new ArrayList<>();
+		
+		for(Long l: childrenId) {
+			System.out.println("trying to add: " + l);
+			children.add(findById(l));
+		}
+		return children;
+	}
+	
+	@Override
+	public User findById(Long id) {
+		System.out.println("trying to find + " + id);
+		return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'", 
 				new UserMapper());
 	}
 
@@ -116,6 +135,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		}
 	}
 
+	
 	@Override
 	public boolean userIsRegistered(String userName, String password) {
 		boolean isRegistered = false;
@@ -149,14 +169,9 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		
 		UserLogin userLogin =(UserLogin) ((HttpServletRequest)request).getSession().getAttribute("currentUser");
 		
-		String location = "";
 		String accountType = "";
-		System.out.println("the username to check if it already exists: " + request.getParameter("userName"));
-		if (userDAO.usernameAvailable(request.getParameter("userName"))) {
-			System.out.println("available");
+		if(userDAO.usernameAvailable(request.getParameter("userName"))) {
 			accountType = userLogin.getAccountType();
-			System.out.println("account type : " + accountType);
-			location = "it4kids/" + accountType + "/" + accountType + "Register.jsp";
 			
 			try {
 				addAccount(request, accountType);
@@ -164,13 +179,11 @@ public class JdbcTemplateUserDAO implements UserDAO {
 				e.printStackTrace();
 			}
 		}
-		validateRegistration(out, accountType, location);
+		validateRegistration(out);
 	}
 
 	
 	private void addAccount(HttpServletRequest request, String accountType) throws SQLException {
-		//HttpSession session = request.getSession();
-		UserLogin userLogin =(UserLogin) ((HttpServletRequest)request).getSession().getAttribute("currentUser");
 		
 		User user = new User();
 		user.setFirstName(request.getParameter("firstName"));
@@ -192,17 +205,9 @@ public class JdbcTemplateUserDAO implements UserDAO {
 				p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
 				System.out.println("added");
 				
-				/*System.out.println("adding to parent table");
-				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(p.getChildId(userLogin.getUserName())));
-				System.out.println("added");*/
-				
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
-				ParentAccountDAO p = new ParentAccountDAO();
 				ChildAccountDAO c = new ChildAccountDAO();
 				c.add(new ChildAccount(userDAO.getUsernameId(request.getParameter("userName"))));
-				/*p.add(new ParentAccount(userDAO.getUsernameId(userLogin.getUserName()),
-						userDAO.getUsernameId(userLogin.getUserName())));*/
 			}
 
 		} else if (accountType.equalsIgnoreCase("TEACHER")) {
@@ -215,42 +220,16 @@ public class JdbcTemplateUserDAO implements UserDAO {
 			userDAO.add(user);
 		}
 	}
-
-	  public boolean usernameAvailable(String userName) {
-	        boolean isAvailable = false;
-	        
-	        try (Connection conn = db.getDBConnection();
-	             PreparedStatement stm = conn.prepareStatement("select * from registered_users where username='" + userName + "'");
-	             ResultSet rs = stm.executeQuery();) {
-	        	
-	        	System.out.println("connected to db");
-	        	
-	            if (rs.next()) {
-	                isAvailable = false;
-	            } else {
-	                isAvailable = true;
-	            }
-
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	        
-	        return isAvailable;
-	    }
 	
-	private void validateRegistration(PrintWriter out, String accountType, String location) {
+	private void validateRegistration(PrintWriter out) {
 		if (userDAO.getLinesWritten() > 0) {
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Înregistrare efectuată cu succes');");
-			//out.println("location='" + location + "';");
+			out.println("alert('Inregistrare efectuata cu succes');");
 			out.println("</script>");
-
+			userDAO.setLinesWritten(0);
 		} else {
-			//accountType = session.getAttribute("accountType").toString().toLowerCase();
-			//location = "it4kids/" + accountType.toLowerCase() + "/" + accountType.toLowerCase() + "Register";
 			out.println("<script charset=" + "utf-8" + "type=\"text/javascript\">");
-			out.println("alert('Numele de utilizator există deja');");
-		//	out.println("location='" + "" + "';");
+			out.println("alert('Numele de utilizator exista deja');");
 			out.println("</script>");
 		}
 	}
@@ -260,7 +239,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return userDAO.getUsernameId(userName);
 	}
 
-	public boolean userNameIsAvailable(String userName) {
+	public boolean userNameNotTaken(String userName) {
 
 		return userDAO.usernameAvailable(userName);
 	}
@@ -281,13 +260,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return email;
 	}
 	
-	public int getId() {
+	public long getId() {
 		return id;
-	}
-
-	@Override
-	public User findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

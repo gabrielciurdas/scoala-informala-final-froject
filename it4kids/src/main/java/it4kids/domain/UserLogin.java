@@ -1,9 +1,17 @@
 package it4kids.domain;
 
 public class UserLogin {
-	private int id;
+	private long id;
 	private String userName;
+	private String password;
 	private String accountType;
+	
+	public UserLogin() {
+		id = 0;
+		userName = "";
+		password = "";
+		accountType = "";
+	}
 
 	public String getUserName() {
 		return userName;
@@ -21,12 +29,19 @@ public class UserLogin {
 		return accountType;
 	}
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
