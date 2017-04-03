@@ -80,7 +80,8 @@
 	    <!-- Include all compiled plugins (below), or include individual files as needed -->
 	    <script src="/js/bootstrap.min.js"></script>
   </body>
-  <p align = "center"><a href="/teacher/teacher" class="btn btn-danger" role="button">Anulare</a>&nbsp;
+  <p align = "center"><a href="/child/child" class="btn btn-danger" role="button">Anulare</a>&nbsp;
+  <a href="/answer/index" class="btn btn-warning" role="button">Completare Chestionar</a></p>
 </html>
 
 

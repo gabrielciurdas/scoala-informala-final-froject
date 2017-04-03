@@ -32,7 +32,7 @@
 	  <div class="panel-body">
 	 <table class = "table">
 	 </br></br>
-  <a href="/quiz/index" class="btn btn-info" role="button"">Chestionar Disponibil</h2></a> 
+  <a href="/child/child" class="btn btn-info" role="button"">Pagina principala</h2></a> 
  
   <div class="panel-body">
  <table class = "table">

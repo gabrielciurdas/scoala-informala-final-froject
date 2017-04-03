@@ -30,7 +30,7 @@
     </div>
   
   <div id="quiz" class="tab-pane fade">
-			<br><a href="/child/newQuiz">Incepe testul</a><br>
+  <a href="/child/index" class="btn btn-warning" role="button">Teste disponibile</a></p>
     </div>
     
     </div>

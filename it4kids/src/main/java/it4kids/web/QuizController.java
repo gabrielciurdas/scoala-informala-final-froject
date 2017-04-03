@@ -129,10 +129,8 @@ public class QuizController {
 				quizService.saveQuizEntry(quizEntry);
 
 				List<Option> options = saveOptions(quizEntryId, qef);
-				// doar pt IMDAO -- start
 				quizEntry.setOptions(options);
 				quizService.saveQuizEntry(quizEntry);
-				// doar pt IMDAO -- end
 				updateQuizQuestions(quizEntry, quiz);
 				quizService.save(quiz);
 				result = new ModelAndView();
