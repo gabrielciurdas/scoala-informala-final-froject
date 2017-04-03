@@ -3,6 +3,8 @@ package it4kids.domain.quiz;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import it4kids.domain.AbstractModel;
 
 /**
@@ -14,6 +16,7 @@ import it4kids.domain.AbstractModel;
 public class Quiz extends AbstractModel {
 
 	private List<QuizEntry> questions = new ArrayList<>();
+	@NotNull
 	private String name;
 
 	public List<QuizEntry> getQuestions() {

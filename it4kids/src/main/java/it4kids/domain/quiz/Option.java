@@ -1,5 +1,7 @@
 package it4kids.domain.quiz;
 
+import javax.validation.constraints.NotNull;
+
 import it4kids.domain.AbstractModel;
 
 /**
@@ -12,6 +14,7 @@ import it4kids.domain.AbstractModel;
 
 public class Option extends AbstractModel {
 
+	@NotNull
 	private Long quizEntryId;
 	private String textOption;
 	private Boolean correct;

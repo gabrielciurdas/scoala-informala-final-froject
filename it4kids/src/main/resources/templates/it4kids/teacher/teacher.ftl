@@ -43,7 +43,7 @@
     
     <div id="quiz" class="tab-pane fade">
       <h3>Quiz    </h3>
-      <a href="/quiz/addQuiz">Adauga un quiz</a><br><br>
+      <a href="/quiz/index">Adauga un quiz</a><br><br>
     </div>
     
     </div>

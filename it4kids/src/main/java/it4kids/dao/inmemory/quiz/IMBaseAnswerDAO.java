@@ -8,7 +8,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import it4kids.dao.BaseDAO;
 import it4kids.domain.AbstractModel;
 
-public class IMBaseQuizDAO<T extends AbstractModel> implements BaseDAO<T> {
+public class IMBaseAnswerDAO<T extends AbstractModel> implements BaseDAO<T> {
+
 	private final Map<Long, T> models = new HashMap<Long, T>();
 
 	private static AtomicLong ID = new AtomicLong(1);

@@ -1,4 +1,4 @@
-package it4kids.dao.inmemory.quiz;
+package it4kids.dao.inmemory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,10 +8,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import it4kids.dao.BaseDAO;
 import it4kids.domain.AbstractModel;
 
-public class IMBaseQuizDAO<T extends AbstractModel> implements BaseDAO<T> {
-	private final Map<Long, T> models = new HashMap<Long, T>();
+public abstract class IMBaseDAO<T extends AbstractModel> 
+	implements BaseDAO<T> {
+	private Map<Long, T> models = new HashMap<Long, T>();
 
-	private static AtomicLong ID = new AtomicLong(1);
+	private static AtomicLong ID = new AtomicLong(System.currentTimeMillis());
 
 	@Override
 	public Collection<T> getAll() {
@@ -31,7 +32,7 @@ public class IMBaseQuizDAO<T extends AbstractModel> implements BaseDAO<T> {
 			model.setId(ID.getAndIncrement());
 		}
 
-		models.put(model.getId(), model);
+		models.put((long) model.getId(), model);
 		return model;
 	}
 

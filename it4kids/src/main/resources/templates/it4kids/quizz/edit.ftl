@@ -30,9 +30,9 @@
  <table class = "table">
  
 <p><b>
-<div style = floor right><a href="/index" class="btn btn-info" role="button"">Back</a>
+<div style = floor right><a href="/quiz/index" class="btn btn-info" role="button"">Back</a>
 </br></br></br>
-<a href ="/addQuestion?quizId=${quiz.id?c}" class="btn btn-primary" role="button"">ADD Question</a>
+<a href ="/quiz/addQuestion?quizId=${quiz.id?c}" class="btn btn-primary" role="button"">ADD Question</a>
 
 </div>
 </p>
@@ -49,8 +49,8 @@
   		<td><h4>${(quizEntry.text)!''}</h4></td>
   		<td>
   		<div class="caption">
-  		<a href="/deleteQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}" class="btn btn-danger" role="button"">Delete</a>
-  		&nbsp;<a href="/editQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}" class="btn btn-success" role="button"">Edit</a>
+  		<a href="/quiz/deleteQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}" class="btn btn-danger" role="button"">Delete</a>
+  		&nbsp;<a href="/quiz/editQuestion?quizId=${quiz.id?c}&quizEntryId=${quizEntry.id?c}" class="btn btn-success" role="button"">Edit</a>
   		</div>
   		</td>
   	</tr>
