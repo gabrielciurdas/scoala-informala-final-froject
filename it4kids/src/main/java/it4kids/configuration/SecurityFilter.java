@@ -77,6 +77,16 @@ public class SecurityFilter implements Filter {
 			}
 			else {
 			}
+		} if (url.contains("selectQuiz")) {
+				if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
+					System.out.println("account type: " + userLogin.getAccountType());
+					HttpServletResponse servletResponse = (HttpServletResponse) response;
+					servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+					servletResponse.setHeader("Location", "/login");
+					return;
+				}
+				else {
+				}
 		} if (url.contains("parent")) {
 			  if(userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
 					System.out.println("Thread name: " + Thread.currentThread().getName() + ", current user: "
