@@ -2,8 +2,6 @@ package it4kids.dao.indatabase.login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import it4kids.dao.ConnectionToDB;
-import it4kids.dao.inmemory.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.ChildAccount;
 import it4kids.domain.login.ParentAccount;
@@ -28,7 +24,6 @@ import it4kids.domain.login.User;
 public class JdbcTemplateUserDAO implements UserDAO {
 	private JdbcTemplate jdbcTemplate;
 	private RegisteredUserDAO userDAO = new RegisteredUserDAO();
-	private ConnectionToDB db = new ConnectionToDB();
 	private String accountType;
 	private String email;
 	private long id;
@@ -108,7 +103,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	
 	@Override
 	public boolean delete(User model) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -145,7 +139,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		userDetails = jdbcTemplate.query(
 				"select * from registered_users where userName='" + userName + "' and password='" + password + "'",
 				new UserMapper());
-		// String test = "";
+		
 		if (!userDetails.isEmpty()) {
 			isRegistered = true;
 
@@ -156,10 +150,16 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return isRegistered;
 	}
 
-	/*
-	 * @Override public void add(User user) { userDAO.add(user); }
+	/**
+	 * This method adds a User object. 
+	 * 
+	 * @param request is the request from the HttpServletRequest which contains the
+	 * 				 fields for the new User object.
+	 * @param response is the response from the HttpServletResponse which is used to set an UTF-8 encoding 
+	 * 				 and display a validation message.
+	 * @throws ServletException
+	 * @throws IOException
 	 */
-
 	public void add(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
@@ -193,17 +193,11 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		user.setUserName(request.getParameter("userName"));
 		user.setPassword(request.getParameter("password"));
 		
-		System.out.println("user name: " + user.getFirstName());
-		System.out.println("account type format ok? " + accountType);
 		if (accountType.equalsIgnoreCase("PRIMARY_PARENT")) {
-			System.out.println("adding user " + user.getUserName());
 			userDAO.add(user);
-			System.out.println("added");
 			if (user.getAccountType().equalsIgnoreCase("PARENT")) {
-				System.out.println("adding to parent table");
 				ParentAccountDAO p = new ParentAccountDAO();
 				p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
-				System.out.println("added");
 				
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
 				ChildAccountDAO c = new ChildAccountDAO();

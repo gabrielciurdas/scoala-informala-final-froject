@@ -12,14 +12,17 @@ import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ParentAccount;
 
 /**
- * Created by Gabi on 3/10/2017.
+ * This class is a data access object for a ParentAccount object.
+ * 
+ * @see ParentAccount
+ * Created by Gabriel Ciurdas on 3/10/2017.
  */
 public class ParentAccountDAO {
 	ConnectionToDB db = new ConnectionToDB();
 	private int linesWritten = 0;
 
 	/**
-	 * This method writes a {@link ParentAccount} object in the specified
+	 * This method writes a ParentAccount object in the specified
 	 * database by creating a connection with a PostgreSQL server and using a
 	 * query.
 	 *
@@ -48,7 +51,7 @@ public class ParentAccountDAO {
 	}
 
 	/**
-	 * This method writes a {@link ParentAccount} object in the specified
+	 * This method writes a ParentAccount object in the specified
 	 * database by creating a connection with a PostgreSQL server and using a
 	 * query.
 	 *
@@ -84,6 +87,12 @@ public class ParentAccountDAO {
 		}
 	}
 
+	/**
+	 * This method assigns a child for a parent given a child id and a parent id.
+	 * 
+	 * @param childId is the child id to be set.
+	 * @param parentId is the parent id to be set.
+	 */
 	public void assignChild(int childId, int parentId) {
 		final String insertSQL = "UPDATE parent SET id_child = ?" + "WHERE id_registered_user = ?";
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {

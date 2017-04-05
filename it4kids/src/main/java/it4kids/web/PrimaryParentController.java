@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import it4kids.domain.UserLogin;
-import it4kids.domain.login.Account;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
-import it4kids.service.login.AccountService;
 import it4kids.service.login.ChildService;
 import it4kids.service.login.ParentService;
 import it4kids.service.login.UserService;

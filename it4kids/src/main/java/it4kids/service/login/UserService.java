@@ -19,11 +19,10 @@ import org.springframework.util.StringUtils;
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.domain.login.User;
-import it4kids.service.SecurityService;
 import it4kids.service.ValidationException;
 
 /**
- * Created by Gabi on 3/15/2017.
+ * Created by Gabriel Ciurdas on 3/15/2017.
  */
 @Service
 public class UserService {
@@ -34,9 +33,6 @@ public class UserService {
     
     @Autowired
     private RegisteredUserDAO registeredUserDAO;
-    
-    @Autowired
-    private SecurityService securityService;
     
     public User getUserById(long id) {
     	LOGGER.debug("Getting user with id: " + id);

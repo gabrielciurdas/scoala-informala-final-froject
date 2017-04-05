@@ -67,18 +67,9 @@ public class UserAnswerController {
 
 			try {
 				Quiz quiz = quizService.get(quizId);
-				// quizEntry.setId(quizEntryId);
-				// quizEntry.setQuizId(quizId);
 				userService.saveAnswer(quizAnswer);
-
-				// List<Option> options = saveOptions(quizEntryId, qef);
-				// doar pt IMDAO -- start
-				// quizEntry.setOptions(options);
-				// quizService.saveQuizEntry(quizEntry);
-				// doar pt IMDAO -- end
 				updateQuizAnswer(quizAnswer, quiz);
-				// quizService.save(quiz);
-				// userService.saveAnswer(quizAnswer);
+				
 				result = new ModelAndView();
 				result.addObject("quizId", quiz.getId());
 				result.setView(new RedirectView("/answer/index"));

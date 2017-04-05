@@ -8,10 +8,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import it4kids.dao.BaseDAO;
 import it4kids.domain.AbstractModel;
 
-public abstract class IMBaseDAO<T extends AbstractModel> 
-	implements BaseDAO<T> {
+/**
+ * This class performs specific operations on any objects which extends AbstractModel class.
+ */
+public abstract class IMBaseDAO<T extends AbstractModel> implements BaseDAO<T> {
 	private Map<Long, T> models = new HashMap<Long, T>();
-
 	private static AtomicLong ID = new AtomicLong(System.currentTimeMillis());
 
 	@Override

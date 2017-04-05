@@ -28,10 +28,31 @@ public class ParentService {
 	@Autowired
 	private JdbcTemplateUserDAO userDAO;
 
+	/**
+	 * This method assigns a parent for a child given the child's id and parent's id.
+	 * 
+	 * @param childUserName is the user name of the child for which we assign a parent
+	 * @param parentUserName is the user name of the child's parent
+	 * @param request is the input for the users data
+	 * @param response is the output in which we validate the assignment
+	 */
 	public void assignParent(String childUserName, String parentUserName, 
 			HttpServletRequest request, HttpServletResponse response) {
 		LOGGER.debug("Assign parent process has started ");
 		
+		assign(childUserName, parentUserName);
+		
+		try {
+			validateRegistration(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void assign(String childUserName, String parentUserName) {
 		int childId = 0;
 		int parentId = 0;
 
@@ -57,15 +78,6 @@ public class ParentService {
 			parentId = userDAO.getUserId(parentUserName);
 			childDAO.addParent(childId, parentId);
 		}
-		
-		try {
-			validateRegistration(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	private void validateRegistration(HttpServletRequest request, HttpServletResponse response)
@@ -99,19 +111,4 @@ public class ParentService {
 	public ParentAccountDAO getParentDAO() {
 		return parentDAO;
 	}
-	/*public Collection<User> search( String query) {
-		LOGGER.debug("Searching for " + query);
-		return userDAO.searchByName(query);
-	}
-
-	public boolean delete(int id) {
-		LOGGER.debug("Deleting parent for id: " + id);
-		User user = userDAO.findById(id);
-		if (user != null) {
-			userDAO.delete(user);
-			return true;
-		}
-
-		return false;
-	}*/
 }

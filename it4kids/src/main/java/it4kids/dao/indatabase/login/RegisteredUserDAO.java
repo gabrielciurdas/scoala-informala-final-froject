@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.UserLogin;
@@ -18,10 +16,9 @@ import it4kids.domain.login.User;
  */
 public class RegisteredUserDAO {
 
-	private ConnectionToDB db = new ConnectionToDB(); // to be aggregated by
-														// spring as a bean
-	private int linesWritten = 0;
+	private ConnectionToDB db = new ConnectionToDB(); 
 	private UserLogin userLogin = new UserLogin();
+	private int linesWritten = 0;
 	private String firstName = "";
 	private String accountType = "";
 	private String username = "";
@@ -135,17 +132,6 @@ public class RegisteredUserDAO {
 			ex.printStackTrace();
 		}
 	}
-
-	/**
-	 * This method retrieves a list of user objects from the specified database
-	 * by creating a connection with a PostgreSQL server and using a query.
-	 *
-	 * @return the list of User objects.
-	 */
-	/*
-	 * public Collection<Account> getAll() { Collection<Account> result = new
-	 * ArrayList<>();
-	 */
 
 	public Account add(Account account, int id) {
 		return null;

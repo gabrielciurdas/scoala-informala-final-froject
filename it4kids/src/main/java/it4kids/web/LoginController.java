@@ -1,7 +1,5 @@
 package it4kids.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -9,12 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -38,11 +34,14 @@ public class LoginController {
 
 	@RequestMapping(value = "/onLogin", method = RequestMethod.POST)
 	public ModelAndView onLogin(@Valid @ModelAttribute("userLogin") UserLogin userLogin, BindingResult bindingResult,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws ValidationException {
+		
 		String accountType = "";
 		UserLogin newUser = new UserLogin();
+		
 		newUser.setUserName(request.getParameter("userName"));
 		newUser.setPassword(request.getParameter("password"));
+		
 		ModelAndView modelAndView = new ModelAndView();
 
 		boolean hasErros = false;

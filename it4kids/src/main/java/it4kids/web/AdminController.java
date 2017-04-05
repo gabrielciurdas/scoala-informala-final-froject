@@ -25,9 +25,6 @@ import it4kids.service.login.UserService;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-/*
-	@Autowired
-	private AdminService adminService;*/
 	
 	@Autowired
 	private UserService userService;

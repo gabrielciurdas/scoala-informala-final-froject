@@ -2,6 +2,12 @@ package it4kids.domain.login;
 
 import it4kids.domain.AbstractModel;
 
+/**
+ * This class stores the registered user's details.
+ * 
+ * @author Gabriel Ciurdas
+ *<p> Created on 03/10/2017
+ */
 public class User extends AbstractModel {
 	private String firstName;
 	private String lastName;
@@ -14,30 +20,18 @@ public class User extends AbstractModel {
 	private boolean authenticated;
 	
 
-	/**
-	 * @return the firstName
-	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
-	/**
-	 * @param firstName the firstName to set
-	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
-	/**
-	 * @return the lastName
-	 */
+	
 	public String getLastName() {
 		return lastName;
 	}
 
-	/**
-	 * @param lastName the lastName to set
-	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
@@ -50,44 +44,26 @@ public class User extends AbstractModel {
 		this.accountType = accountType;
 	}
 
-	/**
-	 * @return the email
-	 */
 	public String getEmail() {
 		return email;
 	}
 
-	/**
-	 * @param email the email to set
-	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	/**
-	 * @return the userName
-	 */
 	public String getUserName() {
 		return userName;
 	}
 
-	/**
-	 * @param userName the userName to set
-	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	/**
-	 * @return the password
-	 */
 	public String getPassword() {
 		return password;
 	}
 
-	/**
-	 * @param password the password to set
-	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -112,9 +88,6 @@ public class User extends AbstractModel {
 		this.authenticated = authenticated;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -131,9 +104,6 @@ public class User extends AbstractModel {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

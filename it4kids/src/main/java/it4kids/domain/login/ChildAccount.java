@@ -1,7 +1,9 @@
 package it4kids.domain.login;
 
 /**
- * Created by Gabi on 3/10/2017.
+ * This class stores the id of a child's parent.
+ * 
+ * Created by Gabriel Ciurdas on 3/10/2017.
  */
 public class ChildAccount extends Account {
 

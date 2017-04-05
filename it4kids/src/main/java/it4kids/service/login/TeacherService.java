@@ -7,18 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
-import it4kids.dao.indatabase.login.ParentAccountDAO;
-import it4kids.dao.indatabase.login.TeacherAccountDAO;
 import it4kids.domain.login.User;
 
 public class TeacherService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-
-	@Autowired
-	private TeacherAccountDAO teacherDAO;
-
-	@Autowired
-	private ParentAccountDAO parentDAO;
 
 	@Autowired
 	private JdbcTemplateUserDAO userDAO;

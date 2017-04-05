@@ -12,7 +12,6 @@ public class ValidationException extends Exception {
 
 	@Override
 	public String getMessage() {
-
 		return causes != null ? Arrays.toString(causes) : "No CAUSE!";
 	}
 

@@ -5,19 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ChildAccount;
 
 /**
- * Created by Gabi on 3/10/2017.
+ * This class is a data access object for a ChildAccount object.
+ * 
+ * @see ChildAccount
+ * 
+ * Created by Gabriel Ciurdas on 3/10/2017.
  */
 public class ChildAccountDAO {
 
 	private ConnectionToDB db = new ConnectionToDB();
-	private LinkedHashSet<Long> parentsId = new LinkedHashSet<Long>();
 	private int linesWritten = 0;
 
 	/**
@@ -87,7 +89,13 @@ public class ChildAccountDAO {
 		}
 		return result;
 	}
-
+	
+/**
+ * This method assigns a parent for a child given a child id and a parent id.
+ * 
+ * @param childId is the child id to be set.
+ * @param parentId is the parent id to be set.
+ */
 	public void assignParent(int childId, int parentId) {
 		final String insertSQL = "UPDATE child SET id_parent = ?" + "WHERE id_registered_user = ?";
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
@@ -100,6 +108,12 @@ public class ChildAccountDAO {
 		}
 	}
 
+	/**
+	 * This method checks if a child has a parent assigned.
+	 * 
+	 * @param childId is the id of the child to be checked
+	 * @return false if the child does not have a parent assigned.
+	 */
 	public boolean hasParentAssigned(long childId) {
 		boolean assigned = false;
 

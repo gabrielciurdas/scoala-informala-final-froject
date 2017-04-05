@@ -3,7 +3,9 @@ package it4kids.domain.login;
 import it4kids.domain.AbstractModel;
 
 /**
- * Created by Gabi on 3/10/2017.
+ * This class stores the id of an account.
+ * 
+ * Created by Gabriel Ciurdas on 3/10/2017.
  */
 public class Account  extends AbstractModel{
     private int idRegisteredUser;
@@ -17,9 +19,6 @@ public class Account  extends AbstractModel{
         this.idRegisteredUser = idRegisteredUser;
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -28,9 +27,6 @@ public class Account  extends AbstractModel{
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -44,6 +40,4 @@ public class Account  extends AbstractModel{
 			return false;
 		return true;
 	}
-    
-    
 }
