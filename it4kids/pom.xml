@@ -6,7 +6,7 @@
 	<groupId>it4kids</groupId>
 	<artifactId>it4kids</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>it4kids</name>
 	<description>Demo project for Spring Boot</description>
