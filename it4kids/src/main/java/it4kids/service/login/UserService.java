@@ -221,4 +221,9 @@ public class UserService {
 	public void delete(User user) {
 		dao.delete(user);
 	}
+	
+	public void deleteParent(User user) {
+		dao.deleteChild(user);
+		dao.deleteParent(user);
+	}
 }

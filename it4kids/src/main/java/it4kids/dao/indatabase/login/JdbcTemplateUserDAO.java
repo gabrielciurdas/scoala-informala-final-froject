@@ -91,6 +91,21 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		
 		return true;
 	}
+	
+	public boolean deleteParent(User user) {
+		System.out.println("trying to delete from parent table");
+		String sql = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql);
+		return true;
+	}
+	
+	public boolean deleteChild(User user) {
+		
+		System.out.println("trying to delete from child table");
+		String sql = "delete from child WHERE id_parent ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql);
+		return true;
+	}
 
 	@Override
 	public Collection<User> searchByName(String name) {

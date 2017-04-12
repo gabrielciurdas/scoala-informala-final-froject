@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
@@ -75,6 +76,71 @@ public class PrimaryParentController {
 	@RequestMapping("/")
 	public ModelAndView returnToParentMainView() {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/primary_parent");
+
+		return result;
+	}
+	
+	@RequestMapping("edit")
+	public ModelAndView renderEdit(long id) {
+		ModelAndView modelAndView = new ModelAndView("it4kids/teacher/edit");
+		modelAndView.addObject("user", userService.get(id));
+		System.out.println("found user: " + userService.get(id).getUserName());
+
+		return modelAndView;
+	}
+
+	@RequestMapping("delete")
+	public ModelAndView delete(User user) {
+		System.out.println("trying to delete");
+		userService.delete(user);
+
+		ModelAndView result = new ModelAndView();
+		if (user.getAccountType().equals("PRIMARY_PARENT")) {
+			RedirectView redirect = new RedirectView("pList");
+			result.setView(redirect);
+		}
+		if (user.getAccountType().equals("CHILD")) {
+			RedirectView redirect = new RedirectView("cList");
+			result.setView(redirect);
+		}
+
+		return result;
+	}
+
+	@RequestMapping("save")
+	public ModelAndView onSave(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+		ModelAndView result = null;
+
+		boolean hasErrors = false;
+		if (!bindingResult.hasErrors()) {
+			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
+			try {
+				userService.saveEdit(user);
+				result = new ModelAndView();
+
+				if (user.getAccountType().equals("PRIMARY_PARENT")) {
+					result.setView(new RedirectView("pList"));
+				} else if (user.getAccountType().equals("CHILD")) {
+					result.setView(new RedirectView("cList"));
+				}
+
+				return result;
+
+			} catch (ValidationException e) {
+				for (String msg : e.getCauses()) {
+					bindingResult.addError(new ObjectError("user", msg));
+				}
+				hasErrors = true;
+			}
+		} else {
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			result = new ModelAndView("it4kids/admin/edit");
+			result.addObject("user", user);
+			result.addObject("errors", bindingResult.getAllErrors());
+		}
 
 		return result;
 	}
