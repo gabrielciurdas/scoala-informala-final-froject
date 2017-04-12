@@ -28,6 +28,10 @@ public class User extends AbstractModel {
 		this.firstName = firstName;
 	}
 	
+	public void setId(long id) {
+		super.setId(id);
+	}
+	
 	public String getLastName() {
 		return lastName;
 	}

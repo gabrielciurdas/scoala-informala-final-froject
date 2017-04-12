@@ -50,24 +50,25 @@
 				    </div>
 				[/#if]
 			    
-		<form action="/admin/register/register" method="post">
+		<form action="/admin/save" method="post">
+		<input type="hidden" name="id" value="[#if user.id??]${user.id?c}[/#if]">
 					<div class="form-group">
 						<label for="firstName">Prenume</label> 
 						<input type="text"
 							class="form-control" id="firstName" name="firstName"
-							placeHolder="Prenume" value="${user.firstName!''}"/>
+							placeHolder="Prenume" value="${user.firstName}"/>
 					</div>
 					<div class="form-group">
 						<label for="lastName">Nume</label> 
 						<input type="text"
 							class="form-control" id="lastName" name="lastName"
-							placeHolder="Nume" value="${user.lastName!''}"/>
+							placeHolder="Nume" value="${user.lastName}"/>
 					</div>
 
 
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
-      						<select class="form-control" id="accountType" name="accountType">
+      						<select class="form-control" id="accountType" name="accountType"  disabled>
        							 <option value="TEACHER" selected>Invatator</option>
 					      </select>
 					</div>
@@ -76,21 +77,21 @@
 						<label for="email">Adresa de email</label> 
 						<input type="email"
 							class="form-control" id="email" name="email"
-							placeHolder="Adresa de email" value="${user.email!''}" />
+							placeHolder="Adresa de email" value="${user.email}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
 							class="form-control" id="userName" name="userName"
-							placeHolder="Nume de utilizator" value="${user.userName!''}" />
+							placeHolder="Nume de utilizator" value="${user.userName}"  disabled/>
 					</div>
 					
 					<div class="form-group">
 						<label for="password">Parola</label> 
 						<input type="password"
 							class="form-control" id="password" name="password"
-							placeHolder="Parola" value="${user.password!''}" />
+							placeHolder="Parola" value="${user.password}"  disabled/>
 					</div>
 
 
@@ -100,11 +101,10 @@
 								<li><button type="submit" class="btn btn-danger"
 										onclick="javascript:goToTeacherList();return false">Anuleaza</button></li>
 								<li>&nbsp;&nbsp;&nbsp;</li>
-								<li><button type="submit" class="btn btn-success">Inregistreaza</button></li>
+								<li><button type="submit" class="btn btn-success">Salveaza</button></li>
 							</ul>
 						</div>
 					</div>
-					<br /> <input type="hidden" class="form-control" id="id" value="0" />
 			</form>
 			</div>
 		</div>

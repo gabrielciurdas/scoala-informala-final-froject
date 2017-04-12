@@ -154,6 +154,41 @@ public class UserService {
 		}
 	}
     
+    private void validateEdit(User user) throws ValidationException {
+		List<String> errors = new LinkedList<String>();
+		if (StringUtils.isEmpty(user.getFirstName())) {
+			errors.add("Prenumele este gol.");
+		}
+		
+		if(user.getFirstName().length() < 3) {
+			errors.add("Prenumele trebuie sa fie compus din cel putin trei litere.");
+		}
+		
+		if(!Pattern.matches("[a-zA-Z ]+", user.getFirstName())) {
+			errors.add("Prenumele trebuie sa fie compus doar din litere.");
+		}
+
+		if (StringUtils.isEmpty(user.getLastName())) {
+			errors.add("Numele este gol.");
+		}
+		
+		if(user.getLastName().length() < 3) {
+			errors.add("Numele trebuie sa fie compus din cel putin trei litere.");
+		}
+		
+		if(!Pattern.matches("[a-zA-Z ]+", user.getLastName())) {
+			errors.add("Numele trebuie sa fie compus doar din litere.");
+		}
+
+		if (StringUtils.isEmpty(user.getEmail())) {
+			errors.add("Adresa de email este goală.");
+		}
+		
+		if (!errors.isEmpty()) {
+			throw new ValidationException(errors.toArray(new String[] {}));
+		}
+	}
+    
     private void validateUserName(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		
@@ -176,5 +211,14 @@ public class UserService {
     
     public JdbcTemplateUserDAO getDao() {
 		return dao;
+	}
+
+	public void saveEdit(User user) throws ValidationException {
+		validateEdit(user);
+		dao.update(user);
+	}
+
+	public void delete(User user) {
+		dao.delete(user);
 	}
 }

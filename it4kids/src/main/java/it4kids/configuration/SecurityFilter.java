@@ -40,7 +40,6 @@ public class SecurityFilter implements Filter {
 
 		if (url.contains("admin")) {
 			if (!userLogin.getAccountType().equalsIgnoreCase("admin")) {
-				System.out.println("account type: " + userLogin.getAccountType());
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
@@ -50,7 +49,6 @@ public class SecurityFilter implements Filter {
 		}
 		if (url.contains("primary_parent")) {
 			if (!userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
-				System.out.println("account type: " + userLogin.getAccountType());
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
@@ -59,7 +57,6 @@ public class SecurityFilter implements Filter {
 			}
 		} if (url.contains("teacher")) {
 			if (!userLogin.getAccountType().equalsIgnoreCase("teacher")) {
-				System.out.println("account type: " + userLogin.getAccountType());
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
@@ -69,7 +66,6 @@ public class SecurityFilter implements Filter {
 			}
 		} if (url.contains("child")) {
 			if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
-				System.out.println("account type: " + userLogin.getAccountType());
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
@@ -79,7 +75,6 @@ public class SecurityFilter implements Filter {
 			}
 		} if (url.contains("selectQuiz")) {
 				if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
-					System.out.println("account type: " + userLogin.getAccountType());
 					HttpServletResponse servletResponse = (HttpServletResponse) response;
 					servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 					servletResponse.setHeader("Location", "/login");
@@ -95,7 +90,6 @@ public class SecurityFilter implements Filter {
 					return;
 					
 			} else if (!userLogin.getAccountType().equalsIgnoreCase("parent")) {
-				System.out.println("account type: " + userLogin.getAccountType());
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
