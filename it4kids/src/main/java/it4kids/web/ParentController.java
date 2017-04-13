@@ -4,15 +4,21 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
+import it4kids.service.ValidationException;
 import it4kids.service.login.ChildService;
 import it4kids.service.login.ParentService;
 import it4kids.service.login.UserService;
@@ -67,6 +73,72 @@ public class ParentController {
 	@RequestMapping("/")
 	public ModelAndView returnToParentMainView() {
 		ModelAndView result = new ModelAndView("it4kids/parent/parent");
+
+		return result;
+	}
+	
+	@RequestMapping("/account")
+	public ModelAndView teacherAccountView(HttpServletRequest req) {
+		ModelAndView result = new ModelAndView("it4kids/parent/account");
+		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
+		User user = userService.get(userLogin.getId());
+		result.addObject("user", user);
+
+		return result;
+	}
+
+
+	@RequestMapping("edit")
+	public ModelAndView renderEdit(long id) {
+		ModelAndView modelAndView = new ModelAndView("it4kids/parent/edit");
+		modelAndView.addObject("user", userService.get(id));
+		System.out.println("found user: " + userService.get(id).getUserName());
+
+		return modelAndView;
+	}
+
+	@RequestMapping("delete")
+	public ModelAndView delete(User user) {
+		System.out.println("trying to delete");
+		userService.deleteParent(user);
+		userService.delete(user);
+
+		ModelAndView result = new ModelAndView();
+		RedirectView redirect = new RedirectView("parent");
+		result.setView(redirect);
+
+		return result;
+	}
+
+	@RequestMapping("save")
+	public ModelAndView onSave(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+		ModelAndView result = null;
+
+		boolean hasErrors = false;
+		if (!bindingResult.hasErrors()) {
+			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
+			try {
+				userService.saveEdit(user);
+				result = new ModelAndView();
+				result.setView(new RedirectView("account"));
+
+				return result;
+
+			} catch (ValidationException e) {
+				for (String msg : e.getCauses()) {
+					bindingResult.addError(new ObjectError("user", msg));
+				}
+				hasErrors = true;
+			}
+		} else {
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			result = new ModelAndView("it4kids/parent/edit");
+			result.addObject("user", user);
+			result.addObject("errors", bindingResult.getAllErrors());
+		}
 
 		return result;
 	}

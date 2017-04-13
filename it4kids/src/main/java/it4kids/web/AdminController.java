@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
 import it4kids.service.login.UserService;
@@ -41,10 +42,28 @@ public class AdminController {
 
 		return result;
 	}
+	
+	@RequestMapping("/account")
+	public ModelAndView adminAccountView(HttpServletRequest req) {
+		ModelAndView result = new ModelAndView("it4kids/admin/account");
+		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
+		User user = userService.get(userLogin.getId());
+		result.addObject("user", user);
+
+		return result;
+	}
 
 	@RequestMapping("edit")
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/admin/edit");
+		modelAndView.addObject("user", userService.get(id));
+		System.out.println("found user: " + userService.get(id).getUserName());
+		return modelAndView;
+	}
+	
+	@RequestMapping("editAccount")
+	public ModelAndView renderEditAccount(long id) {
+		ModelAndView modelAndView = new ModelAndView("it4kids/admin/editAccount");
 		modelAndView.addObject("user", userService.get(id));
 		System.out.println("found user: " + userService.get(id).getUserName());
 		return modelAndView;
@@ -82,6 +101,17 @@ public class AdminController {
 		result.setView(redirect);
 		return result;
 	}
+	
+	@RequestMapping("deleteAccount")
+	public ModelAndView deleteAccount(User user) {
+		System.out.println("trying to delete");
+		userService.delete(user);
+		
+		ModelAndView result = new ModelAndView();
+		RedirectView redirect = new RedirectView("login");
+		result.setView(redirect);
+		return result;
+	}
 
 	@RequestMapping("save")
 	public ModelAndView onSave(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
@@ -93,8 +123,14 @@ public class AdminController {
 			try {
 				userService.saveEdit(user);
 				
-				result = new ModelAndView();
-				result.setView(new RedirectView("tList"));
+				if(userService.get(user.getId()).getAccountType().equals("ADMIN")) {
+					result = new ModelAndView();
+					result.setView(new RedirectView("account"));
+					
+				} else if(userService.get(user.getId()).getAccountType().equals("TEACHER")) {
+					result = new ModelAndView();
+					result.setView(new RedirectView("tList"));
+				}
 
 				return result;
 

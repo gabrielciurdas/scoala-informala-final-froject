@@ -13,8 +13,8 @@
 	
 	
 	<script>
-	function goToTeacherList() {
-		window.location.href = '/admin/tList';
+	function goToAccount() {
+		window.location.href = '/admin/account';
 	}
 	
 	</script>
@@ -33,7 +33,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Invatator</h3>
+				<h3 class="panel-title">Admin</h3>
 			</div>
 
 			<div class="panel-body">
@@ -70,7 +70,7 @@
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
       						<select class="form-control" id="accountType" name="accountType"  disabled>
-       							 <option value="TEACHER" selected>Invatator</option>
+       							 <option value="ADMIN" selected>Admin</option>
 					      </select>
 					</div>
 
@@ -92,7 +92,7 @@
 						<label for="password">Parola</label> 
 						<input type="password"
 							class="form-control" id="password" name="password"
-							placeHolder="Parola" value="${user.password!''}"  disabled/>
+							placeHolder="Parola" value="${user.password!''}" disabled/>
 					</div>
 
 
@@ -100,7 +100,7 @@
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
 								<li><button type="submit" class="btn btn-danger"
-										onclick="javascript:goToTeacherList();return false">Anuleaza</button></li>
+										onclick="javascript:goToAccount();return false">Anuleaza</button></li>
 								<li>&nbsp;&nbsp;&nbsp;</li>
 								<li><button type="submit" class="btn btn-success">Salveaza</button></li>
 							</ul>

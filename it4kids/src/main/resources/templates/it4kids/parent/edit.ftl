@@ -11,11 +11,11 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="[@spring.url '/js/bootstrap.min.js' /] "></script>
 	
-	
 	<script>
-	function goToTeacherList() {
-		window.location.href = '/admin/tList';
+	function goToAccount() {
+		window.location.href = '/parent/account';
 	}
+	
 	</script>
 </head>
 [#escape x as x?html]
@@ -27,7 +27,7 @@
 
 
 		<ol class="breadcrumb">
-			<li><a href="/admin/admin">Pagina Principala</a></li>
+			<li><a href="/parent/parent">Pagina Principala</a></li>
 		</ol>
 
 		<div class="panel panel-default">
@@ -50,7 +50,7 @@
 				    </div>
 				[/#if]
 			    
-		<form action="/admin/save" method="post">
+		<form action="/parent/save" method="post">
 		<input type="hidden" name="id" value="[#if user.id??]${user.id?c}[/#if]">
 					<div class="form-group">
 						<label for="firstName">Prenume</label> 
@@ -69,7 +69,7 @@
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
       						<select class="form-control" id="accountType" name="accountType"  disabled>
-       							 <option value="TEACHER" selected>Invatator</option>
+       							 <option value="PARENT" selected>Parinte</option>
 					      </select>
 					</div>
 
@@ -98,9 +98,8 @@
 					<div class="container-fluid">
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
-								<li><button type="submit" class="btn btn-danger"
-								[#if user.accountType == 'PARENT'] onclick="javascript:goToParentList();return false" [/#if]
-								[#if user.accountType == 'CHILD'] onclick="javascript:goToChildList();return false" [/#if]>Anuleaza</button></li>
+								<li><button type="submit" class="btn btn-danger" 
+								onclick="javascript:goToAccount();return false">Anuleaza</button></li>
 								<li>&nbsp;&nbsp;&nbsp;</li>
 								<li><button type="submit" class="btn btn-success">Salveaza</button></li>
 							</ul>

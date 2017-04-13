@@ -86,7 +86,7 @@ public class TeacherController {
 		userService.delete(user);
 
 		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("pList");
+		RedirectView redirect = new RedirectView("teacher");
 		result.setView(redirect);
 
 		return result;

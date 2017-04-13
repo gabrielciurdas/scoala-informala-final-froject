@@ -38,6 +38,7 @@
     <br>
 				<a href="/primary_parent/register">Inregistreaza parinti sau copii</a><br><br>
 				<a href="/primary_parent/assign">Asigneaza un parinte</a><br><br>
+				<a href="/primary_parent/account">Detalii cont</a><br><br>
     </div>
     
     </div>

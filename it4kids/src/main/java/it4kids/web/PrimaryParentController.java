@@ -38,7 +38,7 @@ public class PrimaryParentController {
 
 	@Autowired
 	private ChildService childService;
-	
+
 	@RequestMapping("/cList")
 	public ModelAndView parentChildrenList(@RequestParam(defaultValue = "") String name, HttpServletRequest request) {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/cList");
@@ -50,7 +50,7 @@ public class PrimaryParentController {
 		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
 		LinkedHashSet<User> children = new LinkedHashSet<User>();
 		LinkedHashSet<Long> parentsId = new LinkedHashSet<>();
-		
+
 		childrenId = parentService.getChildrenId(id);
 		System.out.println("childrenId: " + childrenId);
 		for (Long l : childrenId) {
@@ -73,16 +73,26 @@ public class PrimaryParentController {
 		return result;
 	}
 
+	@RequestMapping("/account")
+	public ModelAndView teacherAccountView(HttpServletRequest req) {
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/account");
+		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
+		User user = userService.get(userLogin.getId());
+		result.addObject("user", user);
+
+		return result;
+	}
+
 	@RequestMapping("/")
 	public ModelAndView returnToParentMainView() {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/primary_parent");
 
 		return result;
 	}
-	
-	@RequestMapping("edit")
+
+	@RequestMapping("editAccount")
 	public ModelAndView renderEdit(long id) {
-		ModelAndView modelAndView = new ModelAndView("it4kids/teacher/edit");
+		ModelAndView modelAndView = new ModelAndView("it4kids/primary_parent/editAccount");
 		modelAndView.addObject("user", userService.get(id));
 		System.out.println("found user: " + userService.get(id).getUserName());
 
@@ -92,17 +102,12 @@ public class PrimaryParentController {
 	@RequestMapping("delete")
 	public ModelAndView delete(User user) {
 		System.out.println("trying to delete");
+		userService.deleteParent(user);
 		userService.delete(user);
 
 		ModelAndView result = new ModelAndView();
-		if (user.getAccountType().equals("PRIMARY_PARENT")) {
-			RedirectView redirect = new RedirectView("pList");
-			result.setView(redirect);
-		}
-		if (user.getAccountType().equals("CHILD")) {
-			RedirectView redirect = new RedirectView("cList");
-			result.setView(redirect);
-		}
+		RedirectView redirect = new RedirectView("primary_parent");
+		result.setView(redirect);
 
 		return result;
 	}
@@ -117,12 +122,7 @@ public class PrimaryParentController {
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();
-
-				if (user.getAccountType().equals("PRIMARY_PARENT")) {
-					result.setView(new RedirectView("pList"));
-				} else if (user.getAccountType().equals("CHILD")) {
-					result.setView(new RedirectView("cList"));
-				}
+				result.setView(new RedirectView("account"));
 
 				return result;
 
@@ -137,7 +137,7 @@ public class PrimaryParentController {
 		}
 
 		if (hasErrors) {
-			result = new ModelAndView("it4kids/admin/edit");
+			result = new ModelAndView("it4kids/primary_parent/edit");
 			result.addObject("user", user);
 			result.addObject("errors", bindingResult.getAllErrors());
 		}
@@ -153,25 +153,25 @@ public class PrimaryParentController {
 	}
 
 	@RequestMapping("/register/register")
-	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
+	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
 			HttpServletRequest req, HttpServletResponse resp) {
-		
+
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/register");
-		
+
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			System.out.println("user: " + user.getUserName());
 			try {
 				userService.save(user);
-					try {
-						userService.add(req, resp);
-					} catch (ServletException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				try {
+					userService.add(req, resp);
+				} catch (ServletException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				return result;
-				
+
 			} catch (ValidationException e) {
 				for (String msg : e.getCauses()) {
 					bindingResult.addError(new ObjectError("user", msg));
@@ -197,27 +197,27 @@ public class PrimaryParentController {
 
 		return result;
 	}
-	
+
 	@RequestMapping("/assign/assign")
-	public ModelAndView onAssign(@Valid @ModelAttribute("user") User user,  BindingResult bindingResult, 
+	public ModelAndView onAssign(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
 			HttpServletRequest req, HttpServletResponse resp) {
-		
+
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/assign");
-		
+
 		User child = new User();
 		User parent = new User();
 		child.setUserName(req.getParameter("childUserName"));
 		parent.setUserName(req.getParameter("parentUserName"));
-		
+
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			try {
 				userService.saveAssign(child);
 				userService.saveAssign(parent);
-				
+
 				parentService.assignParent(child.getUserName(), parent.getUserName(), req, resp);
 				return result;
-				
+
 			} catch (ValidationException e) {
 				for (String msg : e.getCauses()) {
 					bindingResult.addError(new ObjectError("user", msg));

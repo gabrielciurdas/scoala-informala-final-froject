@@ -13,10 +13,9 @@
 	
 	
 	<script>
-	function goToTeacherList() {
+	function goToAccount {
 		window.location.href = '/admin/tList';
 	}
-	
 	</script>
 </head>
 [#escape x as x?html]
@@ -28,7 +27,7 @@
 
 
 		<ol class="breadcrumb">
-			<li><a href="/admin/admin">Pagina Principala</a></li>
+			<li><a href="/primary_parent/primary_parent">Pagina Principala</a></li>
 		</ol>
 
 		<div class="panel panel-default">
@@ -51,26 +50,26 @@
 				    </div>
 				[/#if]
 			    
-		<form action="/admin/save" method="post">
+		<form action="/primary_parent/save" method="post">
 		<input type="hidden" name="id" value="[#if user.id??]${user.id?c}[/#if]">
 					<div class="form-group">
 						<label for="firstName">Prenume</label> 
 						<input type="text"
 							class="form-control" id="firstName" name="firstName"
-							placeHolder="Prenume" value="${user.firstName!''}"/>
+							placeHolder="Prenume" value="${user.firstName}"/>
 					</div>
 					<div class="form-group">
 						<label for="lastName">Nume</label> 
 						<input type="text"
 							class="form-control" id="lastName" name="lastName"
-							placeHolder="Nume" value="${user.lastName!''}"/>
+							placeHolder="Nume" value="${user.lastName}"/>
 					</div>
 
 
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
       						<select class="form-control" id="accountType" name="accountType"  disabled>
-       							 <option value="TEACHER" selected>Invatator</option>
+       							 <option value="PRIMARY_PARENT" selected>Parinte</option>
 					      </select>
 					</div>
 
@@ -78,21 +77,21 @@
 						<label for="email">Adresa de email</label> 
 						<input type="email"
 							class="form-control" id="email" name="email"
-							placeHolder="Adresa de email" value="${user.email!''}" />
+							placeHolder="Adresa de email" value="${user.email}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
 							class="form-control" id="userName" name="userName"
-							placeHolder="Nume de utilizator" value="${user.userName!''}"  disabled/>
+							placeHolder="Nume de utilizator" value="${user.userName}"  disabled/>
 					</div>
 					
 					<div class="form-group">
 						<label for="password">Parola</label> 
 						<input type="password"
 							class="form-control" id="password" name="password"
-							placeHolder="Parola" value="${user.password!''}"  disabled/>
+							placeHolder="Parola" value="${user.password}"  disabled/>
 					</div>
 
 
@@ -100,7 +99,7 @@
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
 								<li><button type="submit" class="btn btn-danger"
-										onclick="javascript:goToTeacherList();return false">Anuleaza</button></li>
+										onclick="javascript:goToAccount();return false">Anuleaza</button></li>
 								<li>&nbsp;&nbsp;&nbsp;</li>
 								<li><button type="submit" class="btn btn-success">Salveaza</button></li>
 							</ul>
