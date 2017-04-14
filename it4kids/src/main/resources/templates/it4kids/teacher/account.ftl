@@ -1,5 +1,6 @@
 [#ftl]
 [#import "/spring.ftl" as spring /]
+[#if user??]
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -69,7 +70,10 @@
     <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
-
+[#else]
+Cont invalid<br>
+<p><a href="/logout">Inapoi</>
+[/#if]
 
 
 

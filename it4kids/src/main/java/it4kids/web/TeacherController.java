@@ -64,7 +64,7 @@ public class TeacherController {
 	public ModelAndView teacherAccountView(HttpServletRequest req) {
 		ModelAndView result = new ModelAndView("it4kids/teacher/account");
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
-		User user = userService.get(userLogin.getId());
+		User user = userService.getUserById(userLogin.getId());
 		result.addObject("user", user);
 
 		return result;
@@ -74,8 +74,8 @@ public class TeacherController {
 	@RequestMapping("edit")
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/teacher/edit");
-		modelAndView.addObject("user", userService.get(id));
-		System.out.println("found user: " + userService.get(id).getUserName());
+		modelAndView.addObject("user", userService.getUserById(id));
+		System.out.println("found user: " + userService.getUserById(id).getUserName());
 
 		return modelAndView;
 	}
@@ -86,7 +86,7 @@ public class TeacherController {
 		userService.delete(user);
 
 		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("teacher");
+		RedirectView redirect = new RedirectView("");
 		result.setView(redirect);
 
 		return result;

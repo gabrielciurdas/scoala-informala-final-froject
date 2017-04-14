@@ -77,7 +77,7 @@ public class PrimaryParentController {
 	public ModelAndView teacherAccountView(HttpServletRequest req) {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/account");
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
-		User user = userService.get(userLogin.getId());
+		User user = userService.getUserById(userLogin.getId());
 		result.addObject("user", user);
 
 		return result;
@@ -90,25 +90,36 @@ public class PrimaryParentController {
 		return result;
 	}
 
-	@RequestMapping("editAccount")
+	@RequestMapping("edit")
 	public ModelAndView renderEdit(long id) {
-		ModelAndView modelAndView = new ModelAndView("it4kids/primary_parent/editAccount");
-		modelAndView.addObject("user", userService.get(id));
-		System.out.println("found user: " + userService.get(id).getUserName());
+		ModelAndView modelAndView = new ModelAndView("it4kids/primary_parent/edit");
+		modelAndView.addObject("user", userService.getUserById(id));
+		System.out.println("found user: " + userService.getUserById(id).getUserName());
 
 		return modelAndView;
 	}
-
+	
 	@RequestMapping("delete")
-	public ModelAndView delete(User user) {
+	public ModelAndView delete(User user, HttpServletRequest req) {
 		System.out.println("trying to delete");
-		userService.deleteParent(user);
-		userService.delete(user);
-
-		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("primary_parent");
-		result.setView(redirect);
-
+		ModelAndView result = new ModelAndView("");
+		
+			if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+				try {
+					req.logout();
+				} catch (ServletException e) {
+					e.printStackTrace();
+				}
+				userService.deleteParent(user);
+				userService.delete(user);
+				return result;
+				
+			} 
+			 if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+				userService.deleteParent(user);
+				userService.delete(user);
+				result = new ModelAndView(new RedirectView("cList"));
+			}
 		return result;
 	}
 
@@ -122,7 +133,13 @@ public class PrimaryParentController {
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();
-				result.setView(new RedirectView("account"));
+				
+				if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+					result.setView(new RedirectView("account"));
+					
+				} else if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+					result.setView(new RedirectView("cList"));
+				}
 
 				return result;
 

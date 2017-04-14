@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -62,7 +63,13 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	@Override
 	public User findById(Long id) {
 		System.out.println("trying to find " + id);
-		return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'", new UserMapper());
+
+		try {
+			return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'",
+					new UserMapper());
+		} catch (EmptyResultDataAccessException exception) {
+			return null;
+		}
 	}
 
 	@Override
@@ -88,22 +95,26 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	public boolean delete(User user) {
 		String sql = "delete from registered_users WHERE id ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
-		
+
 		return true;
 	}
-	
+
 	public boolean deleteParent(User user) {
 		System.out.println("trying to delete from parent table");
-		String sql = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
+		String sql = "delete from parent WHERE id_child ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
+		String sql2 = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql2);
 		return true;
 	}
-	
+
 	public boolean deleteChild(User user) {
-		
+
 		System.out.println("trying to delete from child table");
-		String sql = "delete from child WHERE id_parent ='" + user.getId() + "'";
+		String sql = "delete from child WHERE id_registered_user ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
+		String sql2 = "delete from child WHERE id_parent ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql2);
 		return true;
 	}
 

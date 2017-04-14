@@ -59,7 +59,7 @@
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
-				<td><a href="/admin/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;
+				<td>[#if user.id?? ]<a href="/admin/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;[/#if]
 				<a href="/admin/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 			</tr>
 		[/#list]

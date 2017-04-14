@@ -81,7 +81,7 @@ public class ParentController {
 	public ModelAndView teacherAccountView(HttpServletRequest req) {
 		ModelAndView result = new ModelAndView("it4kids/parent/account");
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
-		User user = userService.get(userLogin.getId());
+		User user = userService.getUserById(userLogin.getId());
 		result.addObject("user", user);
 
 		return result;
@@ -91,8 +91,8 @@ public class ParentController {
 	@RequestMapping("edit")
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/parent/edit");
-		modelAndView.addObject("user", userService.get(id));
-		System.out.println("found user: " + userService.get(id).getUserName());
+		modelAndView.addObject("user", userService.getUserById(id));
+		System.out.println("found user: " + userService.getUserById(id).getUserName());
 
 		return modelAndView;
 	}

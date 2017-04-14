@@ -1,5 +1,6 @@
 [#ftl]
 [#import "/spring.ftl" as spring /]
+[#if user??]
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,10 +36,9 @@
      	    <h3 class="panel-title">Detalii cont</h3>
   <br>
 	  <div class="panel-body">
-		 
 		   <br><br>
 		<div style="float:right">Sterge contul
-		<a href="/admin/deleteAccount?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>
+		<a href="/admin/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>
 		</div>
 		</div>
 		 
@@ -49,12 +49,11 @@
 			<th>Email</th>
 			<th></th>
 		</tr>
-		
 			<tr>
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
-				<td><a href="/admin/editAccount?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+				<td><a href="/admin/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 			</tr>
 		
 		
@@ -69,6 +68,10 @@
     <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
+[#else]
+Cont invalid<br>
+<p><a href="/logout">Inapoi</>
+[/#if]
 
 
 

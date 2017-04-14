@@ -78,12 +78,6 @@ public class UserService {
 	    	dao.add(req, resp);
     }
     
-    public User get(Long id) {
-		LOGGER.debug("Getting user for id: " + id);
-		return dao.findById(id);
-
-	}
-
     public boolean authenticateUser(String userName, String password) {
     	LOGGER.debug("User to authenticate - userName: " + userName + ", password" + password);
         return dao.userIsRegistered(userName, password);

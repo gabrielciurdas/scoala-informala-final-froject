@@ -13,9 +13,15 @@
 	
 	
 	<script>
-	function goToAccount {
-		window.location.href = '/admin/tList';
+	
+	function goToChildrenList {
+		window.location.href = '/primary_parent/cList';
 	}
+	
+	function goToAccount {
+		window.location.href = '/primary_parent/account';
+	}
+	
 	</script>
 </head>
 [#escape x as x?html]
@@ -69,7 +75,8 @@
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
       						<select class="form-control" id="accountType" name="accountType"  disabled>
-       							 <option value="PRIMARY_PARENT" selected>Parinte</option>
+       							[#if user.accountType =='PRIMARY_PARENT'] <option value="PRIMARY_PARENT" selected>Parinte</option>[/#if]
+       							[#if user.accountType =='CHILD'] <option value="CHILD" selected>Copil</option>[/#if]]
 					      </select>
 					</div>
 
@@ -99,7 +106,8 @@
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
 								<li><button type="submit" class="btn btn-danger"
-										onclick="javascript:goToAccount();return false">Anuleaza</button></li>
+								[#if user.accountType =='PRIMARY_PARENT'] onclick="javascript:goToAccount();return false">[/#if]
+								[#if user.accountType =='CHILD'] onclick="javascript:goToChildrenList();return false">[/#if]Anuleaza</button></li>
 								<li>&nbsp;&nbsp;&nbsp;</li>
 								<li><button type="submit" class="btn btn-success">Salveaza</button></li>
 							</ul>

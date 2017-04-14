@@ -17,6 +17,10 @@
 		window.location.href = '/admin/tList';
 	}
 	
+	function goToAccount() {
+		window.location.href = '/admin/account';
+	}
+	
 	</script>
 </head>
 [#escape x as x?html]
@@ -70,7 +74,8 @@
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
       						<select class="form-control" id="accountType" name="accountType"  disabled>
-       							 <option value="TEACHER" selected>Invatator</option>
+       							[#if user.accountType =='TEACHER'] <option value="TEACHER" selected>Invatator</option>[/#if]]
+       							[#if user.accountType =='ADMIN'] <option value="ADMIN" selected>Admin</option>[/#if]]
 					      </select>
 					</div>
 
@@ -100,7 +105,8 @@
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
 								<li><button type="submit" class="btn btn-danger"
-										onclick="javascript:goToTeacherList();return false">Anuleaza</button></li>
+								[#if user.accountType =='TEACHER'] onclick="javascript:goToTeacherList();return false">[/#if]
+								[#if user.accountType =='ADMIN'] onclick="javascript:goToAccount();return false">[/#if] Anuleaza</button></li>
 								<li>&nbsp;&nbsp;&nbsp;</li>
 								<li><button type="submit" class="btn btn-success">Salveaza</button></li>
 							</ul>

@@ -70,7 +70,7 @@
 								<li><button type="submit" class="btn btn-danger"
 										onclick="javascript:goToMainView();return false">Anuleaza</button></li>
 								<li>&nbsp;&nbsp;&nbsp;</li>
-								<li><button type="submit" class="btn btn-success">Inregistreaza</button></li>
+								<li><button type="submit" class="btn btn-success">Asigneaza</button></li>
 							</ul>
 						</div>
 					</div>

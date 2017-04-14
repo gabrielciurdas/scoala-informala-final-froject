@@ -1,5 +1,6 @@
 [#ftl]
 [#import "/spring.ftl" as spring /]
+[#if user??]
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -54,7 +55,7 @@
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
-				<td><a href="/primary_parent/editAccount?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+				[#if user.id??]<td><a href="/primary_parent/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>[/#if]
 			</tr>
 		
 		
@@ -69,6 +70,10 @@
     <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
+[#else]
+Cont invalid<br>
+<p><a href="/logout">Inapoi</>
+[/#if]
 
 
 

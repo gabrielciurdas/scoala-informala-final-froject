@@ -47,7 +47,7 @@ public class AdminController {
 	public ModelAndView adminAccountView(HttpServletRequest req) {
 		ModelAndView result = new ModelAndView("it4kids/admin/account");
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
-		User user = userService.get(userLogin.getId());
+		User user = userService.getUserById(userLogin.getId());
 		result.addObject("user", user);
 
 		return result;
@@ -56,18 +56,11 @@ public class AdminController {
 	@RequestMapping("edit")
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/admin/edit");
-		modelAndView.addObject("user", userService.get(id));
-		System.out.println("found user: " + userService.get(id).getUserName());
+		modelAndView.addObject("user", userService.getUserById(id));
+		System.out.println("found user: " + userService.getUserById(id).getUserName());
 		return modelAndView;
 	}
 	
-	@RequestMapping("editAccount")
-	public ModelAndView renderEditAccount(long id) {
-		ModelAndView modelAndView = new ModelAndView("it4kids/admin/editAccount");
-		modelAndView.addObject("user", userService.get(id));
-		System.out.println("found user: " + userService.get(id).getUserName());
-		return modelAndView;
-	}
 
 	@RequestMapping("admin")
 	public ModelAndView adminMainView() {
@@ -92,27 +85,27 @@ public class AdminController {
 	}
 	
 	@RequestMapping("delete")
-	public ModelAndView delete(User user) {
+	public ModelAndView delete(User user, HttpServletRequest req) {
 		System.out.println("trying to delete");
-		userService.delete(user);
+		ModelAndView result = new ModelAndView("");
 		
-		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("tList");
-		result.setView(redirect);
+			if(userService.getUserById(user.getId()).getAccountType().equals("ADMIN")) {
+				try {
+					req.logout();
+				} catch (ServletException e) {
+					e.printStackTrace();
+				}
+				userService.delete(user);
+				return result;
+				
+			} 
+			 if(userService.getUserById(user.getId()).getAccountType().equals("TEACHER")) {
+				userService.delete(user);
+				result = new ModelAndView(new RedirectView("tList"));
+			}
 		return result;
 	}
 	
-	@RequestMapping("deleteAccount")
-	public ModelAndView deleteAccount(User user) {
-		System.out.println("trying to delete");
-		userService.delete(user);
-		
-		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("login");
-		result.setView(redirect);
-		return result;
-	}
-
 	@RequestMapping("save")
 	public ModelAndView onSave(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
 		ModelAndView result = null;
@@ -122,13 +115,12 @@ public class AdminController {
 			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
 			try {
 				userService.saveEdit(user);
+				result = new ModelAndView();
 				
-				if(userService.get(user.getId()).getAccountType().equals("ADMIN")) {
-					result = new ModelAndView();
+				if(userService.getUserById(user.getId()).getAccountType().equals("ADMIN")) {
 					result.setView(new RedirectView("account"));
 					
-				} else if(userService.get(user.getId()).getAccountType().equals("TEACHER")) {
-					result = new ModelAndView();
+				} else if(userService.getUserById(user.getId()).getAccountType().equals("TEACHER")) {
 					result.setView(new RedirectView("tList"));
 				}
 
