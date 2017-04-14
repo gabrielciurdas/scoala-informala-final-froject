@@ -88,6 +88,21 @@ public class UserService {
         return dao.searchByName(userName);
     }
     
+    public Collection<User> searchTeacherByName(String userName) {
+    	LOGGER.debug("User name to obtain: " + userName);
+        return dao.searchByTeacherByName(userName);
+    }
+    
+    public Collection<User> searchParentByName(String userName) {
+    	LOGGER.debug("User name to obtain: " + userName);
+        return dao.searchByParentByName(userName);
+    }
+    
+    public Collection<User> searchChildByName(String userName) {
+    	LOGGER.debug("User name to obtain: " + userName);
+        return dao.searchByChildName(userName);
+    }
+    
     private void validate(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		if (StringUtils.isEmpty(user.getFirstName())) {

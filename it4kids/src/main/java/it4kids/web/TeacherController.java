@@ -35,27 +35,27 @@ public class TeacherController {
 	private UserService userService;
 
 	@RequestMapping("/pList")
-	public ModelAndView teacherParentList(@RequestParam(defaultValue = "") String name) {
+	public ModelAndView teacherParentList(@RequestParam(defaultValue = "") String query) {
 
 		System.out.println("trying to set view of parentList");
 		ModelAndView result = new ModelAndView("it4kids/teacher/pList");
 
-		Collection<User> users = "".equals(name) ? userService.listAllParents() : userService.searchByName(name);
+		Collection<User> users = "".equals(query) ? userService.listAllParents() : userService.searchParentByName(query);
 		result.addObject("userList", users);
 
-		result.addObject("query", name);
+		result.addObject("query", query);
 
 		return result;
 	}
 
 	@RequestMapping("/cList")
-	public ModelAndView teacherChildrenList(@RequestParam(defaultValue = "") String name) {
+	public ModelAndView teacherChildrenList(@RequestParam(defaultValue = "") String query) {
 		ModelAndView result = new ModelAndView("it4kids/teacher/cList");
 
-		Collection<User> users = "".equals(name) ? userService.listAllChildren() : userService.searchByName(name);
+		Collection<User> users = "".equals(query) ? userService.listAllChildren() : userService.searchChildByName(query);
 		result.addObject("userList", users);
 
-		result.addObject("query", name);
+		result.addObject("query", query);
 
 		return result;
 	}

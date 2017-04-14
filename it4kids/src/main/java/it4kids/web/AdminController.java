@@ -31,14 +31,15 @@ public class AdminController {
 	private UserService userService;
 
 	@RequestMapping("tList")
-	public ModelAndView adminTeacherList(@RequestParam(defaultValue = "") String name) {
+	public ModelAndView adminTeacherList(@RequestParam(defaultValue = "") String query) {
 		System.out.println("trying to set view for adminTeacherList");
 		ModelAndView result = new ModelAndView("it4kids/admin/tList");
 
-		Collection<User> users = "".equals(name) ? userService.listAllTeachers() : userService.searchByName(name);
+		System.out.println("name to search for: " + query);
+		Collection<User> users = "".equals(query) ? userService.listAllTeachers() : userService.searchTeacherByName(query);
 		result.addObject("userList", users);
 
-		result.addObject("query", name);
+		result.addObject("query", query);
 
 		return result;
 	}

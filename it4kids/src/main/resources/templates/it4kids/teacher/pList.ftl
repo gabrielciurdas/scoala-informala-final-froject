@@ -35,12 +35,14 @@
      	    <h3 class="panel-title">Lista parintilor</h3>
   <br>
 	  <div class="panel-body">
-		 
+	  
+	  <form class="navbar-form navbar-left" style="width: 100%" role="search" action="/teacher/pList" method="GET">
+		  <div class="form-group">
+		    <input type="text" class="form-control" placeholder="Nume sau prenume" name="query" value="${query!''}">
+		  </div>
+		  <button type="submit" class="btn btn-default">Cauta</button>
 		   <div style="float:right">
-		</div>
-		<br><br>
-		<div style="float:right">
-		<a href="/teacher/register"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga parinte</a>
+			<a href="/teacher/register"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga parinte</a>
 		</div>
 		</form>
 		 
