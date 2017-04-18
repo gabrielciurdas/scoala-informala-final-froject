@@ -121,22 +121,23 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	@Override
 	public Collection<User> searchByName(String name) {
 
-		return jdbcTemplate.query("select * from registered_users WHERE first_name ILIKE '" + name + "'", new UserMapper());
+		return jdbcTemplate.query("select * from registered_users WHERE (first_name || ' ' || last_name)"
+				+ " ILIKE '%" + name  + "%'", new UserMapper());
 	}
 	
 	public Collection<User> searchByTeacherByName(String name) {
-		return jdbcTemplate.query("select * from registered_users WHERE account_type='TEACHER' AND first_name ILIKE '" + name  
-				+ "' OR account_type='TEACHER' AND last_name ILIKE'" + name+ "'", new UserMapper());
+		return jdbcTemplate.query("select * from registered_users WHERE account_type='TEACHER'"
+				+ " AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
 	}
 	
 	public Collection<User> searchByParentByName(String name) {
-		return jdbcTemplate.query("select * from registered_users WHERE account_type ILIKE '%PARENT' AND first_name ILIKE '" + name  
-				+ "' OR account_type ILIKE '%PARENT' AND last_name ILIKE'" + name + "'", new UserMapper());
+		return jdbcTemplate.query("select * from registered_users WHERE account_type ILIKE '%PARENT'"
+				+ " AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
 	}
 	
 	public Collection<User> searchByChildName(String name) {
-		return jdbcTemplate.query("select * from registered_users WHERE account_type='CHILD' AND first_name ILIKE '" + name  
-				+ "' OR account_type='CHILD' AND last_name ILIKE'" + name + "'", new UserMapper());
+		return jdbcTemplate.query("select * from registered_users WHERE account_type='CHILD' "
+				+ "AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
 	}
 
 	private static class UserMapper implements RowMapper<User> {
