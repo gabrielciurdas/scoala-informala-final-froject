@@ -5,11 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionToDB {
-
+	//Local run
 	private static final String DB_DRIVER = "org.postgresql.Driver";
 	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
 	private static final String DB_PASSWORD = "aNewPa55w0rd";
+	
+	/*//Heroku deployment
+	private static final String DB_DRIVER = "org.postgresql.Driver";
+	private static final String DB_CONNECTION = System.getenv("JDBC_DATABASE_URL");
+	private static final String DB_USER = System.getenv("JDBC_DATABASE_USERNAME");
+	private static final String DB_PASSWORD = System.getenv("JDBC_DATABASE_PASSWORD");*/
 
 	public Connection getDBConnection() {
 		loadDriver();

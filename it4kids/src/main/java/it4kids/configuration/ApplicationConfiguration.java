@@ -39,7 +39,7 @@ public class ApplicationConfiguration {
 	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
 	private static final String DB_PASSWORD = "aNewPa55w0rd";
-
+	
 	@Bean
 	public FilterRegistrationBean securityFilter() {
 		FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -167,6 +167,11 @@ public class ApplicationConfiguration {
 }
 
 	@Bean
+	public JdbcTemplateUserDAO jdbcTemplateDAO() {
+		return new JdbcTemplateUserDAO(dataSource());
+	}
+	
+	@Bean
 	public BasicDataSource dataSource() {
 
 		BasicDataSource basicDataSource = new BasicDataSource();
@@ -176,8 +181,19 @@ public class ApplicationConfiguration {
 
 		return basicDataSource;
 	}
-	@Bean
-	public JdbcTemplateUserDAO jdbcTemplateDAO() {
-		return new JdbcTemplateUserDAO(dataSource());
-	}
+	
+	/*//Heroku deployment use only
+	 @Bean
+	    public BasicDataSource dataSource() {
+	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+	        String username = System.getenv("JDBC_DATABASE_USERNAME");
+	        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+
+	        BasicDataSource basicDataSource = new BasicDataSource();
+	        basicDataSource.setUrl(dbUrl);
+	        basicDataSource.setUsername(username);
+	        basicDataSource.setPassword(password);
+
+	        return basicDataSource;
+	    }*/
 }
