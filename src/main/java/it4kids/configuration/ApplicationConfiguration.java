@@ -36,9 +36,15 @@ import it4kids.service.quiz.UserAnswerService;
 
 @Configuration
 public class ApplicationConfiguration {
-	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
+	//LOCAL run
+	/*private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
-	private static final String DB_PASSWORD = "aNewPa55w0rd";
+	private static final String DB_PASSWORD = "aNewPa55w0rd";*/
+	
+	//heroku deplouyment
+	private static final String DB_CONNECTION = "jdbc:postgresql://ec2-54-228-182-57.eu-west-1.compute.amazonaws.com:5432/d9dakt2655qojf?user=vpaoveiarptuwr&password=f1a65c443dac76f17dc0e9c41807bc2c3d80682f2a999fd6ddd99bf5047c5c3";
+	private static final String DB_USER = "vpaoveiarptuwr";
+	private static final String DB_PASSWORD = "f1a65c443dac76f17dc0e9c41807bc2c3d80682f2a999fd6ddd99bf5047c5c38";
 
 	@Bean
 	public FilterRegistrationBean securityFilter() {
