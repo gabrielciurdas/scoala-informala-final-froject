@@ -13,9 +13,9 @@ public class ConnectionToDB {
 	
 	//Heroku deployment
 	private static final String DB_DRIVER = "org.postgresql.Driver";
-	private static final String DB_CONNECTION = "jdbc:postgresql://ec2-54-228-182-57.eu-west-1.compute.amazonaws.com:5432/d9dakt2655qojf?user=vpaoveiarptuwr&password=f1a65c443dac76f17dc0e9c41807bc2c3d80682f2a999fd6ddd99bf5047c5c3";
-	private static final String DB_USER = "vpaoveiarptuwr";
-	private static final String DB_PASSWORD = "f1a65c443dac76f17dc0e9c41807bc2c3d80682f2a999fd6ddd99bf5047c5c38";
+	private static final String DB_CONNECTION = System.getenv("JDBC_DATABASE_URL");
+	private static final String DB_USER = System.getenv("JDBC_DATABASE_USERNAME");
+	private static final String DB_PASSWORD = System.getenv("JDBC_DATABASE_PASSWORD");
 
 	public Connection getDBConnection() {
 		loadDriver();
