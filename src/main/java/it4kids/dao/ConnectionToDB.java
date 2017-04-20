@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionToDB {
 	//Local run
-	/*private static final String DB_DRIVER = "org.postgresql.Driver";
+/*	private static final String DB_DRIVER = "org.postgresql.Driver";
 	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
 	private static final String DB_PASSWORD = "aNewPa55w0rd";*/
