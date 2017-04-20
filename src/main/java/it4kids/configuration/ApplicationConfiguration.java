@@ -173,7 +173,7 @@ public class ApplicationConfiguration {
 	}
 	
 	//Local deployment
-/*	@Bean
+	/*@Bean
 	public BasicDataSource dataSource() {
 
 		BasicDataSource basicDataSource = new BasicDataSource();

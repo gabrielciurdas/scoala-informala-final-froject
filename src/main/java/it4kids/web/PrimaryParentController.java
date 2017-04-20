@@ -229,8 +229,8 @@ public class PrimaryParentController {
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			try {
-				userService.saveAssign(child);
-				userService.saveAssign(parent);
+				userService.saveChild(child);
+				userService.saveParent(parent);
 
 				parentService.assignParent(child.getUserName(), parent.getUserName(), req, resp);
 				return result;

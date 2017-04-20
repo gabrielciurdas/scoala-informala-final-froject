@@ -51,6 +51,7 @@ public class RegisteredUserDAO {
 
 			if (rs.next()) {
 				available = false;
+				accountType = rs.getString("account_type");
 			} else {
 				available = true;
 			}

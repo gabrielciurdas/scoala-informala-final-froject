@@ -70,8 +70,12 @@ public class UserService {
     	validate(user);
     }
     
-    public void saveAssign(User user) throws ValidationException {
-    	validateUserName(user);
+    public void saveChild(User user) throws ValidationException {
+    		validateChildUserName(user);
+    }
+    
+    public void saveParent(User user) throws ValidationException {
+    		validateParentUserName(user);
     }
     
     public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -198,7 +202,7 @@ public class UserService {
 		}
 	}
     
-    private void validateUserName(User user) throws ValidationException {
+    private void validateParentUserName(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		
 		if (StringUtils.isEmpty(user.getUserName())) {
@@ -207,6 +211,38 @@ public class UserService {
 		
 		if(!Pattern.matches("[a-zA-Z0-9 ]+", user.getUserName())) {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
+		}
+		
+		if(!registeredUserDAO.usernameAvailable(user.getUserName())) {
+			if(!registeredUserDAO.getAccountType().contains("PARENT")) {
+				errors.add("Numele de utilizator al parintelui nu apartine unui parinte.");
+			}
+		}
+		
+		if(registeredUserDAO.usernameAvailable(user.getUserName())) {
+			errors.add("Utilizatorul " + user.getUserName() + " nu exista.");
+		}
+		
+		if (!errors.isEmpty()) {
+			throw new ValidationException(errors.toArray(new String[] {}));
+		}
+	}
+    
+    private void validateChildUserName(User user) throws ValidationException {
+		List<String> errors = new LinkedList<String>();
+		
+		if (StringUtils.isEmpty(user.getUserName())) {
+			errors.add("Numele de utilizator este gol.");
+		}
+		
+		if(!Pattern.matches("[a-zA-Z0-9 ]+", user.getUserName())) {
+			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
+		}
+		
+		if(!registeredUserDAO.usernameAvailable(user.getUserName())) {
+			if(!registeredUserDAO.getAccountType().equals("CHILD")) {
+				errors.add("Numele de utilizator al copilului nu apartine unui copil.");
+			}
 		}
 		
 		if(registeredUserDAO.usernameAvailable(user.getUserName())) {
