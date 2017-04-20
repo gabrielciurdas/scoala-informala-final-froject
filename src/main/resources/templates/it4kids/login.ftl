@@ -16,14 +16,13 @@
 
 <body>
 	<div class="container">
-<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/>
-		</a>
+		<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/></a>
 		<div class="panel panel-default" style="margin-left:auto; margin-right:auto; width:400px">
 
 			<div class="panel-body">
 			
 			    
-				<form action="/onLogin" method="POST" onsubmit="return checkLogin()">
+				<form action="/onLogin" method="POST">
 					<div class="form-group">
 						<label for="userName">Nume de utilizator</label> 
 						<input type="text"

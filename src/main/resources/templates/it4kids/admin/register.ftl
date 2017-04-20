@@ -20,11 +20,9 @@
 </head>
 [#escape x as x?html]
 
-
+<body>
 <div class="container">
-			<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/>
-		</a>
-
+		<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/></a>
 
 		<ol class="breadcrumb">
 			<li><a href="/admin/admin">Pagina Principala</a></li>
@@ -110,5 +108,5 @@
 			</div>
 		</div>
 	</div>
-
+<body>
 [/#escape]
