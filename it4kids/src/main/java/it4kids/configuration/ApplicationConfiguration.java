@@ -36,6 +36,7 @@ import it4kids.service.quiz.UserAnswerService;
 
 @Configuration
 public class ApplicationConfiguration {
+	//Local deployment
 	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
 	private static final String DB_PASSWORD = "aNewPa55w0rd";
@@ -171,6 +172,7 @@ public class ApplicationConfiguration {
 		return new JdbcTemplateUserDAO(dataSource());
 	}
 	
+	//Local deployment
 	@Bean
 	public BasicDataSource dataSource() {
 
@@ -182,8 +184,8 @@ public class ApplicationConfiguration {
 		return basicDataSource;
 	}
 	
-	/*//Heroku deployment use only
-	 @Bean
+	//Heroku deployment use only
+	/* @Bean
 	    public BasicDataSource dataSource() {
 	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
 	        String username = System.getenv("JDBC_DATABASE_USERNAME");

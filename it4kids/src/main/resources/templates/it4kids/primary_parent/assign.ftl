@@ -67,10 +67,10 @@
 					<div class="container-fluid">
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
+								<li><button type="submit" class="btn btn-success">Asigneaza</button></li>
+								<li>&nbsp;&nbsp;&nbsp;</li>
 								<li><button type="submit" class="btn btn-danger"
 										onclick="javascript:goToMainView();return false">Anuleaza</button></li>
-								<li>&nbsp;&nbsp;&nbsp;</li>
-								<li><button type="submit" class="btn btn-success">Asigneaza</button></li>
 							</ul>
 						</div>
 					</div>
