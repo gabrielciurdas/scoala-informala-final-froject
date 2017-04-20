@@ -11,20 +11,12 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="[@spring.url '/js/bootstrap.min.js' /] "></script>
 	
-	
-	<script>
-	function goToTeacherList() {
-		window.location.href = '/admin/tList';
-	}
-	</script>
 </head>
 [#escape x as x?html]
 
-
+<body>
 <div class="container">
-			<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/>
-		</a>
-
+		<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/></a>
 
 		<ol class="breadcrumb">
 			<li><a href="/admin/admin">Pagina Principala</a></li>
@@ -51,6 +43,7 @@
 				[/#if]
 			    
 		<form action="/admin/register/register" method="post">
+			<fieldset>
 					<div class="form-group">
 						<label for="firstName">Prenume</label> 
 						<input type="text"
@@ -95,19 +88,18 @@
 
 
 					<div class="container-fluid">
-						<div class="collapse navbar-collapse">
-							<ul class="nav navbar-nav navbar-right">
-								<li><button type="submit" class="btn btn-success">Inregistreaza</button></li>
-								<li>&nbsp;&nbsp;&nbsp;</li>
-								<li><button type="submit" class="btn btn-danger"
-										onclick="javascript:goToTeacherList();return false">Anuleaza</button></li>
-							</ul>
+						<div class="caption">
+							<p>
+								<button type="submit" class="btn btn-success">Inregistreaza</button>&nbsp;
+								<a href="/admin/tList" class="btn btn-danger" role="button">Anuleaza</a>
+							<p>
 						</div>
 					</div>
 					<br /> <input type="hidden" class="form-control" id="id" value="0" />
+				</fieldset>
 			</form>
 			</div>
 		</div>
 	</div>
-
+<body>
 [/#escape]
