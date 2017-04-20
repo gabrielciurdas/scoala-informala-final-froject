@@ -97,10 +97,10 @@
 					<div class="container-fluid">
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav navbar-right">
+								<li><button type="submit" class="btn btn-success">Inregistreaza</button></li>
+								<li>&nbsp;&nbsp;&nbsp;</li>
 								<li><button type="submit" class="btn btn-danger"
 										onclick="javascript:goToParentList();return false">Anuleaza</button></li>
-								<li>&nbsp;&nbsp;&nbsp;</li>
-								<li><button type="submit" class="btn btn-success">Inregistreaza</button></li>
 							</ul>
 						</div>
 					</div>
