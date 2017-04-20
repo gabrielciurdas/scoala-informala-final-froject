@@ -213,7 +213,7 @@ public class UserService {
 		}
 
 		if (!registeredUserDAO.getUserAccountTye(user.getUserName()).contains("PARENT")) {
-			errors.add("Numele de utilizator al parintelui nu apartine unui parinte.");
+			errors.add("Numele de utilizator introdus pentru parinte este invalid.");
 		}
 
 		if (registeredUserDAO.usernameAvailable(user.getUserName())) {
@@ -237,7 +237,7 @@ public class UserService {
 		}
 
 		if (!registeredUserDAO.getUserAccountTye(user.getUserName()).equals("CHILD")) {
-			errors.add("Numele de utilizator al copilului nu apartine unui copil.");
+			errors.add("Numele de utilizator introdus pentru copil este invalid.");
 		}
 
 		if (registeredUserDAO.usernameAvailable(user.getUserName())) {
