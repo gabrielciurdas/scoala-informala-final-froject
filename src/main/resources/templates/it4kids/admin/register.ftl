@@ -94,12 +94,11 @@
 
 
 					<div class="container-fluid">
-						<div class="collapse navbar-collapse">
-							<ul class="nav navbar-nav navbar-right">
-								<li><button type="submit" class="btn btn-success">Inregistreaza</button>&nbsp;</li>
-								<li><button type="submit" class="btn btn-danger"
-										onclick="javascript:goToTeacherList();return false">Anuleaza</button></li>
-							</ul>
+						<div class="caption">
+							<p>
+								<button type="submit" class="btn btn-success">Inregistreaza</button>&nbsp;
+								<a href="/admin/tList" class="btn btn-danger" role="button">Anuleaza</a>
+							<p>
 						</div>
 					</div>
 					<br /> <input type="hidden" class="form-control" id="id" value="0" />
