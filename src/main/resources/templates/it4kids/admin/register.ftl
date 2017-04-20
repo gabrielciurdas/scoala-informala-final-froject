@@ -51,6 +51,7 @@
 				[/#if]
 			    
 		<form action="/admin/register/register" method="post">
+			<fieldset>
 					<div class="form-group">
 						<label for="firstName">Prenume</label> 
 						<input type="text"
@@ -104,6 +105,7 @@
 						</div>
 					</div>
 					<br /> <input type="hidden" class="form-control" id="id" value="0" />
+				</fieldset>
 			</form>
 			</div>
 		</div>
