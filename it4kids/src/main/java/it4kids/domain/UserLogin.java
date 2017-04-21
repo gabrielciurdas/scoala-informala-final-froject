@@ -30,13 +30,7 @@ public class UserLogin extends AbstractModel{
 	}
 
 	public void setUserName(String userName) throws ValidationException {
-		if(!StringUtils.isEmpty(userName)) {
 			this.userName = userName;
-		} else {
-			String causes = "";
-			throw new ValidationException(causes);
-		}
-		
 	}
 	
 	public void setAccountType(String accountType) {
@@ -56,12 +50,7 @@ public class UserLogin extends AbstractModel{
 	}
 	
 	public void setPassword(String password) throws ValidationException {
-		if(!StringUtils.isEmpty(password)) {
 			this.password = userName;
-		} else {
-			String causes = "";
-			throw new ValidationException(causes);
-		}
 	}
 
 	/* (non-Javadoc)

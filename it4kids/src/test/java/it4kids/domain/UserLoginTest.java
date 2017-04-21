@@ -24,6 +24,7 @@ public class UserLoginTest {
 		UserLogin user = new UserLogin();
 		user.setUserName(userName);
 		user.setPassword(password);
+		loginService.save(user);
 	}
 	
 	@Test(expected = ValidationException.class)
@@ -34,6 +35,7 @@ public class UserLoginTest {
 		UserLogin user = new UserLogin();
 		user.setUserName(userName);
 		user.setPassword(password);
+		loginService.save(user);
 	}
 	
 	@Test(expected = ValidationException.class)
@@ -44,6 +46,7 @@ public class UserLoginTest {
 		UserLogin user = new UserLogin();
 		user.setUserName(userName);
 		user.setPassword(password);
+		loginService.save(user);
 	}
 	
 	@Test(expected = ValidationException.class)
