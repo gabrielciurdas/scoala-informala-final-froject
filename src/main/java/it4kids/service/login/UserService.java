@@ -148,6 +148,10 @@ public class UserService {
 		if (!Pattern.matches("[a-zA-Z0-9 ]+", user.getPassword())) {
 			errors.add("Parola poate fi compusa doar din litere si numere.");
 		}
+		
+		if (!user.getPassword().equals(user.getPasswordConfirm())) {
+			errors.add("Confirmarea parolei difera de parola introdusa.");
+		}
 
 		if (StringUtils.isEmpty(user.getUserName())) {
 			errors.add("Numele de utilizator este gol.");
