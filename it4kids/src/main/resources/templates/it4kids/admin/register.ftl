@@ -48,7 +48,7 @@
 						<label for="firstName">Prenume</label> 
 						<input type="text"
 							class="form-control" id="firstName" name="firstName"
-							placeHolder="Prenume" value="${user.firstName!''}"/>
+							placeHolder="Prenume" value="${user.firstName!''}" />
 					</div>
 					<div class="form-group">
 						<label for="lastName">Nume</label> 
@@ -67,9 +67,9 @@
 
 					<div class="form-group">
 						<label for="email">Adresa de email</label> 
-						<input type="email"
+						<input type="text"
 							class="form-control" id="email" name="email"
-							placeHolder="Adresa de email" value="${user.email!''}" />
+							placeHolder="Adresa de email" value="${user.email!''}"/>
 					</div>
 					
 					<div class="form-group">

@@ -73,7 +73,7 @@
 
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
-      						<select class="form-control" id="accountType" name="accountType"  disabled>
+      						<select class="form-control" id="accountType" name="accountType">
        							[#if user.accountType =='TEACHER'] <option value="TEACHER" selected>Invatator</option>[/#if]]
        							[#if user.accountType =='ADMIN'] <option value="ADMIN" selected>Admin</option>[/#if]]
 					      </select>
