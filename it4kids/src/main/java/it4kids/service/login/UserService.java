@@ -136,6 +136,10 @@ public class UserService {
 		if (StringUtils.isEmpty(user.getEmail())) {
 			errors.add("Adresa de email este goală.");
 		}
+		
+		if (!Pattern.matches("^[a-zA-Z0-9 ]+@[a-zA-Z0-9 ]+\\.[a-zA-Z ]{2,6}$", user.getEmail())) {
+			errors.add("Adresa de email trebuie sa respecte formatul: nume@domeniu.com");
+		}
 
 		if (StringUtils.isEmpty(user.getPassword())) {
 			errors.add("Parola este goală.");
