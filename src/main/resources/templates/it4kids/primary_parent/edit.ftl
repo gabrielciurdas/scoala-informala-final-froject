@@ -74,7 +74,7 @@
 
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
-      						<select class="form-control" id="accountType" name="accountType"  disabled>
+      						<select class="form-control" id="accountType" name="accountType">
        							[#if user.accountType =='PRIMARY_PARENT'] <option value="PRIMARY_PARENT" selected>Parinte</option>[/#if]
        							[#if user.accountType =='CHILD'] <option value="CHILD" selected>Copil</option>[/#if]]
 					      </select>
