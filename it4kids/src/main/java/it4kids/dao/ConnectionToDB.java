@@ -11,8 +11,8 @@ public class ConnectionToDB {
 	private static final String DB_USER = "postgres";
 	private static final String DB_PASSWORD = "aNewPa55w0rd";
 	
-	/*//Heroku deployment
-	private static final String DB_DRIVER = "org.postgresql.Driver";
+	//Heroku deployment
+	/*private static final String DB_DRIVER = "org.postgresql.Driver";
 	private static final String DB_CONNECTION = System.getenv("JDBC_DATABASE_URL");
 	private static final String DB_USER = System.getenv("JDBC_DATABASE_USERNAME");
 	private static final String DB_PASSWORD = System.getenv("JDBC_DATABASE_PASSWORD");*/

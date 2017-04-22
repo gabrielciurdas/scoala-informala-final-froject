@@ -185,7 +185,7 @@ public class ApplicationConfiguration {
 	}
 	
 	//Heroku deployment use only
-	/* @Bean
+	/*@Bean
 	    public BasicDataSource dataSource() {
 	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
 	        String username = System.getenv("JDBC_DATABASE_USERNAME");

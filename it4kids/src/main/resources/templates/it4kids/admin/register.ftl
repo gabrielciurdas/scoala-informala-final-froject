@@ -85,7 +85,13 @@
 							class="form-control" id="password" name="password"
 							placeHolder="Parola" value="${user.password!''}" />
 					</div>
-
+					
+					<div class="form-group">
+						<label for="passwordConfirm">Confirma parola</label> 
+						<input type="password"
+							class="form-control" id="passwordConfirm" name="passwordConfirm"
+							placeHolder="Parola" value="${user.passwordConfirm!''}" />
+					</div>
 
 					<div class="container-fluid">
 						<div class="caption">
