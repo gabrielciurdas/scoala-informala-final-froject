@@ -35,13 +35,14 @@
      	    <h3 class="panel-title">Lista invatatorilor</h3>
   <br>
 	  <div class="panel-body">
-		 
+	  
+	  <form class="navbar-form navbar-left" style="width: 100%" role="search" action="/admin/tList" method="GET">
+		  <div class="form-group">
+		    <input type="text" class="form-control" placeholder="Nume sau prenume" name="query" value="${query!''}">
+		  </div>
+		  <button type="submit" class="btn btn-default">Cauta</button>
 		   <div style="float:right">
-		</div>
-		
-		<br><br>
-		<div style="float:right">
-		<a href="/admin/register"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga invatator</a>
+			<a href="/admin/register"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga invatator</a>
 		</div>
 		</form>
 		 
@@ -59,7 +60,7 @@
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
-				<td><a href="/admin/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;
+				<td>[#if user.id?? ]<a href="/admin/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>&nbsp;[/#if]
 				<a href="/admin/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 			</tr>
 		[/#list]

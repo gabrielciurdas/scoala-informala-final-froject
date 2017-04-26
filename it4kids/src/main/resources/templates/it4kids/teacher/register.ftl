@@ -11,12 +11,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="[@spring.url '/js/bootstrap.min.js' /] "></script>
 	
-	
-	<script>
-	function goToParentList() {
-		window.location.href = '/teacher/pList';
-	}
-	</script>
 </head>
 [#escape x as x?html]
 
@@ -74,7 +68,7 @@
 
 					<div class="form-group">
 						<label for="email">Adresa de email</label> 
-						<input type="email"
+						<input type="text"
 							class="form-control" id="email" name="email"
 							placeHolder="Adresa de email" value="" />
 					</div>
@@ -92,16 +86,20 @@
 							class="form-control" id="password" name="password"
 							placeHolder="Parola" value="" />
 					</div>
-
+					
+					<div class="form-group">
+						<label for="passwordConfirm">Confirma parola</label> 
+						<input type="password"
+							class="form-control" id="passwordConfirm" name="passwordConfirm"
+							placeHolder="Parola" value="" />
+					</div>
 
 					<div class="container-fluid">
-						<div class="collapse navbar-collapse">
-							<ul class="nav navbar-nav navbar-right">
-								<li><button type="submit" class="btn btn-danger"
-										onclick="javascript:goToParentList();return false">Anuleaza</button></li>
-								<li>&nbsp;&nbsp;&nbsp;</li>
-								<li><button type="submit" class="btn btn-success">Inregistreaza</button></li>
-							</ul>
+						<div class="caption">
+							<p>
+								<button type="submit" class="btn btn-success">Inregistreaza</button>&nbsp;
+								<a href="/teacher/pList" class="btn btn-danger" role="button">Anuleaza</a>
+							<p>
 						</div>
 					</div>
 					<br /> <input type="hidden" class="form-control" id="id" value="0" />

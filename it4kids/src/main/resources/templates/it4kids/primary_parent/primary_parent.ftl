@@ -31,13 +31,17 @@
     </div>
     
    <div id="child" class="tab-pane fade">
-   <br>
+      <h3>Copii    </h3>
+   		<br>
 		<p> <a href="/primary_parent/cList">Vezi lista</a> <p>
     </div>
+    
     <div id="account" class="tab-pane fade">
-    <br>
+       <h3>Cont    </h3>
+       <br>
 				<a href="/primary_parent/register">Inregistreaza parinti sau copii</a><br><br>
 				<a href="/primary_parent/assign">Asigneaza un parinte</a><br><br>
+				<a href="/primary_parent/account">Detalii cont</a><br><br>
     </div>
     
     </div>

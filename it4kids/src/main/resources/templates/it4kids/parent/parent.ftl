@@ -18,6 +18,7 @@
   <ul class="nav nav-pills">
     <li class="active"><a data-toggle="tab" href="#home">Pagina Principala</a></li>
     <li><a data-toggle="tab" href="#child">Copii</a></li>
+    <li><a data-toggle="pill" href="#account">Cont</a></li>
   </ul>
 
   <div class="tab-content">
@@ -32,6 +33,12 @@
    <br>
 		<p> <a href="/parent/cList">Vezi lista</a> <p>
     </div>
+    
+    <div id="account" class="tab-pane fade">
+      <h3>Cont    </h3>
+      <a href="/parent/account">Detalii</a><br><br>
+    </div>
+    
     </div>
   </div>
 </div>

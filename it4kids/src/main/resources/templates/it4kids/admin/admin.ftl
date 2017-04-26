@@ -18,6 +18,7 @@
   <ul class="nav nav-pills">
     <li class="active"><a data-toggle="tab" href="#home">Pagina Principala</a></li>
     <li><a data-toggle="tab" href="#teacher">Invatatori</a></li>
+    <li><a data-toggle="tab" href="#account">Cont</a></li>
   </ul>
 
   <div class="tab-content">
@@ -30,8 +31,16 @@
     </div>
    <div id="teacher" class="tab-pane fade">
    <br>
+    <h3>Invatatori    </h3>
 		<p> <a href="/admin/tList">Vezi lista</a> <p>
     </div>
+    
+    <div id="account" class="tab-pane fade">
+   <br>
+    <h3>Cont    </h3>
+		<p> <a href="/admin/account">Detalii</a> <p>
+    </div>
+    
     </div>
   </div>
 </div>

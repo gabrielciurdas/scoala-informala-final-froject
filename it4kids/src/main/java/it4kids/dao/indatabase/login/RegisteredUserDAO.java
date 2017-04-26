@@ -46,11 +46,12 @@ public class RegisteredUserDAO {
 
 		try (Connection conn = db.getDBConnection();
 				Statement stm = conn.createStatement();
-				ResultSet rs = stm.executeQuery("select * from registered_users where username='" + userName + "'");) {
+				ResultSet rs = stm.executeQuery("select * from registered_users where username ILIKE '" + userName + "'");) {
 			System.out.println("connected to db");
 
 			if (rs.next()) {
 				available = false;
+				accountType = rs.getString("account_type");
 			} else {
 				available = true;
 			}
@@ -59,6 +60,24 @@ public class RegisteredUserDAO {
 			ex.printStackTrace();
 		}
 		return available;
+	}
+	
+	public String getUserAccountTye(String userName) {
+		String accountType = "";
+
+		try (Connection conn = db.getDBConnection();
+				Statement stm = conn.createStatement();
+				ResultSet rs = stm.executeQuery("select * from registered_users where username='" + userName + "'");) {
+			System.out.println("connected to db");
+
+			if (rs.next()) {
+				accountType = rs.getString("account_type");
+			} 
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return accountType;
 	}
 	
 	public boolean userExists(int id) {

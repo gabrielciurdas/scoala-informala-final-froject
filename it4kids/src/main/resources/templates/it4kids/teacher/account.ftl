@@ -1,5 +1,6 @@
 [#ftl]
 [#import "/spring.ftl" as spring /]
+[#if user??]
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,19 +33,15 @@
 	  </div>
 	  <br>
 	   <div id="home" class="tab-pane fade in active">
-     	    <h3 class="panel-title">Lista parintilor</h3>
+     	    <h3 class="panel-title">Detalii cont</h3>
   <br>
 	  <div class="panel-body">
-	  
-	  <form class="navbar-form navbar-left" style="width: 100%" role="search" action="/teacher/pList" method="GET">
-		  <div class="form-group">
-		    <input type="text" class="form-control" placeholder="Nume sau prenume" name="query" value="${query!''}">
-		  </div>
-		  <button type="submit" class="btn btn-default">Cauta</button>
-		   <div style="float:right">
-			<a href="/teacher/register"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Adauga parinte</a>
+		 
+		   <br><br>
+		<div style="float:right">Sterge contul
+		<a href="/teacher/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>
 		</div>
-		</form>
+		</div>
 		 
 		<table class="table">
 		<tr>
@@ -54,14 +51,13 @@
 			<th></th>
 		</tr>
 		
-		[#list userList as user]
-		 
 			<tr>
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
+				<td><a href="/teacher/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 			</tr>
-		[/#list]
+		
 		
 		</table>
 		
@@ -74,7 +70,10 @@
     <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
-
+[#else]
+Cont invalid<br>
+<p><a href="/logout">Inapoi</>
+[/#if]
 
 
 

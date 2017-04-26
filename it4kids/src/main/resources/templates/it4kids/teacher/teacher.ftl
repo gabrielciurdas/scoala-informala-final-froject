@@ -20,6 +20,7 @@
     <li><a data-toggle="pill" href="#parent">Parinti</a></li>
     <li><a data-toggle="pill" href="#child">Copii</a></li>
     <li><a data-toggle="pill" href="#quiz">Quiz</a></li>
+    <li><a data-toggle="pill" href="#account">Cont</a></li>
   </ul>
 
   <div class="tab-content">
@@ -44,6 +45,11 @@
     <div id="quiz" class="tab-pane fade">
       <h3>Quiz    </h3>
       <a href="/quiz/index">Adauga un quiz</a><br><br>
+    </div>
+    
+    <div id="account" class="tab-pane fade">
+      <h3>Cont    </h3>
+      <a href="/teacher/account">Detalii</a><br><br>
     </div>
     
     </div>

@@ -35,13 +35,8 @@
      	    <h3 class="panel-title">Copii</h3>
   <br>
 	  <div class="panel-body">
-		 
-		   <div style="float:right">
-		</div>
-		
-		<br><br>
-		</form>
-		 
+		  
+		  
 		<table class="table">
 		<tr>
 			<th>Nume</th>
@@ -56,9 +51,10 @@
 				<td>${user.firstName!''}</td>
 				<td>${user.lastName!''}</td>
 				<td>${user.email!''}</td>
+				<td><a href="/primary_parent/edit?id=${user.id?c}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+				<td>Sterge contul<a href="/primary_parent/delete?id=${user.id?c}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a></td>
 			</tr>
 		[/#list]
-		
 		</table>
 		
 	  </div>

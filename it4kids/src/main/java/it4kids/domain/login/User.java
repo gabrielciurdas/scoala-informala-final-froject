@@ -11,11 +11,11 @@ import it4kids.domain.AbstractModel;
 public class User extends AbstractModel {
 	private String firstName;
 	private String lastName;
-	private String relatedUsername;
 	private String email;
 	private String accountType;
 	private String userName;
 	private String password;
+	private String passwordConfirm;
 	private String date;
 	private boolean authenticated;
 	
@@ -26,6 +26,10 @@ public class User extends AbstractModel {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	
+	public void setId(long id) {
+		super.setId(id);
 	}
 	
 	public String getLastName() {
@@ -68,16 +72,20 @@ public class User extends AbstractModel {
 		this.password = password;
 	}
 	
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+	
 	public String getDate() {
 		return date;
 	}
 	
 	public void setDate(String date) {
 		this.date = date;
-	}
-	
-	public String getRelatedUsername() {
-		return relatedUsername;
 	}
 	
 	public boolean getAuthenticated() {
@@ -88,6 +96,9 @@ public class User extends AbstractModel {
 		this.authenticated = authenticated;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,11 +110,14 @@ public class User extends AbstractModel {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((relatedUsername == null) ? 0 : relatedUsername.hashCode());
+		result = prime * result + ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -145,10 +159,10 @@ public class User extends AbstractModel {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (relatedUsername == null) {
-			if (other.relatedUsername != null)
+		if (passwordConfirm == null) {
+			if (other.passwordConfirm != null)
 				return false;
-		} else if (!relatedUsername.equals(other.relatedUsername))
+		} else if (!passwordConfirm.equals(other.passwordConfirm))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)
@@ -157,4 +171,6 @@ public class User extends AbstractModel {
 			return false;
 		return true;
 	}
+	
+	
 }

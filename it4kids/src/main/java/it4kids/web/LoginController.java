@@ -28,6 +28,8 @@ public class LoginController {
 	@RequestMapping("/login")
 	public ModelAndView login() {
 		ModelAndView modelAndView = new ModelAndView("it4kids/login");
+		
+		modelAndView.addObject("userLogin", new UserLogin());
 
 		return modelAndView;
 	}
@@ -44,15 +46,14 @@ public class LoginController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 
-		boolean hasErros = false;
+		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user: " + newUser.getUserName());
 			try {
 				userLoginService.save(newUser);
 				if (userLoginService.isRegistered(newUser.getUserName(), newUser.getPassword())) {
 					accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString()
 							.toLowerCase();
-					newUser.setAccountType(accountType); //
+					newUser.setAccountType(accountType); 
 					newUser.setId(userLoginService.getJdbcTemplate().getId());
 
 					request.getSession().setAttribute("currentUser", newUser);
@@ -65,13 +66,13 @@ public class LoginController {
 				for (String msg : e.getCauses()) {
 					bindingResult.addError(new ObjectError("userLogin", msg));
 				}
-				hasErros = true;
+				hasErrors = true;
 			}
 		} else {
-			hasErros = true;
+			hasErrors = true;
 		}
 
-		if (hasErros) {
+		if (hasErrors) {
 			modelAndView = new ModelAndView("it4kids/login");
 			modelAndView.addObject("userLogin", newUser);
 			modelAndView.addObject("errors", bindingResult.getAllErrors());

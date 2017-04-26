@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
@@ -37,7 +38,7 @@ public class PrimaryParentController {
 
 	@Autowired
 	private ChildService childService;
-	
+
 	@RequestMapping("/cList")
 	public ModelAndView parentChildrenList(@RequestParam(defaultValue = "") String name, HttpServletRequest request) {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/cList");
@@ -49,7 +50,7 @@ public class PrimaryParentController {
 		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
 		LinkedHashSet<User> children = new LinkedHashSet<User>();
 		LinkedHashSet<Long> parentsId = new LinkedHashSet<>();
-		
+
 		childrenId = parentService.getChildrenId(id);
 		System.out.println("childrenId: " + childrenId);
 		for (Long l : childrenId) {
@@ -72,9 +73,91 @@ public class PrimaryParentController {
 		return result;
 	}
 
+	@RequestMapping("/account")
+	public ModelAndView teacherAccountView(HttpServletRequest req) {
+		ModelAndView result = new ModelAndView("it4kids/primary_parent/account");
+		UserLogin userLogin = (UserLogin) ((HttpServletRequest) req).getSession().getAttribute("currentUser");
+		User user = userService.getUserById(userLogin.getId());
+		result.addObject("user", user);
+
+		return result;
+	}
+
 	@RequestMapping("/")
 	public ModelAndView returnToParentMainView() {
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/primary_parent");
+
+		return result;
+	}
+
+	@RequestMapping("edit")
+	public ModelAndView renderEdit(long id) {
+		ModelAndView modelAndView = new ModelAndView("it4kids/primary_parent/edit");
+		modelAndView.addObject("user", userService.getUserById(id));
+		System.out.println("found user: " + userService.getUserById(id).getUserName());
+
+		return modelAndView;
+	}
+	
+	@RequestMapping("delete")
+	public ModelAndView delete(User user, HttpServletRequest req) {
+		System.out.println("trying to delete");
+		ModelAndView result = new ModelAndView("");
+		
+			if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+				try {
+					req.logout();
+				} catch (ServletException e) {
+					e.printStackTrace();
+				}
+				userService.deleteParent(user);
+				userService.delete(user);
+				return result;
+				
+			} 
+			 if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+				userService.deleteParent(user);
+				userService.delete(user);
+				result = new ModelAndView(new RedirectView("cList"));
+			}
+		return result;
+	}
+
+	@RequestMapping("save")
+	public ModelAndView onSave(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+		ModelAndView result = null;
+
+		boolean hasErrors = false;
+		if (!bindingResult.hasErrors()) {
+			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
+			try {
+				userService.saveEdit(user);
+				result = new ModelAndView();
+				
+				if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+					result.setView(new RedirectView("account"));
+					
+				} else if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+					result.setView(new RedirectView("cList"));
+				}
+
+				return result;
+
+			} catch (ValidationException e) {
+				for (String msg : e.getCauses()) {
+					bindingResult.addError(new ObjectError("user", msg));
+				}
+				hasErrors = true;
+			}
+		} else {
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			result = new ModelAndView("it4kids/primary_parent/edit");
+			result.addObject("user", user);
+			result.addObject("errors", bindingResult.getAllErrors());
+		}
 
 		return result;
 	}
@@ -87,25 +170,25 @@ public class PrimaryParentController {
 	}
 
 	@RequestMapping("/register/register")
-	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, 
+	public ModelAndView onRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
 			HttpServletRequest req, HttpServletResponse resp) {
-		
+
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/register");
-		
+
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			System.out.println("user: " + user.getUserName());
 			try {
 				userService.save(user);
-					try {
-						userService.add(req, resp);
-					} catch (ServletException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				try {
+					userService.add(req, resp);
+				} catch (ServletException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				return result;
-				
+
 			} catch (ValidationException e) {
 				for (String msg : e.getCauses()) {
 					bindingResult.addError(new ObjectError("user", msg));
@@ -131,27 +214,27 @@ public class PrimaryParentController {
 
 		return result;
 	}
-	
+
 	@RequestMapping("/assign/assign")
-	public ModelAndView onAssign(@Valid @ModelAttribute("user") User user,  BindingResult bindingResult, 
+	public ModelAndView onAssign(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
 			HttpServletRequest req, HttpServletResponse resp) {
-		
+
 		ModelAndView result = new ModelAndView("it4kids/primary_parent/assign");
-		
+
 		User child = new User();
 		User parent = new User();
 		child.setUserName(req.getParameter("childUserName"));
 		parent.setUserName(req.getParameter("parentUserName"));
-		
+
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			try {
-				userService.saveAssign(child);
-				userService.saveAssign(parent);
-				
+				userService.saveChild(child);
+				userService.saveParent(parent);
+
 				parentService.assignParent(child.getUserName(), parent.getUserName(), req, resp);
 				return result;
-				
+
 			} catch (ValidationException e) {
 				for (String msg : e.getCauses()) {
 					bindingResult.addError(new ObjectError("user", msg));

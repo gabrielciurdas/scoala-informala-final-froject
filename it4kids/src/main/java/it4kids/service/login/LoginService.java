@@ -42,6 +42,7 @@ public class LoginService {
 	
 	private void validate(String userName, String password) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
+		
 		if (StringUtils.isEmpty(userName)) {
 			errors.add("Numele de utilizator nu poate fi gol.");
 		}

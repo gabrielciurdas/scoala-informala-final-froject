@@ -11,12 +11,25 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="[@spring.url '/js/bootstrap.min.js' /] "></script>
 	
+	
+	<script>
+	function goToTeacherList() {
+		window.location.href = '/admin/tList';
+	}
+	
+	function goToAccount() {
+		window.location.href = '/admin/account';
+	}
+	
+	</script>
 </head>
 [#escape x as x?html]
 
-<body>
+
 <div class="container">
-		<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/></a>
+			<a href="/"> <img src="[@spring.url '/images/it4kids.png' /]" width="125"/>
+		</a>
+
 
 		<ol class="breadcrumb">
 			<li><a href="/admin/admin">Pagina Principala</a></li>
@@ -42,13 +55,13 @@
 				    </div>
 				[/#if]
 			    
-		<form action="/admin/register/register" method="post">
-			<fieldset>
+		<form action="/admin/save" method="post">
+		<input type="hidden" name="id" value="[#if user.id??]${user.id?c}[/#if]">
 					<div class="form-group">
 						<label for="firstName">Prenume</label> 
 						<input type="text"
 							class="form-control" id="firstName" name="firstName"
-							placeHolder="Prenume" value="${user.firstName!''}" />
+							placeHolder="Prenume" value="${user.firstName!''}"/>
 					</div>
 					<div class="form-group">
 						<label for="lastName">Nume</label> 
@@ -61,51 +74,47 @@
 					<div class="form-group">
 						 <label for="accountType">Tip de cont:</label>
       						<select class="form-control" id="accountType" name="accountType">
-       							 <option value="TEACHER" selected>Invatator</option>
+       							[#if user.accountType =='TEACHER'] <option value="TEACHER" selected>Invatator</option>[/#if]]
+       							[#if user.accountType =='ADMIN'] <option value="ADMIN" selected>Admin</option>[/#if]]
 					      </select>
 					</div>
 
 					<div class="form-group">
 						<label for="email">Adresa de email</label> 
-						<input type="text"
+						<input type="email"
 							class="form-control" id="email" name="email"
-							placeHolder="Adresa de email" value="${user.email!''}"/>
+							placeHolder="Adresa de email" value="${user.email!''}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
 							class="form-control" id="userName" name="userName"
-							placeHolder="Nume de utilizator" value="${user.userName!''}" />
+							placeHolder="Nume de utilizator" value="${user.userName!''}"  disabled/>
 					</div>
 					
 					<div class="form-group">
 						<label for="password">Parola</label> 
 						<input type="password"
 							class="form-control" id="password" name="password"
-							placeHolder="Parola" value="${user.password!''}" />
-					</div>
-					
-					<div class="form-group">
-						<label for="passwordConfirm">Confirma parola</label> 
-						<input type="password"
-							class="form-control" id="passwordConfirm" name="passwordConfirm"
-							placeHolder="Parola" value="${user.passwordConfirm!''}" />
+							placeHolder="Parola" value="${user.password!''}"  disabled/>
 					</div>
 
+
 					<div class="container-fluid">
-						<div class="caption">
-							<p>
-								<button type="submit" class="btn btn-success">Inregistreaza</button>&nbsp;
-								<a href="/admin/tList" class="btn btn-danger" role="button">Anuleaza</a>
-							<p>
+						<div class="collapse navbar-collapse">
+							<ul class="nav navbar-nav navbar-right">
+								<li><button type="submit" class="btn btn-danger"
+								[#if user.accountType =='TEACHER'] onclick="javascript:goToTeacherList();return false">[/#if]
+								[#if user.accountType =='ADMIN'] onclick="javascript:goToAccount();return false">[/#if] Anuleaza</button></li>
+								<li>&nbsp;&nbsp;&nbsp;</li>
+								<li><button type="submit" class="btn btn-success">Salveaza</button></li>
+							</ul>
 						</div>
 					</div>
-					<br /> <input type="hidden" class="form-control" id="id" value="0" />
-				</fieldset>
 			</form>
 			</div>
 		</div>
 	</div>
-<body>
+
 [/#escape]

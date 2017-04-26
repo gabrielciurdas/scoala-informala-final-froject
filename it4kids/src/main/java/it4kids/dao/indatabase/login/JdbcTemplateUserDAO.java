@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -40,76 +41,103 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	public Collection<User> getAllParents() {
 		return jdbcTemplate.query("select * from registered_users where account_type like'%PARENT'", new UserMapper());
 	}
-	
+
 	public Collection<User> getAllTeachers() {
 		return jdbcTemplate.query("select * from registered_users where account_type='TEACHER'", new UserMapper());
 	}
-	
+
 	public Collection<User> getAllChildren() {
 		return jdbcTemplate.query("select * from registered_users where account_type='CHILD'", new UserMapper());
 	}
-	
+
 	public Collection<User> getChildren(List<Long> childrenId) {
 		Collection<User> children = new ArrayList<>();
-		
-		for(Long l: childrenId) {
+
+		for (Long l : childrenId) {
 			System.out.println("trying to add: " + l);
 			children.add(findById(l));
 		}
 		return children;
 	}
-	
+
 	@Override
 	public User findById(Long id) {
-		System.out.println("trying to find + " + id);
-		return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'", 
-				new UserMapper());
-	}
+		System.out.println("trying to find " + id);
 
-	@Override
-	public User update(User model) {
-		String sql = "";
-		Long newId = null;
-		if (model.getId() > 0) {
-			sql = "UPDATE registered_users SET first_name=?, last_name=?, account_type=?, email=?, username=?, password = ?, regdate = ? "
-					+ "WHERE id = ? returning id";
-			newId = jdbcTemplate.queryForObject(sql,
-					new Object[] { model.getFirstName(), model.getLastName(), model.getAccountType(), model.getEmail(),
-							model.getUserName(), model.getPassword(), model.getDate(), model.getId()
-
-					}, new RowMapper<Long>() {
-						public Long mapRow(ResultSet rs, int arg1) throws SQLException {
-							return rs.getLong(1);
-						}
-					});
-		} else {
-			sql = "INSERT INTO registered_users(first_name, last_name, account_type,"
-					+ " email, username, password, regdate)" + " VALUES(?,?,?,?,?,?,CURRENT_TIMESTAMP) returning id";
-
-			newId = jdbcTemplate.queryForObject(sql,
-					new Object[] { model.getFirstName(), model.getLastName(), model.getAccountType(), model.getEmail(),
-							model.getUserName(), model.getPassword(), model.getDate(), model.getId()
-
-					}, new RowMapper<Long>() {
-						public Long mapRow(ResultSet rs, int arg1) throws SQLException {
-							return rs.getLong(1);
-						}
-					});
+		try {
+			return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'",
+					new UserMapper());
+		} catch (EmptyResultDataAccessException exception) {
+			return null;
 		}
-		model.setId(newId);
-
-		return model;
 	}
-	
+
 	@Override
-	public boolean delete(User model) {
-		return false;
+	public User update(User user) {
+		Long id = null;
+		System.out.println("trying to save changes for user with id " + user.getId());
+		String sql = "UPDATE registered_users SET first_name=?, last_name=?, email=?, id=?"
+				+ "WHERE id = ? returning id";
+
+		id = jdbcTemplate.queryForObject(sql,
+				new Object[] { user.getFirstName(), user.getLastName(), user.getEmail(), user.getId(), user.getId()
+
+				}, new RowMapper<Long>() {
+					public Long mapRow(ResultSet rs, int arg1) throws SQLException {
+						return rs.getLong(1);
+					}
+				});
+		System.out.println("trying to save changes for user with id " + user.getId());
+		return user;
+	}
+
+	@Override
+	public boolean delete(User user) {
+		String sql = "delete from registered_users WHERE id ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql);
+
+		return true;
+	}
+
+	public boolean deleteParent(User user) {
+		System.out.println("trying to delete from parent table");
+		String sql = "delete from parent WHERE id_child ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql);
+		String sql2 = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql2);
+		return true;
+	}
+
+	public boolean deleteChild(User user) {
+
+		System.out.println("trying to delete from child table");
+		String sql = "delete from child WHERE id_registered_user ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql);
+		String sql2 = "delete from child WHERE id_parent ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql2);
+		return true;
 	}
 
 	@Override
 	public Collection<User> searchByName(String name) {
-		
-			return jdbcTemplate.query("select * from registered_users WHERE first_name=" + name, new UserMapper());
+
+		return jdbcTemplate.query("select * from registered_users WHERE (first_name || ' ' || last_name)"
+				+ " ILIKE '%" + name  + "%'", new UserMapper());
+	}
+	
+	public Collection<User> searchByTeacherByName(String name) {
+		return jdbcTemplate.query("select * from registered_users WHERE account_type='TEACHER'"
+				+ " AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
+	}
+	
+	public Collection<User> searchByParentByName(String name) {
+		return jdbcTemplate.query("select * from registered_users WHERE account_type ILIKE '%PARENT'"
+				+ " AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
+	}
+	
+	public Collection<User> searchByChildName(String name) {
+		return jdbcTemplate.query("select * from registered_users WHERE account_type='CHILD' "
+				+ "AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
 	}
 
 	private static class UserMapper implements RowMapper<User> {
@@ -129,20 +157,18 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		}
 	}
 
-	
 	@Override
 	public boolean userIsRegistered(String userName, String password) {
 		boolean isRegistered = false;
-		System.out.println();
 
 		List<User> userDetails = new ArrayList<User>();
 		userDetails = jdbcTemplate.query(
-				"select * from registered_users where userName='" + userName + "' and password='" + password + "'",
+				"select * from registered_users WHERE username ILIKE '" + userName + "' and password ='" + password + "'",
 				new UserMapper());
-		
+
 		if (!userDetails.isEmpty()) {
 			isRegistered = true;
-
+			
 			id = userDetails.get(0).getId();
 			email = userDetails.get(0).getEmail();
 			accountType = accountType.valueOf(userDetails.get(0).getAccountType());
@@ -151,28 +177,29 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	}
 
 	/**
-	 * This method adds a User object. 
+	 * This method adds a User object.
 	 * 
-	 * @param request is the request from the HttpServletRequest which contains the
-	 * 				 fields for the new User object.
-	 * @param response is the response from the HttpServletResponse which is used to set an UTF-8 encoding 
-	 * 				 and display a validation message.
+	 * @param request
+	 *            is the request from the HttpServletRequest which contains the
+	 *            fields for the new User object.
+	 * @param response
+	 *            is the response from the HttpServletResponse which is used to
+	 *            set an UTF-8 encoding and display a validation message.
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void add(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		
-		UserLogin userLogin =(UserLogin) ((HttpServletRequest)request).getSession().getAttribute("currentUser");
-		
+
+		UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
+
 		String accountType = "";
-		if(userDAO.usernameAvailable(request.getParameter("userName"))) {
+		if (userDAO.usernameAvailable(request.getParameter("userName"))) {
 			accountType = userLogin.getAccountType();
-			
+
 			try {
 				addAccount(request, accountType);
 			} catch (SQLException e) {
@@ -182,9 +209,8 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		validateRegistration(out);
 	}
 
-	
 	private void addAccount(HttpServletRequest request, String accountType) throws SQLException {
-		
+
 		User user = new User();
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
@@ -192,13 +218,13 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		user.setEmail(request.getParameter("email"));
 		user.setUserName(request.getParameter("userName"));
 		user.setPassword(request.getParameter("password"));
-		
+
 		if (accountType.equalsIgnoreCase("PRIMARY_PARENT")) {
 			userDAO.add(user);
 			if (user.getAccountType().equalsIgnoreCase("PARENT")) {
 				ParentAccountDAO p = new ParentAccountDAO();
 				p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
-				
+
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
 				ChildAccountDAO c = new ChildAccountDAO();
 				c.add(new ChildAccount(userDAO.getUsernameId(request.getParameter("userName"))));
@@ -214,7 +240,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 			userDAO.add(user);
 		}
 	}
-	
+
 	private void validateRegistration(PrintWriter out) {
 		if (userDAO.getLinesWritten() > 0) {
 			out.println("<script type=\"text/javascript\">");
@@ -253,8 +279,13 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
+
+	public void save(User user) {
+		update(user);
+	}
+
 }
