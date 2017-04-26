@@ -46,7 +46,7 @@ public class RegisteredUserDAO {
 
 		try (Connection conn = db.getDBConnection();
 				Statement stm = conn.createStatement();
-				ResultSet rs = stm.executeQuery("select * from registered_users where username='" + userName + "'");) {
+				ResultSet rs = stm.executeQuery("select * from registered_users where username ILIKE '" + userName + "'");) {
 			System.out.println("connected to db");
 
 			if (rs.next()) {

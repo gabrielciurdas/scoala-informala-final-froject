@@ -160,16 +160,15 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	@Override
 	public boolean userIsRegistered(String userName, String password) {
 		boolean isRegistered = false;
-		System.out.println();
 
 		List<User> userDetails = new ArrayList<User>();
 		userDetails = jdbcTemplate.query(
-				"select * from registered_users where userName='" + userName + "' and password='" + password + "'",
+				"select * from registered_users WHERE username ILIKE '" + userName + "' and password ='" + password + "'",
 				new UserMapper());
 
 		if (!userDetails.isEmpty()) {
 			isRegistered = true;
-
+			
 			id = userDetails.get(0).getId();
 			email = userDetails.get(0).getEmail();
 			accountType = accountType.valueOf(userDetails.get(0).getAccountType());

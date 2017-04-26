@@ -15,5 +15,4 @@ public abstract class AbstractModel {
 	public void setId(long id) {
 		this.id = id;
 	}
-
 }
