@@ -27,13 +27,13 @@
 						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
 							class="form-control" id="userName" name="userName" }
-							placeHolder="Nume de utilizator" "/>
+							placeHolder="Nume de utilizator" value="${userLogin.userName!''}"/>
 					</div>
 					<div class="form-group">
 						<label for="password">Parola</label> 
 						<input type="password"
 							class="form-control" id="password" name="password" }
-							placeHolder="Parola" />
+							placeHolder="Parola" value="${userLogin.password!''}" />
 					</div>
 
 					<div class="container-fluid">

@@ -17,14 +17,6 @@ public class UserLogin extends AbstractModel{
 	private String password;
 	private String accountType;
 
-	
-	public UserLogin() {
-		super.setId(0);
-		userName = "";
-		password = "";
-		accountType = "";
-	}
-
 	public String getUserName() {
 		return userName;
 	}
@@ -50,7 +42,7 @@ public class UserLogin extends AbstractModel{
 	}
 	
 	public void setPassword(String password) throws ValidationException {
-			this.password = userName;
+			this.password = password;
 	}
 
 	/* (non-Javadoc)

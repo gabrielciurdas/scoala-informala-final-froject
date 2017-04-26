@@ -28,6 +28,8 @@ public class LoginController {
 	@RequestMapping("/login")
 	public ModelAndView login() {
 		ModelAndView modelAndView = new ModelAndView("it4kids/login");
+		
+		modelAndView.addObject("userLogin", new UserLogin());
 
 		return modelAndView;
 	}
@@ -46,7 +48,6 @@ public class LoginController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user: " + newUser.getUserName());
 			try {
 				userLoginService.save(newUser);
 				if (userLoginService.isRegistered(newUser.getUserName(), newUser.getPassword())) {
