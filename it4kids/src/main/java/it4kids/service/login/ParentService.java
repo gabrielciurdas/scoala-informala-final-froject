@@ -73,7 +73,7 @@ public class ParentService {
 			childId = userDAO.getUserId(childUserName);
 			childDAO.assignParent(childId, parentId);
 		} else {
-			LOGGER.debug("child does has a parent assigned");
+			LOGGER.debug("child has a parent assigned");
 			childId = userDAO.getUserId(childUserName);
 			parentId = userDAO.getUserId(parentUserName);
 			childDAO.addParent(childId, parentId);
@@ -89,12 +89,12 @@ public class ParentService {
 		
 		if (parentDAO.getLinesWritten() > 0 || childDAO.getLinesWritten() > 0) {
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Asignarea a fost efectuata cu succes');");
+			out.println("alert('Asignarea a fost efectuata cu succes.');");
 			out.println("</script>");
 
 		} else {
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Asignarea nu a avut succes);");
+			out.println("alert('Asignare nu a fost efectuată cu succes.);");
 			out.println("</script>");
 		}
 	}

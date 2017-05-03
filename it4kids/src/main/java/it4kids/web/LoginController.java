@@ -28,7 +28,7 @@ public class LoginController {
 	@RequestMapping("/login")
 	public ModelAndView login() {
 		ModelAndView modelAndView = new ModelAndView("it4kids/login");
-		
+
 		modelAndView.addObject("userLogin", new UserLogin());
 
 		return modelAndView;
@@ -37,13 +37,13 @@ public class LoginController {
 	@RequestMapping(value = "/onLogin", method = RequestMethod.POST)
 	public ModelAndView onLogin(@Valid @ModelAttribute("userLogin") UserLogin userLogin, BindingResult bindingResult,
 			HttpServletRequest request) throws ValidationException {
-		
+
 		String accountType = "";
 		UserLogin newUser = new UserLogin();
-		
+
 		newUser.setUserName(request.getParameter("userName"));
 		newUser.setPassword(request.getParameter("password"));
-		
+
 		ModelAndView modelAndView = new ModelAndView();
 
 		boolean hasErrors = false;
@@ -53,7 +53,7 @@ public class LoginController {
 				if (userLoginService.isRegistered(newUser.getUserName(), newUser.getPassword())) {
 					accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString()
 							.toLowerCase();
-					newUser.setAccountType(accountType); 
+					newUser.setAccountType(accountType);
 					newUser.setId(userLoginService.getJdbcTemplate().getId());
 
 					request.getSession().setAttribute("currentUser", newUser);
@@ -61,7 +61,7 @@ public class LoginController {
 					modelAndView.setView(new RedirectView("/" + accountType + "/" + accountType));
 				}
 				return modelAndView;
-				
+
 			} catch (ValidationException e) {
 				for (String msg : e.getCauses()) {
 					bindingResult.addError(new ObjectError("userLogin", msg));

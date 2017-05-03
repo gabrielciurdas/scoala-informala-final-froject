@@ -21,7 +21,7 @@ public class UserLogin extends AbstractModel{
 		return userName;
 	}
 
-	public void setUserName(String userName) throws ValidationException {
+	public void setUserName(String userName){
 			this.userName = userName;
 	}
 	
@@ -33,21 +33,14 @@ public class UserLogin extends AbstractModel{
 		return accountType;
 	}
 	
-	public void setId(long id) {
-		super.setId(id);
-	}
-	
 	public String getPassword() {
 		return password;
 	}
 	
-	public void setPassword(String password) throws ValidationException {
+	public void setPassword(String password){
 			this.password = password;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "UserLogin [userName=" + userName + ", password=" + password + ", accountType=" + accountType
