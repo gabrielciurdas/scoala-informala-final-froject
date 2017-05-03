@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
+import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
 
@@ -39,7 +40,13 @@ public class UserService {
 
 		return dao.findById(id);
 	}
+	
+	public User getUser(UserLogin userLogin) {
+		LOGGER.debug("Getting user with id: " + userLogin.getUserName());
 
+		return dao.getRegisteredUser(userLogin);
+	}
+	
 	public Collection<User> listAll() {
 		LOGGER.debug("Listing users ");
 		return dao.getAll();
@@ -225,7 +232,7 @@ public class UserService {
 
 	private void validateParentUserName(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
-
+		
 		if (StringUtils.isEmpty(user.getUserName())) {
 			errors.add("Numele de utilizator este gol.");
 		}

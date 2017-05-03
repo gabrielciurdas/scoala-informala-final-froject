@@ -18,12 +18,16 @@ import it4kids.domain.UserLogin;
 import it4kids.domain.login.AccountType;
 import it4kids.service.ValidationException;
 import it4kids.service.login.LoginService;
+import it4kids.service.login.UserService;
 
 @Controller
 public class LoginController {
 
 	@Autowired
 	LoginService userLoginService;
+	
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/login")
 	public ModelAndView login() {
@@ -50,11 +54,10 @@ public class LoginController {
 		if (!bindingResult.hasErrors()) {
 			try {
 				userLoginService.save(newUser);
-				if (userLoginService.isRegistered(newUser.getUserName(), newUser.getPassword())) {
-					accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString()
-							.toLowerCase();
+				if (userLoginService.isRegistered(userLogin)) {
+					accountType = AccountType.valueOf(userService.getUser(userLogin).getAccountType()).toString().toLowerCase();
 					newUser.setAccountType(accountType);
-					newUser.setId(userLoginService.getJdbcTemplate().getId());
+					newUser.setId(userService.getUser(userLogin).getId());
 
 					request.getSession().setAttribute("currentUser", newUser);
 

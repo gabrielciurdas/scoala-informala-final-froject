@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ParentAccount;
 
@@ -18,7 +20,9 @@ import it4kids.domain.login.ParentAccount;
  * Created by Gabriel Ciurdas on 3/10/2017.
  */
 public class ParentAccountDAO {
-	ConnectionToDB db = new ConnectionToDB();
+	
+	private ConnectionToDB db = new ConnectionToDB();
+	
 	private int linesWritten = 0;
 
 	/**

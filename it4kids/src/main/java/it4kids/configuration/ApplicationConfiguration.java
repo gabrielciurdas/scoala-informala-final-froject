@@ -14,6 +14,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import it4kids.dao.ConnectionToDB;
 import it4kids.dao.indatabase.login.ChildAccountDAO;
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.ParentAccountDAO;
@@ -25,6 +26,7 @@ import it4kids.dao.indatabase.quiz.QuizEntryDAO;
 import it4kids.dao.inmemory.quiz.IMOptionDAO;
 import it4kids.dao.inmemory.quiz.IMQuizDAO;
 import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
+import it4kids.domain.UserLogin;
 import it4kids.domain.quiz.QuizAnswer;
 import it4kids.service.login.AdminService;
 import it4kids.service.login.ChildService;
@@ -165,11 +167,21 @@ public class ApplicationConfiguration {
 	@Bean
 	public OptionDAO optionDAO() {
 		return new IMOptionDAO();
-}
+   }
+	
+	@Bean
+	public UserLogin userLogin() {
+		return new UserLogin();
+	}
 
 	@Bean
 	public JdbcTemplateUserDAO jdbcTemplateDAO() {
 		return new JdbcTemplateUserDAO(dataSource());
+	}
+	
+	@Bean
+	public ConnectionToDB connectionToDB() {
+		return new ConnectionToDB();
 	}
 	
 	//Local deployment

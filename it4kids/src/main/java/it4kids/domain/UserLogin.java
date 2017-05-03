@@ -1,10 +1,5 @@
 package it4kids.domain;
 
-
-import org.springframework.util.StringUtils;
-
-import it4kids.service.ValidationException;
-
 /**
  * This class stores basic information about an authenticated user.
  * 

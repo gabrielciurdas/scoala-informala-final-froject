@@ -8,7 +8,7 @@ package it4kids.domain.login;
 public class ChildAccount extends Account {
 
 	private int idParent;
-
+/*
 	public ChildAccount(int id, int idRegisteredUser, int idParent) {
 		setId(id);
 		setIdRegisteredUser(idRegisteredUser);
@@ -17,8 +17,8 @@ public class ChildAccount extends Account {
 
 	public ChildAccount(int idRegisteredUser, int idParent) {
 		setIdRegisteredUser(idRegisteredUser);
-		setIdParent(idParent);
-	}
+		this.idParent = idParent;
+	}*/
 
 	public ChildAccount() {
 		setId(0);
@@ -31,7 +31,7 @@ public class ChildAccount extends Account {
 	}
 
 	public int getIdParent() {
-		return getIdParent();
+		return idParent;
 	}
 
 	public void setIdParent(int idParent) {

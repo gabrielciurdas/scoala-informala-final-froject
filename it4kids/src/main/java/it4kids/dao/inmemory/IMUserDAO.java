@@ -1,12 +1,19 @@
 package it4kids.dao.inmemory;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.StringUtils;
 
 import it4kids.dao.indatabase.login.UserDAO;
+import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 
 /**
@@ -51,5 +58,60 @@ public class IMUserDAO extends IMBaseDAO<User> implements UserDAO {
 			}
 		}
 		return isValid;
+	}
+
+	@Override
+	public User getRegisteredUser(UserLogin userLogin) {
+		return null;
+	}
+
+	@Override
+	public boolean deleteParent(User user) {
+		return false;
+	}
+
+	@Override
+	public boolean deleteChild(User user) {
+		return false;
+	}
+
+	@Override
+	public Collection<User> getAllParents() {
+		return null;
+	}
+
+	@Override
+	public Collection<User> getAllTeachers() {
+		return null;
+	}
+
+	@Override
+	public Collection<User> getAllChildren() {
+		return null;
+	}
+
+	@Override
+	public Collection<User> getChildren(List<Long> childrenId) {
+		return null;
+	}
+
+	@Override
+	public Collection<User> searchByTeacherByName(String name) {
+		return null;
+	}
+
+	@Override
+	public Collection<User> searchByParentByName(String name) {
+		return null;
+	}
+
+	@Override
+	public Collection<User> searchByChildName(String name) {
+		return null;
+	}
+
+	@Override
+	public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 	}
  }

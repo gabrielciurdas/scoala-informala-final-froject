@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.Account;
@@ -16,12 +18,12 @@ import it4kids.domain.login.User;
  */
 public class RegisteredUserDAO {
 
-	private ConnectionToDB db = new ConnectionToDB(); 
-	private UserLogin userLogin = new UserLogin();
+	private ConnectionToDB db = new ConnectionToDB();
+	
+	@Autowired
+	private UserLogin userLogin;
+	
 	private int linesWritten = 0;
-	private String firstName = "";
-	private String accountType = "";
-	private String username = "";
 
 	public int getUsernameId(String username) {
 		int id = 0;
@@ -51,7 +53,7 @@ public class RegisteredUserDAO {
 
 			if (rs.next()) {
 				available = false;
-				accountType = rs.getString("account_type");
+				//accountType = rs.getString("account_type");
 			} else {
 				available = true;
 			}
@@ -60,6 +62,24 @@ public class RegisteredUserDAO {
 			ex.printStackTrace();
 		}
 		return available;
+	}
+	
+	public String getUserRole(String userName) {
+		String role = "";
+
+		try (Connection conn = db.getDBConnection();
+				Statement stm = conn.createStatement();
+				ResultSet rs = stm.executeQuery("select account_type from registered_users where username ILIKE '" + userName + "'");) {
+			System.out.println("connected to db");
+
+			if (rs.next()) {
+				role = rs.getString("account_type");
+			} 
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return role;
 	}
 	
 	public String getUserAccountTye(String userName) {
@@ -162,18 +182,6 @@ public class RegisteredUserDAO {
 
 	public void setLinesWritten(int linesWritten) {
 		this.linesWritten = linesWritten;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getAccountType() {
-		return accountType;
-	}
-
-	public String getUsername() {
-		return username;
 	}
 
 	public UserLogin getUserLogin() {

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ChildAccount;
 
@@ -29,14 +31,13 @@ public class ChildAccountDAO {
 	 * @param child
 	 *            is the parent to be written in the specified database.
 	 */
-	public void add(ChildAccount child) throws SQLException {
+	public void add(int childId) throws SQLException {
 
 		final String insertSQL = "INSERT INTO child(id_registered_user)" + " values(?)";
-
+		
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
-
-			stm.setInt(1, child.getIdRegisteredUser());
-			stm.executeUpdate();
+			stm.setInt(1, childId);
+			linesWritten = stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
 		} catch (SQLException e) {

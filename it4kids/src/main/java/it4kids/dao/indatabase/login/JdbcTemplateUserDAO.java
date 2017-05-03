@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,10 +25,9 @@ import it4kids.domain.login.User;
 
 public class JdbcTemplateUserDAO implements UserDAO {
 	private JdbcTemplate jdbcTemplate;
-	private RegisteredUserDAO userDAO = new RegisteredUserDAO();
-	private String accountType;
-	private String email;
-	private long id;
+	
+	@Autowired
+	private RegisteredUserDAO userDAO;
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -38,18 +38,22 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return jdbcTemplate.query("select * from registered_users", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getAllParents() {
 		return jdbcTemplate.query("select * from registered_users where account_type like'%PARENT'", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getAllTeachers() {
 		return jdbcTemplate.query("select * from registered_users where account_type='TEACHER'", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getAllChildren() {
 		return jdbcTemplate.query("select * from registered_users where account_type='CHILD'", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getChildren(List<Long> childrenId) {
 		Collection<User> children = new ArrayList<>();
 
@@ -99,6 +103,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return true;
 	}
 
+	@Override
 	public boolean deleteParent(User user) {
 		System.out.println("trying to delete from parent table");
 		String sql = "delete from parent WHERE id_child ='" + user.getId() + "'";
@@ -108,6 +113,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return true;
 	}
 
+	@Override
 	public boolean deleteChild(User user) {
 
 		System.out.println("trying to delete from child table");
@@ -158,24 +164,40 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	}
 
 	@Override
-	public boolean userIsRegistered(String userName, String password) {
-		boolean isRegistered = false;
-
+	public User getRegisteredUser(UserLogin userLogin) {
+		//boolean isRegistered = false;
+		User registeredUser = new User();
+		
 		List<User> userDetails = new ArrayList<User>();
 		userDetails = jdbcTemplate.query(
-				"select * from registered_users WHERE username ILIKE '" + userName + "' and password ='" + password + "'",
+				"select * from registered_users WHERE username ILIKE '" + userLogin.getUserName() + "' and password ='" + userLogin.getPassword() + "'",
+				new UserMapper());
+
+		if (!userDetails.isEmpty()) {
+			//isRegistered = true;
+			
+			registeredUser.setId(userDetails.get(0).getId());
+			registeredUser.setEmail(userDetails.get(0).getEmail());
+			registeredUser.setAccountType(userDetails.get(0).getAccountType());
+		}
+		return registeredUser;
+	}
+
+	@Override
+	public boolean userIsRegistered(String username, String password) {
+		boolean isRegistered = false;
+		
+		List<User> userDetails = new ArrayList<User>();
+		userDetails = jdbcTemplate.query(
+				"select * from registered_users WHERE username ILIKE '" + username + "' and password ='" + password + "'",
 				new UserMapper());
 
 		if (!userDetails.isEmpty()) {
 			isRegistered = true;
-			
-			id = userDetails.get(0).getId();
-			email = userDetails.get(0).getEmail();
-			accountType = accountType.valueOf(userDetails.get(0).getAccountType());
 		}
 		return isRegistered;
 	}
-
+	
 	/**
 	 * This method adds a User object.
 	 * 
@@ -188,6 +210,8 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
+	
+	@Override
 	public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		request.setCharacterEncoding("UTF-8");
@@ -227,7 +251,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
 				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(userDAO.getUsernameId(request.getParameter("userName"))));
+				c.add(userDAO.getUsernameId(request.getParameter("userName")));
 			}
 
 		} else if (accountType.equalsIgnoreCase("TEACHER")) {
@@ -270,18 +294,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	public void setParentId(int parentId) {
 		userDAO.setParentId(parentId);
-	}
-
-	public String getAccountType() {
-		return accountType;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public long getId() {
-		return id;
 	}
 
 	public void save(User user) {
