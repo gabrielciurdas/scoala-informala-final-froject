@@ -15,4 +15,8 @@ public class ChildService {
 	public ChildAccountDAO getChildDAO() {
 		return childDAO;
 	}
+	
+	public boolean hasParentAssigned(long childId, long parentId) {
+		return childDAO.childHasParent(childId, parentId);
+	}
 }

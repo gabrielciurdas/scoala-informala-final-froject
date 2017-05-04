@@ -22,8 +22,6 @@ public class RegisteredUserDAO {
 	
 	@Autowired
 	private UserLogin userLogin;
-	
-	private int linesWritten = 0;
 
 	public int getUsernameId(String username) {
 		int id = 0;
@@ -141,7 +139,7 @@ public class RegisteredUserDAO {
 			stm.setString(5, user.getUserName());
 			stm.setString(6, user.getPassword());
 
-			linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -165,7 +163,6 @@ public class RegisteredUserDAO {
 				PreparedStatement stm = conn.prepareStatement("INSERT INTO child(id_parent)" + " values(?)");) {
 
 			stm.setInt(1, parentId);
-			linesWritten = stm.executeUpdate();
 			stm.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -174,14 +171,6 @@ public class RegisteredUserDAO {
 
 	public Account add(Account account, int id) {
 		return null;
-	}
-
-	public int getLinesWritten() {
-		return linesWritten;
-	}
-
-	public void setLinesWritten(int linesWritten) {
-		this.linesWritten = linesWritten;
 	}
 
 	public UserLogin getUserLogin() {

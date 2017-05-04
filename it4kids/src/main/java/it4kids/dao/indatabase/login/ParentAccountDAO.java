@@ -8,27 +8,21 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ParentAccount;
 
 /**
  * This class is a data access object for a ParentAccount object.
  * 
- * @see ParentAccount
- * Created by Gabriel Ciurdas on 3/10/2017.
+ * @see ParentAccount Created by Gabriel Ciurdas on 3/10/2017.
  */
 public class ParentAccountDAO {
-	
+
 	private ConnectionToDB db = new ConnectionToDB();
-	
-	private int linesWritten = 0;
 
 	/**
-	 * This method writes a ParentAccount object in the specified
-	 * database by creating a connection with a PostgreSQL server and using a
-	 * query.
+	 * This method writes a ParentAccount object in the specified database by
+	 * creating a connection with a PostgreSQL server and using a query.
 	 *
 	 * @param parent
 	 *            is the parent to be written in the specified database.
@@ -45,7 +39,7 @@ public class ParentAccountDAO {
 
 			stm.setInt(1, parent.getIdRegisteredUser());
 			stm.setInt(2, childId);
-			linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
 		} catch (SQLException e) {
@@ -55,9 +49,8 @@ public class ParentAccountDAO {
 	}
 
 	/**
-	 * This method writes a ParentAccount object in the specified
-	 * database by creating a connection with a PostgreSQL server and using a
-	 * query.
+	 * This method writes a ParentAccount object in the specified database by
+	 * creating a connection with a PostgreSQL server and using a query.
 	 *
 	 * @param parent
 	 *            is the parent to be written in the specified database.
@@ -83,7 +76,7 @@ public class ParentAccountDAO {
 
 			stm.setInt(1, parentId);
 			stm.setInt(2, childId);
-			linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
 		} catch (SQLException e) {
@@ -92,21 +85,47 @@ public class ParentAccountDAO {
 	}
 
 	/**
-	 * This method assigns a child for a parent given a child id and a parent id.
+	 * This method assigns a child for a parent given a child id and a parent
+	 * id.
 	 * 
-	 * @param childId is the child id to be set.
-	 * @param parentId is the parent id to be set.
+	 * @param childId
+	 *            is the child id to be set.
+	 * @param parentId
+	 *            is the parent id to be set.
 	 */
 	public void assignChild(int childId, int parentId) {
 		final String insertSQL = "UPDATE parent SET id_child = ?" + "WHERE id_registered_user = ?";
-		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
+		try (Connection conn = db.getDBConnection();
+				PreparedStatement stm = conn.prepareStatement(insertSQL);
+				ResultSet rs = stm.executeQuery();) {
 
 			stm.setInt(1, childId);
 			stm.setInt(2, parentId);
-			linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public boolean parentHasChild(long childId, long parentId) {
+		boolean hasChild = false;
+		final String insertSQL = "SELECT username from parent WHERE id_registered_user =? and id_child = ?";
+		try (Connection conn = db.getDBConnection();
+				PreparedStatement stm = conn.prepareStatement(insertSQL);
+				ResultSet rs = stm.executeQuery();) {
+
+			stm.setInt(1, (int) parentId);
+			stm.setInt(2, (int) childId);
+			stm.executeUpdate();
+
+			if (rs.next()) {
+				hasChild = true;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+		return hasChild;
 	}
 
 	public int getChildId(String parentId) {
@@ -136,7 +155,7 @@ public class ParentAccountDAO {
 						.prepareStatement("select * from parent where id_registered_user='" + parentId + "'");
 				ResultSet rs = stm.executeQuery();) {
 			while (rs.next()) {
-				if(rs.getInt("id_child") != 0) {
+				if (rs.getInt("id_child") != 0) {
 					System.out.println("child found " + rs.getInt("id_child"));
 					childrenId.add((long) rs.getInt("id_child"));
 					System.out.println("and added");
@@ -241,9 +260,4 @@ public class ParentAccountDAO {
 
 		return assigned;
 	}
-
-	public int getLinesWritten() {
-		return linesWritten;
-	}
-
 }

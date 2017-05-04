@@ -41,12 +41,18 @@ public class UserService {
 		return dao.findById(id);
 	}
 	
+	public User getUserByUserName(String userName) {
+		LOGGER.debug("Getting user with username: " + userName);
+
+		return dao.findByUserName(userName);
+	}
+
 	public User getUser(UserLogin userLogin) {
 		LOGGER.debug("Getting user with id: " + userLogin.getUserName());
 
 		return dao.getRegisteredUser(userLogin);
 	}
-	
+
 	public Collection<User> listAll() {
 		LOGGER.debug("Listing users ");
 		return dao.getAll();
@@ -73,20 +79,8 @@ public class UserService {
 		return dao.getChildren(childrenId);
 	}
 
-	public void save(User user) throws ValidationException {
-		validate(user);
-	}
-
-	public void saveChild(User user) throws ValidationException {
-		validateChildUserName(user);
-	}
-
-	public void saveParent(User user) throws ValidationException {
-		validateParentUserName(user);
-	}
-
-	public void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		dao.add(req, resp);
+	public void add(HttpServletRequest req/*, HttpServletResponse resp*/) throws ServletException, IOException {
+		dao.add(req/*, resp*/);
 	}
 
 	public boolean authenticateUser(String userName, String password) {
@@ -114,18 +108,22 @@ public class UserService {
 		return dao.searchByChildName(userName);
 	}
 
-	private void validate(User user) throws ValidationException {
+	public void validate(User user) throws ValidationException {
+		checkUserFields(user);
+	}
+
+	private void checkUserFields(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		if (StringUtils.isEmpty(user.getFirstName()) && StringUtils.isEmpty(user.getLastName())
-				&& StringUtils.isEmpty(user.getEmail()) && StringUtils.isEmpty(user.getUserName()) 
+				&& StringUtils.isEmpty(user.getEmail()) && StringUtils.isEmpty(user.getUserName())
 				&& StringUtils.isEmpty(user.getPassword()) && StringUtils.isEmpty(user.getPasswordConfirm())) {
 			errors.add("Trebuie sa completati toate campurile formularului.");
 		}
-		
+
 		else if (StringUtils.isEmpty(user.getFirstName())) {
 			errors.add("Prenumele este gol.");
 		}
-		
+
 		else if (!Pattern.matches("[a-zA-Z ]+", user.getFirstName())) {
 			errors.add("Prenumele trebuie sa fie compus doar din litere.");
 		}
@@ -137,7 +135,7 @@ public class UserService {
 		else if (StringUtils.isEmpty(user.getLastName())) {
 			errors.add("Numele este gol.");
 		}
-		
+
 		else if (!Pattern.matches("[a-zA-Z ]+", user.getLastName())) {
 			errors.add("Numele trebuie sa fie compus doar din litere.");
 		}
@@ -153,11 +151,11 @@ public class UserService {
 		else if (StringUtils.isEmpty(user.getEmail())) {
 			errors.add("Adresa de email este goală.");
 		}
-		
+
 		else if (!Pattern.matches("[a-zA-Z0-9 ]+@[a-zA-Z0-9 ]+\\.[a-zA-Z ]{2,6}$", user.getEmail())) {
 			errors.add("Adresa de email trebuie sa respecte formatul: nume@domeniu.com");
 		}
-		
+
 		else if (StringUtils.isEmpty(user.getUserName())) {
 			errors.add("Numele de utilizator este gol.");
 		}
@@ -165,15 +163,19 @@ public class UserService {
 		else if (!Pattern.matches("[a-zA-Z0-9 ]+", user.getUserName())) {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
-		
+
 		else if (user.getUserName().length() < 3) {
 			errors.add("Numele de utilizator trebuie sa fie compus din cel putin trei caractere.");
+		}
+		
+		else if (!registeredUserDAO.usernameAvailable(user.getUserName())) {
+			errors.add("Numele de utilizator introdus este indisponibil.");
 		}
 
 		else if (StringUtils.isEmpty(user.getPassword())) {
 			errors.add("Parola este goală.");
 		}
-		
+
 		else if (!Pattern.matches("[a-zA-Z0-9 ]+", user.getPassword())) {
 			errors.add("Parola poate fi compusa doar din litere si numere.");
 		}
@@ -181,7 +183,7 @@ public class UserService {
 		else if (user.getPassword().length() < 6) {
 			errors.add("Parola trebuie sa fie compusa din cel putin sase caractere.");
 		}
-		
+
 		else if (!user.getPassword().equals(user.getPasswordConfirm())) {
 			errors.add("Confirmarea parolei difera de parola introdusa.");
 		}
@@ -196,7 +198,7 @@ public class UserService {
 		if (StringUtils.isEmpty(user.getFirstName())) {
 			errors.add("Prenumele este gol.");
 		}
-		
+
 		else if (!Pattern.matches("[a-zA-Z ]+", user.getFirstName())) {
 			errors.add("Prenumele poate fi compus doar din litere.");
 		}
@@ -208,7 +210,7 @@ public class UserService {
 		else if (StringUtils.isEmpty(user.getLastName())) {
 			errors.add("Numele este gol.");
 		}
-		
+
 		else if (!Pattern.matches("[a-zA-Z ]+", user.getLastName())) {
 			errors.add("Numele poate fi compus doar din litere.");
 		}
@@ -220,7 +222,7 @@ public class UserService {
 		else if (StringUtils.isEmpty(user.getEmail())) {
 			errors.add("Adresa de email este goală.");
 		}
-		
+
 		else if (!Pattern.matches("[a-zA-Z0-9 ]+@[a-zA-Z0-9 ]+\\.[a-zA-Z ]{2,6}$", user.getEmail())) {
 			errors.add("Adresa de email trebuie sa respecte formatul: nume@domeniu.com");
 		}
@@ -230,9 +232,13 @@ public class UserService {
 		}
 	}
 
-	private void validateParentUserName(User user) throws ValidationException {
+	public void validateParentUserName(User user) throws ValidationException {
+		checkParentUserName(user);
+	}
+
+	private void checkParentUserName(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
-		
+
 		if (StringUtils.isEmpty(user.getUserName())) {
 			errors.add("Numele de utilizator este gol.");
 		}
@@ -254,7 +260,11 @@ public class UserService {
 		}
 	}
 
-	private void validateChildUserName(User user) throws ValidationException {
+	public void validateChildUserName(User user) throws ValidationException {
+		checkChildUserName(user);
+	}
+
+	private void checkChildUserName(User user) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 
 		if (StringUtils.isEmpty(user.getUserName())) {
@@ -295,4 +305,5 @@ public class UserService {
 		dao.deleteChild(user);
 		dao.deleteParent(user);
 	}
+
 }

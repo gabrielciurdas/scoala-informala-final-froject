@@ -1,7 +1,6 @@
 package it4kids.dao.indatabase.login;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import it4kids.domain.UserLogin;
-import it4kids.domain.login.ChildAccount;
 import it4kids.domain.login.ParentAccount;
 import it4kids.domain.login.User;
 
@@ -33,6 +30,15 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	@Override
+	public User findByUserName(String userName) {
+		User user = jdbcTemplate.queryForObject("select * from registered_users where username ='" 
+					+ userName +"';", new UserMapper());
+		
+		return user;
+		
+	}
+	
 	@Override
 	public Collection<User> getAll() {
 		return jdbcTemplate.query("select * from registered_users", new UserMapper());
@@ -212,11 +218,11 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	 */
 	
 	@Override
-	public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+	public void add(HttpServletRequest request/*, HttpServletResponse response*/) throws ServletException, IOException {
+	/*	PrintWriter out = response.getWriter();
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");*/
 
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 
@@ -230,7 +236,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 				e.printStackTrace();
 			}
 		}
-		validateRegistration(out);
+		//validateRegistration(out);
 	}
 
 	private void addAccount(HttpServletRequest request, String accountType) throws SQLException {
@@ -265,19 +271,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		}
 	}
 
-	private void validateRegistration(PrintWriter out) {
-		if (userDAO.getLinesWritten() > 0) {
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Inregistrare efectuata cu succes');");
-			out.println("</script>");
-			userDAO.setLinesWritten(0);
-		} else {
-			out.println("<script charset=" + "utf-8" + "type=\"text/javascript\">");
-			out.println("alert('Numele de utilizator exista deja');");
-			out.println("</script>");
-		}
-	}
-
 	public int getUserId(String userName) {
 
 		return userDAO.getUsernameId(userName);
@@ -299,5 +292,4 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	public void save(User user) {
 		update(user);
 	}
-
 }

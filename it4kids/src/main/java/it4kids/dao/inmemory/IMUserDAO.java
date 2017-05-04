@@ -111,7 +111,13 @@ public class IMUserDAO extends IMBaseDAO<User> implements UserDAO {
 	}
 
 	@Override
-	public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void add(HttpServletRequest request/*, HttpServletResponse response*/) throws ServletException, IOException {
 		
+	}
+
+	@Override
+	public User findByUserName(String userName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
  }

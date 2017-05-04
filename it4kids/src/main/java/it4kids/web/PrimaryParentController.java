@@ -1,6 +1,7 @@
 package it4kids.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
@@ -98,28 +100,28 @@ public class PrimaryParentController {
 
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("delete")
 	public ModelAndView delete(User user, HttpServletRequest req) {
 		System.out.println("trying to delete");
 		ModelAndView result = new ModelAndView("");
-		
-			if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
-				try {
-					req.logout();
-				} catch (ServletException e) {
-					e.printStackTrace();
-				}
-				userService.deleteParent(user);
-				userService.delete(user);
-				return result;
-				
-			} 
-			 if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
-				userService.deleteParent(user);
-				userService.delete(user);
-				result = new ModelAndView(new RedirectView("cList"));
+
+		if (userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+			try {
+				req.logout();
+			} catch (ServletException e) {
+				e.printStackTrace();
 			}
+			userService.deleteParent(user);
+			userService.delete(user);
+			return result;
+
+		}
+		if (userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+			userService.deleteParent(user);
+			userService.delete(user);
+			result = new ModelAndView(new RedirectView("cList"));
+		}
 		return result;
 	}
 
@@ -133,11 +135,11 @@ public class PrimaryParentController {
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();
-				
-				if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+
+				if (userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
 					result.setView(new RedirectView("account"));
-					
-				} else if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+
+				} else if (userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
 					result.setView(new RedirectView("cList"));
 				}
 
@@ -179,9 +181,25 @@ public class PrimaryParentController {
 		if (!bindingResult.hasErrors()) {
 			System.out.println("user: " + user.getUserName());
 			try {
-				userService.save(user);
+				userService.validate(user);
 				try {
-					userService.add(req, resp);
+					userService.add(req);
+
+					PrintWriter out = resp.getWriter();
+					req.setCharacterEncoding("UTF-8");
+					resp.setContentType("text/html; charset=UTF-8");
+					resp.setCharacterEncoding("UTF-8");
+
+					if (userService.getUserByUserName(user.getUserName()) != null) {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea a fost efectuata cu succes.');");
+						out.println("</script>");
+					} else {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea nu a fost efectuata cu succes.');");
+						out.println("</script>");
+					}
+
 				} catch (ServletException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -229,10 +247,30 @@ public class PrimaryParentController {
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			try {
-				userService.saveChild(child);
-				userService.saveParent(parent);
+				userService.validateChildUserName(child);
+				userService.validateParentUserName(parent);
 
-				parentService.assignParent(child.getUserName(), parent.getUserName(), req, resp);
+				parentService.assignParent(child.getUserName(), parent.getUserName());
+
+				PrintWriter out = resp.getWriter();
+				req.setCharacterEncoding("UTF-8");
+				resp.setContentType("text/html; charset=UTF-8");
+				resp.setCharacterEncoding("UTF-8");
+
+				if (parentService.hasChildAssigned(userService.getUserByUserName(child.getUserName()).getId(),
+						userService.getUserByUserName(parent.getUserName()).getId())
+						&& childService.hasParentAssigned(userService.getUserByUserName(child.getUserName()).getId(),
+								userService.getUserByUserName(parent.getUserName()).getId())) {
+					
+					out.println("<script type=\"text/javascript\">");
+					out.println("alert('Asignarea a fost efectuata cu succes.');");
+					out.println("</script>");
+				} else {
+					out.println("<script type=\"text/javascript\">");
+					out.println("alert('Asignarea nu a fost efectuata cu succes.');");
+					out.println("</script>");
+				}
+
 				return result;
 
 			} catch (ValidationException e) {
@@ -240,6 +278,8 @@ public class PrimaryParentController {
 					bindingResult.addError(new ObjectError("user", msg));
 				}
 				hasErrors = true;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		} else {
 			hasErrors = true;

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import it4kids.dao.BaseDAO;
 import it4kids.domain.UserLogin;
@@ -23,6 +22,8 @@ import it4kids.domain.login.User;
  * <p> Created on 03/10/2017
  */
 public interface UserDAO extends BaseDAO<User> {
+	
+	User findByUserName(String userName);
 
 	Collection<User> searchByName(String query);
 	
@@ -48,6 +49,5 @@ public interface UserDAO extends BaseDAO<User> {
 	
 	Collection<User> searchByChildName(String name);
 	
-	void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
-	
+	void add(HttpServletRequest request/*, HttpServletResponse response*/) throws ServletException, IOException;
 }
