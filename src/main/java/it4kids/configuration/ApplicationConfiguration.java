@@ -36,10 +36,10 @@ import it4kids.service.quiz.UserAnswerService;
 @Configuration
 public class ApplicationConfiguration {
 	//Local deployment
-	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
+	/*private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
 	private static final String DB_PASSWORD = "aNewPa55w0rd";
-	
+	*/
 	@Bean
 	public FilterRegistrationBean securityFilter() {
 		FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -48,22 +48,6 @@ public class ApplicationConfiguration {
 		registration.addUrlPatterns("/*");
 		return registration;
 	}
-
-	/*@Bean
-	public RegisteredUserDAO registeredUserDAO() {
-		return new RegisteredUserDAO();
-	}*/
-	
-	
-/*	@Bean
-	public ParentAccountDAO parentAccountDAO() {
-		return new ParentAccountDAO();
-	}
-	*/
-	/*@Bean
-	public ChildAccountDAO ChildAccountDAO() {
-		return new ChildAccountDAO();
-	}*/
 	
 	@Bean 
 	public AdminService adminService() {
@@ -168,18 +152,13 @@ public class ApplicationConfiguration {
 		return new UserLogin();
 	}
 
-	/*@Bean
-	public JdbcTemplateUserDAO jdbcTemplateDAO() {
-		return new JdbcTemplateUserDAO(dataSource());
-	}*/
-	
 	@Bean
 	public ConnectionToDB connectionToDB() {
 		return new ConnectionToDB();
 	}
 	
 	//Local deployment
-	@Bean
+/*	@Bean
 	public BasicDataSource dataSource() {
 
 		BasicDataSource basicDataSource = new BasicDataSource();
@@ -188,10 +167,10 @@ public class ApplicationConfiguration {
 		basicDataSource.setPassword(DB_PASSWORD);
 
 		return basicDataSource;
-	}
+	}*/
 	
 	//Heroku deployment use only
-	/*@Bean
+	@Bean
 	    public BasicDataSource dataSource() {
 	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
 	        String username = System.getenv("JDBC_DATABASE_USERNAME");
@@ -203,5 +182,5 @@ public class ApplicationConfiguration {
 	        basicDataSource.setPassword(password);
 
 	        return basicDataSource;
-	    }*/
+	    }
 }
