@@ -111,11 +111,11 @@ public class UserAnswerController {
 	}
 
 	@RequestMapping("/addQuizAnswer")
-	public ModelAndView addQuizAnswer(Long quizAnswerId) {
+	public ModelAndView addQuizAnswer(Long id) {
 		ModelAndView result = new ModelAndView("it4kids/answer/addQuizAnswer");
-		Quiz quiz = quizService.get(quizAnswerId);
+		Quiz quiz = quizService.get(id);
 		QuizAnswer quizAnswer = new QuizAnswer();
-		quizAnswer.setQuizAnswerId(quizAnswerId);
+		quizAnswer.setId(id);
 		result.addObject("quiz", quiz);
 		result.addObject("quizAnswer", quizAnswer);
 

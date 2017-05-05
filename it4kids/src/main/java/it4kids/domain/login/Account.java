@@ -3,7 +3,7 @@ package it4kids.domain.login;
 import it4kids.domain.AbstractModel;
 
 /**
- * This class stores the id of an account.
+ * This class stores the id of a registered user.
  * 
  * Created by Gabriel Ciurdas on 3/10/2017.
  */

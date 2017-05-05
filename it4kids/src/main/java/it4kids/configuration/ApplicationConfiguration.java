@@ -14,10 +14,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import it4kids.dao.indatabase.login.ChildAccountDAO;
-import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
-import it4kids.dao.indatabase.login.ParentAccountDAO;
-import it4kids.dao.indatabase.login.RegisteredUserDAO;
+import it4kids.dao.ConnectionToDB;
 import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.dao.indatabase.quiz.QuizDAO;
@@ -25,6 +22,7 @@ import it4kids.dao.indatabase.quiz.QuizEntryDAO;
 import it4kids.dao.inmemory.quiz.IMOptionDAO;
 import it4kids.dao.inmemory.quiz.IMQuizDAO;
 import it4kids.dao.inmemory.quiz.IMQuizEntryDAO;
+import it4kids.domain.UserLogin;
 import it4kids.domain.quiz.QuizAnswer;
 import it4kids.service.login.AdminService;
 import it4kids.service.login.ChildService;
@@ -48,21 +46,6 @@ public class ApplicationConfiguration {
 		registration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
 		registration.addUrlPatterns("/*");
 		return registration;
-	}
-
-	@Bean
-	public RegisteredUserDAO registeredUserDAO() {
-		return new RegisteredUserDAO();
-	}
-	
-	@Bean
-	public ParentAccountDAO parentAccountDAO() {
-		return new ParentAccountDAO();
-	}
-	
-	@Bean
-	public ChildAccountDAO ChildAccountDAO() {
-		return new ChildAccountDAO();
 	}
 	
 	@Bean 
@@ -117,25 +100,21 @@ public class ApplicationConfiguration {
 			
 			@Override
 			public QuizAnswer update(QuizAnswer model) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
 			@Override
 			public Collection<QuizAnswer> getAll() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
 			@Override
 			public QuizAnswer findById(Long id) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
 			@Override
 			public boolean delete(QuizAnswer model) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		};
@@ -165,15 +144,20 @@ public class ApplicationConfiguration {
 	@Bean
 	public OptionDAO optionDAO() {
 		return new IMOptionDAO();
-}
+   }
+	
+	@Bean
+	public UserLogin userLogin() {
+		return new UserLogin();
+	}
 
 	@Bean
-	public JdbcTemplateUserDAO jdbcTemplateDAO() {
-		return new JdbcTemplateUserDAO(dataSource());
+	public ConnectionToDB connectionToDB() {
+		return new ConnectionToDB();
 	}
 	
 	//Local deployment
-	@Bean
+	/*@Bean
 	public BasicDataSource dataSource() {
 
 		BasicDataSource basicDataSource = new BasicDataSource();
@@ -182,10 +166,10 @@ public class ApplicationConfiguration {
 		basicDataSource.setPassword(DB_PASSWORD);
 
 		return basicDataSource;
-	}
+	}*/
 	
 	//Heroku deployment use only
-	/*@Bean
+		@Bean
 	    public BasicDataSource dataSource() {
 	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
 	        String username = System.getenv("JDBC_DATABASE_USERNAME");
@@ -197,5 +181,5 @@ public class ApplicationConfiguration {
 	        basicDataSource.setPassword(password);
 
 	        return basicDataSource;
-	    }*/
+	    }
 }

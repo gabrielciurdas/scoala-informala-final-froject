@@ -1,7 +1,6 @@
 package it4kids.dao.indatabase.login;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,51 +9,58 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import it4kids.domain.UserLogin;
-import it4kids.domain.login.ChildAccount;
-import it4kids.domain.login.ParentAccount;
 import it4kids.domain.login.User;
 
+@Repository(value="JdbcTemplateUserDAO")
 public class JdbcTemplateUserDAO implements UserDAO {
 	private JdbcTemplate jdbcTemplate;
-	private RegisteredUserDAO userDAO = new RegisteredUserDAO();
-	private String accountType;
-	private String email;
-	private long id;
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 	@Override
+	public User findByUserName(String userName) {
+		User user = jdbcTemplate.queryForObject("select * from registered_users where username ='" 
+					+ userName +"';", new UserMapper());
+		
+		return user;
+		
+	}
+	
+	@Override
 	public Collection<User> getAll() {
 		return jdbcTemplate.query("select * from registered_users", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getAllParents() {
 		return jdbcTemplate.query("select * from registered_users where account_type like'%PARENT'", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getAllTeachers() {
 		return jdbcTemplate.query("select * from registered_users where account_type='TEACHER'", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getAllChildren() {
 		return jdbcTemplate.query("select * from registered_users where account_type='CHILD'", new UserMapper());
 	}
 
+	@Override
 	public Collection<User> getChildren(List<Long> childrenId) {
 		Collection<User> children = new ArrayList<>();
 
 		for (Long l : childrenId) {
-			System.out.println("trying to add: " + l);
 			children.add(findById(l));
 		}
 		return children;
@@ -62,7 +68,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public User findById(Long id) {
-		System.out.println("trying to find " + id);
 
 		try {
 			return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'",
@@ -74,12 +79,10 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public User update(User user) {
-		Long id = null;
-		System.out.println("trying to save changes for user with id " + user.getId());
 		String sql = "UPDATE registered_users SET first_name=?, last_name=?, email=?, id=?"
 				+ "WHERE id = ? returning id";
 
-		id = jdbcTemplate.queryForObject(sql,
+		jdbcTemplate.queryForObject(sql,
 				new Object[] { user.getFirstName(), user.getLastName(), user.getEmail(), user.getId(), user.getId()
 
 				}, new RowMapper<Long>() {
@@ -87,7 +90,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 						return rs.getLong(1);
 					}
 				});
-		System.out.println("trying to save changes for user with id " + user.getId());
 		return user;
 	}
 
@@ -99,8 +101,8 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return true;
 	}
 
+	@Override
 	public boolean deleteParent(User user) {
-		System.out.println("trying to delete from parent table");
 		String sql = "delete from parent WHERE id_child ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
 		String sql2 = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
@@ -108,9 +110,8 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return true;
 	}
 
+	@Override
 	public boolean deleteChild(User user) {
-
-		System.out.println("trying to delete from child table");
 		String sql = "delete from child WHERE id_registered_user ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
 		String sql2 = "delete from child WHERE id_parent ='" + user.getId() + "'";
@@ -158,24 +159,40 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	}
 
 	@Override
-	public boolean userIsRegistered(String userName, String password) {
-		boolean isRegistered = false;
-
+	public User getRegisteredUser(UserLogin userLogin) {
+		//boolean isRegistered = false;
+		User registeredUser = new User();
+		
 		List<User> userDetails = new ArrayList<User>();
 		userDetails = jdbcTemplate.query(
-				"select * from registered_users WHERE username ILIKE '" + userName + "' and password ='" + password + "'",
+				"select * from registered_users WHERE username ILIKE '" + userLogin.getUserName() + "' and password ='" + userLogin.getPassword() + "'",
+				new UserMapper());
+
+		if (!userDetails.isEmpty()) {
+			//isRegistered = true;
+			
+			registeredUser.setId(userDetails.get(0).getId());
+			registeredUser.setEmail(userDetails.get(0).getEmail());
+			registeredUser.setAccountType(userDetails.get(0).getAccountType());
+		}
+		return registeredUser;
+	}
+
+	@Override
+	public boolean userIsRegistered(String username, String password) {
+		boolean isRegistered = false;
+		
+		List<User> userDetails = new ArrayList<User>();
+		userDetails = jdbcTemplate.query(
+				"select * from registered_users WHERE username ILIKE '" + username + "' and password ='" + password + "'",
 				new UserMapper());
 
 		if (!userDetails.isEmpty()) {
 			isRegistered = true;
-			
-			id = userDetails.get(0).getId();
-			email = userDetails.get(0).getEmail();
-			accountType = accountType.valueOf(userDetails.get(0).getAccountType());
 		}
 		return isRegistered;
 	}
-
+	
 	/**
 	 * This method adds a User object.
 	 * 
@@ -188,28 +205,25 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
+	
+	@Override
+	public void add(HttpServletRequest request) {
 
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 
 		String accountType = "";
-		if (userDAO.usernameAvailable(request.getParameter("userName"))) {
+		if (usernameAvailable(request.getParameter("userName"))) {
 			accountType = userLogin.getAccountType();
 
 			try {
 				addAccount(request, accountType);
-			} catch (SQLException e) {
+			} catch (SQLException | ServletException | IOException e) {
 				e.printStackTrace();
 			}
 		}
-		validateRegistration(out);
 	}
 
-	private void addAccount(HttpServletRequest request, String accountType) throws SQLException {
+	private void addAccount(HttpServletRequest request, String accountType) throws SQLException, ServletException, IOException {
 
 		User user = new User();
 		user.setFirstName(request.getParameter("firstName"));
@@ -220,72 +234,75 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		user.setPassword(request.getParameter("password"));
 
 		if (accountType.equalsIgnoreCase("PRIMARY_PARENT")) {
-			userDAO.add(user);
+			add(user);
 			if (user.getAccountType().equalsIgnoreCase("PARENT")) {
 				ParentAccountDAO p = new ParentAccountDAO();
-				p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
+				p.addParentId(getUsernameId(request.getParameter("userName")));
 
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
 				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(new ChildAccount(userDAO.getUsernameId(request.getParameter("userName"))));
+				c.addChildId(getUsernameId(request.getParameter("userName")));
 			}
 
 		} else if (accountType.equalsIgnoreCase("TEACHER")) {
-			userDAO.add(user);
+			add(user);
 
 			ParentAccountDAO p = new ParentAccountDAO();
-			p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
+			p.addParentId(getUsernameId(request.getParameter("userName")));
 
 		} else if (accountType.equalsIgnoreCase("ADMIN")) {
-			userDAO.add(user);
+			add(user);
 		}
 	}
 
-	private void validateRegistration(PrintWriter out) {
-		if (userDAO.getLinesWritten() > 0) {
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Inregistrare efectuata cu succes');");
-			out.println("</script>");
-			userDAO.setLinesWritten(0);
-		} else {
-			out.println("<script charset=" + "utf-8" + "type=\"text/javascript\">");
-			out.println("alert('Numele de utilizator exista deja');");
-			out.println("</script>");
-		}
-	}
-
-	public int getUserId(String userName) {
-
-		return userDAO.getUsernameId(userName);
-	}
-
+	@Override
 	public boolean userNameNotTaken(String userName) {
 
-		return userDAO.usernameAvailable(userName);
+		return usernameAvailable(userName);
 	}
 
+	@Override
 	public void setChildId(int childId) {
-		userDAO.setChildId(childId);
+		setChildId(childId);
 	}
 
+	@Override
 	public void setParentId(int parentId) {
-		userDAO.setParentId(parentId);
+		setParentId(parentId);
 	}
 
-	public String getAccountType() {
-		return accountType;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public long getId() {
-		return id;
-	}
-
+	@Override
 	public void save(User user) {
 		update(user);
 	}
 
+	@Override
+	public void add(User user) throws ServletException, IOException {
+		
+	}
+
+	@Override
+	public int getUsernameId(String username) {
+		return 0;
+	}
+
+	@Override
+	public boolean usernameAvailable(String userName) {
+		return false;
+	}
+
+	@Override
+	public String getUserRole(String userName) {
+		return null;
+	}
+
+	@Override
+	public String getUserAccountTye(String userName) {
+		return null;
+	}
+
+	@Override
+	public boolean userExists(int id) {
+		return false;
+	}
 }

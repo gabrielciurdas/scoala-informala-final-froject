@@ -1,6 +1,7 @@
 package it4kids.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
@@ -29,6 +30,7 @@ public class AdminController {
 
 	@Autowired
 	private UserService userService;
+	
 
 	@RequestMapping("tList")
 	public ModelAndView adminTeacherList(@RequestParam(defaultValue = "") String query) {
@@ -156,9 +158,25 @@ public class AdminController {
 		if (!bindingResult.hasErrors()) {
 			System.out.println("user: " + user.getUserName());
 			try {
-				userService.save(user);
+				userService.validate(user);
 				try {
-					userService.add(req, resp);
+					userService.add(user);
+					
+					PrintWriter out = resp.getWriter();
+					req.setCharacterEncoding("UTF-8");
+					resp.setContentType("text/html; charset=UTF-8");
+					resp.setCharacterEncoding("UTF-8");
+					
+					if (userService.getUserByUserName(user.getUserName()) != null) {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea a fost efectuata cu succes.');");
+						out.println("</script>");
+					} else {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea nu a fost efectuata cu succes.');");
+						out.println("</script>");
+					}
+					
 				} catch (ServletException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

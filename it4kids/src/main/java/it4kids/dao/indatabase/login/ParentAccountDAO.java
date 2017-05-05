@@ -8,23 +8,24 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ParentAccount;
 
 /**
  * This class is a data access object for a ParentAccount object.
  * 
- * @see ParentAccount
- * Created by Gabriel Ciurdas on 3/10/2017.
+ * @see ParentAccount Created by Gabriel Ciurdas on 3/10/2017.
  */
-public class ParentAccountDAO {
-	ConnectionToDB db = new ConnectionToDB();
-	private int linesWritten = 0;
+@Repository(value="ParentAccountDAO")
+public class ParentAccountDAO implements ParentDAO{
+
+	private ConnectionToDB db = new ConnectionToDB();
 
 	/**
-	 * This method writes a ParentAccount object in the specified
-	 * database by creating a connection with a PostgreSQL server and using a
-	 * query.
+	 * This method writes a ParentAccount object in the specified database by
+	 * creating a connection with a PostgreSQL server and using a query.
 	 *
 	 * @param parent
 	 *            is the parent to be written in the specified database.
@@ -33,7 +34,7 @@ public class ParentAccountDAO {
 	 *            database.
 	 */
 
-	public void add(ParentAccount parent, int childId) throws SQLException {
+	/*public void add(ParentAccount parent, int childId) throws SQLException {
 
 		final String insertSQL = "INSERT INTO parent(id_registered_user, id_child)" + " values(?,?)";
 
@@ -41,29 +42,28 @@ public class ParentAccountDAO {
 
 			stm.setInt(1, parent.getIdRegisteredUser());
 			stm.setInt(2, childId);
-			linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 
-	}
+	}*/
 
 	/**
-	 * This method writes a ParentAccount object in the specified
-	 * database by creating a connection with a PostgreSQL server and using a
-	 * query.
+	 * This method writes a ParentAccount object in the specified database by
+	 * creating a connection with a PostgreSQL server and using a query.
 	 *
 	 * @param parent
 	 *            is the parent to be written in the specified database.
 	 */
-	public void add(ParentAccount parent) {
+	public void addParentId(int parentId) {
 		final String insertSQL = "INSERT INTO parent(id_registered_user)" + " values(?)";
 
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
 
-			stm.setInt(1, parent.getIdRegisteredUser());
+			stm.setInt(1, parentId);
 			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
@@ -79,7 +79,7 @@ public class ParentAccountDAO {
 
 			stm.setInt(1, parentId);
 			stm.setInt(2, childId);
-			linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
 			System.out.println("Record is inserted into DBUSER table!");
 
 		} catch (SQLException e) {
@@ -88,21 +88,44 @@ public class ParentAccountDAO {
 	}
 
 	/**
-	 * This method assigns a child for a parent given a child id and a parent id.
+	 * This method assigns a child for a parent given a child id and a parent
+	 * id.
 	 * 
-	 * @param childId is the child id to be set.
-	 * @param parentId is the parent id to be set.
+	 * @param childId
+	 *            is the child id to be set.
+	 * @param parentId
+	 *            is the parent id to be set.
 	 */
 	public void assignChild(int childId, int parentId) {
 		final String insertSQL = "UPDATE parent SET id_child = ?" + "WHERE id_registered_user = ?";
-		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
+		try (Connection conn = db.getDBConnection();
+				PreparedStatement stm = conn.prepareStatement(insertSQL);
+				ResultSet rs = stm.executeQuery();) {
 
 			stm.setInt(1, childId);
 			stm.setInt(2, parentId);
-			linesWritten = stm.executeUpdate();
+			stm.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public boolean parentHasChild(long childId, long parentId) {
+		boolean hasChild = false;
+		final String insertSQL = "SELECT id from parent WHERE id_registered_user = '" + parentId + "' and id_child ='" + childId + "';";
+		System.out.println("childId: " + childId + ", parentId: " + parentId);
+		try (Connection conn = db.getDBConnection();
+				PreparedStatement stm = conn.prepareStatement(insertSQL);
+				ResultSet rs = stm.executeQuery();) {
+
+			if (rs.next()) {
+				hasChild = true;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+		return hasChild;
 	}
 
 	public int getChildId(String parentId) {
@@ -124,31 +147,28 @@ public class ParentAccountDAO {
 	}
 
 	public LinkedHashSet<Long> getChildrenId(long parentId) {
-		System.out.println("trying to find child id with parent: " + parentId);
 		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
 
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn
 						.prepareStatement("select * from parent where id_registered_user='" + parentId + "'");
 				ResultSet rs = stm.executeQuery();) {
+			
 			while (rs.next()) {
-				if(rs.getInt("id_child") != 0) {
-					System.out.println("child found " + rs.getInt("id_child"));
+				if (rs.getInt("id_child") != 0) {
 					childrenId.add((long) rs.getInt("id_child"));
-					System.out.println("and added");
 				}
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		System.out.println(childrenId.toString());
 		return childrenId;
 	}
 
 	public Long getParentsId(long childId) {
 		Long parentId = 0L;
-		System.out.println("connected to child db");
+		
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn
 						.prepareStatement("select id_parent from child where id_registered_user='" + childId + "'");
@@ -237,9 +257,4 @@ public class ParentAccountDAO {
 
 		return assigned;
 	}
-
-	public int getLinesWritten() {
-		return linesWritten;
-	}
-
 }

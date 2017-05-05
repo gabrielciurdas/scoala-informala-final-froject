@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.stereotype.Component;
+
 import it4kids.dao.BaseDAO;
 import it4kids.domain.AbstractModel;
 
 /**
- * This class performs specific operations on any objects which extends AbstractModel class.
+ * This class performs specific operations on any objects which extends
+ * AbstractModel class.
  */
+@Component(value="IMBaseDAO")
 public abstract class IMBaseDAO<T extends AbstractModel> implements BaseDAO<T> {
 	private Map<Long, T> models = new HashMap<Long, T>();
 	private static AtomicLong ID = new AtomicLong(System.currentTimeMillis());

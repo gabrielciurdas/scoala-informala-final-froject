@@ -1,8 +1,10 @@
 package it4kids.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -45,16 +47,14 @@ public class PrimaryParentController {
 
 		UserLogin user = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 		long id = user.getId();
-		System.out.println("user id: " + id);
 
-		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
-		LinkedHashSet<User> children = new LinkedHashSet<User>();
-		LinkedHashSet<Long> parentsId = new LinkedHashSet<>();
+		Set<Long> childrenId = new LinkedHashSet<>();
+		Set<User> children = new LinkedHashSet<>();
+		Set<Long> parentsId = new LinkedHashSet<>();
 
 		childrenId = parentService.getChildrenId(id);
-		System.out.println("childrenId: " + childrenId);
 		for (Long l : childrenId) {
-			if (childService.getChildDAO().hasParentAssigned(l)) {
+			if (childService.hasParentAssigned(l)) {
 				children.add(userService.getUserById(l));
 				parentsId.add(parentService.getParentsId(l));
 			}
@@ -94,32 +94,30 @@ public class PrimaryParentController {
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/primary_parent/edit");
 		modelAndView.addObject("user", userService.getUserById(id));
-		System.out.println("found user: " + userService.getUserById(id).getUserName());
 
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("delete")
 	public ModelAndView delete(User user, HttpServletRequest req) {
-		System.out.println("trying to delete");
 		ModelAndView result = new ModelAndView("");
-		
-			if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
-				try {
-					req.logout();
-				} catch (ServletException e) {
-					e.printStackTrace();
-				}
-				userService.deleteParent(user);
-				userService.delete(user);
-				return result;
-				
-			} 
-			 if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
-				userService.deleteParent(user);
-				userService.delete(user);
-				result = new ModelAndView(new RedirectView("cList"));
+
+		if (userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+			try {
+				req.logout();
+			} catch (ServletException e) {
+				e.printStackTrace();
 			}
+			userService.deleteParent(user);
+			userService.delete(user);
+			return result;
+
+		}
+		if (userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+			userService.deleteParent(user);
+			userService.delete(user);
+			result = new ModelAndView(new RedirectView("cList"));
+		}
 		return result;
 	}
 
@@ -129,15 +127,14 @@ public class PrimaryParentController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();
-				
-				if(userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
+
+				if (userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
 					result.setView(new RedirectView("account"));
-					
-				} else if(userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
+
+				} else if (userService.getUserById(user.getId()).getAccountType().equals("CHILD")) {
 					result.setView(new RedirectView("cList"));
 				}
 
@@ -177,11 +174,26 @@ public class PrimaryParentController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user: " + user.getUserName());
 			try {
-				userService.save(user);
+				userService.validate(user);
 				try {
-					userService.add(req, resp);
+					userService.add(user);
+
+					PrintWriter out = resp.getWriter();
+					req.setCharacterEncoding("UTF-8");
+					resp.setContentType("text/html; charset=UTF-8");
+					resp.setCharacterEncoding("UTF-8");
+
+					if (userService.getUserByUserName(user.getUserName()) != null) {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea a fost efectuata cu succes.');");
+						out.println("</script>");
+					} else {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea nu a fost efectuata cu succes.');");
+						out.println("</script>");
+					}
+
 				} catch (ServletException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -229,10 +241,30 @@ public class PrimaryParentController {
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			try {
-				userService.saveChild(child);
-				userService.saveParent(parent);
+				userService.validateChildUserName(child);
+				userService.validateParentUserName(parent);
 
-				parentService.assignParent(child.getUserName(), parent.getUserName(), req, resp);
+				parentService.assignParent(child.getUserName(), parent.getUserName());
+
+				PrintWriter out = resp.getWriter();
+				req.setCharacterEncoding("UTF-8");
+				resp.setContentType("text/html; charset=UTF-8");
+				resp.setCharacterEncoding("UTF-8");
+
+				if (parentService.hasChildAssigned(userService.getUserByUserName(child.getUserName()).getId(),
+						userService.getUserByUserName(parent.getUserName()).getId())
+						&& childService.hasParentAssigned(userService.getUserByUserName(child.getUserName()).getId(),
+								userService.getUserByUserName(parent.getUserName()).getId())) {
+					
+					out.println("<script type=\"text/javascript\">");
+					out.println("alert('Asignarea a fost efectuata cu succes.');");
+					out.println("</script>");
+				} else {
+					out.println("<script type=\"text/javascript\">");
+					out.println("alert('Asignarea nu a fost efectuata cu succes.');");
+					out.println("</script>");
+				}
+
 				return result;
 
 			} catch (ValidationException e) {
@@ -240,6 +272,8 @@ public class PrimaryParentController {
 					bindingResult.addError(new ObjectError("user", msg));
 				}
 				hasErrors = true;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		} else {
 			hasErrors = true;

@@ -5,15 +5,19 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
-import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
+import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.login.User;
 
+@Service
 public class TeacherService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-
+	
 	@Autowired
-	private JdbcTemplateUserDAO userDAO;
+	@Qualifier("JdbcTemplateUserDAO")
+	private UserDAO userDAO;
 
 	public Collection<User> listAllParents() {
 		LOGGER.debug("Listing parents ");

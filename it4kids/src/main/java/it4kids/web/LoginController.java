@@ -18,17 +18,21 @@ import it4kids.domain.UserLogin;
 import it4kids.domain.login.AccountType;
 import it4kids.service.ValidationException;
 import it4kids.service.login.LoginService;
+import it4kids.service.login.UserService;
 
 @Controller
 public class LoginController {
 
 	@Autowired
 	LoginService userLoginService;
+	
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/login")
 	public ModelAndView login() {
 		ModelAndView modelAndView = new ModelAndView("it4kids/login");
-		
+
 		modelAndView.addObject("userLogin", new UserLogin());
 
 		return modelAndView;
@@ -37,31 +41,30 @@ public class LoginController {
 	@RequestMapping(value = "/onLogin", method = RequestMethod.POST)
 	public ModelAndView onLogin(@Valid @ModelAttribute("userLogin") UserLogin userLogin, BindingResult bindingResult,
 			HttpServletRequest request) throws ValidationException {
-		
+
 		String accountType = "";
 		UserLogin newUser = new UserLogin();
-		
+
 		newUser.setUserName(request.getParameter("userName"));
 		newUser.setPassword(request.getParameter("password"));
-		
+
 		ModelAndView modelAndView = new ModelAndView();
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			try {
-				userLoginService.save(newUser);
-				if (userLoginService.isRegistered(newUser.getUserName(), newUser.getPassword())) {
-					accountType = AccountType.valueOf(userLoginService.getJdbcTemplate().getAccountType()).toString()
-							.toLowerCase();
-					newUser.setAccountType(accountType); 
-					newUser.setId(userLoginService.getJdbcTemplate().getId());
+				userLoginService.validate(newUser.getUserName(), newUser.getPassword());
+				if (userLoginService.isRegistered(userLogin)) {
+					accountType = AccountType.valueOf(userService.getUser(userLogin).getAccountType()).toString().toLowerCase();
+					newUser.setAccountType(accountType);
+					newUser.setId(userService.getUser(userLogin).getId());
 
 					request.getSession().setAttribute("currentUser", newUser);
 
 					modelAndView.setView(new RedirectView("/" + accountType + "/" + accountType));
 				}
 				return modelAndView;
-				
+
 			} catch (ValidationException e) {
 				for (String msg : e.getCauses()) {
 					bindingResult.addError(new ObjectError("userLogin", msg));
