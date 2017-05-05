@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import it4kids.dao.ConnectionToDB;
@@ -21,6 +23,9 @@ import it4kids.domain.login.ChildAccount;
  */
 @Repository(value="ChildAccountDAO")
 public class ChildAccountDAO implements ChildDAO{
+	
+	@Autowired
+	@Qualifier("")
 
 	private ConnectionToDB db = new ConnectionToDB();
 
@@ -31,7 +36,7 @@ public class ChildAccountDAO implements ChildDAO{
 	 * @param child
 	 *            is the parent to be written in the specified database.
 	 */
-	public void addChildId(int childId) throws SQLException {
+	public void addChildId(int childId){
 		final String insertSQL = "INSERT INTO child(id_registered_user)" + " values(?)";
 
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
@@ -83,7 +88,8 @@ public class ChildAccountDAO implements ChildDAO{
 	 *
 	 * @return the list of ChildAccount objects.
 	 */
-	public List<ChildAccount> getAll() throws SQLException {
+	@Override
+	public List<ChildAccount> getAll() {
 		List<ChildAccount> result = new ArrayList<>();
 
 		final String getChild = "select id, id_registered_users, id_parent" + " from child";

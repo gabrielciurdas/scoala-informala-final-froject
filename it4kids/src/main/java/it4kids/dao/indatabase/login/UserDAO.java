@@ -54,7 +54,7 @@ public interface UserDAO extends BaseDAO<User> {
 	
 	void add(User user) throws ServletException, IOException;
 	
-	void add(HttpServletRequest request) throws ServletException, IOException;
+	void add(HttpServletRequest request);
 	
 	int getUsernameId(String username);
 

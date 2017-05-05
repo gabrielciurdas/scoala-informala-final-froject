@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import it4kids.dao.ConnectionToDB;
-import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.dao.indatabase.quiz.QuizDAO;
@@ -48,22 +47,6 @@ public class ApplicationConfiguration {
 		registration.addUrlPatterns("/*");
 		return registration;
 	}
-
-	/*@Bean
-	public RegisteredUserDAO registeredUserDAO() {
-		return new RegisteredUserDAO();
-	}*/
-	
-	
-/*	@Bean
-	public ParentAccountDAO parentAccountDAO() {
-		return new ParentAccountDAO();
-	}
-	*/
-	/*@Bean
-	public ChildAccountDAO ChildAccountDAO() {
-		return new ChildAccountDAO();
-	}*/
 	
 	@Bean 
 	public AdminService adminService() {
@@ -168,18 +151,13 @@ public class ApplicationConfiguration {
 		return new UserLogin();
 	}
 
-	/*@Bean
-	public JdbcTemplateUserDAO jdbcTemplateDAO() {
-		return new JdbcTemplateUserDAO(dataSource());
-	}*/
-	
 	@Bean
 	public ConnectionToDB connectionToDB() {
 		return new ConnectionToDB();
 	}
 	
 	//Local deployment
-	@Bean
+	/*@Bean
 	public BasicDataSource dataSource() {
 
 		BasicDataSource basicDataSource = new BasicDataSource();
@@ -188,10 +166,10 @@ public class ApplicationConfiguration {
 		basicDataSource.setPassword(DB_PASSWORD);
 
 		return basicDataSource;
-	}
+	}*/
 	
 	//Heroku deployment use only
-	/*@Bean
+		@Bean
 	    public BasicDataSource dataSource() {
 	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
 	        String username = System.getenv("JDBC_DATABASE_USERNAME");
@@ -203,5 +181,5 @@ public class ApplicationConfiguration {
 	        basicDataSource.setPassword(password);
 
 	        return basicDataSource;
-	    }*/
+	    }
 }

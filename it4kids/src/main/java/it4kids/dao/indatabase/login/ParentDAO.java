@@ -7,8 +7,6 @@ import it4kids.domain.login.ParentAccount;
 
 public interface ParentDAO {
 	
-	//void add(ParentAccount parent, int childId) throws SQLException;
-
 	void addParentId(int parentId);
 
 	void addChild(int childId, int parentId);

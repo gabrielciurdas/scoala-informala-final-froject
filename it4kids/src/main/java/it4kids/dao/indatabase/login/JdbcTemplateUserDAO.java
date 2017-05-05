@@ -207,7 +207,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	 */
 	
 	@Override
-	public void add(HttpServletRequest request) throws ServletException, IOException {
+	public void add(HttpServletRequest request) {
 
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 
@@ -217,7 +217,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 			try {
 				addAccount(request, accountType);
-			} catch (SQLException e) {
+			} catch (SQLException | ServletException | IOException e) {
 				e.printStackTrace();
 			}
 		}

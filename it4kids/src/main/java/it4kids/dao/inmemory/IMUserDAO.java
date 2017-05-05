@@ -112,7 +112,7 @@ public class IMUserDAO extends IMBaseDAO<User> implements UserDAO{
 	}
 
 	@Override
-	public void add(HttpServletRequest request) throws ServletException, IOException {
+	public void add(HttpServletRequest request) {
 		
 	}
 
