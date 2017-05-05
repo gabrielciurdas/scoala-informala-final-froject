@@ -6,10 +6,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
+import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.service.ValidationException;
 
@@ -18,29 +19,30 @@ public class LoginService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
 
 	@Autowired
-	JdbcTemplateUserDAO jdbcTemplate;
+	@Qualifier("JdbcTemplateUserDAO")
+	private UserDAO userDAO;
 
-	public boolean isRegistered(String userName, String password) {
-    	System.out.println("userLoginService tries to authenticate " + userName);
+	public boolean isRegistered(UserLogin userLogin) {
+    	System.out.println("userLoginService tries to authenticate " + userLogin.getUserName());
 		boolean isValid = false;
 		
-		if(jdbcTemplate.userIsRegistered(userName, password)) {
+		if(userDAO.userIsRegistered(userLogin.getUserName(), userLogin.getPassword())) {
 			isValid = true;
-			System.out.println("user " + userName + " is registered");
+			System.out.println("user " + userLogin.getUserName() + " is registered");
 		}
 	
 		return isValid;
 	}
+
+	/*public void save(UserLogin user) throws ValidationException {
+		validate(user.getUserName(), user.getPassword());
+	}*/
 	
-	public JdbcTemplateUserDAO getJdbcTemplate() {
-		return jdbcTemplate;
+	public void validate(String userName, String password) throws ValidationException {
+		checkAuthentication(userName, password);
 	}
 
-	public void save(UserLogin user) throws ValidationException {
-		validate(user.getUserName(), user.getPassword());
-	}
-	
-	private void validate(String userName, String password) throws ValidationException {
+	private void checkAuthentication(String userName, String password) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		
 		if (StringUtils.isEmpty(userName)) {
@@ -51,7 +53,7 @@ public class LoginService {
 			errors.add("Parola nu poate fi goala.");
 		}
 		
-		if(!jdbcTemplate.userIsRegistered(userName, password)) {
+		if(!userDAO.userIsRegistered(userName, password)) {
 			errors.add("Numele de utilizator si parola sunt invalide.");
 		}
 

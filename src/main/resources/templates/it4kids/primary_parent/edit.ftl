@@ -62,13 +62,13 @@
 						<label for="firstName">Prenume</label> 
 						<input type="text"
 							class="form-control" id="firstName" name="firstName"
-							placeHolder="Prenume" value="${user.firstName}"/>
+							placeHolder="Prenume" value="${user.firstName!''}"/>
 					</div>
 					<div class="form-group">
 						<label for="lastName">Nume</label> 
 						<input type="text"
 							class="form-control" id="lastName" name="lastName"
-							placeHolder="Nume" value="${user.lastName}"/>
+							placeHolder="Nume" value="${user.lastName!''}"/>
 					</div>
 
 
@@ -84,21 +84,21 @@
 						<label for="email">Adresa de email</label> 
 						<input type="email"
 							class="form-control" id="email" name="email"
-							placeHolder="Adresa de email" value="${user.email}" />
+							placeHolder="Adresa de email" value="${user.email!''}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="userName">Nume de utilizator</label> 
 						<input type="text"
 							class="form-control" id="userName" name="userName"
-							placeHolder="Nume de utilizator" value="${user.userName}"  disabled/>
+							placeHolder="Nume de utilizator" value="${user.userName!''}"  disabled/>
 					</div>
 					
 					<div class="form-group">
 						<label for="password">Parola</label> 
 						<input type="password"
 							class="form-control" id="password" name="password"
-							placeHolder="Parola" value="${user.password}"  disabled/>
+							placeHolder="Parola" value="${user.password!''}"  disabled/>
 					</div>
 
 

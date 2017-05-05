@@ -9,17 +9,6 @@ public class ChildAccount extends Account {
 
 	private int idParent;
 
-	public ChildAccount(int id, int idRegisteredUser, int idParent) {
-		setId(id);
-		setIdRegisteredUser(idRegisteredUser);
-		this.idParent = idParent;
-	}
-
-	public ChildAccount(int idRegisteredUser, int idParent) {
-		setIdRegisteredUser(idRegisteredUser);
-		setIdParent(idParent);
-	}
-
 	public ChildAccount() {
 		setId(0);
 		setIdRegisteredUser(0);
@@ -31,7 +20,7 @@ public class ChildAccount extends Account {
 	}
 
 	public int getIdParent() {
-		return getIdParent();
+		return idParent;
 	}
 
 	public void setIdParent(int idParent) {

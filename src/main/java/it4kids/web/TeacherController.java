@@ -1,6 +1,7 @@
 package it4kids.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
@@ -40,7 +41,8 @@ public class TeacherController {
 		System.out.println("trying to set view of parentList");
 		ModelAndView result = new ModelAndView("it4kids/teacher/pList");
 
-		Collection<User> users = "".equals(query) ? userService.listAllParents() : userService.searchParentByName(query);
+		Collection<User> users = "".equals(query) ? userService.listAllParents()
+				: userService.searchParentByName(query);
 		result.addObject("userList", users);
 
 		result.addObject("query", query);
@@ -52,14 +54,15 @@ public class TeacherController {
 	public ModelAndView teacherChildrenList(@RequestParam(defaultValue = "") String query) {
 		ModelAndView result = new ModelAndView("it4kids/teacher/cList");
 
-		Collection<User> users = "".equals(query) ? userService.listAllChildren() : userService.searchChildByName(query);
+		Collection<User> users = "".equals(query) ? userService.listAllChildren()
+				: userService.searchChildByName(query);
 		result.addObject("userList", users);
 
 		result.addObject("query", query);
 
 		return result;
 	}
-	
+
 	@RequestMapping("/account")
 	public ModelAndView teacherAccountView(HttpServletRequest req) {
 		ModelAndView result = new ModelAndView("it4kids/teacher/account");
@@ -69,7 +72,6 @@ public class TeacherController {
 
 		return result;
 	}
-
 
 	@RequestMapping("edit")
 	public ModelAndView renderEdit(long id) {
@@ -156,9 +158,25 @@ public class TeacherController {
 		if (!bindingResult.hasErrors()) {
 			System.out.println("user: " + user.getUserName());
 			try {
-				userService.save(user);
+				userService.validate(user);
 				try {
-					userService.add(req, resp);
+					userService.add(user);
+
+					PrintWriter out = resp.getWriter();
+					req.setCharacterEncoding("UTF-8");
+					resp.setContentType("text/html; charset=UTF-8");
+					resp.setCharacterEncoding("UTF-8");
+
+					if (userService.getUserByUserName(user.getUserName()) != null) {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea a fost efectuata cu succes.');");
+						out.println("</script>");
+					} else {
+						out.println("<script type=\"text/javascript\">");
+						out.println("alert('Inregistrarea nu a fost efectuata cu succes.');");
+						out.println("</script>");
+					}
+
 				} catch (ServletException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
