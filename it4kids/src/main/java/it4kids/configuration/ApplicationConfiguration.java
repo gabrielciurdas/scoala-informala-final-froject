@@ -15,10 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import it4kids.dao.ConnectionToDB;
-import it4kids.dao.indatabase.login.ChildAccountDAO;
 import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
-import it4kids.dao.indatabase.login.ParentAccountDAO;
-import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.dao.indatabase.quiz.QuizDAO;
@@ -52,20 +49,21 @@ public class ApplicationConfiguration {
 		return registration;
 	}
 
-	@Bean
+	/*@Bean
 	public RegisteredUserDAO registeredUserDAO() {
 		return new RegisteredUserDAO();
-	}
+	}*/
 	
-	@Bean
+	
+/*	@Bean
 	public ParentAccountDAO parentAccountDAO() {
 		return new ParentAccountDAO();
 	}
-	
-	@Bean
+	*/
+	/*@Bean
 	public ChildAccountDAO ChildAccountDAO() {
 		return new ChildAccountDAO();
-	}
+	}*/
 	
 	@Bean 
 	public AdminService adminService() {
@@ -119,25 +117,21 @@ public class ApplicationConfiguration {
 			
 			@Override
 			public QuizAnswer update(QuizAnswer model) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
 			@Override
 			public Collection<QuizAnswer> getAll() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
 			@Override
 			public QuizAnswer findById(Long id) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 			
 			@Override
 			public boolean delete(QuizAnswer model) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		};
@@ -174,10 +168,10 @@ public class ApplicationConfiguration {
 		return new UserLogin();
 	}
 
-	@Bean
+	/*@Bean
 	public JdbcTemplateUserDAO jdbcTemplateDAO() {
 		return new JdbcTemplateUserDAO(dataSource());
-	}
+	}*/
 	
 	@Bean
 	public ConnectionToDB connectionToDB() {

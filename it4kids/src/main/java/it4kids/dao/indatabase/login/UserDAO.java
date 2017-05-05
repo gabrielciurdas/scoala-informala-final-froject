@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Repository;
+
 import it4kids.dao.BaseDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
@@ -21,6 +23,7 @@ import it4kids.domain.login.User;
  * 
  * <p> Created on 03/10/2017
  */
+@Repository
 public interface UserDAO extends BaseDAO<User> {
 	
 	User findByUserName(String userName);
@@ -49,5 +52,26 @@ public interface UserDAO extends BaseDAO<User> {
 	
 	Collection<User> searchByChildName(String name);
 	
-	void add(HttpServletRequest request/*, HttpServletResponse response*/) throws ServletException, IOException;
+	void add(User user) throws ServletException, IOException;
+	
+	void add(HttpServletRequest request) throws ServletException, IOException;
+	
+	int getUsernameId(String username);
+
+	boolean usernameAvailable(String userName);
+	
+	String getUserRole(String userName);
+	
+	String getUserAccountTye(String userName);
+	
+	boolean userExists(int id);
+	
+	void setChildId(int childId);
+
+	void setParentId(int parentId);
+	
+	boolean userNameNotTaken(String userName);
+
+	void save(User user);
+	
 }

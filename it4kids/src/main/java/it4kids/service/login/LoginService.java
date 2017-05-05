@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,7 +19,8 @@ public class LoginService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
 
 	@Autowired
-	UserDAO userDAO;
+	@Qualifier("JdbcTemplateUserDAO")
+	private UserDAO userDAO;
 
 	public boolean isRegistered(UserLogin userLogin) {
     	System.out.println("userLoginService tries to authenticate " + userLogin.getUserName());
@@ -32,11 +34,15 @@ public class LoginService {
 		return isValid;
 	}
 
-	public void save(UserLogin user) throws ValidationException {
+	/*public void save(UserLogin user) throws ValidationException {
 		validate(user.getUserName(), user.getPassword());
-	}
+	}*/
 	
-	private void validate(String userName, String password) throws ValidationException {
+	public void validate(String userName, String password) throws ValidationException {
+		checkAuthentication(userName, password);
+	}
+
+	private void checkAuthentication(String userName, String password) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		
 		if (StringUtils.isEmpty(userName)) {

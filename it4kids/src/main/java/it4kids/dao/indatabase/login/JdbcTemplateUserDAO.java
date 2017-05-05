@@ -11,20 +11,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import it4kids.domain.UserLogin;
-import it4kids.domain.login.ParentAccount;
 import it4kids.domain.login.User;
 
+@Repository(value="JdbcTemplateUserDAO")
 public class JdbcTemplateUserDAO implements UserDAO {
 	private JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	private RegisteredUserDAO userDAO;
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -64,7 +61,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		Collection<User> children = new ArrayList<>();
 
 		for (Long l : childrenId) {
-			System.out.println("trying to add: " + l);
 			children.add(findById(l));
 		}
 		return children;
@@ -72,7 +68,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public User findById(Long id) {
-		System.out.println("trying to find " + id);
 
 		try {
 			return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'",
@@ -84,12 +79,10 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public User update(User user) {
-		Long id = null;
-		System.out.println("trying to save changes for user with id " + user.getId());
 		String sql = "UPDATE registered_users SET first_name=?, last_name=?, email=?, id=?"
 				+ "WHERE id = ? returning id";
 
-		id = jdbcTemplate.queryForObject(sql,
+		jdbcTemplate.queryForObject(sql,
 				new Object[] { user.getFirstName(), user.getLastName(), user.getEmail(), user.getId(), user.getId()
 
 				}, new RowMapper<Long>() {
@@ -97,7 +90,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 						return rs.getLong(1);
 					}
 				});
-		System.out.println("trying to save changes for user with id " + user.getId());
 		return user;
 	}
 
@@ -111,7 +103,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public boolean deleteParent(User user) {
-		System.out.println("trying to delete from parent table");
 		String sql = "delete from parent WHERE id_child ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
 		String sql2 = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
@@ -121,8 +112,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public boolean deleteChild(User user) {
-
-		System.out.println("trying to delete from child table");
 		String sql = "delete from child WHERE id_registered_user ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
 		String sql2 = "delete from child WHERE id_parent ='" + user.getId() + "'";
@@ -218,16 +207,12 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	 */
 	
 	@Override
-	public void add(HttpServletRequest request/*, HttpServletResponse response*/) throws ServletException, IOException {
-	/*	PrintWriter out = response.getWriter();
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");*/
+	public void add(HttpServletRequest request) throws ServletException, IOException {
 
 		UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 
 		String accountType = "";
-		if (userDAO.usernameAvailable(request.getParameter("userName"))) {
+		if (usernameAvailable(request.getParameter("userName"))) {
 			accountType = userLogin.getAccountType();
 
 			try {
@@ -236,10 +221,9 @@ public class JdbcTemplateUserDAO implements UserDAO {
 				e.printStackTrace();
 			}
 		}
-		//validateRegistration(out);
 	}
 
-	private void addAccount(HttpServletRequest request, String accountType) throws SQLException {
+	private void addAccount(HttpServletRequest request, String accountType) throws SQLException, ServletException, IOException {
 
 		User user = new User();
 		user.setFirstName(request.getParameter("firstName"));
@@ -250,46 +234,75 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		user.setPassword(request.getParameter("password"));
 
 		if (accountType.equalsIgnoreCase("PRIMARY_PARENT")) {
-			userDAO.add(user);
+			add(user);
 			if (user.getAccountType().equalsIgnoreCase("PARENT")) {
 				ParentAccountDAO p = new ParentAccountDAO();
-				p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
+				p.addParentId(getUsernameId(request.getParameter("userName")));
 
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
 				ChildAccountDAO c = new ChildAccountDAO();
-				c.add(userDAO.getUsernameId(request.getParameter("userName")));
+				c.addChildId(getUsernameId(request.getParameter("userName")));
 			}
 
 		} else if (accountType.equalsIgnoreCase("TEACHER")) {
-			userDAO.add(user);
+			add(user);
 
 			ParentAccountDAO p = new ParentAccountDAO();
-			p.add(new ParentAccount(userDAO.getUsernameId(request.getParameter("userName"))));
+			p.addParentId(getUsernameId(request.getParameter("userName")));
 
 		} else if (accountType.equalsIgnoreCase("ADMIN")) {
-			userDAO.add(user);
+			add(user);
 		}
 	}
 
-	public int getUserId(String userName) {
-
-		return userDAO.getUsernameId(userName);
-	}
-
+	@Override
 	public boolean userNameNotTaken(String userName) {
 
-		return userDAO.usernameAvailable(userName);
+		return usernameAvailable(userName);
 	}
 
+	@Override
 	public void setChildId(int childId) {
-		userDAO.setChildId(childId);
+		setChildId(childId);
 	}
 
+	@Override
 	public void setParentId(int parentId) {
-		userDAO.setParentId(parentId);
+		setParentId(parentId);
 	}
 
+	@Override
 	public void save(User user) {
 		update(user);
+	}
+
+	@Override
+	public void add(User user) throws ServletException, IOException {
+		
+	}
+
+	@Override
+	public int getUsernameId(String username) {
+		return 0;
+	}
+
+	@Override
+	public boolean usernameAvailable(String userName) {
+		return false;
+	}
+
+	@Override
+	public String getUserRole(String userName) {
+		return null;
+	}
+
+	@Override
+	public String getUserAccountTye(String userName) {
+		return null;
+	}
+
+	@Override
+	public boolean userExists(int id) {
+		return false;
 	}
 }

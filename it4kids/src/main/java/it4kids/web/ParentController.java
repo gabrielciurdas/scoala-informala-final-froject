@@ -42,16 +42,14 @@ public class ParentController {
 
 		UserLogin user = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 		long id = user.getId();
-		System.out.println("user id: " + id);
 
 		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
 		LinkedHashSet<User> children = new LinkedHashSet<User>();
 		LinkedHashSet<Long> parentsId = new LinkedHashSet<>();
 		
 		childrenId = parentService.getChildrenId(id);
-		System.out.println("childrenId: " + childrenId);
 		for (Long l : childrenId) {
-			if (childService.getChildDAO().hasParentAssigned(l)) {
+			if (childService.hasParentAssigned(l)) {
 				children.add(userService.getUserById(l));
 				parentsId.add(parentService.getParentsId(l));
 			}
@@ -92,14 +90,12 @@ public class ParentController {
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/parent/edit");
 		modelAndView.addObject("user", userService.getUserById(id));
-		System.out.println("found user: " + userService.getUserById(id).getUserName());
 
 		return modelAndView;
 	}
 
 	@RequestMapping("delete")
 	public ModelAndView delete(User user) {
-		System.out.println("trying to delete");
 		userService.deleteParent(user);
 		userService.delete(user);
 
@@ -116,7 +112,6 @@ public class ParentController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();

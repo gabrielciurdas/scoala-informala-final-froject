@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ChildAccount;
 
@@ -17,7 +19,8 @@ import it4kids.domain.login.ChildAccount;
  * 
  *      Created by Gabriel Ciurdas on 3/10/2017.
  */
-public class ChildAccountDAO {
+@Repository(value="ChildAccountDAO")
+public class ChildAccountDAO implements ChildDAO{
 
 	private ConnectionToDB db = new ConnectionToDB();
 
@@ -28,7 +31,7 @@ public class ChildAccountDAO {
 	 * @param child
 	 *            is the parent to be written in the specified database.
 	 */
-	public void add(int childId) throws SQLException {
+	public void addChildId(int childId) throws SQLException {
 		final String insertSQL = "INSERT INTO child(id_registered_user)" + " values(?)";
 
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
@@ -58,14 +61,10 @@ public class ChildAccountDAO {
 	
 	public boolean childHasParent(long childId, long parentId) {
 		boolean hasParent= false;
-		final String insertSQL = "SELECT username from child WHERE id_registered_user =? and id_parent = ?";
+		final String insertSQL = "SELECT id from child WHERE id_registered_user ='" + childId + "' and id_parent ='" + parentId +"';";
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn.prepareStatement(insertSQL);
 				ResultSet rs = stm.executeQuery();) {
-
-			stm.setInt(1, (int) childId);
-			stm.setInt(2, (int) parentId);
-			stm.executeUpdate();
 
 			if (rs.next()) {
 				hasParent = true;

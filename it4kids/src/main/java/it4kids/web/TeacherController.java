@@ -160,7 +160,7 @@ public class TeacherController {
 			try {
 				userService.validate(user);
 				try {
-					userService.add(req);
+					userService.add(user);
 
 					PrintWriter out = resp.getWriter();
 					req.setCharacterEncoding("UTF-8");

@@ -30,6 +30,7 @@ public class AdminController {
 
 	@Autowired
 	private UserService userService;
+	
 
 	@RequestMapping("tList")
 	public ModelAndView adminTeacherList(@RequestParam(defaultValue = "") String query) {
@@ -159,7 +160,7 @@ public class AdminController {
 			try {
 				userService.validate(user);
 				try {
-					userService.add(req);
+					userService.add(user);
 					
 					PrintWriter out = resp.getWriter();
 					req.setCharacterEncoding("UTF-8");

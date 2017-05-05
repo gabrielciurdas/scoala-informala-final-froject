@@ -8,16 +8,16 @@ import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
+import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
@@ -28,12 +28,13 @@ import it4kids.service.ValidationException;
 @Service
 public class UserService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-
+	
 	@Autowired
-	private JdbcTemplateUserDAO dao;
-
+	@Qualifier("JdbcTemplateUserDAO")
+	private UserDAO dao;
+	
 	@Autowired
-	private RegisteredUserDAO registeredUserDAO;
+	private RegisteredUserDAO registeredUser;
 
 	public User getUserById(long id) {
 		LOGGER.debug("Getting user with id: " + id);
@@ -44,6 +45,7 @@ public class UserService {
 	public User getUserByUserName(String userName) {
 		LOGGER.debug("Getting user with username: " + userName);
 
+		System.out.println("searching for " + userName);
 		return dao.findByUserName(userName);
 	}
 
@@ -79,8 +81,14 @@ public class UserService {
 		return dao.getChildren(childrenId);
 	}
 
-	public void add(HttpServletRequest req/*, HttpServletResponse resp*/) throws ServletException, IOException {
-		dao.add(req/*, resp*/);
+	public void add(HttpServletRequest req) throws ServletException, IOException {
+		LOGGER.debug("Adding user ");
+		dao.add(req);
+	}
+	
+	public void add(User user) throws ServletException, IOException {
+		LOGGER.debug("Adding user: " + user.getUserName());
+		registeredUser.add(user);
 	}
 
 	public boolean authenticateUser(String userName, String password) {
@@ -168,7 +176,7 @@ public class UserService {
 			errors.add("Numele de utilizator trebuie sa fie compus din cel putin trei caractere.");
 		}
 		
-		else if (!registeredUserDAO.usernameAvailable(user.getUserName())) {
+		else if (!registeredUser.usernameAvailable(user.getUserName())) {
 			errors.add("Numele de utilizator introdus este indisponibil.");
 		}
 
@@ -247,11 +255,11 @@ public class UserService {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
 
-		else if (!registeredUserDAO.getUserAccountTye(user.getUserName()).contains("PARENT")) {
+		else if (!registeredUser.getUserAccountTye(user.getUserName()).contains("PARENT")) {
 			errors.add("Numele de utilizator introdus pentru parinte este invalid.");
 		}
 
-		else if (registeredUserDAO.usernameAvailable(user.getUserName())) {
+		else if (registeredUser.usernameAvailable(user.getUserName())) {
 			errors.add("Utilizatorul " + user.getUserName() + " nu exista.");
 		}
 
@@ -275,11 +283,11 @@ public class UserService {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
 
-		else if (!registeredUserDAO.getUserAccountTye(user.getUserName()).equals("CHILD")) {
+		else if (!registeredUser.getUserAccountTye(user.getUserName()).equals("CHILD")) {
 			errors.add("Numele de utilizator introdus pentru copil este invalid.");
 		}
 
-		else if (registeredUserDAO.usernameAvailable(user.getUserName())) {
+		else if (registeredUser.usernameAvailable(user.getUserName())) {
 			errors.add("Utilizatorul " + user.getUserName() + " nu exista.");
 		}
 
@@ -288,10 +296,10 @@ public class UserService {
 		}
 	}
 
-	public JdbcTemplateUserDAO getDao() {
+/*	public JdbcTemplateUserDAO getDao() {
 		return dao;
 	}
-
+*/
 	public void saveEdit(User user) throws ValidationException {
 		validateEdit(user);
 		dao.update(user);

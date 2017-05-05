@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
@@ -47,16 +47,14 @@ public class PrimaryParentController {
 
 		UserLogin user = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 		long id = user.getId();
-		System.out.println("user id: " + id);
 
-		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
-		LinkedHashSet<User> children = new LinkedHashSet<User>();
-		LinkedHashSet<Long> parentsId = new LinkedHashSet<>();
+		Set<Long> childrenId = new LinkedHashSet<>();
+		Set<User> children = new LinkedHashSet<>();
+		Set<Long> parentsId = new LinkedHashSet<>();
 
 		childrenId = parentService.getChildrenId(id);
-		System.out.println("childrenId: " + childrenId);
 		for (Long l : childrenId) {
-			if (childService.getChildDAO().hasParentAssigned(l)) {
+			if (childService.hasParentAssigned(l)) {
 				children.add(userService.getUserById(l));
 				parentsId.add(parentService.getParentsId(l));
 			}
@@ -96,14 +94,12 @@ public class PrimaryParentController {
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/primary_parent/edit");
 		modelAndView.addObject("user", userService.getUserById(id));
-		System.out.println("found user: " + userService.getUserById(id).getUserName());
 
 		return modelAndView;
 	}
 
 	@RequestMapping("delete")
 	public ModelAndView delete(User user, HttpServletRequest req) {
-		System.out.println("trying to delete");
 		ModelAndView result = new ModelAndView("");
 
 		if (userService.getUserById(user.getId()).getAccountType().equals("PRIMARY_PARENT")) {
@@ -131,7 +127,6 @@ public class PrimaryParentController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();
@@ -179,11 +174,10 @@ public class PrimaryParentController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user: " + user.getUserName());
 			try {
 				userService.validate(user);
 				try {
-					userService.add(req);
+					userService.add(user);
 
 					PrintWriter out = resp.getWriter();
 					req.setCharacterEncoding("UTF-8");

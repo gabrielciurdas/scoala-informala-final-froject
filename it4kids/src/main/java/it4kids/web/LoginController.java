@@ -53,7 +53,7 @@ public class LoginController {
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
 			try {
-				userLoginService.save(newUser);
+				userLoginService.validate(newUser.getUserName(), newUser.getPassword());
 				if (userLoginService.isRegistered(userLogin)) {
 					accountType = AccountType.valueOf(userService.getUser(userLogin).getAccountType()).toString().toLowerCase();
 					newUser.setAccountType(accountType);
