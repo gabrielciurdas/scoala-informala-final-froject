@@ -35,7 +35,6 @@ public class ApplicationConfiguration {
 	}
 	
 	//Local deployment
-	
 	/*@Bean
 	public BasicDataSource dataSource() {
 
