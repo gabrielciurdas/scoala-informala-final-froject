@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import it4kids.domain.quiz.Quiz;
-import it4kids.service.login.ChildService;
 import it4kids.service.quiz.QuizService;
 
 @Controller
@@ -18,9 +17,6 @@ public class ChildController {
 	
 	@Autowired
 	private QuizService quizService;
-	
-	@Autowired
-	private ChildService childService;
 	
 	@RequestMapping("/child")
 	public ModelAndView childMainView() {

@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
+import it4kids.service.login.UserService;
 
 /**
  * Created by Gabriel Ciurdas on 3/15/2017.
@@ -24,7 +27,9 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 	
 	@Autowired
 	private UserLogin userLogin;
-
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+	
 	@Override
 	public int getUsernameId(String username) {
 		int id = 0;
@@ -35,11 +40,11 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 			if (rs.next()) {
 				id = rs.getInt("id");
 			} else {
-				System.out.println("username does not exist");
+				LOGGER.info("User with username + " + username + " does not exist.");
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return id;
 	}
@@ -51,7 +56,8 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 		try (Connection conn = db.getDBConnection();
 				Statement stm = conn.createStatement();
 				ResultSet rs = stm.executeQuery("select * from registered_users where username ILIKE '" + userName + "'");) {
-			System.out.println("connected to db");
+			
+			LOGGER.info("Querying DB if username: " + userName + " is available.");
 
 			if (rs.next()) {
 				available = false;
@@ -59,8 +65,8 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 				available = true;
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return available;
 	}
@@ -78,8 +84,8 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 				role = rs.getString("account_type");
 			} 
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return role;
 	}
@@ -91,14 +97,15 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 		try (Connection conn = db.getDBConnection();
 				Statement stm = conn.createStatement();
 				ResultSet rs = stm.executeQuery("select * from registered_users where username='" + userName + "'");) {
-			System.out.println("connected to db");
+			
+			LOGGER.info("Querying DB to check the user role for username: " + userName);
 
 			if (rs.next()) {
 				accountType = rs.getString("account_type");
 			} 
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return accountType;
 	}
@@ -109,7 +116,7 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 		try (Connection conn = db.getDBConnection();
 				Statement stm = conn.createStatement();
 				ResultSet rs = stm.executeQuery("select * from registered_users where id='" + id + "'");) {
-			System.out.println("connected to db");
+			LOGGER.info("Querying DB if user with id " + id + " exists.");
 
 			if (rs.next()) {
 				exists = true;
@@ -117,8 +124,8 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 				exists = false;
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		
 		return exists;
@@ -147,8 +154,8 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 
 			stm.executeUpdate();
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -160,8 +167,8 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 			stm.setInt(1, childId);
 			stm.executeUpdate();
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -172,8 +179,8 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 
 			stm.setInt(1, parentId);
 			stm.executeUpdate();
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 

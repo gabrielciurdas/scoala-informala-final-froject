@@ -11,17 +11,22 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it4kids.domain.UserLogin;
 import it4kids.service.SecurityService;
+import it4kids.service.login.UserService;
 
 @Component
 public class SecurityFilter implements Filter {
 
 	@Autowired
 	private SecurityService securityService;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	@Override
 	public void destroy() {
@@ -84,8 +89,7 @@ public class SecurityFilter implements Filter {
 				}
 		} if (url.contains("parent")) {
 			  if(userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
-					System.out.println("Thread name: " + Thread.currentThread().getName() + ", current user: "
-							+ (userLogin != null ? userLogin.getUserName() : null));
+				  LOGGER.info("Current user: " + (userLogin != null ? userLogin.getUserName() : null));
 					chain.doFilter(request, response);
 					return;
 					
@@ -99,8 +103,7 @@ public class SecurityFilter implements Filter {
 			}
 		}
 
-		System.out.println("Thread name: " + Thread.currentThread().getName() + ", current user: "
-				+ (userLogin != null ? userLogin.getUserName() : null));
+		LOGGER.info("Current user: " + (userLogin != null ? userLogin.getUserName() : null));
 
 		chain.doFilter(request, response);
 	}

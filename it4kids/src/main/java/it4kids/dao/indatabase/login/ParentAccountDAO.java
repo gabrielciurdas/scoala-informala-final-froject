@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ParentAccount;
+import it4kids.service.login.UserService;
 
 /**
  * This class is a data access object for a ParentAccount object.
@@ -25,39 +28,13 @@ public class ParentAccountDAO implements ParentDAO{
 	@Autowired
 	private ConnectionToDB db;
 
-	/**
-	 * This method writes a ParentAccount object in the specified database by
-	 * creating a connection with a PostgreSQL server and using a query.
-	 *
-	 * @param parent
-	 *            is the parent to be written in the specified database.
-	 * @param childId
-	 *            is the id of the child to be written in the specified
-	 *            database.
-	 */
-
-	/*public void add(ParentAccount parent, int childId) throws SQLException {
-
-		final String insertSQL = "INSERT INTO parent(id_registered_user, id_child)" + " values(?,?)";
-
-		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
-
-			stm.setInt(1, parent.getIdRegisteredUser());
-			stm.setInt(2, childId);
-			stm.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!");
-
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-
-	}*/
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	/**
 	 * This method writes a ParentAccount object in the specified database by
 	 * creating a connection with a PostgreSQL server and using a query.
 	 *
-	 * @param parent
+	 * @param parentId
 	 *            is the parent to be written in the specified database.
 	 */
 	public void addParentId(int parentId) {
@@ -67,10 +44,10 @@ public class ParentAccountDAO implements ParentDAO{
 
 			stm.setInt(1, parentId);
 			stm.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!");
+			LOGGER.info("Record has been inserted into parent table!");
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -82,10 +59,10 @@ public class ParentAccountDAO implements ParentDAO{
 			stm.setInt(1, parentId);
 			stm.setInt(2, childId);
 			stm.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!");
+			LOGGER.info("Record has been inserted into child table!");
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -107,24 +84,26 @@ public class ParentAccountDAO implements ParentDAO{
 			stm.setInt(1, childId);
 			stm.setInt(2, parentId);
 			stm.executeUpdate();
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+			LOGGER.info("Child has been assigned with id: " + childId + " and parent id: " + parentId);
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
 	public boolean parentHasChild(long childId, long parentId) {
 		boolean hasChild = false;
 		final String insertSQL = "SELECT id from parent WHERE id_registered_user = '" + parentId + "' and id_child ='" + childId + "';";
-		System.out.println("childId: " + childId + ", parentId: " + parentId);
+		
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn.prepareStatement(insertSQL);
 				ResultSet rs = stm.executeQuery();) {
 
 			if (rs.next()) {
+				LOGGER.info("Parent has a child assigned.");
 				hasChild = true;
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 
 		return hasChild;
@@ -139,11 +118,11 @@ public class ParentAccountDAO implements ParentDAO{
 			if (rs.next()) {
 				id = rs.getInt("id");
 			} else {
-				System.out.println("username does not exist");
+				LOGGER.info("Parent with id + " + parentId + " does not exist.");
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return id;
 	}
@@ -162,8 +141,8 @@ public class ParentAccountDAO implements ParentDAO{
 				}
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return childrenId;
 	}
@@ -178,11 +157,11 @@ public class ParentAccountDAO implements ParentDAO{
 			if (rs.next()) {
 				parentId = rs.getLong("id_parent");
 			} else {
-				System.out.println("user does not exist");
+				LOGGER.info("Child with id + " + childId + " does not exist.");
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return parentId;
 	}
@@ -196,11 +175,11 @@ public class ParentAccountDAO implements ParentDAO{
 			if (rs.next()) {
 				id = rs.getInt("id");
 			} else {
-				System.out.println("username does not exist");
+				LOGGER.info("Parent with id + " + idRegisteredUser + " does not exist.");
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return id;
 	}
@@ -229,8 +208,8 @@ public class ParentAccountDAO implements ParentDAO{
 
 				result.add(parent);
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 
 		return result;
@@ -243,18 +222,18 @@ public class ParentAccountDAO implements ParentDAO{
 				PreparedStatement stm = conn.prepareStatement(
 						"select * from parent where id_registered_user ='" + parentId + "' and id_child IS NULL");
 				ResultSet rs = stm.executeQuery();) {
-			System.out.println("connected and checking if parent has any child unassigned");
+			LOGGER.info("Querying DB if parent with id " + parentId + " has any child unassigned");
 
 			if (rs.next()) {
 				assigned = false;
-				System.out.println("to assign: " + assigned);
+				LOGGER.info("to assign: " + assigned);
 			} else {
 				assigned = true;
-				System.out.println("to assign: " + assigned);
+				LOGGER.info("to assign: " + assigned);
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 
 		return assigned;

@@ -22,15 +22,11 @@ import org.springframework.web.servlet.view.RedirectView;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
-import it4kids.service.login.TeacherService;
 import it4kids.service.login.UserService;
 
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
-
-	@Autowired
-	private TeacherService teacherService;
 
 	@Autowired
 	private UserService userService;

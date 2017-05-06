@@ -20,16 +20,16 @@ public class TeacherService {
 	private UserDAO userDAO;
 
 	public Collection<User> listAllParents() {
-		LOGGER.debug("Listing parents ");
+		LOGGER.info("Listing parents..");
 		return userDAO.getAllParents();
 	}
 	public Collection<User> search( String query) {
-		LOGGER.debug("Searching for " + query);
+		LOGGER.info("Searching for: " + query);
 		return userDAO.searchByName(query);
 	}
 
 	public boolean delete(long id) {
-		LOGGER.debug("Deleting parent for id: " + id);
+		LOGGER.info("Deleting parent with id: " + id);
 		User user = userDAO.findById(id);
 		if (user != null) {
 			userDAO.delete(user);

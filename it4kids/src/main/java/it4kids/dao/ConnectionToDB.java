@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
+import it4kids.service.login.UserService;
 
 @Repository
 public class ConnectionToDB {
@@ -13,6 +17,8 @@ public class ConnectionToDB {
 	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
 	private static final String DB_PASSWORD = "aNewPa55w0rd";
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 	
 	//Heroku deployment
 	/*private static final String DB_DRIVER = "org.postgresql.Driver";
@@ -29,7 +35,7 @@ public class ConnectionToDB {
 			return DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
 
 		} catch (SQLException e) {
-			System.out.println("Cannot connect to the database: "+ e.getMessage());
+			LOGGER.error("Cannot connect to the database: "+ e.getMessage());
 		}
 		return null;
 	}
@@ -38,8 +44,9 @@ public class ConnectionToDB {
 		try {
 			Class.forName(DB_DRIVER).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			System.err.println("Can't load driver. Verify CLASSPATH");
-			System.err.println(e.getMessage());
+			
+			LOGGER.info("Can't load driver. Verify CLASSPATH");
+			LOGGER.error(e.getMessage());
 		}
 
 	}

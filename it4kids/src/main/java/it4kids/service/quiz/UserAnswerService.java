@@ -52,13 +52,4 @@ public class UserAnswerService {
 			throw new it4kids.service.ValidationException(errors.toArray(new String[] {}));
 		}
 	}
-
-	/*public void setAnswerDAO(BaseDAO daoAnswer) {
-		this.daoAnswer = daoAnswer;
-	}
-
-	public BaseDAO getAnswerDAO() {
-		return daoAnswer;
-	}*/
-
 }

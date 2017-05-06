@@ -38,7 +38,7 @@ public class ParentService {
 	 *            is the output in which we validate the assignment
 	 */
 	public void assignParent(String childUserName, String parentUserName) {
-		LOGGER.debug("Assign parent process has started ");
+		LOGGER.info("Assign parent process has started ");
 
 		assign(childUserName, parentUserName);
 	}
@@ -52,33 +52,25 @@ public class ParentService {
 		int parentId = 0;
 
 		if (!parentDAO.hasNoChildAssigned(parentId)) {
-			LOGGER.debug("parent does not have a child assigned");
+			LOGGER.info("parent does not have a child assigned");
 			parentId = registeredUser.getUsernameId(parentUserName);
 			childId = registeredUser.getUsernameId(childUserName);
-			System.out.println("parent id: " + parentId);
-			System.out.println("child id: " + childId);
 			parentDAO.assignChild(childId, parentId);
 		} else {
-			LOGGER.debug("parent has a child assigned");
+			LOGGER.info("parent has a child assigned");
 			childId = registeredUser.getUsernameId(childUserName);
 			parentId = registeredUser.getUsernameId(parentUserName);
-			System.out.println("parent id: " + parentId);
-			System.out.println("child id: " + childId);
 			parentDAO.addChild(childId, parentId);
 		}
 		if (!childDAO.hasParentAssigned(childId)) {
-			LOGGER.debug("child does not have a parent assigned");
+			LOGGER.info("child does not have a parent assigned");
 			parentId = registeredUser.getUsernameId(parentUserName);
 			childId = registeredUser.getUsernameId(childUserName);
-			System.out.println("parent id: " + parentId);
-			System.out.println("child id: " + childId);
 			childDAO.assignParent(childId, parentId);
 		} else {
-			LOGGER.debug("child has a parent assigned");
+			LOGGER.info("child has a parent assigned");
 			childId = registeredUser.getUsernameId(childUserName);
 			parentId = registeredUser.getUsernameId(parentUserName);
-			System.out.println("parent id: " + parentId);
-			System.out.println("child id: " + childId);
 			childDAO.addParent(childId, parentId);
 		}
 	}

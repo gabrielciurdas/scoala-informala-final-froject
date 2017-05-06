@@ -34,10 +34,8 @@ public class AdminController {
 
 	@RequestMapping("tList")
 	public ModelAndView adminTeacherList(@RequestParam(defaultValue = "") String query) {
-		System.out.println("trying to set view for adminTeacherList");
 		ModelAndView result = new ModelAndView("it4kids/admin/tList");
 
-		System.out.println("name to search for: " + query);
 		Collection<User> users = "".equals(query) ? userService.listAllTeachers() : userService.searchTeacherByName(query);
 		result.addObject("userList", users);
 
@@ -60,7 +58,7 @@ public class AdminController {
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/admin/edit");
 		modelAndView.addObject("user", userService.getUserById(id));
-		System.out.println("found user: " + userService.getUserById(id).getUserName());
+		
 		return modelAndView;
 	}
 	
@@ -89,7 +87,6 @@ public class AdminController {
 	
 	@RequestMapping("delete")
 	public ModelAndView delete(User user, HttpServletRequest req) {
-		System.out.println("trying to delete");
 		ModelAndView result = new ModelAndView("");
 		
 			if(userService.getUserById(user.getId()).getAccountType().equals("ADMIN")) {
@@ -115,7 +112,6 @@ public class AdminController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();
@@ -156,7 +152,6 @@ public class AdminController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user: " + user.getUserName());
 			try {
 				userService.validate(user);
 				try {

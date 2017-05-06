@@ -45,7 +45,6 @@ public class UserService {
 	public User getUserByUserName(String userName) {
 		LOGGER.debug("Getting user with username: " + userName);
 
-		System.out.println("searching for " + userName);
 		return dao.findByUserName(userName);
 	}
 
@@ -56,27 +55,27 @@ public class UserService {
 	}
 
 	public Collection<User> listAll() {
-		LOGGER.debug("Listing users ");
+		LOGGER.debug("Listing users.. ");
 		return dao.getAll();
 	}
 
 	public Collection<User> listAllParents() {
-		LOGGER.debug("Listing parents ");
+		LOGGER.debug("Listing parents.. ");
 		return dao.getAllParents();
 	}
 
 	public Collection<User> listAllTeachers() {
-		LOGGER.debug("Listing teachers ");
+		LOGGER.debug("Listing teachers.. ");
 		return dao.getAllTeachers();
 	}
 
 	public Collection<User> listAllChildren() {
-		LOGGER.debug("Listing children ");
+		LOGGER.debug("Listing children.. ");
 		return dao.getAllChildren();
 	}
 
 	public Collection<User> listChildren(List<Long> childrenId) {
-		LOGGER.debug("getting children ");
+		LOGGER.debug("getting children.. ");
 
 		return dao.getChildren(childrenId);
 	}
@@ -296,10 +295,6 @@ public class UserService {
 		}
 	}
 
-/*	public JdbcTemplateUserDAO getDao() {
-		return dao;
-	}
-*/
 	public void saveEdit(User user) throws ValidationException {
 		validateEdit(user);
 		dao.update(user);

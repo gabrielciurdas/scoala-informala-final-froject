@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,10 +20,12 @@ import org.springframework.stereotype.Repository;
 
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
+import it4kids.service.login.UserService;
 
 @Repository(value="JdbcTemplateUserDAO")
 public class JdbcTemplateUserDAO implements UserDAO {
 	private JdbcTemplate jdbcTemplate;
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -68,13 +72,16 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public User findById(Long id) {
+		User user = new User();
 
 		try {
 			return jdbcTemplate.queryForObject("select * from registered_users where id = '" + id + "'",
 					new UserMapper());
-		} catch (EmptyResultDataAccessException exception) {
-			return null;
+		} catch (EmptyResultDataAccessException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
+		
+		return user;
 	}
 
 	@Override
@@ -160,7 +167,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public User getRegisteredUser(UserLogin userLogin) {
-		//boolean isRegistered = false;
 		User registeredUser = new User();
 		
 		List<User> userDetails = new ArrayList<User>();
@@ -169,8 +175,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 				new UserMapper());
 
 		if (!userDetails.isEmpty()) {
-			//isRegistered = true;
-			
 			registeredUser.setId(userDetails.get(0).getId());
 			registeredUser.setEmail(userDetails.get(0).getEmail());
 			registeredUser.setAccountType(userDetails.get(0).getAccountType());
@@ -218,7 +222,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 			try {
 				addAccount(request, accountType);
 			} catch (SQLException | ServletException | IOException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		}
 	}
