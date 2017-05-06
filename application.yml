@@ -1,5 +1,0 @@
-spring:
-   datasource:
-        url: jdbc:postgresql://localhost:5432/it4kids
-        username: postgres 
-        password: aNewPa55w0rd
