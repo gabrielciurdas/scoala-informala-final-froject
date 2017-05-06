@@ -23,7 +23,6 @@ import it4kids.domain.login.User;
  * 
  * <p> Created on 03/10/2017
  */
-@Repository
 public interface UserDAO extends BaseDAO<User> {
 	
 	User findByUserName(String userName);

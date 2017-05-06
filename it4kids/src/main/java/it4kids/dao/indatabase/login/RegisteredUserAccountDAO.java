@@ -19,7 +19,8 @@ import it4kids.domain.login.User;
 @Repository(value="RegisteredUserAccountDAO")
 public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 
-	private ConnectionToDB db = new ConnectionToDB();
+	@Autowired
+	private ConnectionToDB db;
 	
 	@Autowired
 	private UserLogin userLogin;

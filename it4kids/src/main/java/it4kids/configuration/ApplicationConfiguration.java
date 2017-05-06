@@ -157,7 +157,7 @@ public class ApplicationConfiguration {
 	}
 	
 	//Local deployment
-	/*@Bean
+	@Bean
 	public BasicDataSource dataSource() {
 
 		BasicDataSource basicDataSource = new BasicDataSource();
@@ -166,10 +166,10 @@ public class ApplicationConfiguration {
 		basicDataSource.setPassword(DB_PASSWORD);
 
 		return basicDataSource;
-	}*/
+	}
 	
 	//Heroku deployment use only
-		@Bean
+	/*	@Bean
 	    public BasicDataSource dataSource() {
 	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
 	        String username = System.getenv("JDBC_DATABASE_USERNAME");
@@ -181,5 +181,5 @@ public class ApplicationConfiguration {
 	        basicDataSource.setPassword(password);
 
 	        return basicDataSource;
-	    }
+	    }*/
 }

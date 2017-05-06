@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import it4kids.dao.ConnectionToDB;
@@ -21,7 +22,8 @@ import it4kids.domain.login.ParentAccount;
 @Repository(value="ParentAccountDAO")
 public class ParentAccountDAO implements ParentDAO{
 
-	private ConnectionToDB db = new ConnectionToDB();
+	@Autowired
+	private ConnectionToDB db;
 
 	/**
 	 * This method writes a ParentAccount object in the specified database by

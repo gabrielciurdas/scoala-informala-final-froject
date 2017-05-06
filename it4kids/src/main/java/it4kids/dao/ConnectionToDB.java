@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ConnectionToDB {
 	//Local run
 	private static final String DB_DRIVER = "org.postgresql.Driver";

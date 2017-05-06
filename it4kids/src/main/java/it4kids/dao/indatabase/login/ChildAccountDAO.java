@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import it4kids.dao.ConnectionToDB;
@@ -25,9 +24,7 @@ import it4kids.domain.login.ChildAccount;
 public class ChildAccountDAO implements ChildDAO{
 	
 	@Autowired
-	@Qualifier("")
-
-	private ConnectionToDB db = new ConnectionToDB();
+	private ConnectionToDB db;
 
 	/**
 	 * This method writes a ChildAccount object in the specified database by
