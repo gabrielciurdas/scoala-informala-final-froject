@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import it4kids.dao.indatabase.quiz.AnswerDAO;
 import it4kids.domain.quiz.Quiz;
 import it4kids.domain.quiz.QuizAnswer;
 import it4kids.domain.quiz.QuizEntry;
@@ -28,9 +27,9 @@ public class UserAnswerController {
 	private UserAnswerService userService;
 	@Autowired
 	private QuizService quizService;
-	@Autowired
-	private AnswerDAO daoAnswer;
-
+	/*@Autowired
+	private BaseDAO<QuizAnswer> daoAnswer;
+*/
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView listQuizes() {
 		ModelAndView result = new ModelAndView("it4kids/answer/selectQuiz");

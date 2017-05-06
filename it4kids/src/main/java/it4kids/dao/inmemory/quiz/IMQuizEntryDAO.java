@@ -1,16 +1,17 @@
 package it4kids.dao.inmemory.quiz;
 
-import it4kids.dao.indatabase.quiz.QuizEntryDAO;
-import it4kids.domain.quiz.QuizEntry;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-public class IMQuizEntryDAO extends IMBaseQuizDAO<QuizEntry> implements
-		QuizEntryDAO {
+import it4kids.dao.indatabase.quiz.QuizEntryDAO;
+import it4kids.domain.quiz.QuizEntry;
+
+@Component
+public class IMQuizEntryDAO extends IMBaseQuizDAO<QuizEntry> implements QuizEntryDAO {
 
 	@Override
 	public Collection<QuizEntry> searchByName(String query) {
