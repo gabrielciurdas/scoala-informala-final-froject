@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,7 @@ public class AdminController {
 	@Autowired
 	private UserService userService;
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	@RequestMapping("tList")
 	public ModelAndView adminTeacherList(@RequestParam(defaultValue = "") String query) {
@@ -93,7 +96,7 @@ public class AdminController {
 				try {
 					req.logout();
 				} catch (ServletException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 				userService.delete(user);
 				return result;
@@ -172,11 +175,10 @@ public class AdminController {
 						out.println("</script>");
 					}
 					
-				} catch (ServletException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				} catch (ServletException | IOException e) {
+					LOGGER.error(e.getMessage(), e);
+				} 
+				
 				return result;
 
 			} catch (ValidationException e) {
