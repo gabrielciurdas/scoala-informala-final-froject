@@ -91,26 +91,6 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 	}
 	
 	@Override
-	public String getUserAccountTye(String userName) {
-		String accountType = "";
-
-		try (Connection conn = db.getDBConnection();
-				Statement stm = conn.createStatement();
-				ResultSet rs = stm.executeQuery("select * from registered_users where username='" + userName + "'");) {
-			
-			LOGGER.info("Querying DB to check the user role for username: " + userName);
-
-			if (rs.next()) {
-				accountType = rs.getString("account_type");
-			} 
-
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return accountType;
-	}
-	
-	@Override
 	public boolean userExists(int id) {
 		boolean exists = false;
 		try (Connection conn = db.getDBConnection();

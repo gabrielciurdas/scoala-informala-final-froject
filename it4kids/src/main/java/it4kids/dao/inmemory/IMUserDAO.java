@@ -97,12 +97,12 @@ public class IMUserDAO extends IMBaseDAO<User> implements UserDAO{
 	}
 
 	@Override
-	public Collection<User> searchByTeacherByName(String name) {
+	public Collection<User> searchByTeacherName(String name) {
 		return null;
 	}
 
 	@Override
-	public Collection<User> searchByParentByName(String name) {
+	public Collection<User> searchByParentName(String name) {
 		return null;
 	}
 

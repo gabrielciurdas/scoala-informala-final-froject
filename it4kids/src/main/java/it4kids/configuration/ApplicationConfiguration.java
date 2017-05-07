@@ -16,9 +16,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfiguration {
 	//Local deployment
-	/*private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
+	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/it4kids";
 	private static final String DB_USER = "postgres";
-	private static final String DB_PASSWORD = "aNewPa55w0rd";*/
+	private static final String DB_PASSWORD = "aNewPa55w0rd";
 	
 	@Bean
 	public FilterRegistrationBean securityFilter() {
@@ -35,7 +35,7 @@ public class ApplicationConfiguration {
 	}
 	
 	//Local deployment
-	/*@Bean
+	@Bean
 	public BasicDataSource dataSource() {
 
 		BasicDataSource basicDataSource = new BasicDataSource();
@@ -44,10 +44,10 @@ public class ApplicationConfiguration {
 		basicDataSource.setPassword(DB_PASSWORD);
 
 		return basicDataSource;
-	}*/
+	}
 	
 	//Heroku deployment use only
-		@Bean
+		/*@Bean
 	    public BasicDataSource dataSource() {
 	        String dbUrl = System.getenv("JDBC_DATABASE_URL");
 	        String username = System.getenv("JDBC_DATABASE_USERNAME");
@@ -59,5 +59,5 @@ public class ApplicationConfiguration {
 	        basicDataSource.setPassword(password);
 
 	        return basicDataSource;
-	    }
+	    }*/
 }

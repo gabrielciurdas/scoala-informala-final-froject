@@ -13,8 +13,6 @@ public interface RegisteredUserDAO {
 	
 	String getUserRole(String userName);
 	
-	String getUserAccountTye(String userName);
-	
 	boolean userExists(int id);
 
 	void setChildId(int childId);

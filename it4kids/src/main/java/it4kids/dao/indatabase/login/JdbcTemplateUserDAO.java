@@ -133,12 +133,12 @@ public class JdbcTemplateUserDAO implements UserDAO {
 				+ " ILIKE '%" + name  + "%'", new UserMapper());
 	}
 	
-	public Collection<User> searchByTeacherByName(String name) {
+	public Collection<User> searchByTeacherName(String name) {
 		return jdbcTemplate.query("select * from registered_users WHERE account_type='TEACHER'"
 				+ " AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
 	}
 	
-	public Collection<User> searchByParentByName(String name) {
+	public Collection<User> searchByParentName(String name) {
 		return jdbcTemplate.query("select * from registered_users WHERE account_type ILIKE '%PARENT'"
 				+ " AND (first_name || ' ' || last_name) ILIKE '%" + name  + "%'", new UserMapper());
 	}

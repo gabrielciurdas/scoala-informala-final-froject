@@ -102,12 +102,12 @@ public class UserService {
 
 	public Collection<User> searchTeacherByName(String userName) {
 		LOGGER.debug("User name to obtain: " + userName);
-		return dao.searchByTeacherByName(userName);
+		return dao.searchByTeacherName(userName);
 	}
 
 	public Collection<User> searchParentByName(String userName) {
 		LOGGER.debug("User name to obtain: " + userName);
-		return dao.searchByParentByName(userName);
+		return dao.searchByParentName(userName);
 	}
 
 	public Collection<User> searchChildByName(String userName) {
@@ -254,7 +254,7 @@ public class UserService {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
 
-		else if (!registeredUser.getUserAccountTye(user.getUserName()).contains("PARENT")) {
+		else if (!registeredUser.getUserRole(user.getUserName()).contains("PARENT")) {
 			errors.add("Numele de utilizator introdus pentru parinte este invalid.");
 		}
 
@@ -282,7 +282,7 @@ public class UserService {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
 
-		else if (!registeredUser.getUserAccountTye(user.getUserName()).equals("CHILD")) {
+		else if (!registeredUser.getUserRole(user.getUserName()).equals("CHILD")) {
 			errors.add("Numele de utilizator introdus pentru copil este invalid.");
 		}
 
