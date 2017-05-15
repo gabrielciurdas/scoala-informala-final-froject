@@ -7,16 +7,21 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import it4kids.dao.indatabase.quiz.AnswerDAO;
+import it4kids.dao.BaseDAO;
 import it4kids.domain.quiz.QuizAnswer;
 
+@Service
 public class UserAnswerService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserAnswerService.class);
+	
 	@Autowired
-	private AnswerDAO daoAnswer;
+	@Qualifier("IMAnswerDAO")
+	private BaseDAO<QuizAnswer> daoAnswer;
 
 	public Collection<QuizAnswer> listAll() {
 		return daoAnswer.getAll();
@@ -47,13 +52,4 @@ public class UserAnswerService {
 			throw new it4kids.service.ValidationException(errors.toArray(new String[] {}));
 		}
 	}
-
-	public void setAnswerDAO(AnswerDAO daoAnswer) {
-		this.daoAnswer = daoAnswer;
-	}
-
-	public AnswerDAO getAnswerDAO() {
-		return daoAnswer;
-	}
-
 }

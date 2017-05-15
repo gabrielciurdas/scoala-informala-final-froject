@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -40,6 +42,8 @@ public class PrimaryParentController {
 
 	@Autowired
 	private ChildService childService;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	@RequestMapping("/cList")
 	public ModelAndView parentChildrenList(@RequestParam(defaultValue = "") String name, HttpServletRequest request) {
@@ -106,7 +110,7 @@ public class PrimaryParentController {
 			try {
 				req.logout();
 			} catch (ServletException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 			userService.deleteParent(user);
 			userService.delete(user);
@@ -194,11 +198,10 @@ public class PrimaryParentController {
 						out.println("</script>");
 					}
 
-				} catch (ServletException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				} catch (ServletException | IOException e) {
+					LOGGER.error(e.getMessage(), e);
+				} 
+				
 				return result;
 
 			} catch (ValidationException e) {
@@ -273,7 +276,7 @@ public class PrimaryParentController {
 				}
 				hasErrors = true;
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		} else {
 			hasErrors = true;

@@ -1,14 +1,16 @@
 package it4kids.dao.inmemory.quiz;
 
-import it4kids.dao.indatabase.quiz.QuizDAO;
-import it4kids.domain.quiz.Quiz;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import it4kids.dao.indatabase.quiz.QuizDAO;
+import it4kids.domain.quiz.Quiz;
+
+@Component
 public class IMQuizDAO extends IMBaseQuizDAO<Quiz> implements QuizDAO {
 
 	@Override

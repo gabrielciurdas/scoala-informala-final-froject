@@ -23,21 +23,18 @@ public class LoginService {
 	private UserDAO userDAO;
 
 	public boolean isRegistered(UserLogin userLogin) {
-    	System.out.println("userLoginService tries to authenticate " + userLogin.getUserName());
+    	LOGGER.debug("userLoginService tries to authenticate " + userLogin.getUserName());
+    	
 		boolean isValid = false;
 		
 		if(userDAO.userIsRegistered(userLogin.getUserName(), userLogin.getPassword())) {
+			LOGGER.debug("user " + userLogin.getUserName() + " is registered");
 			isValid = true;
-			System.out.println("user " + userLogin.getUserName() + " is registered");
 		}
 	
 		return isValid;
 	}
 
-	/*public void save(UserLogin user) throws ValidationException {
-		validate(user.getUserName(), user.getPassword());
-	}*/
-	
 	public void validate(String userName, String password) throws ValidationException {
 		checkAuthentication(userName, password);
 	}

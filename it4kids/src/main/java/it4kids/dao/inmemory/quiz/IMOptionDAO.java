@@ -1,14 +1,16 @@
 package it4kids.dao.inmemory.quiz;
 
-import it4kids.dao.indatabase.quiz.OptionDAO;
-import it4kids.domain.quiz.Option;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import it4kids.dao.indatabase.quiz.OptionDAO;
+import it4kids.domain.quiz.Option;
+
+@Component
 public class IMOptionDAO extends IMBaseQuizDAO<Option> implements OptionDAO {
 
 	@Override

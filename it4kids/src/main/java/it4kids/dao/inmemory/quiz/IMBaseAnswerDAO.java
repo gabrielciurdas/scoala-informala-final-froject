@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.stereotype.Component;
+
 import it4kids.dao.BaseDAO;
 import it4kids.domain.AbstractModel;
 
+@Component
 public class IMBaseAnswerDAO<T extends AbstractModel> implements BaseDAO<T> {
 
 	private final Map<Long, T> models = new HashMap<Long, T>();

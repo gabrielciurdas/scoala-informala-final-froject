@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import it4kids.dao.ConnectionToDB;
 import it4kids.domain.login.ChildAccount;
+import it4kids.service.login.UserService;
 
 /**
  * This class is a data access object for a ChildAccount object.
@@ -24,10 +26,10 @@ import it4kids.domain.login.ChildAccount;
 @Repository(value="ChildAccountDAO")
 public class ChildAccountDAO implements ChildDAO{
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+	
 	@Autowired
-	@Qualifier("")
-
-	private ConnectionToDB db = new ConnectionToDB();
+	private ConnectionToDB db;
 
 	/**
 	 * This method writes a ChildAccount object in the specified database by
@@ -42,10 +44,10 @@ public class ChildAccountDAO implements ChildDAO{
 		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
 			stm.setInt(1, childId);
 			stm.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!");
+			LOGGER.info("Record has been inserted into child table.");
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -57,10 +59,10 @@ public class ChildAccountDAO implements ChildDAO{
 			stm.setInt(1, childId);
 			stm.setInt(2, parentId);
 			stm.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table! /parent added");
+			LOGGER.info("Record has been inserted into parent table.");
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 	
@@ -73,9 +75,10 @@ public class ChildAccountDAO implements ChildDAO{
 
 			if (rs.next()) {
 				hasParent = true;
+				LOGGER.info("Child has a parent assigned");
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 
 		return hasParent;
@@ -107,8 +110,8 @@ public class ChildAccountDAO implements ChildDAO{
 
 				result.add(child);
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return result;
 	}
@@ -129,8 +132,8 @@ public class ChildAccountDAO implements ChildDAO{
 			stm.setInt(1, parentId);
 			stm.setInt(2, childId);
 			stm.executeUpdate();
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -148,7 +151,8 @@ public class ChildAccountDAO implements ChildDAO{
 				PreparedStatement stm = conn.prepareStatement("select id_parent from child WHERE id_registered_user ='"
 						+ childId + "' and id_parent IS NULL");
 				ResultSet rs = stm.executeQuery();) {
-			System.out.println("connected to db");
+			
+			LOGGER.info("connected to db");
 
 			if (rs.next()) {
 				assigned = false;
@@ -156,8 +160,8 @@ public class ChildAccountDAO implements ChildDAO{
 				assigned = true;
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 
 		return assigned;
@@ -172,11 +176,11 @@ public class ChildAccountDAO implements ChildDAO{
 			if (rs.next()) {
 				id = rs.getInt("id");
 			} else {
-				System.out.println("username does not exist");
+				LOGGER.info("username does not exist");
 			}
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 		return id;
 	}

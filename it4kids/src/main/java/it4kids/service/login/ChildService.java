@@ -3,8 +3,6 @@ package it4kids.service.login;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,6 @@ import it4kids.domain.login.ChildAccount;
 
 @Service
 public class ChildService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ParentService.class);
 	
 	@Autowired
 	private ChildDAO childDAO;

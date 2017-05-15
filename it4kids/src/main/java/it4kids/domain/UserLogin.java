@@ -1,5 +1,7 @@
 package it4kids.domain;
 
+import org.springframework.stereotype.Component;
+
 /**
  * This class stores basic information about an authenticated user.
  * 
@@ -7,6 +9,7 @@ package it4kids.domain;
  * <p> Created on 03/20/2017
  *
  */
+@Component
 public class UserLogin extends AbstractModel{
 	private String userName;
 	private String password;

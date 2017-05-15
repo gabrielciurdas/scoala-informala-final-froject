@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,13 +33,12 @@ public class AdminController {
 	@Autowired
 	private UserService userService;
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	@RequestMapping("tList")
 	public ModelAndView adminTeacherList(@RequestParam(defaultValue = "") String query) {
-		System.out.println("trying to set view for adminTeacherList");
 		ModelAndView result = new ModelAndView("it4kids/admin/tList");
 
-		System.out.println("name to search for: " + query);
 		Collection<User> users = "".equals(query) ? userService.listAllTeachers() : userService.searchTeacherByName(query);
 		result.addObject("userList", users);
 
@@ -60,7 +61,7 @@ public class AdminController {
 	public ModelAndView renderEdit(long id) {
 		ModelAndView modelAndView = new ModelAndView("it4kids/admin/edit");
 		modelAndView.addObject("user", userService.getUserById(id));
-		System.out.println("found user: " + userService.getUserById(id).getUserName());
+		
 		return modelAndView;
 	}
 	
@@ -89,14 +90,13 @@ public class AdminController {
 	
 	@RequestMapping("delete")
 	public ModelAndView delete(User user, HttpServletRequest req) {
-		System.out.println("trying to delete");
 		ModelAndView result = new ModelAndView("");
 		
 			if(userService.getUserById(user.getId()).getAccountType().equals("ADMIN")) {
 				try {
 					req.logout();
 				} catch (ServletException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 				userService.delete(user);
 				return result;
@@ -115,7 +115,6 @@ public class AdminController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user to edit: " + user.getUserName() + " and id: " + user.getId());
 			try {
 				userService.saveEdit(user);
 				result = new ModelAndView();
@@ -156,7 +155,6 @@ public class AdminController {
 
 		boolean hasErrors = false;
 		if (!bindingResult.hasErrors()) {
-			System.out.println("user: " + user.getUserName());
 			try {
 				userService.validate(user);
 				try {
@@ -177,11 +175,10 @@ public class AdminController {
 						out.println("</script>");
 					}
 					
-				} catch (ServletException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				} catch (ServletException | IOException e) {
+					LOGGER.error(e.getMessage(), e);
+				} 
+				
 				return result;
 
 			} catch (ValidationException e) {
