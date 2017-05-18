@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +33,7 @@ public class ChildAccountDAO implements ChildDAO{
 	 * This method writes a ChildAccount object in the specified database by
 	 * creating a connection with a PostgreSQL server and using a query.
 	 *
-	 * @param child
+	 * @param childId
 	 *            is the parent to be written in the specified database.
 	 */
 	public void addChildId(int childId){
@@ -68,7 +66,8 @@ public class ChildAccountDAO implements ChildDAO{
 	
 	public boolean childHasParent(long childId, long parentId) {
 		boolean hasParent= false;
-		final String insertSQL = "SELECT id from child WHERE id_registered_user ='" + childId + "' and id_parent ='" + parentId +"';";
+		final String insertSQL = "SELECT id from child WHERE id_registered_user ='" + childId
+				+ "' and id_parent ='" + parentId +"';";
 		try (Connection conn = db.getDBConnection();
 				PreparedStatement stm = conn.prepareStatement(insertSQL);
 				ResultSet rs = stm.executeQuery();) {
@@ -82,38 +81,6 @@ public class ChildAccountDAO implements ChildDAO{
 		}
 
 		return hasParent;
-	}
-
-	/**
-	 * This method retrieves a list of ChildAccount objects from the specified
-	 * database by creating a connection with a PostgreSQL server and using a
-	 * query.
-	 *
-	 * @return the list of ChildAccount objects.
-	 */
-	@Override
-	public List<ChildAccount> getAll() {
-		List<ChildAccount> result = new ArrayList<>();
-
-		final String getChild = "select id, id_registered_users, id_parent" + " from child";
-
-		try (Connection conn = db.getDBConnection();
-				PreparedStatement stm = conn.prepareStatement(getChild);
-				ResultSet rs = stm.executeQuery();) {
-
-			while (rs.next()) {
-				ChildAccount child = new ChildAccount();
-
-				child.setId(rs.getInt("id"));
-				child.setId(rs.getInt("id_registered_users"));
-				child.setId(rs.getInt("id_parent"));
-
-				result.add(child);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return result;
 	}
 
 	/**
@@ -154,34 +121,12 @@ public class ChildAccountDAO implements ChildDAO{
 			
 			LOGGER.info("connected to db");
 
-			if (rs.next()) {
-				assigned = false;
-			} else {
-				assigned = true;
-			}
+			assigned = !rs.next();
 
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
 
 		return assigned;
-	}
-
-	public int getParentId(String childId) {
-		int id = 0;
-		try (Connection conn = db.getDBConnection();
-				PreparedStatement stm = conn
-						.prepareStatement("select * from child where id_registered_user='" + childId + "'");
-				ResultSet rs = stm.executeQuery();) {
-			if (rs.next()) {
-				id = rs.getInt("id");
-			} else {
-				LOGGER.info("username does not exist");
-			}
-
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return id;
 	}
 }

@@ -1,26 +1,23 @@
 package it4kids.service.login;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Gabriel Ciurdas on 3/15/2017.
@@ -74,12 +71,6 @@ public class UserService {
 		return dao.getAllChildren();
 	}
 
-	public Collection<User> listChildren(List<Long> childrenId) {
-		LOGGER.debug("getting children.. ");
-
-		return dao.getChildren(childrenId);
-	}
-
 	public void add(HttpServletRequest req) throws ServletException, IOException {
 		LOGGER.debug("Adding user ");
 		dao.add(req);
@@ -88,11 +79,6 @@ public class UserService {
 	public void add(User user) throws ServletException, IOException {
 		LOGGER.debug("Adding user: " + user.getUserName());
 		registeredUser.add(user);
-	}
-
-	public boolean authenticateUser(String userName, String password) {
-		LOGGER.debug("User to authenticate - userName: " + userName + ", password" + password);
-		return dao.userIsRegistered(userName, password);
 	}
 
 	public Collection<User> searchByName(String userName) {
@@ -120,14 +106,13 @@ public class UserService {
 	}
 
 	private void checkUserFields(User user) throws ValidationException {
-		List<String> errors = new LinkedList<String>();
-		if (StringUtils.isEmpty(user.getFirstName()) && StringUtils.isEmpty(user.getLastName())
-				&& StringUtils.isEmpty(user.getEmail()) && StringUtils.isEmpty(user.getUserName())
-				&& StringUtils.isEmpty(user.getPassword()) && StringUtils.isEmpty(user.getPasswordConfirm())) {
+		List<String> errors = new LinkedList<>();
+		if (user.getFirstName().isEmpty() && user.getLastName().isEmpty() && user.getEmail().isEmpty()
+				&& user.getUserName().isEmpty() && user.getPassword().isEmpty() && user.getPasswordConfirm().isEmpty()) {
 			errors.add("Trebuie sa completati toate campurile formularului.");
 		}
 
-		else if (StringUtils.isEmpty(user.getFirstName())) {
+		else if (user.getFirstName().isEmpty()) {
 			errors.add("Prenumele este gol.");
 		}
 
@@ -139,7 +124,7 @@ public class UserService {
 			errors.add("Prenumele trebuie sa fie compus din cel putin trei litere.");
 		}
 
-		else if (StringUtils.isEmpty(user.getLastName())) {
+		else if (user.getLastName().isEmpty()) {
 			errors.add("Numele este gol.");
 		}
 
@@ -151,11 +136,11 @@ public class UserService {
 			errors.add("Numele trebuie sa fie compus din cel putin trei litere.");
 		}
 
-		else if (StringUtils.isEmpty(user.getAccountType())) {
+		else if (user.getAccountType().isEmpty()) {
 			errors.add("Tipul de cont este gol.");
 		}
 
-		else if (StringUtils.isEmpty(user.getEmail())) {
+		else if (user.getEmail().isEmpty()) {
 			errors.add("Adresa de email este goală.");
 		}
 
@@ -163,7 +148,7 @@ public class UserService {
 			errors.add("Adresa de email trebuie sa respecte formatul: nume@domeniu.com");
 		}
 
-		else if (StringUtils.isEmpty(user.getUserName())) {
+		else if (user.getUserName().isEmpty()) {
 			errors.add("Numele de utilizator este gol.");
 		}
 
@@ -179,7 +164,7 @@ public class UserService {
 			errors.add("Numele de utilizator introdus este indisponibil.");
 		}
 
-		else if (StringUtils.isEmpty(user.getPassword())) {
+		else if (user.getPassword().isEmpty()) {
 			errors.add("Parola este goală.");
 		}
 
@@ -201,8 +186,8 @@ public class UserService {
 	}
 
 	private void validateEdit(User user) throws ValidationException {
-		List<String> errors = new LinkedList<String>();
-		if (StringUtils.isEmpty(user.getFirstName())) {
+		List<String> errors = new LinkedList<>();
+		if (user.getFirstName().isEmpty()) {
 			errors.add("Prenumele este gol.");
 		}
 
@@ -214,7 +199,7 @@ public class UserService {
 			errors.add("Prenumele trebuie sa fie compus din cel putin trei litere.");
 		}
 
-		else if (StringUtils.isEmpty(user.getLastName())) {
+		else if (user.getLastName().isEmpty()) {
 			errors.add("Numele este gol.");
 		}
 
@@ -226,7 +211,7 @@ public class UserService {
 			errors.add("Numele trebuie sa fie compus din cel putin trei litere.");
 		}
 
-		else if (StringUtils.isEmpty(user.getEmail())) {
+		else if (user.getEmail().isEmpty()) {
 			errors.add("Adresa de email este goală.");
 		}
 
@@ -244,9 +229,9 @@ public class UserService {
 	}
 
 	private void checkParentUserName(User user) throws ValidationException {
-		List<String> errors = new LinkedList<String>();
+		List<String> errors = new LinkedList<>();
 
-		if (StringUtils.isEmpty(user.getUserName())) {
+		if (user.getUserName().isEmpty()) {
 			errors.add("Numele de utilizator este gol.");
 		}
 
@@ -272,9 +257,9 @@ public class UserService {
 	}
 
 	private void checkChildUserName(User user) throws ValidationException {
-		List<String> errors = new LinkedList<String>();
+		List<String> errors = new LinkedList<>();
 
-		if (StringUtils.isEmpty(user.getUserName())) {
+		if (user.getUserName().isEmpty()) {
 			errors.add("Numele de utilizator este gol.");
 		}
 

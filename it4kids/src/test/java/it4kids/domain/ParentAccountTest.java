@@ -13,10 +13,10 @@ import it4kids.service.login.UserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ParentAccountTest {
-
+	
 	@Autowired
 	private UserService userService;
-	
+
 	@Test(expected = ValidationException.class)
 	public void whenParentUsernameIsEmpty_ExceptionIsThrown() throws ValidationException {
 		String username = "";
@@ -36,4 +36,5 @@ public class ParentAccountTest {
 		
 		userService.validateParentUserName(user);
 	}
+
 }

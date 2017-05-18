@@ -12,11 +12,8 @@ public interface ChildDAO  {
 
 	void addParent(int childId, int parentId);
 	
-	public void assignParent(int childId, int parentId);
-	
+	void assignParent(int childId, int parentId);
+
 	boolean hasParentAssigned(long childId);
 
-	int getParentId(String childId);
-
-	List<ChildAccount> getAll();
 }

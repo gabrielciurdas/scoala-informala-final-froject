@@ -59,11 +59,7 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 			
 			LOGGER.info("Querying DB if username: " + userName + " is available.");
 
-			if (rs.next()) {
-				available = false;
-			} else {
-				available = true;
-			}
+			available = !rs.next();
 
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
@@ -82,33 +78,12 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 
 			if (rs.next()) {
 				role = rs.getString("account_type");
-			} 
-
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return role;
-	}
-	
-	@Override
-	public boolean userExists(int id) {
-		boolean exists = false;
-		try (Connection conn = db.getDBConnection();
-				Statement stm = conn.createStatement();
-				ResultSet rs = stm.executeQuery("select * from registered_users where id='" + id + "'");) {
-			LOGGER.info("Querying DB if user with id " + id + " exists.");
-
-			if (rs.next()) {
-				exists = true;
-			} else {
-				exists = false;
 			}
 
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		
-		return exists;
+		return role;
 	}
 
 	/**
@@ -134,31 +109,6 @@ public class RegisteredUserAccountDAO implements RegisteredUserDAO {
 
 			stm.executeUpdate();
 
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public void setChildId(int childId) {
-		try (Connection conn = db.getDBConnection();
-				PreparedStatement stm = conn.prepareStatement("UPDATE parent SET id_child = ?");) {
-
-			stm.setInt(1, childId);
-			stm.executeUpdate();
-
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public void setParentId(int parentId) {
-		try (Connection conn = db.getDBConnection();
-				PreparedStatement stm = conn.prepareStatement("INSERT INTO child(id_parent)" + " values(?)");) {
-
-			stm.setInt(1, parentId);
-			stm.executeUpdate();
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 		}

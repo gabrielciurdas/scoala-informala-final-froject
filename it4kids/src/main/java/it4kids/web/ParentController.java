@@ -3,9 +3,12 @@ package it4kids.web;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,6 +38,8 @@ public class ParentController {
 
 	@Autowired
 	private ChildService childService;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	@RequestMapping("/cList")
 	public ModelAndView parentChildrenList(@RequestParam(defaultValue = "") String name, HttpServletRequest request) {
@@ -95,13 +100,18 @@ public class ParentController {
 	}
 
 	@RequestMapping("delete")
-	public ModelAndView delete(User user) {
-		userService.deleteParent(user);
-		userService.delete(user);
+	public ModelAndView delete(User user, HttpServletRequest req) {
+		ModelAndView result = new ModelAndView("");
+		if (userService.getUserById(user.getId()).getAccountType().equals("PARENT")) {
+			try {
+				req.logout();
+			} catch (ServletException e) {
+				LOGGER.error(e.getMessage(), e);
+			}
+			userService.deleteParent(user);
+			userService.delete(user);
 
-		ModelAndView result = new ModelAndView();
-		RedirectView redirect = new RedirectView("parent");
-		result.setView(redirect);
+		}
 
 		return result;
 	}

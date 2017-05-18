@@ -15,15 +15,9 @@ public interface ParentDAO {
 
 	boolean parentHasChild(long childId, long parentId);
 
-	int getChildId(String parentId);
-
 	LinkedHashSet<Long> getChildrenId(long parentId);
 
 	Long getParentsId(long childId);
-
-	int getParentId(String idRegisteredUser);
-
-	List<ParentAccount> getAll();
 
 	boolean hasNoChildAssigned(long parentId);
 

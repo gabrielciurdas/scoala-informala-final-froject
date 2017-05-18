@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.UserLogin;
@@ -42,11 +41,11 @@ public class LoginService {
 	private void checkAuthentication(String userName, String password) throws ValidationException {
 		List<String> errors = new LinkedList<String>();
 		
-		if (StringUtils.isEmpty(userName)) {
+		if (userName.isEmpty()) {
 			errors.add("Numele de utilizator nu poate fi gol.");
 		}
 
-		if (StringUtils.isEmpty(password)) {
+		if (password.isEmpty()) {
 			errors.add("Parola nu poate fi goala.");
 		}
 		

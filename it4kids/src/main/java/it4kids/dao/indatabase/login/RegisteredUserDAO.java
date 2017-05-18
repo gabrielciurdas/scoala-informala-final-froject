@@ -13,12 +13,5 @@ public interface RegisteredUserDAO {
 	
 	String getUserRole(String userName);
 	
-	boolean userExists(int id);
-
-	void setChildId(int childId);
-
-	void setParentId(int parentId);
-
 	UserLogin getUserLogin();
-
 }

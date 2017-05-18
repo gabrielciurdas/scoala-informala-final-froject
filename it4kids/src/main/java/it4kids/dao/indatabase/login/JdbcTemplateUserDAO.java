@@ -37,7 +37,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 					+ userName +"';", new UserMapper());
 		
 		return user;
-		
 	}
 	
 	@Override
@@ -58,16 +57,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	@Override
 	public Collection<User> getAllChildren() {
 		return jdbcTemplate.query("select * from registered_users where account_type='CHILD'", new UserMapper());
-	}
-
-	@Override
-	public Collection<User> getChildren(List<Long> childrenId) {
-		Collection<User> children = new ArrayList<>();
-
-		for (Long l : childrenId) {
-			children.add(findById(l));
-		}
-		return children;
 	}
 
 	@Override
@@ -92,11 +81,8 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		jdbcTemplate.queryForObject(sql,
 				new Object[] { user.getFirstName(), user.getLastName(), user.getEmail(), user.getId(), user.getId()
 
-				}, new RowMapper<Long>() {
-					public Long mapRow(ResultSet rs, int arg1) throws SQLException {
-						return rs.getLong(1);
-					}
-				});
+				}, (rs, arg1) -> rs.getLong(1));
+		
 		return user;
 	}
 
@@ -112,8 +98,8 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	public boolean deleteParent(User user) {
 		String sql = "delete from parent WHERE id_child ='" + user.getId() + "'";
 		jdbcTemplate.execute(sql);
-		String sql2 = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
-		jdbcTemplate.execute(sql2);
+		String sql1 = "delete from parent WHERE id_registered_user ='" + user.getId() + "'";
+		jdbcTemplate.execute(sql1);
 		return true;
 	}
 
@@ -186,7 +172,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	public boolean userIsRegistered(String username, String password) {
 		boolean isRegistered = false;
 		
-		List<User> userDetails = new ArrayList<User>();
+		List<User> userDetails = new ArrayList<>();
 		userDetails = jdbcTemplate.query(
 				"select * from registered_users WHERE username ILIKE '" + username + "' and password ='" + password + "'",
 				new UserMapper());
@@ -203,9 +189,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	 * @param request
 	 *            is the request from the HttpServletRequest which contains the
 	 *            fields for the new User object.
-	 * @param response
-	 *            is the response from the HttpServletResponse which is used to
-	 *            set an UTF-8 encoding and display a validation message.
 	 * @throws ServletException
 	 * @throws IOException
 	 */
@@ -213,7 +196,7 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	@Override
 	public void add(HttpServletRequest request) {
 
-		UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
+		UserLogin userLogin = (UserLogin)  request.getSession().getAttribute("currentUser");
 
 		String accountType = "";
 		if (usernameAvailable(request.getParameter("userName"))) {
@@ -259,21 +242,6 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		}
 	}
 
-	@Override
-	public boolean userNameNotTaken(String userName) {
-
-		return usernameAvailable(userName);
-	}
-
-	@Override
-	public void setChildId(int childId) {
-		setChildId(childId);
-	}
-
-	@Override
-	public void setParentId(int parentId) {
-		setParentId(parentId);
-	}
 
 	@Override
 	public void save(User user) {
@@ -295,18 +263,4 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		return false;
 	}
 
-	@Override
-	public String getUserRole(String userName) {
-		return null;
-	}
-
-	@Override
-	public String getUserAccountTye(String userName) {
-		return null;
-	}
-
-	@Override
-	public boolean userExists(int id) {
-		return false;
-	}
 }

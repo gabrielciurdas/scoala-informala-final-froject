@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import it4kids.dao.indatabase.quiz.OptionDAO;
 import it4kids.domain.quiz.Option;
@@ -15,7 +14,7 @@ public class IMOptionDAO extends IMBaseQuizDAO<Option> implements OptionDAO {
 
 	@Override
 	public Collection<Option> searchByName(String query) {
-		if (StringUtils.isEmpty(query)) {
+		if (query.isEmpty()) {
 			return getAll();
 		}
 
