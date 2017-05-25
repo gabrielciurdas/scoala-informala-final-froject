@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,24 +107,6 @@ public class ParentAccountDAO implements ParentDAO{
 		return hasChild;
 	}
 
-	public int getChildId(String parentId) {
-		int id = 0;
-		try (Connection conn = db.getDBConnection();
-				PreparedStatement stm = conn.prepareStatement(
-						"select id_registered_user from parent where id_registered_user='" + parentId + "'");
-				ResultSet rs = stm.executeQuery();) {
-			if (rs.next()) {
-				id = rs.getInt("id");
-			} else {
-				LOGGER.info("Parent with id + " + parentId + " does not exist.");
-			}
-
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return id;
-	}
-
 	public LinkedHashSet<Long> getChildrenId(long parentId) {
 		LinkedHashSet<Long> childrenId = new LinkedHashSet<>();
 
@@ -164,55 +144,6 @@ public class ParentAccountDAO implements ParentDAO{
 			LOGGER.error(e.getMessage(), e);
 		}
 		return parentId;
-	}
-
-	public int getParentId(String idRegisteredUser) {
-		int id = 0;
-		try (Connection conn = db.getDBConnection();
-				PreparedStatement stm = conn.prepareStatement(
-						"select id_registered_user from parent where id_registered_user='" + idRegisteredUser + "'");
-				ResultSet rs = stm.executeQuery();) {
-			if (rs.next()) {
-				id = rs.getInt("id");
-			} else {
-				LOGGER.info("Parent with id + " + idRegisteredUser + " does not exist.");
-			}
-
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return id;
-	}
-
-	/**
-	 * This method retrieves a list of ParentAccount objects from the specified
-	 * database by creating a connection with a PostgreSQL server and using a
-	 * query.
-	 *
-	 * @return the list of ParentAccount objects.
-	 */
-	public List<ParentAccount> getAll() {
-		List<ParentAccount> result = new ArrayList<>();
-
-		try (Connection conn = db.getDBConnection();
-				PreparedStatement stm = conn
-						.prepareStatement("select id, id_registered_users, id_child" + " from parent");
-				ResultSet rs = stm.executeQuery();) {
-
-			while (rs.next()) {
-				ParentAccount parent = new ParentAccount();
-
-				parent.setId(rs.getInt("id"));
-				parent.setId(rs.getInt("id_registered_users"));
-				parent.setId(rs.getInt("id_child"));
-
-				result.add(parent);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-
-		return result;
 	}
 
 	public boolean hasNoChildAssigned(long parentId) {

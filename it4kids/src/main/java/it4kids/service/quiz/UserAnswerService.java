@@ -1,18 +1,17 @@
 package it4kids.service.quiz;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
+import it4kids.dao.BaseDAO;
+import it4kids.domain.quiz.QuizAnswer;
+import it4kids.service.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import it4kids.dao.BaseDAO;
-import it4kids.domain.quiz.QuizAnswer;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class UserAnswerService {
@@ -27,7 +26,7 @@ public class UserAnswerService {
 		return daoAnswer.getAll();
 	}
 
-	public void saveAnswer(QuizAnswer qa) throws it4kids.service.ValidationException {
+	public void saveAnswer(QuizAnswer qa) throws ValidationException {
 
 		LOGGER.debug("Saving: " + qa);
 		validate(qa);
@@ -38,9 +37,9 @@ public class UserAnswerService {
 
 	}
 
-	private void validate(QuizAnswer qa) throws it4kids.service.ValidationException {
-		List<String> errors = new LinkedList<String>();
-		if (StringUtils.isEmpty(qa.getClass())) {
+	private void validate(QuizAnswer qa) throws ValidationException {
+		List<String> errors = new LinkedList<>();
+		if (qa.getClass() == null) {
 			errors.add("No answer is Inserted !");
 		}
 
@@ -49,7 +48,7 @@ public class UserAnswerService {
 		}
 
 		if (!errors.isEmpty()) {
-			throw new it4kids.service.ValidationException(errors.toArray(new String[] {}));
+			throw new ValidationException(errors.toArray(new String[] {}));
 		}
 	}
 }

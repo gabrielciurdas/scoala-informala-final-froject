@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import it4kids.dao.indatabase.login.ChildDAO;
@@ -16,6 +17,7 @@ public class ParentService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParentService.class);
 
 	@Autowired
+	@Qualifier("ParentAccountDAO")
 	private ParentDAO parentDAO;
 
 	@Autowired
@@ -32,10 +34,6 @@ public class ParentService {
 	 *            is the user name of the child for which we assign a parent
 	 * @param parentUserName
 	 *            is the user name of the child's parent
-	 * @param request
-	 *            is the input for the users data
-	 * @param response
-	 *            is the output in which we validate the assignment
 	 */
 	public void assignParent(String childUserName, String parentUserName) {
 		LOGGER.info("Assign parent process has started ");

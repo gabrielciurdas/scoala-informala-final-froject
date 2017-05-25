@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import it4kids.dao.indatabase.quiz.QuizEntryDAO;
 import it4kids.domain.quiz.QuizEntry;
@@ -15,7 +14,7 @@ public class IMQuizEntryDAO extends IMBaseQuizDAO<QuizEntry> implements QuizEntr
 
 	@Override
 	public Collection<QuizEntry> searchByName(String query) {
-		if (StringUtils.isEmpty(query)) {
+		if (query.isEmpty()) {
 			return getAll();
 		}
 

@@ -49,5 +49,4 @@ public abstract class IMBaseDAO<T extends AbstractModel> implements BaseDAO<T> {
 			models.remove(model.getId());
 		return result;
 	}
-
 }

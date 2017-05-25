@@ -13,9 +13,9 @@ import it4kids.service.login.UserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChildAccountTest {
-	
+
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@Test(expected = ValidationException.class)
 	public void whenChildUsernameIsEmpty_ExceptionIsThrown() throws ValidationException {
@@ -24,7 +24,7 @@ public class ChildAccountTest {
 		User user = new User();
 		user.setUserName(username);
 		
-		userService.validateParentUserName(user);
+		userService.validateChildUserName(user);
 	}
 	
 	@Test(expected = ValidationException.class)
@@ -34,7 +34,7 @@ public class ChildAccountTest {
 		User user = new User();
 		user.setUserName(username);
 		
-		userService.validateParentUserName(user);
+		userService.validateChildUserName(user);
 	}
 
 }
