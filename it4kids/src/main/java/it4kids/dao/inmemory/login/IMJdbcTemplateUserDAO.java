@@ -44,10 +44,10 @@ public class IMJdbcTemplateUserDAO extends IMBaseDAO<User> implements UserDAO {
 			if (!s.toLowerCase().contains(query.toLowerCase())) {
 				iterator.remove();
 			}
+
 		}
 		return users;
 	}
-
 	@Override
 	public boolean userIsRegistered(String userName, String password) {
 		boolean isValid = false;

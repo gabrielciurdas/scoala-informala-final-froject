@@ -220,21 +220,19 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		user.setUserName(request.getParameter("userName"));
 		user.setPassword(request.getParameter("password"));
 
+		ParentAccountDAO p = new ParentAccountDAO();
+
 		if (accountType.equalsIgnoreCase("PRIMARY_PARENT")) {
 			add(user);
 			if (user.getAccountType().equalsIgnoreCase("PARENT")) {
-				ParentAccountDAO p = new ParentAccountDAO();
 				p.addParentId(getUsernameId(request.getParameter("userName")));
 
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
-				ChildAccountDAO c = new ChildAccountDAO();
-				c.addChildId(getUsernameId(request.getParameter("userName")));
+				p.addChildId(getUsernameId(request.getParameter("userName")));
 			}
 
 		} else if (accountType.equalsIgnoreCase("TEACHER")) {
 			add(user);
-
-			ParentAccountDAO p = new ParentAccountDAO();
 			p.addParentId(getUsernameId(request.getParameter("userName")));
 
 		} else if (accountType.equalsIgnoreCase("ADMIN")) {

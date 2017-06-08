@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import it4kids.dao.indatabase.login.ChildDAO;
 import it4kids.dao.indatabase.login.ParentDAO;
 import it4kids.dao.indatabase.login.RegisteredUserDAO;
 
@@ -20,8 +19,8 @@ public class ParentService {
 	@Qualifier("ParentAccountDAO")
 	private ParentDAO parentDAO;
 
-	@Autowired
-	private ChildDAO childDAO;
+/*	@Autowired
+	private ChildDAO childDAO;*/
 	
 	@Autowired
 	private RegisteredUserDAO registeredUser;
@@ -60,16 +59,16 @@ public class ParentService {
 			parentId = registeredUser.getUsernameId(parentUserName);
 			parentDAO.addChild(childId, parentId);
 		}
-		if (!childDAO.hasParentAssigned(childId)) {
+		if (!parentDAO.hasParentAssigned(childId)) {
 			LOGGER.info("child does not have a parent assigned");
 			parentId = registeredUser.getUsernameId(parentUserName);
 			childId = registeredUser.getUsernameId(childUserName);
-			childDAO.assignParent(childId, parentId);
+			parentDAO.assignParent(childId, parentId);
 		} else {
 			LOGGER.info("child has a parent assigned");
 			childId = registeredUser.getUsernameId(childUserName);
 			parentId = registeredUser.getUsernameId(parentUserName);
-			childDAO.addParent(childId, parentId);
+			parentDAO.addParent(childId, parentId);
 		}
 	}
 
@@ -78,7 +77,15 @@ public class ParentService {
 	}
 
 	public Long getParentsId(long id) {
-		return parentDAO.getParentsId(id);
+		return parentDAO.getParentId(id);
+	}
+
+	public boolean hasParentAssigned(long childId) {
+		return parentDAO.hasParentAssigned(childId);
+	}
+
+	public boolean hasParentAssigned(long childId, long parentId) {
+		return parentDAO.childHasParent(childId, parentId);
 	}
 
 }
