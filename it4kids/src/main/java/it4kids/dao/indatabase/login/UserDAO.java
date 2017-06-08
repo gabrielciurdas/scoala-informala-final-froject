@@ -12,7 +12,8 @@ import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 
 /**
- * This class performs specific operations in database with a User object.
+ * This interface has methods which can be used to perform specific operations
+ * in database with a User object.
  * 
  * @see BaseDAO
  * @see User
@@ -56,4 +57,8 @@ public interface UserDAO extends BaseDAO<User> {
 	boolean usernameAvailable(String userName);
 	
 	void save(User user);
+
+	String getUserRole(String userName);
+
+	UserLogin getUserLogin();
 }

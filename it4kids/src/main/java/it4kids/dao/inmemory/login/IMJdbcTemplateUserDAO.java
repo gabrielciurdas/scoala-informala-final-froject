@@ -24,8 +24,14 @@ import it4kids.domain.login.ParentAccount;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
 import it4kids.service.login.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository(value = "IMJdbcTemplateUserDAO")
 public class IMJdbcTemplateUserDAO extends IMBaseDAO<User> implements UserDAO {
+
+	@Autowired
+	UserLogin userLogin;
 
 	private Map<Long, ParentAccount> parents = new HashMap<>();
 	private Map<Long, ChildAccount> children = new HashMap<>();
@@ -306,5 +312,21 @@ public class IMJdbcTemplateUserDAO extends IMBaseDAO<User> implements UserDAO {
 	@Override
 	public void save(User user) {
 		update(user);
+	}
+
+	@Override
+	public String getUserRole(String userName) {
+		Collection<User> users = new LinkedList<>(getAll());
+		for (User u : users) {
+			if (u.getUserName().equals(userName)) {
+				return u.getAccountType();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public UserLogin getUserLogin() {
+		return userLogin;
 	}
 }

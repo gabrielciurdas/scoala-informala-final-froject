@@ -2,6 +2,8 @@ package it4kids.service.login;
 
 import java.util.LinkedHashSet;
 
+import it4kids.dao.indatabase.login.JdbcTemplateUserDAO;
+import it4kids.dao.indatabase.login.UserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import it4kids.dao.indatabase.login.ParentDAO;
-import it4kids.dao.indatabase.login.RegisteredUserDAO;
 
 @Service
 public class ParentService {
@@ -19,11 +20,9 @@ public class ParentService {
 	@Qualifier("ParentAccountDAO")
 	private ParentDAO parentDAO;
 
-/*	@Autowired
-	private ChildDAO childDAO;*/
-	
 	@Autowired
-	private RegisteredUserDAO registeredUser;
+	@Qualifier("JdbcTemplateUserDAO")
+	private UserDAO dao;
 
 	/**
 	 * This method assigns a parent for a child given the child's id and
@@ -50,24 +49,24 @@ public class ParentService {
 
 		if (!parentDAO.hasNoChildAssigned(parentId)) {
 			LOGGER.info("parent does not have a child assigned");
-			parentId = registeredUser.getUsernameId(parentUserName);
-			childId = registeredUser.getUsernameId(childUserName);
+			parentId = dao.getUsernameId(parentUserName);
+			childId = dao.getUsernameId(childUserName);
 			parentDAO.assignChild(childId, parentId);
 		} else {
 			LOGGER.info("parent has a child assigned");
-			childId = registeredUser.getUsernameId(childUserName);
-			parentId = registeredUser.getUsernameId(parentUserName);
+			childId = dao.getUsernameId(childUserName);
+			parentId = dao.getUsernameId(parentUserName);
 			parentDAO.addChild(childId, parentId);
 		}
 		if (!parentDAO.hasParentAssigned(childId)) {
 			LOGGER.info("child does not have a parent assigned");
-			parentId = registeredUser.getUsernameId(parentUserName);
-			childId = registeredUser.getUsernameId(childUserName);
+			parentId = dao.getUsernameId(parentUserName);
+			childId = dao.getUsernameId(childUserName);
 			parentDAO.assignParent(childId, parentId);
 		} else {
 			LOGGER.info("child has a parent assigned");
-			childId = registeredUser.getUsernameId(childUserName);
-			parentId = registeredUser.getUsernameId(parentUserName);
+			childId = dao.getUsernameId(childUserName);
+			parentId = dao.getUsernameId(parentUserName);
 			parentDAO.addParent(childId, parentId);
 		}
 	}

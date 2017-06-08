@@ -1,6 +1,5 @@
 package it4kids.service.login;
 
-import it4kids.dao.indatabase.login.RegisteredUserDAO;
 import it4kids.dao.indatabase.login.UserDAO;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
@@ -30,9 +29,6 @@ public class UserService {
 	@Qualifier("JdbcTemplateUserDAO")
 	private UserDAO dao;
 	
-	@Autowired
-	private RegisteredUserDAO registeredUser;
-
 	public User getUserById(long id) {
 		LOGGER.debug("Getting user with id: " + id);
 
@@ -78,7 +74,7 @@ public class UserService {
 	
 	public void add(User user) throws ServletException, IOException {
 		LOGGER.debug("Adding user: " + user.getUserName());
-		registeredUser.add(user);
+		dao.add(user);
 	}
 
 	public Collection<User> searchByName(String userName) {
@@ -160,7 +156,7 @@ public class UserService {
 			errors.add("Numele de utilizator trebuie sa fie compus din cel putin trei caractere.");
 		}
 		
-		else if (!registeredUser.usernameAvailable(user.getUserName())) {
+		else if (!dao.usernameAvailable(user.getUserName())) {
 			errors.add("Numele de utilizator introdus este indisponibil.");
 		}
 
@@ -239,11 +235,11 @@ public class UserService {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
 
-		else if (!registeredUser.getUserRole(user.getUserName()).contains("PARENT")) {
+		else if (!dao.getUserRole(user.getUserName()).contains("PARENT")) {
 			errors.add("Numele de utilizator introdus pentru parinte este invalid.");
 		}
 
-		else if (registeredUser.usernameAvailable(user.getUserName())) {
+		else if (dao.usernameAvailable(user.getUserName())) {
 			errors.add("Utilizatorul " + user.getUserName() + " nu exista.");
 		}
 
@@ -267,11 +263,11 @@ public class UserService {
 			errors.add("Numele de utilizator poate fi compus doar din litere si numere.");
 		}
 
-		else if (!registeredUser.getUserRole(user.getUserName()).equals("CHILD")) {
+		else if (!dao.getUserRole(user.getUserName()).equals("CHILD")) {
 			errors.add("Numele de utilizator introdus pentru copil este invalid.");
 		}
 
-		else if (registeredUser.usernameAvailable(user.getUserName())) {
+		else if (dao.usernameAvailable(user.getUserName())) {
 			errors.add("Utilizatorul " + user.getUserName() + " nu exista.");
 		}
 
@@ -292,6 +288,10 @@ public class UserService {
 	public void deleteParent(User user) {
 		dao.deleteChild(user);
 		dao.deleteParent(user);
+	}
+
+	public UserLogin getUserLogin() {
+		return dao.getUserLogin();
 	}
 
 }
