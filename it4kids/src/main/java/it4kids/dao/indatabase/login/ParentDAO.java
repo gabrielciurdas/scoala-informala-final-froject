@@ -4,7 +4,6 @@ import java.util.LinkedHashSet;
 
 public interface ParentDAO {
 
-
 	void addParentId(int parentId);
 
 	void addChildId(int childId);

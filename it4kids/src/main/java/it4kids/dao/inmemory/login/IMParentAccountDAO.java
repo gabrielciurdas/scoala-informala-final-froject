@@ -27,21 +27,35 @@ public class IMParentAccountDAO extends IMJdbcTemplateUserDAO implements ParentD
 
 	@Override
 	public void addParent(int childId, int parentId) {
-		children.get(childId).setIdParent(parentId);
+		ChildAccount child = children.get(childId);
+		child.setIdParent(parentId);
+
+		children.replace((long) childId, children.get(childId), child);
 	}
 
 	@Override
 	public void addChild(int childId, int parentId) {
+		ParentAccount parent = parents.get(parentId);
+		parent.setIdChild(childId);
+
+		parents.replace((long) parentId, parents.get(parentId), parent);
 		parents.get(parentId).setIdChild(childId);
 	}
 
 	@Override
 	public void assignParent(int childId, int parentId) {
-		children.get(childId).setIdParent(parentId);
+		ChildAccount child = children.get(childId);
+		child.setIdParent(parentId);
+
+		children.replace((long) childId, children.get(childId), child);
 	}
 
 	@Override
 	public void assignChild(int childId, int parentId) {
+		ParentAccount parent = parents.get(parentId);
+		parent.setIdChild(childId);
+
+		parents.replace((long) parentId, parents.get(parentId), parent);
 		parents.get(parentId).setIdChild(childId);
 	}
 
