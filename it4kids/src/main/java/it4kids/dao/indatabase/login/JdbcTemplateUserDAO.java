@@ -1,8 +1,7 @@
 package it4kids.dao.indatabase.login;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,8 +24,12 @@ import it4kids.service.login.UserService;
 
 @Repository(value="JdbcTemplateUserDAO")
 public class JdbcTemplateUserDAO implements UserDAO {
-	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private UserLogin userLogin;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+	private JdbcTemplate jdbcTemplate;
 
 	public JdbcTemplateUserDAO(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -169,6 +173,21 @@ public class JdbcTemplateUserDAO implements UserDAO {
 	}
 
 	@Override
+	public String getUserRole(String userName) {
+		String sql = "select account_type from registered_users where username ILIKE ?";
+
+		String role = (String) jdbcTemplate.queryForObject(
+				sql, new Object[] { userName }, String.class);
+
+		return role;
+	}
+
+	@Override
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+
+	@Override
 	public boolean userIsRegistered(String username, String password) {
 		boolean isRegistered = false;
 		
@@ -220,21 +239,19 @@ public class JdbcTemplateUserDAO implements UserDAO {
 		user.setUserName(request.getParameter("userName"));
 		user.setPassword(request.getParameter("password"));
 
+		ParentAccountDAO p = new ParentAccountDAO();
+
 		if (accountType.equalsIgnoreCase("PRIMARY_PARENT")) {
 			add(user);
 			if (user.getAccountType().equalsIgnoreCase("PARENT")) {
-				ParentAccountDAO p = new ParentAccountDAO();
 				p.addParentId(getUsernameId(request.getParameter("userName")));
 
 			} else if (request.getParameter("accountType").equalsIgnoreCase("CHILD")) {
-				ChildAccountDAO c = new ChildAccountDAO();
-				c.addChildId(getUsernameId(request.getParameter("userName")));
+				p.addChildId(getUsernameId(request.getParameter("userName")));
 			}
 
 		} else if (accountType.equalsIgnoreCase("TEACHER")) {
 			add(user);
-
-			ParentAccountDAO p = new ParentAccountDAO();
 			p.addParentId(getUsernameId(request.getParameter("userName")));
 
 		} else if (accountType.equalsIgnoreCase("ADMIN")) {
@@ -250,17 +267,39 @@ public class JdbcTemplateUserDAO implements UserDAO {
 
 	@Override
 	public void add(User user) throws ServletException, IOException {
-		
+		 jdbcTemplate.execute(
+					"INSERT INTO registered_users(first_name, last_name, account_type,"
+							+ " email, username, password, regdate)" + " values('"
+							+ user.getFirstName() + "','"
+							+ user.getLastName() +"','"
+							+ user.getAccountType() + "','"
+							+ user.getEmail() + "','"
+							+ user.getUserName() + "','"
+							+ user.getPassword() + "',"
+							+ "CURRENT_TIMESTAMP);");
+
 	}
 
 	@Override
 	public int getUsernameId(String username) {
-		return 0;
+		String sql = "select id from registered_users where username ILIKE ?";
+
+		int id = (int) jdbcTemplate.queryForObject(
+				sql, new Object[] { username }, Integer.class);
+
+		return id;
 	}
 
 	@Override
 	public boolean usernameAvailable(String userName) {
-		return false;
+
+		LOGGER.info("Querying DB if username: " + userName + " is available.");
+		List<User> users = new ArrayList<>();
+		users = jdbcTemplate.query("select * from registered_users where username ILIKE '" + userName + "'",
+				new UserMapper());
+
+		return users.isEmpty();
+
 	}
 
 }

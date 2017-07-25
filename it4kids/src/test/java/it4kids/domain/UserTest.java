@@ -19,44 +19,30 @@ public class UserTest {
 	
 	@Test(expected = ValidationException.class)
 	public void whenAllFieldsAreEmpty_ExceptionIsThrown() throws ValidationException {
-		String firstName = "";
-		String lastName = "";
-		String accountType = "";
-		String email = "";
-		String userName = "";
-		String password = "";
-		String passwordConfirm = "";
-		
+
 		User user = new User();
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setAccountType(accountType);
-		user.setEmail(email);
-		user.setUserName(userName);
-		user.setPassword(password);
-		user.setPasswordConfirm(passwordConfirm);
+		user.setFirstName("");
+		user.setLastName("");
+		user.setAccountType("");
+		user.setEmail("");
+		user.setUserName("");
+		user.setPassword("");
+		user.setPasswordConfirm("");
 		
 		userService.validate(user);
 	}
 
 	@Test(expected = ValidationException.class)
 	public void whenEmptyFirstNameIsEntered_ExceptionIsThrown() throws ValidationException {
-		String firstName = "";
-		String lastName = "lastName";
-		String accountType = "ADMIN";
-		String email = "email@yahoo.com";
-		String userName = "userName";
-		String password = "password";
-		String passwordConfirm = "password";
-		
+
 		User user = new User();
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setAccountType(accountType);
-		user.setEmail(email);
-		user.setUserName(userName);
-		user.setPassword(password);
-		user.setPasswordConfirm(passwordConfirm);
+		user.setFirstName("");
+		user.setLastName("");
+		user.setAccountType("");
+		user.setEmail("");
+		user.setUserName("");
+		user.setPassword("");
+		user.setPasswordConfirm("");
 		
 		userService.validate(user);
 	}
@@ -70,7 +56,7 @@ public class UserTest {
 		String userName = "userName";
 		String password = "password";
 		String passwordConfirm = "password";
-		
+
 		User user = new User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);

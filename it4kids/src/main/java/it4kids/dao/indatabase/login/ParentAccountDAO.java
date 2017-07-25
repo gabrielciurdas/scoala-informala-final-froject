@@ -21,7 +21,7 @@ import it4kids.service.login.UserService;
  * @see ParentAccount Created by Gabriel Ciurdas on 3/10/2017.
  */
 @Repository(value="ParentAccountDAO")
-public class ParentAccountDAO implements ParentDAO{
+public class ParentAccountDAO implements ParentDAO {
 
 	@Autowired
 	private ConnectionToDB db;
@@ -127,7 +127,7 @@ public class ParentAccountDAO implements ParentDAO{
 		return childrenId;
 	}
 
-	public Long getParentsId(long childId) {
+	public Long getParentId(long childId) {
 		Long parentId = 0L;
 		
 		try (Connection conn = db.getDBConnection();
@@ -162,6 +162,107 @@ public class ParentAccountDAO implements ParentDAO{
 				assigned = true;
 				LOGGER.info("to assign: " + assigned);
 			}
+
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+
+		return assigned;
+	}
+
+	/**
+	 * This method writes a ChildAccount object in the specified database by
+	 * creating a connection with a PostgreSQL server and using a query.
+	 *
+	 * @param childId
+	 *            is the parent to be written in the specified database.
+	 */
+	public void addChildId(int childId){
+		final String insertSQL = "INSERT INTO child(id_registered_user)" + " values(?)";
+
+		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
+			stm.setInt(1, childId);
+			stm.executeUpdate();
+			LOGGER.info("Record has been inserted into child table.");
+
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	public void addParent(int childId, int parentId) {
+		final String insertSQL = "INSERT INTO child(id_registered_user, id_parent)" + " values(?,?)";
+
+		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
+
+			stm.setInt(1, childId);
+			stm.setInt(2, parentId);
+			stm.executeUpdate();
+			LOGGER.info("Record has been inserted into parent table.");
+
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	public boolean childHasParent(long childId, long parentId) {
+		boolean hasParent= false;
+		final String insertSQL = "SELECT id from child WHERE id_registered_user ='" + childId
+				+ "' and id_parent ='" + parentId +"';";
+		try (Connection conn = db.getDBConnection();
+			 PreparedStatement stm = conn.prepareStatement(insertSQL);
+			 ResultSet rs = stm.executeQuery();) {
+
+			if (rs.next()) {
+				hasParent = true;
+				LOGGER.info("Child has a parent assigned");
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+
+		return hasParent;
+	}
+
+	/**
+	 * This method assigns a parent for a child given a child id and a parent
+	 * id.
+	 *
+	 * @param childId
+	 *            is the child id to be set.
+	 * @param parentId
+	 *            is the parent id to be set.
+	 */
+	public void assignParent(int childId, int parentId) {
+		final String insertSQL = "UPDATE child SET id_parent = ?" + "WHERE id_registered_user = ?";
+		try (Connection conn = db.getDBConnection(); PreparedStatement stm = conn.prepareStatement(insertSQL);) {
+
+			stm.setInt(1, parentId);
+			stm.setInt(2, childId);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * This method checks if a child has a parent assigned.
+	 *
+	 * @param childId
+	 *            is the id of the child to be checked
+	 * @return false if the child does not have a parent assigned.
+	 */
+	public boolean hasParentAssigned(long childId) {
+		boolean assigned = false;
+
+		try (Connection conn = db.getDBConnection();
+			 PreparedStatement stm = conn.prepareStatement("select id_parent from child WHERE id_registered_user ='"
+					 + childId + "' and id_parent IS NULL");
+			 ResultSet rs = stm.executeQuery();) {
+
+			LOGGER.info("connected to db");
+
+			assigned = !rs.next();
 
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);

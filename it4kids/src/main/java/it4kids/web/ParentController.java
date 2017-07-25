@@ -22,7 +22,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import it4kids.domain.UserLogin;
 import it4kids.domain.login.User;
 import it4kids.service.ValidationException;
-import it4kids.service.login.ChildService;
 import it4kids.service.login.ParentService;
 import it4kids.service.login.UserService;
 
@@ -36,8 +35,8 @@ public class ParentController {
 	@Autowired
 	private ParentService parentService;
 
-	@Autowired
-	private ChildService childService;
+	/*@Autowired
+	private ChildService childService;*/
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
@@ -54,7 +53,7 @@ public class ParentController {
 		
 		childrenId = parentService.getChildrenId(id);
 		for (Long l : childrenId) {
-			if (childService.hasParentAssigned(l)) {
+			if (parentService.hasParentAssigned(l)) {
 				children.add(userService.getUserById(l));
 				parentsId.add(parentService.getParentsId(l));
 			}
