@@ -70,8 +70,6 @@ public class LoginController {
 				}
 				hasErrors = true;
 			}
-		} else {
-			hasErrors = true;
 		}
 
 		if (hasErrors) {
