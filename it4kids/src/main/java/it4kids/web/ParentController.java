@@ -129,8 +129,6 @@ public class ParentController {
 				}
 				hasErrors = true;
 			}
-		} else {
-			hasErrors = true;
 		}
 
 		if (hasErrors) {

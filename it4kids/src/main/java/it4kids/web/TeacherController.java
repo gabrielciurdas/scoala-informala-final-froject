@@ -108,8 +108,6 @@ public class TeacherController {
 				}
 				hasErrors = true;
 			}
-		} else {
-			hasErrors = true;
 		}
 
 		if (hasErrors) {
@@ -181,8 +179,6 @@ public class TeacherController {
 				}
 				hasErros = true;
 			}
-		} else {
-			hasErros = true;
 		}
 
 		if (hasErros) {

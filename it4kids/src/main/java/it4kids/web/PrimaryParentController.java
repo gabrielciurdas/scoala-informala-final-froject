@@ -36,9 +36,6 @@ public class PrimaryParentController {
 
 	@Autowired
 	private ParentService parentService;
-
-	/*@Autowired
-	private ChildService childService;*/
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
@@ -147,8 +144,6 @@ public class PrimaryParentController {
 				}
 				hasErrors = true;
 			}
-		} else {
-			hasErrors = true;
 		}
 
 		if (hasErrors) {
@@ -207,8 +202,6 @@ public class PrimaryParentController {
 				}
 				hasErrors = true;
 			}
-		} else {
-			hasErrors = true;
 		}
 
 		if (hasErrors) {
