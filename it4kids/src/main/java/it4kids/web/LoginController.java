@@ -1,9 +1,10 @@
 package it4kids.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
+import it4kids.domain.UserLogin;
+import it4kids.domain.login.AccountType;
+import it4kids.service.ValidationException;
+import it4kids.service.login.LoginService;
+import it4kids.service.login.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,11 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import it4kids.domain.UserLogin;
-import it4kids.domain.login.AccountType;
-import it4kids.service.ValidationException;
-import it4kids.service.login.LoginService;
-import it4kids.service.login.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 public class LoginController {

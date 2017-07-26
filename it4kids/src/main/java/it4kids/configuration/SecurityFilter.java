@@ -49,7 +49,6 @@ public class SecurityFilter implements Filter {
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
 				return;
-			} else {
 			}
 		}
 		if (url.contains("primary_parent")) {
@@ -58,8 +57,8 @@ public class SecurityFilter implements Filter {
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
 				return;
-			} else {
 			}
+
 		} if (url.contains("teacher")) {
 			if (!userLogin.getAccountType().equalsIgnoreCase("teacher")) {
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
@@ -67,8 +66,7 @@ public class SecurityFilter implements Filter {
 				servletResponse.setHeader("Location", "/login");
 				return;
 			}
-			else {
-			}
+
 		} if (url.contains("child")) {
 			if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
 				HttpServletResponse servletResponse = (HttpServletResponse) response;
@@ -76,8 +74,7 @@ public class SecurityFilter implements Filter {
 				servletResponse.setHeader("Location", "/login");
 				return;
 			}
-			else {
-			}
+
 		} if (url.contains("selectQuiz")) {
 				if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
 					HttpServletResponse servletResponse = (HttpServletResponse) response;
@@ -85,8 +82,7 @@ public class SecurityFilter implements Filter {
 					servletResponse.setHeader("Location", "/login");
 					return;
 				}
-				else {
-				}
+
 		} if (url.contains("parent")) {
 			  if(userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
 				  LOGGER.info("Current user: " + (userLogin != null ? userLogin.getUserName() : null));
@@ -98,8 +94,6 @@ public class SecurityFilter implements Filter {
 				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 				servletResponse.setHeader("Location", "/login");
 				return;
-			}
-			else {
 			}
 		}
 

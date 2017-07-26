@@ -44,6 +44,4 @@ public class UserLogin extends AbstractModel{
 		return "UserLogin [userName=" + userName + ", password=" + password + ", accountType=" + accountType
 				+ ", getId()=" + getId() + "]";
 	}
-	
-	
 }

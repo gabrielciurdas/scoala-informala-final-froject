@@ -1,8 +1,11 @@
 package it4kids.web;
 
-import java.util.Collection;
-import java.util.List;
-
+import it4kids.domain.quiz.Quiz;
+import it4kids.domain.quiz.QuizAnswer;
+import it4kids.domain.quiz.QuizEntry;
+import it4kids.service.ValidationException;
+import it4kids.service.quiz.QuizService;
+import it4kids.service.quiz.UserAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,12 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import it4kids.domain.quiz.Quiz;
-import it4kids.domain.quiz.QuizAnswer;
-import it4kids.domain.quiz.QuizEntry;
-import it4kids.service.ValidationException;
-import it4kids.service.quiz.QuizService;
-import it4kids.service.quiz.UserAnswerService;
+import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/answer")
