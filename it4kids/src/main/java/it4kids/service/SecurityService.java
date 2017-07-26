@@ -1,8 +1,7 @@
 package it4kids.service;
 
-import org.springframework.stereotype.Component;
-
 import it4kids.domain.UserLogin;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityService {

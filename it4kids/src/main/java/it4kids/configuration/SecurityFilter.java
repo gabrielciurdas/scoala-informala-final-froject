@@ -23,93 +23,87 @@ import it4kids.service.login.UserService;
 @Component
 public class SecurityFilter implements Filter {
 
-	@Autowired
-	private SecurityService securityService;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    @Autowired
+    private SecurityService securityService;
 
-	@Override
-	public void destroy() {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-	}
+    @Override
+    public void destroy() {
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+    }
 
-		UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
-		securityService.setCurrentUser(userLogin);
+        UserLogin userLogin = (UserLogin) ((HttpServletRequest) request).getSession().getAttribute("currentUser");
 
-		String url = ((HttpServletRequest) request).getRequestURL().toString();
+        securityService.setCurrentUser(userLogin);
 
-		if (url.contains("admin")) {
-			if (!userLogin.getAccountType().equalsIgnoreCase("admin")) {
-				HttpServletResponse servletResponse = (HttpServletResponse) response;
-				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-				servletResponse.setHeader("Location", "/login");
-				return;
-			} else {
-			}
-		}
-		if (url.contains("primary_parent")) {
-			if (!userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
-				HttpServletResponse servletResponse = (HttpServletResponse) response;
-				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-				servletResponse.setHeader("Location", "/login");
-				return;
-			} else {
-			}
-		} if (url.contains("teacher")) {
-			if (!userLogin.getAccountType().equalsIgnoreCase("teacher")) {
-				HttpServletResponse servletResponse = (HttpServletResponse) response;
-				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-				servletResponse.setHeader("Location", "/login");
-				return;
-			}
-			else {
-			}
-		} if (url.contains("child")) {
-			if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
-				HttpServletResponse servletResponse = (HttpServletResponse) response;
-				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-				servletResponse.setHeader("Location", "/login");
-				return;
-			}
-			else {
-			}
-		} if (url.contains("selectQuiz")) {
-				if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
-					HttpServletResponse servletResponse = (HttpServletResponse) response;
-					servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-					servletResponse.setHeader("Location", "/login");
-					return;
-				}
-				else {
-				}
-		} if (url.contains("parent")) {
-			  if(userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
-				  LOGGER.info("Current user: " + (userLogin != null ? userLogin.getUserName() : null));
-					chain.doFilter(request, response);
-					return;
-					
-			} else if (!userLogin.getAccountType().equalsIgnoreCase("parent")) {
-				HttpServletResponse servletResponse = (HttpServletResponse) response;
-				servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-				servletResponse.setHeader("Location", "/login");
-				return;
-			}
-			else {
-			}
-		}
+        String url = ((HttpServletRequest) request).getRequestURL().toString();
+        HttpServletResponse servletResponse = (HttpServletResponse) response;
 
-		LOGGER.info("Current user: " + (userLogin != null ? userLogin.getUserName() : null));
+        if (url.contains("admin")) {
+            if (!userLogin.getAccountType().equalsIgnoreCase("admin")) {
+                servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                servletResponse.setHeader("Location", "/login");
+                return;
+            }
+        }
 
-		chain.doFilter(request, response);
-	}
+        if (url.contains("primary_parent")) {
+            if (!userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
+                servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                servletResponse.setHeader("Location", "/login");
+                return;
+            }
+        }
 
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+        if (url.contains("teacher")) {
+            if (!userLogin.getAccountType().equalsIgnoreCase("teacher")) {
+                servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                servletResponse.setHeader("Location", "/login");
+                return;
+            }
+        }
 
-	}
+        if (url.contains("child")) {
+            if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
+                servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                servletResponse.setHeader("Location", "/login");
+                return;
+            }
+        }
+
+        if (url.contains("selectQuiz")) {
+            if (!userLogin.getAccountType().equalsIgnoreCase("child")) {
+                servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                servletResponse.setHeader("Location", "/login");
+                return;
+            }
+        }
+
+        if (url.contains("parent")) {
+            if (userLogin.getAccountType().equalsIgnoreCase("primary_parent")) {
+                LOGGER.info("Current user: " + (userLogin != null ? userLogin.getUserName() : null));
+                chain.doFilter(request, response);
+                return;
+
+            } else if (!userLogin.getAccountType().equalsIgnoreCase("parent")) {
+                servletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                servletResponse.setHeader("Location", "/login");
+                return;
+            }
+        }
+
+        LOGGER.info("Current user: " + (userLogin != null ? userLogin.getUserName() : null));
+
+        chain.doFilter(request, response);
+    }
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+
+    }
 }

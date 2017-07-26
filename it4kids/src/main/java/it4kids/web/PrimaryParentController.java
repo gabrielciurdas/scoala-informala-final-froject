@@ -1,16 +1,10 @@
 package it4kids.web;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import it4kids.domain.UserLogin;
+import it4kids.domain.login.User;
+import it4kids.service.ValidationException;
+import it4kids.service.login.ParentService;
+import it4kids.service.login.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import it4kids.domain.UserLogin;
-import it4kids.domain.login.User;
-import it4kids.service.ValidationException;
-import it4kids.service.login.ParentService;
-import it4kids.service.login.UserService;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/primary_parent")
@@ -38,9 +36,6 @@ public class PrimaryParentController {
 
 	@Autowired
 	private ParentService parentService;
-
-	/*@Autowired
-	private ChildService childService;*/
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
@@ -149,8 +144,6 @@ public class PrimaryParentController {
 				}
 				hasErrors = true;
 			}
-		} else {
-			hasErrors = true;
 		}
 
 		if (hasErrors) {
@@ -209,8 +202,6 @@ public class PrimaryParentController {
 				}
 				hasErrors = true;
 			}
-		} else {
-			hasErrors = true;
 		}
 
 		if (hasErrors) {
